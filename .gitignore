@@ -1,0 +1,14 @@
+# Original uncompressed source images (keep locally, not needed in deployment)
+site/logo.png
+site/breakfast-menu.png
+site/lunch-menu.png
+site/catering-menu-1.png
+site/catering-menu-2.png
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+*.swp
