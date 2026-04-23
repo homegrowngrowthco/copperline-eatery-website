@@ -91,8 +91,42 @@
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5.0",
-        "reviewCount": "200+"
+        "bestRating": "5",
+        "worstRating": "1",
+        "reviewCount": 200
       },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {"@type": "Person", "name": "Robert S."},
+          "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+          "reviewBody": "Top three best eggs Benedict places I've been to. I've had eggs Benedict from here to California, Maine to Florida and in between. There is good eggs Benedict and there is great eggs Benedict."
+        },
+        {
+          "@type": "Review",
+          "author": {"@type": "Person", "name": "Cyrus D."},
+          "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+          "reviewBody": "It's friendly, it's lively, it's spirited, the vibe is IMMACULATE. The poached egg my mother ordered was perfectly prepared, ideal consistency. Her pancakes were fluffy and hearty."
+        },
+        {
+          "@type": "Review",
+          "author": {"@type": "Person", "name": "Lori G."},
+          "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+          "reviewBody": "I had the eggs Benedict which was delicious. The hollandaise was perfect — not too much lemon. The home fries were cooked and seasoned perfectly. I wish I lived here so I could go anytime!"
+        },
+        {
+          "@type": "Review",
+          "author": {"@type": "Person", "name": "Teresa D."},
+          "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+          "reviewBody": "I had my favorite, eggs benedict and that Hollandaise sauce was out of this world delicious! The best I've ever had. Even though we weren't locals we fit right in and felt treated like a local by the awesome staff."
+        },
+        {
+          "@type": "Review",
+          "author": {"@type": "Person", "name": "Steve P."},
+          "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+          "reviewBody": "Great Mass Hash. Big portion of hash with 2 over easy eggs on top. The server was very friendly and super fast. The rye toast and breakfast sausage were also very good. Lots of locals here — that speaks volumes to the quality."
+        }
+      ],
       "areaServed": ["Chicopee", "Springfield", "Holyoke", "Hampden County", "Western Massachusetts"],
       "knowsAbout": ["eggs benedict", "corned beef hash", "hollandaise sauce", "homemade breakfast", "family restaurant", "catering"],
       "award": "Best Breakfast Western Massachusetts - MassLive Readers Choice",
@@ -107,6 +141,67 @@
     }
     </script>
     
+    <!-- Logo preload for LCP -->
+    <link rel="preload" as="image" href="logo.jpg">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What are The Copperline Eatery's hours?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We are open Monday through Friday from 6:00am to 2:00pm, Saturday from 6:00am to 1:30pm, and Sunday from 6:30am to 1:00pm."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where is The Copperline Eatery located?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We are located at 409 Broadway, Chicopee, MA 01020, serving Chicopee, Springfield, Holyoke, and all of Hampden County in Western Massachusetts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does The Copperline Eatery offer takeout or delivery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Call us at (413) 594-8332 for phone-in takeout orders, or order delivery through DoorDash."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is The Copperline Eatery known for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We are best known for our house-made eggs benedict with signature hollandaise sauce and our homemade corned beef hash. Voted Best Breakfast in Western Massachusetts by MassLive readers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does The Copperline Eatery offer catering?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we offer breakfast, lunch, and dinner catering for corporate events, weddings, parties, and special occasions throughout Western Massachusetts. Call (413) 594-8332 or visit our catering page for details."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is The Copperline Eatery family-owned?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — family-owned and operated since 1993, proudly serving Chicopee and Western Massachusetts for over 33 years."
+          }
+        }
+      ]
+    }
+    </script>
+
     <!-- WebSite Schema for AI/Search engines -->
     <script type="application/ld+json">
     {
@@ -259,6 +354,38 @@
             </div>
         </section>
     </main>
+
+    <section class="faq-section">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3>What are your hours?</h3>
+                    <p>Monday–Friday: 6:00am–2:00pm &nbsp;·&nbsp; Saturday: 6:00am–1:30pm &nbsp;·&nbsp; Sunday: 6:30am–1:00pm</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Where are you located?</h3>
+                    <p>409 Broadway, Chicopee, MA 01020 — serving Chicopee, Springfield, Holyoke, and all of Hampden County in Western Massachusetts.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Do you offer takeout or delivery?</h3>
+                    <p>Yes! Call <a href="tel:+14135948332">(413) 594-8332</a> for takeout, or order delivery through <a href="https://www.doordash.com/store/the-copperline-eatery-chicopee-36368789/81460747" target="_blank" rel="noopener">DoorDash</a>.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What are you known for?</h3>
+                    <p>Our house-made eggs benedict with signature hollandaise sauce and homemade corned beef hash. Voted Best Breakfast in Western Massachusetts by MassLive readers.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Do you offer catering?</h3>
+                    <p>Yes — breakfast, lunch, and dinner catering for corporate events, weddings, and parties across Western Massachusetts. <a href="catering.html">View our catering options</a> or call <a href="tel:+14135948332">(413) 594-8332</a>.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Are you family-owned?</h3>
+                    <p>Yes — family-owned and operated since 1993, proudly serving Chicopee and Western Massachusetts for over 33 years.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer class="main-footer">
         <div class="container">

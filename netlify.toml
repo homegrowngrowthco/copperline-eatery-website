@@ -43,9 +43,8 @@
     Content-Type = "application/xml; charset=utf-8"
     Cache-Control = "public, max-age=86400"
 
-# Redirect www to non-www (uncomment once DNS is confirmed)
-# [[redirects]]
-#   from = "https://www.copperlineeatery.com/*"
-#   to = "https://copperlineeatery.com/:splat"
-#   status = 301
-#   force = true
+[[redirects]]
+  from = "https://www.copperlineeatery.com/*"
+  to = "https://copperlineeatery.com/:splat"
+  status = 301
+  force = true

@@ -461,8 +461,130 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         font-size: 0.8rem;
         margin-top: 4px;
     }
-    .footer-bottom { 
-        padding-top: 15px; 
+    .footer-bottom {
+        padding-top: 15px;
         font-size: 0.8rem;
     }
+}
+
+/* ── FAQ Section ─────────────────────────────────────────── */
+.faq-section {
+    background: var(--white);
+    padding: 60px 0;
+    border-top: 3px solid var(--cream);
+}
+.faq-section h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--green-dark);
+    margin-bottom: 35px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.faq-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.faq-item {
+    background: var(--cream);
+    border-left: 4px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+}
+.faq-item h3 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+.faq-item p {
+    font-size: 0.95rem;
+    color: var(--gray);
+    margin: 0;
+    line-height: 1.7;
+}
+.faq-item a { color: var(--red); font-weight: 700; }
+
+/* ── Signature Dishes (menu page) ───────────────────────── */
+.signature-dishes {
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 28px;
+}
+.signature-dishes h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}
+.dish-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+}
+.dish-list li {
+    font-size: 0.95rem;
+    color: var(--gray);
+    line-height: 1.5;
+    padding-left: 14px;
+    border-left: 2px solid var(--red);
+}
+.dish-list li strong { color: var(--black); }
+.signature-dishes > p {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin: 0;
+}
+.signature-dishes a { color: var(--red); font-weight: 700; }
+
+/* ── 404 Page ────────────────────────────────────────────── */
+.error-page {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+.error-page h1 {
+    font-size: 6rem;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+.error-page h2 {
+    font-size: 1.8rem;
+    color: var(--green-dark);
+    margin-bottom: 16px;
+}
+.error-page p {
+    font-size: 1.05rem;
+    color: var(--gray);
+    margin-bottom: 32px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.error-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+    .faq-list { grid-template-columns: 1fr; }
+    .faq-section { padding: 40px 0; }
+    .faq-section h2 { font-size: 1.5rem; margin-bottom: 24px; }
+    .dish-list { grid-template-columns: 1fr; }
+    .signature-dishes { padding: 20px; }
 }
