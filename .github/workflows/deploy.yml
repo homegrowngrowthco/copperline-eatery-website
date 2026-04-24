@@ -25,3 +25,26 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Notify IndexNow
+        if: success()
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+              "host": "copperlineeatery.com",
+              "key": "670b4b1e5abe94d9050c77bc3a1011e2",
+              "keyLocation": "https://copperlineeatery.com/670b4b1e5abe94d9050c77bc3a1011e2.txt",
+              "urlList": [
+                "https://copperlineeatery.com/",
+                "https://copperlineeatery.com/menu.html",
+                "https://copperlineeatery.com/catering.html",
+                "https://copperlineeatery.com/contact.html",
+                "https://copperlineeatery.com/about.html"
+              ]
+            }')
+          echo "IndexNow response: $STATUS"
+          if [ "$STATUS" != "200" ] && [ "$STATUS" != "202" ]; then
+            echo "Warning: IndexNow returned unexpected status $STATUS"
+          fi
