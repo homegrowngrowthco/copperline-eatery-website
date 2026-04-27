@@ -328,11 +328,11 @@
       "service": "catering",
       "note": "Per-person pricing. Each package served buffet-style.",
       "items": [
-        { "name": "Buffet Package #1", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Sausage with peppers & onions", "Baked beans", "Macaroni salad", "Garden salad", "Rolls & butter"], "price": "12.95", "dietaryFlags": [], "popular": true },
-        { "name": "Buffet Package #2", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Cold cuts (roast beef, ham, turkey)", "Potato salad", "Garden salad", "Rolls & butter"], "price": "12.95", "dietaryFlags": [], "popular": false },
-        { "name": "Buffet Package #3", "description": "", "includes": ["Ziti", "Roasted chicken", "Sausage with peppers & onions", "Kielbasa", "Baked beans", "Cold cuts (roast beef, ham, turkey)", "Garden salad", "Rolls & butter"], "price": "13.95", "dietaryFlags": [], "popular": false },
-        { "name": "Buffet Package #4", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Cold cuts (roast beef, ham, turkey)", "Kielbasa", "Baked beans", "Garden salad", "Rolls & butter"], "price": "13.95", "dietaryFlags": [], "popular": false },
-        { "name": "Buffet Package #5", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Sausage with peppers & onions", "Kielbasa", "Cold cuts (roast beef, ham, turkey)", "Baked beans", "Garden salad", "Rolls & butter"], "price": "14.95", "dietaryFlags": [], "popular": false }
+        { "name": "Buffet Package #1", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Sausage with peppers & onions", "Baked beans", "Macaroni salad", "Garden salad", "Rolls & butter"], "price": "13.95", "dietaryFlags": [], "popular": true },
+        { "name": "Buffet Package #2", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Cold cuts (roast beef, ham, turkey)", "Potato salad", "Garden salad", "Rolls & butter"], "price": "13.95", "dietaryFlags": [], "popular": false },
+        { "name": "Buffet Package #3", "description": "", "includes": ["Ziti", "Roasted chicken", "Sausage with peppers & onions", "Kielbasa", "Baked beans", "Cold cuts (roast beef, ham, turkey)", "Garden salad", "Rolls & butter"], "price": "14.95", "dietaryFlags": [], "popular": false },
+        { "name": "Buffet Package #4", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Cold cuts (roast beef, ham, turkey)", "Kielbasa", "Baked beans", "Garden salad", "Rolls & butter"], "price": "14.95", "dietaryFlags": [], "popular": false },
+        { "name": "Buffet Package #5", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Sausage with peppers & onions", "Kielbasa", "Cold cuts (roast beef, ham, turkey)", "Baked beans", "Garden salad", "Rolls & butter"], "price": "15.95", "dietaryFlags": [], "popular": false }
       ]
     },
     {
