@@ -42,6 +42,7 @@ def render_item(item: dict) -> str:
 
     star = '<span class="menu-item-popular" aria-label="Signature dish" title="Signature dish">★</span>' if popular else ""
     veg = '<span class="menu-item-veg" aria-label="Vegetarian" title="Vegetarian">V</span>' if "v" in diet else ""
+    leader_html = '<span class="menu-item-leader" aria-hidden="true"></span>' if price else ""
     price_html = f'<span class="menu-item-price">${price}</span>' if price else ""
     desc_html = f'\n          <p class="menu-item-desc">{html_escape(desc)}</p>' if desc else ""
 
@@ -49,7 +50,7 @@ def render_item(item: dict) -> str:
         '        <div class="menu-item">\n'
         '          <div class="menu-item-row">\n'
         f'            {star}<span class="menu-item-name">{name}{veg}</span>\n'
-        '            <span class="menu-item-leader" aria-hidden="true"></span>\n'
+        f'            {leader_html}\n'
         f'            {price_html}\n'
         '          </div>'
         f'{desc_html}\n'
@@ -151,6 +152,7 @@ def main():
     html = replace_block(html, "menu-schema", "    " + build_schema(data))
     html = replace_block(html, "breakfast-sections", build_service_html(data, "breakfast"))
     html = replace_block(html, "lunch-sections", build_service_html(data, "lunch"))
+    html = replace_block(html, "catering-sections", build_service_html(data, "catering"))
     HTML.write_text(html, encoding="utf-8")
     n_items = sum(len(s["items"]) for s in data["sections"])
     print(f"OK  menu.html regenerated: {len(data['sections'])} sections, {n_items} items.")
