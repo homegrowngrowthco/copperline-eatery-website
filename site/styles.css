@@ -516,6 +516,22 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     line-height: 1.7;
 }
 .faq-item a { color: var(--red); font-weight: 700; }
+.faq-see-all {
+    text-align: center;
+    margin-top: 24px;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.faq-see-all a {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.15s;
+}
+.faq-see-all a:hover { border-bottom-color: var(--red); }
 
 /* ── Signature Dishes (menu page) ───────────────────────── */
 .signature-dishes {
@@ -756,6 +772,30 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     padding-right: 0;
 }
 
+/* Buffet-style "what's included" lists */
+.menu-item-includes {
+    list-style: disc;
+    margin: 6px 0 0 20px;
+    padding: 0;
+    color: var(--gray);
+}
+.menu-item-includes li {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    padding: 1px 0;
+}
+.menu-item-includes-label {
+    margin: 10px 0 4px;
+    color: var(--green-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+.menu-item-includes-label:first-of-type { margin-top: 8px; }
+.menu-item-desc + .menu-item-includes-label { margin-top: 8px; }
+.menu-item-desc + .menu-item-includes { margin-top: 4px; }
+
 /* Legend at bottom of each tab panel */
 .menu-legend {
     text-align: center;
@@ -766,6 +806,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     border-top: 1px dashed rgba(38, 70, 83, 0.15);
 }
 .menu-legend .menu-item-veg { margin: 0 2px 0 0; }
+.menu-legend-fees {
+    background: var(--cream);
+    color: var(--green-dark);
+    border: 1px dashed rgba(38, 70, 83, 0.25);
+    border-radius: 6px;
+    padding: 12px 18px;
+    margin: 24px 0 12px;
+    font-size: 0.85rem;
+    border-top: 1px dashed rgba(38, 70, 83, 0.25);
+}
 
 @media (max-width: 640px) {
     .menu-tabs .menu-tab { padding: 12px 14px; font-size: 0.8rem; letter-spacing: 0.6px; }
@@ -777,6 +827,151 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     .menu-item-name { font-size: 0.95rem; }
     .menu-item-price { font-size: 0.95rem; }
     .menu-item-desc { font-size: 0.83rem; }
+}
+
+/* ── FAQ Page ─────────────────────────────────────────────── */
+.faq-page-section { padding: 40px 0 60px; }
+
+.faq-toc {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 22px 26px;
+    box-shadow: 0 2px 10px rgba(38, 70, 83, 0.05);
+    margin-bottom: 32px;
+    border: 1px solid rgba(38, 70, 83, 0.06);
+}
+.faq-toc-title {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 0 0 12px;
+}
+.faq-toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.faq-toc li { margin: 0; }
+.faq-toc a {
+    display: inline-block;
+    padding: 7px 13px;
+    background: var(--cream);
+    color: var(--green-dark);
+    border-radius: 6px;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background 0.15s, color 0.15s;
+    min-height: 32px;
+}
+.faq-toc a:hover { background: var(--red); color: var(--white); }
+
+.faq-group {
+    margin-bottom: 36px;
+    scroll-margin-top: 84px;
+}
+.faq-group > h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 0 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--red);
+}
+
+.faq-q {
+    background: var(--white);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(38, 70, 83, 0.04);
+    border: 1px solid rgba(38, 70, 83, 0.07);
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+}
+.faq-q:hover { box-shadow: 0 2px 8px rgba(38, 70, 83, 0.08); }
+.faq-q[open] { box-shadow: 0 2px 12px rgba(38, 70, 83, 0.08); }
+.faq-q summary {
+    cursor: pointer;
+    padding: 16px 50px 16px 22px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--green-dark);
+    font-size: 1.02rem;
+    list-style: none;
+    position: relative;
+    min-height: 44px;
+    line-height: 1.4;
+}
+.faq-q summary::-webkit-details-marker { display: none; }
+.faq-q summary::after {
+    content: '+';
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    color: var(--red);
+    font-weight: 400;
+    line-height: 1;
+}
+.faq-q[open] summary::after { content: '\2212'; } /* minus sign */
+.faq-q summary:hover { color: var(--red); }
+
+.faq-a {
+    padding: 0 22px 18px;
+    color: var(--gray);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+.faq-a p { margin: 0 0 10px; }
+.faq-a p:last-child { margin: 0; }
+.faq-a ul { margin: 8px 0 10px 22px; padding: 0; }
+.faq-a ul li { padding: 2px 0; line-height: 1.55; }
+.faq-a strong { color: var(--green-dark); }
+.faq-a a { color: var(--red); font-weight: 600; }
+.faq-a a:hover { color: var(--red-dark); }
+
+.faq-cta {
+    background: var(--cream);
+    border-left: 4px solid var(--red);
+    padding: 28px 30px;
+    border-radius: 8px;
+    margin-top: 36px;
+    text-align: center;
+}
+.faq-cta h2 {
+    font-size: 1.35rem;
+    color: var(--green-dark);
+    margin: 0 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.faq-cta p { margin: 0 0 12px; color: var(--gray); }
+.faq-cta p:last-child { margin: 0; }
+.faq-cta-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px !important;
+}
+
+@media (max-width: 640px) {
+    .faq-toc { padding: 18px; }
+    .faq-q summary { padding: 14px 44px 14px 18px; font-size: 0.95rem; }
+    .faq-q summary::after { right: 18px; }
+    .faq-a { padding: 0 18px 16px; font-size: 0.92rem; }
+    .faq-group > h2 { font-size: 1.25rem; }
+    .faq-cta { padding: 22px; }
 }
 
 /* ── 404 Page ────────────────────────────────────────────── */

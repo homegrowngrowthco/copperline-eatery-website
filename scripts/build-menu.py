@@ -32,19 +32,43 @@ def html_escape(s: str) -> str:
     )
 
 
+def render_includes(includes) -> str:
+    """Render an `includes` field — array of strings or array of {label, items} groups."""
+    if not includes:
+        return ""
+    parts = []
+    if isinstance(includes[0], dict):
+        # Grouped: each group has a label and items
+        for group in includes:
+            parts.append(f'          <p class="menu-item-includes-label">{html_escape(group["label"])}</p>')
+            parts.append('          <ul class="menu-item-includes">')
+            for it in group["items"]:
+                parts.append(f'            <li>{html_escape(it)}</li>')
+            parts.append('          </ul>')
+    else:
+        # Flat list of strings
+        parts.append('          <ul class="menu-item-includes">')
+        for it in includes:
+            parts.append(f'            <li>{html_escape(it)}</li>')
+        parts.append('          </ul>')
+    return "\n" + "\n".join(parts)
+
+
 def render_item(item: dict) -> str:
-    """Single item row: ★? Name V?  ............... $price  + optional desc."""
+    """Single item row: ★? Name V?  ............... $price  + optional desc + optional includes."""
     name = html_escape(item["name"])
     price = item.get("price")
     diet = item.get("dietaryFlags", []) or []
     popular = item.get("popular", False)
     desc = item.get("description", "")
+    includes = item.get("includes")
 
     star = '<span class="menu-item-popular" aria-label="Signature dish" title="Signature dish">★</span>' if popular else ""
     veg = '<span class="menu-item-veg" aria-label="Vegetarian" title="Vegetarian">V</span>' if "v" in diet else ""
     leader_html = '<span class="menu-item-leader" aria-hidden="true"></span>' if price else ""
     price_html = f'<span class="menu-item-price">${price}</span>' if price else ""
     desc_html = f'\n          <p class="menu-item-desc">{html_escape(desc)}</p>' if desc else ""
+    includes_html = render_includes(includes)
 
     return (
         '        <div class="menu-item">\n'
@@ -53,7 +77,8 @@ def render_item(item: dict) -> str:
         f'            {leader_html}\n'
         f'            {price_html}\n'
         '          </div>'
-        f'{desc_html}\n'
+        f'{desc_html}'
+        f'{includes_html}\n'
         '        </div>'
     )
 
@@ -93,8 +118,19 @@ def build_schema(data: dict) -> str:
             section_obj["description"] = section["note"]
         for item in section["items"]:
             mi = {"@type": "MenuItem", "name": item["name"]}
+            # Flatten description + includes into a single schema description for AI scrapability
+            desc_parts = []
             if item.get("description"):
-                mi["description"] = item["description"]
+                desc_parts.append(item["description"])
+            if item.get("includes"):
+                inc = item["includes"]
+                if inc and isinstance(inc[0], dict):
+                    for group in inc:
+                        desc_parts.append(f"{group['label']}: " + ", ".join(group['items']) + ".")
+                else:
+                    desc_parts.append("Includes: " + ", ".join(inc) + ".")
+            if desc_parts:
+                mi["description"] = " ".join(desc_parts).strip()
             if item.get("price"):
                 mi["offers"] = {
                     "@type": "Offer",

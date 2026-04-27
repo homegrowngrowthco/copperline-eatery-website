@@ -41,7 +41,8 @@ jobs:
                 "https://copperlineeatery.com/menu.html",
                 "https://copperlineeatery.com/catering.html",
                 "https://copperlineeatery.com/contact.html",
-                "https://copperlineeatery.com/about.html"
+                "https://copperlineeatery.com/about.html",
+                "https://copperlineeatery.com/faq.html"
               ]
             }')
           echo "IndexNow response: $STATUS"
