@@ -83,19 +83,67 @@ def render_item(item: dict) -> str:
     )
 
 
+def render_extras(extras: dict) -> str:
+    """Render an `extras` block — a footer inside a section listing grouped sub-options."""
+    title = html_escape(extras["title"])
+    note_html = ""
+    if extras.get("note"):
+        note_html = f'\n          <p class="menu-section-extras-note">{html_escape(extras["note"])}</p>'
+    group_blocks = []
+    for group in extras["groups"]:
+        items_html = "\n".join(
+            f'              <li>{html_escape(it)}</li>' for it in group["items"]
+        )
+        group_blocks.append(
+            '          <div class="menu-section-extras-group">\n'
+            f'            <p class="menu-item-includes-label">{html_escape(group["label"])}</p>\n'
+            '            <ul class="menu-item-includes">\n'
+            f'{items_html}\n'
+            '            </ul>\n'
+            '          </div>'
+        )
+    groups_html = "\n".join(group_blocks)
+    return (
+        '        <div class="menu-section-extras">\n'
+        f'          <p class="menu-section-extras-title">{title}</p>'
+        f'{note_html}\n'
+        '          <div class="menu-section-extras-grid">\n'
+        f'{groups_html}\n'
+        '          </div>\n'
+        '        </div>'
+    )
+
+
+def render_section_includes(items) -> str:
+    text = ", ".join(html_escape(i) for i in items)
+    return (
+        '        <p class="menu-section-includes">'
+        '<span class="menu-section-includes-label">Includes</span> '
+        f'{text}</p>'
+    )
+
+
 def render_section(section: dict) -> str:
     sid = section["id"]
     title = html_escape(section["name"])
     note_html = ""
     if section.get("note"):
         note_html = f'\n          <p class="menu-section-note">{html_escape(section["note"])}</p>'
+    includes_html = ""
+    if section.get("included"):
+        includes_html = "\n" + render_section_includes(section["included"])
     items_html = "\n".join(render_item(item) for item in section["items"])
+    extras_html = ""
+    if section.get("extras"):
+        extras_html = "\n" + render_extras(section["extras"])
     return (
         f'      <section class="menu-section" aria-labelledby="sec-{sid}">\n'
         f'        <header class="menu-section-header">\n'
         f'          <h3 id="sec-{sid}" class="menu-section-title">{title}</h3>{note_html}\n'
-        f'        </header>\n'
-        f'{items_html}\n'
+        f'        </header>'
+        f'{includes_html}\n'
+        f'{items_html}'
+        f'{extras_html}\n'
         f'      </section>'
     )
 
@@ -114,8 +162,13 @@ def build_schema(data: dict) -> str:
             "name": section["name"],
             "hasMenuItem": []
         }
+        desc_pieces = []
         if section.get("note"):
-            section_obj["description"] = section["note"]
+            desc_pieces.append(section["note"])
+        if section.get("included"):
+            desc_pieces.append("Includes: " + ", ".join(section["included"]) + ".")
+        if desc_pieces:
+            section_obj["description"] = " ".join(desc_pieces)
         for item in section["items"]:
             mi = {"@type": "MenuItem", "name": item["name"]}
             # Flatten description + includes into a single schema description for AI scrapability
@@ -143,6 +196,13 @@ def build_schema(data: dict) -> str:
             elif len(diet_uris) > 1:
                 mi["suitableForDiet"] = diet_uris
             section_obj["hasMenuItem"].append(mi)
+        if section.get("extras"):
+            for group in section["extras"]["groups"]:
+                section_obj["hasMenuItem"].append({
+                    "@type": "MenuItem",
+                    "name": group["label"],
+                    "description": "Includes: " + ", ".join(group["items"]) + ".",
+                })
         sections_jsonld.append(section_obj)
 
     schema = {

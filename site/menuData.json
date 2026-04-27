@@ -326,28 +326,29 @@
       "id": "catering-buffet-packages",
       "name": "Buffet Packages",
       "service": "catering",
-      "note": "Per-person pricing. Each package served buffet-style.",
+      "note": "Each package served buffet-style.",
       "items": [
-        { "name": "Buffet Package #1", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Sausage with peppers & onions", "Baked beans", "Macaroni salad", "Garden salad", "Rolls & butter"], "price": "13.95", "dietaryFlags": [], "popular": true },
-        { "name": "Buffet Package #2", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Cold cuts (roast beef, ham, turkey)", "Potato salad", "Garden salad", "Rolls & butter"], "price": "13.95", "dietaryFlags": [], "popular": false },
-        { "name": "Buffet Package #3", "description": "", "includes": ["Ziti", "Roasted chicken", "Sausage with peppers & onions", "Kielbasa", "Baked beans", "Cold cuts (roast beef, ham, turkey)", "Garden salad", "Rolls & butter"], "price": "14.95", "dietaryFlags": [], "popular": false },
-        { "name": "Buffet Package #4", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Cold cuts (roast beef, ham, turkey)", "Kielbasa", "Baked beans", "Garden salad", "Rolls & butter"], "price": "14.95", "dietaryFlags": [], "popular": false },
-        { "name": "Buffet Package #5", "description": "", "includes": ["Ziti", "Meatballs", "Roasted chicken", "Oven roasted potatoes", "Sausage with peppers & onions", "Kielbasa", "Cold cuts (roast beef, ham, turkey)", "Baked beans", "Garden salad", "Rolls & butter"], "price": "15.95", "dietaryFlags": [], "popular": false }
+        { "name": "Buffet Package #1", "description": "", "includes": ["Ziti", "Meatballs", "Roasted Chicken", "Oven Roasted Potatoes", "Sausage with Peppers & Onions", "Baked Beans", "Macaroni Salad", "Garden Salad", "Rolls & Butter"], "price": "13.95", "dietaryFlags": [], "popular": true },
+        { "name": "Buffet Package #2", "description": "", "includes": ["Ziti", "Meatballs", "Roasted Chicken", "Cold Cuts (Roast Beef, Ham, Turkey)", "Potato Salad", "Garden Salad", "Rolls & Butter"], "price": "13.95", "dietaryFlags": [], "popular": false },
+        { "name": "Buffet Package #3", "description": "", "includes": ["Ziti", "Roasted Chicken", "Sausage with Peppers & Onions", "Kielbasa", "Baked Beans", "Cold Cuts (Roast Beef, Ham, Turkey)", "Garden Salad", "Rolls & Butter"], "price": "14.95", "dietaryFlags": [], "popular": false },
+        { "name": "Buffet Package #4", "description": "", "includes": ["Ziti", "Meatballs", "Roasted Chicken", "Oven Roasted Potatoes", "Cold Cuts (Roast Beef, Ham, Turkey)", "Kielbasa", "Baked Beans", "Garden Salad", "Rolls & Butter"], "price": "14.95", "dietaryFlags": [], "popular": false },
+        { "name": "Buffet Package #5", "description": "", "includes": ["Ziti", "Meatballs", "Roasted Chicken", "Oven Roasted Potatoes", "Sausage with Peppers & Onions", "Kielbasa", "Cold Cuts (Roast Beef, Ham, Turkey)", "Baked Beans", "Garden Salad", "Rolls & Butter"], "price": "15.95", "dietaryFlags": [], "popular": false }
       ]
     },
     {
       "id": "catering-hot-item-buffet",
       "name": "Hot Item Buffet",
       "service": "catering",
-      "note": "Per-person pricing. Minimum 40 people. Includes garden salad, potato, vegetable, rolls with butter, and paper products.",
+      "note": "Minimum 40 people.",
+      "included": ["Garden Salad", "Potato", "Vegetable", "Rolls & Butter", "Choice of Dessert", "Paper Products"],
       "items": [
         {
           "name": "Hot Item Buffet",
-          "description": "Choose two: two chicken, two beef/seafood, or one of each.",
+          "description": "Choose two entrées (two chicken, two beef/seafood, or one of each) plus one dessert.",
           "includes": [
-            { "label": "Chicken Options", "items": ["Roasted garlic cream sauce", "Cacciatore", "Tomato cream sauce", "Peppercorn mustard cream sauce", "Carbonara", "Rosemary port", "Lemon", "Burgundy wine", "Marsala", "Francaise", "Piccata", "Ziti & broccoli (Alfredo or garlic)", "Apricot glazed", "Stuffed (apple cornbread, New England bread, or wild rice)", "Creamy pesto"] },
-            { "label": "Beef & Seafood Options", "items": ["Beef stroganoff", "Beef burgundy", "Beef stew", "Meat loaf", "Pot roast (+$1.50/pp)", "Seafood Newburg (+$2/pp)", "Seafood medley (+$2/pp)", "Baked scrod (+$2/pp)", "Shrimp scampi (+$2/pp)"] },
-            { "label": "Dessert", "items": ["Sheet cake", "Cookies", "Brownies"] }
+            { "label": "Chicken Options (choose)", "items": ["Roasted Garlic Cream Sauce", "Cacciatore", "Tomato Cream Sauce", "Peppercorn Mustard Cream Sauce", "Carbonara", "Rosemary Port", "Lemon", "Burgundy Wine", "Marsala", "Francaise", "Piccata", "Ziti & Broccoli (Alfredo or Garlic)", "Apricot Glazed", "Stuffed (Apple Cornbread, New England Bread, or Wild Rice)", "Creamy Pesto"] },
+            { "label": "Beef & Seafood Options (choose)", "items": ["Beef Stroganoff", "Beef Burgundy", "Beef Stew", "Meat Loaf", "Pot Roast (+$1.50/pp)", "Seafood Newburg (+$2/pp)", "Seafood Medley (+$2/pp)", "Baked Scrod (+$2/pp)", "Shrimp Scampi (+$2/pp)"] },
+            { "label": "Dessert (choose one)", "items": ["Sheet Cake", "Cookies", "Brownies"] }
           ],
           "price": "15.95", "dietaryFlags": [], "popular": false
         }
@@ -357,23 +358,21 @@
       "id": "catering-specialty-buffets",
       "name": "Specialty Buffets",
       "service": "catering",
-      "note": "Per-person pricing. Includes garden salad, rolls with butter, and paper products. Choose three entrées plus one starch, one vegetable, and one dessert from the add-ons.",
+      "included": ["Garden Salad", "Rolls & Butter", "Paper Products"],
       "items": [
-        { "name": "Choice Buffet #1", "description": "Choose three entrées:", "includes": ["Chicken francaise", "Chicken marsala", "Chicken teriyaki", "Roasted chicken", "Roast turkey with gravy", "Roast top sirloin", "Baked ham", "Italian sausage with peppers & onions", "Meatballs (Italian or Swedish)", "Roast pork with gravy", "Baked scrod", "Stuffed sole"], "price": "14.95", "dietaryFlags": [], "popular": false },
-        { "name": "Choice Buffet #2", "description": "Choose three entrées:", "includes": ["Seafood Newburg", "Chicken francaise", "Chicken marsala", "Chicken parmesan", "Roast sirloin (carving +$3/pp)", "Beef tenderloin (+$5/pp)", "Pot roast (+$2/pp)", "Roast pork with gravy"], "price": "17.95", "dietaryFlags": [], "popular": false },
-        { "name": "Italian Buffet", "description": "Choose three entrées:", "includes": ["Meat lasagna", "Vegetable lasagna", "Chicken parmesan", "Chicken & broccoli alfredo", "Italian sausage with peppers & onions", "Pasta primavera", "Meatballs", "Eggplant rollatini", "Spinach lasagna roll-ups"], "price": "17.95", "dietaryFlags": [], "popular": true }
-      ]
-    },
-    {
-      "id": "catering-buffet-sides",
-      "name": "Specialty Buffet Add-Ons",
-      "service": "catering",
-      "note": "Pick one from each category for any specialty buffet. Included in the per-person price.",
-      "items": [
-        { "name": "Starch (choose one)", "description": "", "includes": ["Oven roasted potatoes", "Scallop potatoes", "Mashed potatoes", "Rice pilaf"], "price": "", "dietaryFlags": ["v"], "popular": false },
-        { "name": "Vegetable (choose one)", "description": "", "includes": ["Green beans", "Vegetable medley", "Glazed baby carrots", "Butternut squash"], "price": "", "dietaryFlags": ["v"], "popular": false },
-        { "name": "Dessert (choose one)", "description": "", "includes": ["Sheet cake", "Cookies", "Brownies"], "price": "", "dietaryFlags": ["v"], "popular": false }
-      ]
+        { "name": "Choice Buffet #1", "description": "Choose three entrées:", "includes": ["Chicken Francaise", "Chicken Marsala", "Chicken Teriyaki", "Roasted Chicken", "Roast Turkey with Gravy", "Roast Top Sirloin", "Baked Ham", "Italian Sausage with Peppers & Onions", "Meatballs (Italian or Swedish)", "Roast Pork with Gravy", "Baked Scrod", "Stuffed Sole"], "price": "14.95", "dietaryFlags": [], "popular": false },
+        { "name": "Choice Buffet #2", "description": "Choose three entrées:", "includes": ["Seafood Newburg", "Chicken Francaise", "Chicken Marsala", "Chicken Parmesan", "Roast Sirloin (Carving +$3/pp)", "Beef Tenderloin (+$5/pp)", "Pot Roast (+$2/pp)", "Roast Pork with Gravy"], "price": "17.95", "dietaryFlags": [], "popular": false },
+        { "name": "Italian Buffet", "description": "Choose three entrées:", "includes": ["Meat Lasagna", "Vegetable Lasagna", "Chicken Parmesan", "Chicken & Broccoli Alfredo", "Italian Sausage with Peppers & Onions", "Pasta Primavera", "Meatballs", "Eggplant Rollatini", "Spinach Lasagna Roll-Ups"], "price": "17.95", "dietaryFlags": [], "popular": true }
+      ],
+      "extras": {
+        "title": "Included with Every Specialty Buffet",
+        "note": "Pick one from each category.",
+        "groups": [
+          { "label": "Starch (choose one)", "items": ["Oven Roasted Potatoes", "Scallop Potatoes", "Mashed Potatoes", "Rice Pilaf"] },
+          { "label": "Vegetable (choose one)", "items": ["Green Beans", "Vegetable Medley", "Glazed Baby Carrots", "Butternut Squash"] },
+          { "label": "Dessert (choose one)", "items": ["Sheet Cake", "Cookies", "Brownies"] }
+        ]
+      }
     }
   ]
 }
