@@ -8,13 +8,28 @@
 
 ## Recent Updates (2026-04-27)
 
-Triggered by full website assessment. Critical + High-severity findings resolved:
-
-- **Migrated `netlify.toml` headers/redirects → `_headers` and `_redirects` files in `site/`.** The GitHub Actions deploy method (`nwtgck/actions-netlify@v3`) bypasses `netlify.toml`, so security headers and 1-year asset cache rules were silently dropped in production. Verified via `curl -sI` before fix: `Cache-Control: max-age=0, must-revalidate` and missing `X-Frame-Options`/`X-Content-Type-Options`/`Referrer-Policy`. After deploy, expect `max-age=31536000, immutable` on CSS/JS/JPG.
+### Round 1 — Critical + HIGH from assessment
+- **Migrated `netlify.toml` headers/redirects → `_headers` and `_redirects` files in `site/`.** The GitHub Actions deploy method (`nwtgck/actions-netlify@v3`) bypasses `netlify.toml`, so security headers and 1-year asset cache rules were silently dropped in production. Verified post-fix with `curl -sI`: `Cache-Control: max-age=31536000, immutable` on CSS/JS/JPG.
 - **Fixed `aggregateRating` in `index.html`:** was implausible 5.0/200, now accurate 4.5/1119 (Google: 4.5/1095 + TripAdvisor: 4.7/24, weighted).
 - **Added required `datePublished: "2023-11-28"` to WWLP NewsArticle schema** in `about.html` so it's eligible for rich results.
 - **Refreshed all `<lastmod>` entries in `sitemap.xml`** to 2026-04-27.
 - **Generated proper favicon set** from `logo.png` (cropped to the C-with-THE brand mark): `favicon.ico` (16/32/48), `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` (180×180), `android-chrome-192x192.png`, `android-chrome-512x512.png`. Created `site.webmanifest` for Android/PWA. Replaced `logo.jpg` favicon references in all 6 HTML pages.
+
+### Round 2 — MEDIUM + LOW from assessment
+- **Security:** `rel="noopener"` added to 30 external `target="_blank"` links across 5 pages; new `Content-Security-Policy` (allows GA, fonts, YouTube, Maps, Sheets gviz; locks down `default-src`, `object-src`, `frame-ancestors`); new `Permissions-Policy` (disables camera/mic/geo/payment/etc + FLoC).
+- **Accessibility:** Skip-to-main-content link on all 6 pages; ARIA `tablist`/`tab`/`tabpanel` roles on menu tabs (with `aria-selected` updated by JS); `aria-label` on carousel prev/next buttons; carousel pause-on-hover/focus (WCAG 2.2.2); explicit `width`/`height` on every `<img>` (prevents CLS); accessible `title` on Maps iframe.
+- **SEO:** `BreadcrumbList` JSON-LD on menu/about/contact/catering; dropped ignored `<meta name="keywords">` and `<changefreq>` from sitemap; removed off-brand Powerball news link from About.
+- **Performance:** WebP variants for all 4 menu images (42–46% smaller, served via `<picture>` + JPG fallback); new cache rules for `.webp`/`.png`/`site.webmanifest`.
+- **Analytics:** GA4 click-event tracking on phone (`tel:`), email (`mailto:`), DoorDash, Google Maps directions, PDF downloads; 404 page sends a `page_not_found` event.
+- **Cleanup:** moved inline `style="..."` attrs from catering.html and menu.html to CSS classes; `/index.html` → `/` 301 redirect.
+
+### Skipped intentionally (need user input or net-new infra)
+- Templating / shared header–footer (would require a build tool)
+- Live Google Reviews widget (third-party signup)
+- Contact form (need backend decision)
+- Hero food photo (need a photo)
+- Self-hosting Google Fonts (over-engineered for the gain)
+- HTML linter / Lighthouse CI (net-new infrastructure)
 
 ---
 

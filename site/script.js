@@ -106,8 +106,14 @@ function initReviewsCarousel() {
     if (prevBtn) prevBtn.addEventListener('click', prevSlide);
     if (nextBtn) nextBtn.addEventListener('click', nextSlide);
 
-    // Auto-rotate every 6 seconds
-    setInterval(nextSlide, 6000);
+    // Auto-rotate every 6 seconds; pause on hover or keyboard focus (WCAG 2.2.2)
+    let autoRotate = setInterval(nextSlide, 6000);
+    const pause = () => { clearInterval(autoRotate); autoRotate = null; };
+    const resume = () => { if (!autoRotate) autoRotate = setInterval(nextSlide, 6000); };
+    carousel.addEventListener('mouseenter', pause);
+    carousel.addEventListener('mouseleave', resume);
+    carousel.addEventListener('focusin', pause);
+    carousel.addEventListener('focusout', resume);
 }
 
 // Menu Tabs
@@ -122,12 +128,18 @@ function initMenuTabs() {
             e.preventDefault();
             const targetPanel = this.getAttribute('data-tab');
 
-            // Remove active class
-            tabs.forEach(t => t.classList.remove('active'));
+            // Remove active class + reset ARIA state
+            tabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+                t.setAttribute('tabindex', '-1');
+            });
             panels.forEach(p => p.classList.remove('active'));
 
-            // Add active class
+            // Add active class + set ARIA state on selected tab
             this.classList.add('active');
+            this.setAttribute('aria-selected', 'true');
+            this.setAttribute('tabindex', '0');
             const panel = document.getElementById(targetPanel);
             if (panel) {
                 panel.classList.add('active');
@@ -246,3 +258,21 @@ setInterval(function() {
         loadDailySpecials();
     }
 }, 300000);
+
+// GA4 conversion event tracking — fires on phone, email, DoorDash, directions, PDF download clicks
+document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link || typeof gtag !== 'function') return;
+    const href = link.getAttribute('href') || '';
+    if (href.startsWith('tel:')) {
+        gtag('event', 'click_phone', { link_url: href });
+    } else if (href.startsWith('mailto:')) {
+        gtag('event', 'click_email', { link_url: href });
+    } else if (href.includes('doordash.com')) {
+        gtag('event', 'click_doordash', { link_url: href });
+    } else if (href.includes('google.com/maps')) {
+        gtag('event', 'click_directions', { link_url: href });
+    } else if (href.toLowerCase().endsWith('.pdf')) {
+        gtag('event', 'download_pdf', { file_name: href.split('/').pop() });
+    }
+});

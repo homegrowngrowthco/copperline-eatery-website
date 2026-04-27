@@ -20,11 +20,7 @@
     <meta name="geo.placename" content="Chicopee">
     <meta name="geo.position" content="42.146927;-72.579556">
     <meta name="ICBM" content="42.146927, -72.579556">
-
-    <!-- Keywords for Search -->
-    <meta name="keywords" content="breakfast menu Chicopee MA, lunch menu Western MA, eggs benedict, corned beef hash, hollandaise sauce, daily specials Chicopee, breakfast near me, restaurant menu Chicopee, homemade breakfast menu, diner menu Western Massachusetts">
-
-    <!-- Canonical & Favicon -->
+<!-- Canonical & Favicon -->
     <link rel="canonical" href="https://copperlineeatery.com/menu.html">
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -125,13 +121,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://copperlineeatery.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Menu", "item": "https://copperlineeatery.com/menu.html"}
+      ]
+    }
+    </script>
 </head>
 <body class="menu-page">
+    <a href="#main" class="skip-link">Skip to main content</a>
     <!-- Header (same as index.html) -->
     <header class="main-header">
         <div class="header-container">
             <div class="logo-section">
-                <img src="logo.jpg" alt="The Copperline Eatery" class="logo">
+                <img src="logo.jpg" alt="The Copperline Eatery" class="logo" width="1200" height="324">
             </div>
             <nav class="main-nav" id="mainNav">
                 <ul class="nav-links">
@@ -145,19 +153,19 @@
             </nav>
             <div class="header-actions">
                 <div class="social-icons">
-                    <a href="https://www.facebook.com/CopperlineEatery/" target="_blank" aria-label="Copperline Eatery on Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-                    <a href="https://www.instagram.com/copperlineeatery/" target="_blank" aria-label="Copperline Eatery on Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                    <a href="https://www.facebook.com/CopperlineEatery/" target="_blank" aria-label="Copperline Eatery on Facebook" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                    <a href="https://www.instagram.com/copperlineeatery/" target="_blank" aria-label="Copperline Eatery on Instagram" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
                     <a href="tel:+14135948332" aria-label="Call us at (413) 594-8332"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg></a>
                     <a href="mailto:copperlineeatery@yahoo.com" aria-label="Email us at copperlineeatery@yahoo.com"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
-                    <a href="https://www.google.com/maps/dir//409+Broadway,+Chicopee,+MA+01020" target="_blank" aria-label="Get directions to Copperline Eatery on Google Maps"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></a>
+                    <a href="https://www.google.com/maps/dir//409+Broadway,+Chicopee,+MA+01020" target="_blank" aria-label="Get directions to Copperline Eatery on Google Maps" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></a>
                 </div>
-                <a href="https://www.doordash.com/store/the-copperline-eatery-chicopee-36368789/81460747" target="_blank" class="doordash-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.071 8.409a6.09 6.09 0 00-5.396-3.228H.584A.589.589 0 00.17 6.184L3.894 9.93a1.752 1.752 0 001.242.516h12.049a1.554 1.554 0 11.031 3.108H8.91a.589.589 0 00-.415 1.003l3.725 3.747a1.752 1.752 0 001.242.516h3.757c4.887 0 8.584-5.225 5.852-10.411z"/></svg>DoorDash</a>
+                <a href="https://www.doordash.com/store/the-copperline-eatery-chicopee-36368789/81460747" target="_blank" class="doordash-btn" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.071 8.409a6.09 6.09 0 00-5.396-3.228H.584A.589.589 0 00.17 6.184L3.894 9.93a1.752 1.752 0 001.242.516h12.049a1.554 1.554 0 11.031 3.108H8.91a.589.589 0 00-.415 1.003l3.725 3.747a1.752 1.752 0 001.242.516h3.757c4.887 0 8.584-5.225 5.852-10.411z"/></svg>DoorDash</a>
             </div>
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <section class="page-header">
             <div class="container">
                 <h1>Our Menu</h1>
@@ -167,20 +175,23 @@
 
         <section class="menu-page-section">
             <div class="container">
-                <div class="menu-tabs">
-                    <button class="menu-tab active" data-tab="breakfast">Breakfast</button>
-                    <button class="menu-tab" data-tab="lunch">Lunch</button>
-                    <button class="menu-tab" data-tab="catering">Catering</button>
-                    <button class="menu-tab" data-tab="specials">Daily Specials</button>
+                <div class="menu-tabs" role="tablist" aria-label="Menu sections">
+                    <button class="menu-tab active" data-tab="breakfast" role="tab" id="tab-breakfast" aria-selected="true" aria-controls="breakfast" tabindex="0">Breakfast</button>
+                    <button class="menu-tab" data-tab="lunch" role="tab" id="tab-lunch" aria-selected="false" aria-controls="lunch" tabindex="-1">Lunch</button>
+                    <button class="menu-tab" data-tab="catering" role="tab" id="tab-catering" aria-selected="false" aria-controls="catering" tabindex="-1">Catering</button>
+                    <button class="menu-tab" data-tab="specials" role="tab" id="tab-specials" aria-selected="false" aria-controls="specials" tabindex="-1">Daily Specials</button>
                 </div>
 
                 <div class="menu-content-page">
-                    <div id="breakfast" class="menu-panel-page active">
+                    <div id="breakfast" class="menu-panel-page active" role="tabpanel" aria-labelledby="tab-breakfast" tabindex="0">
                         <div class="menu-side-by-side">
                             <div class="menu-image-wrap">
-                                <a href="breakfast-menu.jpg" download class="download-link" style="margin-bottom: 15px;">Download Breakfast Menu</a>
-                                <a href="breakfast-menu.jpg" target="_blank">
-                                    <img src="breakfast-menu.jpg" alt="The Copperline Eatery Breakfast Menu - Chicopee MA" class="menu-img" loading="lazy">
+                                <a href="breakfast-menu.jpg" download class="download-link">Download Breakfast Menu</a>
+                                <a href="breakfast-menu.jpg" target="_blank" rel="noopener">
+                                    <picture>
+                                        <source srcset="breakfast-menu.webp" type="image/webp">
+                                        <img src="breakfast-menu.jpg" alt="The Copperline Eatery Breakfast Menu - Chicopee MA" class="menu-img" loading="lazy" width="1051" height="1789">
+                                    </picture>
                                 </a>
                             </div>
                         </div>
@@ -198,33 +209,42 @@
                         </div>
                     </div>
 
-                    <div id="lunch" class="menu-panel-page">
+                    <div id="lunch" class="menu-panel-page" role="tabpanel" aria-labelledby="tab-lunch" tabindex="0">
                         <div class="menu-side-by-side">
                             <div class="menu-image-wrap">
-                                <a href="lunch-menu.jpg" download class="download-link" style="margin-bottom: 15px;">Download Lunch Menu</a>
-                                <a href="lunch-menu.jpg" target="_blank">
-                                    <img src="lunch-menu.jpg" alt="The Copperline Eatery Lunch Menu - Chicopee MA" class="menu-img" loading="lazy">
+                                <a href="lunch-menu.jpg" download class="download-link">Download Lunch Menu</a>
+                                <a href="lunch-menu.jpg" target="_blank" rel="noopener">
+                                    <picture>
+                                        <source srcset="lunch-menu.webp" type="image/webp">
+                                        <img src="lunch-menu.jpg" alt="The Copperline Eatery Lunch Menu - Chicopee MA" class="menu-img" loading="lazy" width="1056" height="1789">
+                                    </picture>
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    <div id="catering" class="menu-panel-page">
+                    <div id="catering" class="menu-panel-page" role="tabpanel" aria-labelledby="tab-catering" tabindex="0">
                         <div class="menu-side-by-side">
                             <div class="menu-image-wrap">
-                                <a href="catering-menu.pdf" download class="download-link" style="margin-right: 15px; margin-bottom: 15px;">Download Catering Menu PDF</a>
-                                <a href="catering-order-form.pdf" download class="download-link" style="margin-bottom: 15px;">Download Order Form PDF</a>
-                                <a href="catering-menu-1.jpg" target="_blank">
-                                    <img src="catering-menu-1.jpg" alt="The Copperline Eatery Catering Menu - Page 1" class="menu-img" loading="lazy">
+                                <a href="catering-menu.pdf" download class="download-link">Download Catering Menu PDF</a>
+                                <a href="catering-order-form.pdf" download class="download-link">Download Order Form PDF</a>
+                                <a href="catering-menu-1.jpg" target="_blank" rel="noopener">
+                                    <picture>
+                                        <source srcset="catering-menu-1.webp" type="image/webp">
+                                        <img src="catering-menu-1.jpg" alt="The Copperline Eatery Catering Menu - Page 1" class="menu-img" loading="lazy" width="1241" height="1755">
+                                    </picture>
                                 </a>
-                                <a href="catering-menu-2.jpg" target="_blank">
-                                    <img src="catering-menu-2.jpg" alt="The Copperline Eatery Catering Menu - Page 2" class="menu-img" loading="lazy">
+                                <a href="catering-menu-2.jpg" target="_blank" rel="noopener">
+                                    <picture>
+                                        <source srcset="catering-menu-2.webp" type="image/webp">
+                                        <img src="catering-menu-2.jpg" alt="The Copperline Eatery Catering Menu - Page 2" class="menu-img" loading="lazy" width="1241" height="1755">
+                                    </picture>
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    <div id="specials" class="menu-panel-page">
+                    <div id="specials" class="menu-panel-page" role="tabpanel" aria-labelledby="tab-specials" tabindex="0">
                         <div class="specials-container">
                             <h2>Today's Specials</h2>
                             <div id="specialsContent" class="specials-content">
