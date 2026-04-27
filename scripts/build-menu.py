@@ -4,11 +4,10 @@ Regenerate menu.html sections + JSON-LD from site/menuData.json.
 Run after editing menuData.json:
     python scripts/build-menu.py
 
-Updates two regions of site/menu.html marked by HTML comments:
+Updates three regions of site/menu.html marked by HTML comments:
   <!-- BUILD:menu-schema --> ... <!-- BUILD:end -->
-  <!-- BUILD:menu-content --> ... <!-- BUILD:end -->
-
-If those markers are missing, the script will insert them on first run.
+  <!-- BUILD:breakfast-sections --> ... <!-- BUILD:end -->
+  <!-- BUILD:lunch-sections --> ... <!-- BUILD:end -->
 """
 import json
 import re
@@ -18,10 +17,6 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "site" / "menuData.json"
 HTML = ROOT / "site" / "menu.html"
 
-DIET_LABELS = {
-    "v": ("V", "Vegetarian"),
-    "gf": ("GF", "Gluten Free"),
-}
 DIET_TO_SCHEMA = {
     "v": "https://schema.org/VegetarianDiet",
     "gf": "https://schema.org/GlutenFreeDiet",
@@ -37,59 +32,55 @@ def html_escape(s: str) -> str:
     )
 
 
-def build_browse_html(data) -> str:
-    """Render the Browse Menu tab body."""
-    services_order = ["breakfast", "lunch"]
-    service_labels = {"breakfast": "Breakfast", "lunch": "Lunch"}
-    out = []
+def render_item(item: dict) -> str:
+    """Single item row: ★? Name V?  ............... $price  + optional desc."""
+    name = html_escape(item["name"])
+    price = item.get("price")
+    diet = item.get("dietaryFlags", []) or []
+    popular = item.get("popular", False)
+    desc = item.get("description", "")
 
-    for service in services_order:
-        sections = [s for s in data["sections"] if s.get("service") == service]
-        if not sections:
-            continue
-        out.append(f'    <h2 class="browse-service">{service_labels[service]}</h2>')
-        out.append('    <div class="browse-grid">')
-        for section in sections:
-            out.append(f'    <section class="browse-section" aria-labelledby="sec-{section["id"]}">')
-            out.append(f'      <h3 id="sec-{section["id"]}" class="browse-section-title">{html_escape(section["name"])}</h3>')
-            note = section.get("note")
-            if note:
-                out.append(f'      <p class="browse-section-note">{html_escape(note)}</p>')
-            out.append('      <ul class="browse-item-list">')
-            for item in section["items"]:
-                diet = item.get("dietaryFlags", []) or []
-                popular = item.get("popular", False)
-                price = item.get("price")
-                price_html = f'<span class="browse-item-price" aria-label="Price">${price}</span>' if price else ""
-                badges = []
-                if popular:
-                    badges.append('<span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span>')
-                for d in diet:
-                    if d in DIET_LABELS:
-                        short, full = DIET_LABELS[d]
-                        badges.append(f'<span class="browse-badge browse-badge-diet" title="{full}">{short}</span>')
-                badges_html = "".join(badges)
-                desc = item.get("description", "")
-                desc_html = f'<p class="browse-item-desc">{html_escape(desc)}</p>' if desc else ""
-                out.append('        <li class="browse-item">')
-                out.append('          <div class="browse-item-head">')
-                out.append(f'            <h4 class="browse-item-name">{html_escape(item["name"])}</h4>')
-                out.append(f'            {price_html}')
-                out.append('          </div>')
-                if badges_html:
-                    out.append(f'          <div class="browse-item-badges">{badges_html}</div>')
-                if desc_html:
-                    out.append(f'          {desc_html}')
-                out.append('        </li>')
-            out.append('      </ul>')
-            out.append('    </section>')
-        out.append('    </div>')
+    star = '<span class="menu-item-popular" aria-label="Signature dish" title="Signature dish">★</span>' if popular else ""
+    veg = '<span class="menu-item-veg" aria-label="Vegetarian" title="Vegetarian">V</span>' if "v" in diet else ""
+    price_html = f'<span class="menu-item-price">${price}</span>' if price else ""
+    desc_html = f'\n          <p class="menu-item-desc">{html_escape(desc)}</p>' if desc else ""
 
-    return "\n".join(out)
+    return (
+        '        <div class="menu-item">\n'
+        '          <div class="menu-item-row">\n'
+        f'            {star}<span class="menu-item-name">{name}{veg}</span>\n'
+        '            <span class="menu-item-leader" aria-hidden="true"></span>\n'
+        f'            {price_html}\n'
+        '          </div>'
+        f'{desc_html}\n'
+        '        </div>'
+    )
 
 
-def build_schema(data) -> str:
-    """Render the JSON-LD Menu schema using full menuData."""
+def render_section(section: dict) -> str:
+    sid = section["id"]
+    title = html_escape(section["name"])
+    note_html = ""
+    if section.get("note"):
+        note_html = f'\n          <p class="menu-section-note">{html_escape(section["note"])}</p>'
+    items_html = "\n".join(render_item(item) for item in section["items"])
+    return (
+        f'      <section class="menu-section" aria-labelledby="sec-{sid}">\n'
+        f'        <header class="menu-section-header">\n'
+        f'          <h3 id="sec-{sid}" class="menu-section-title">{title}</h3>{note_html}\n'
+        f'        </header>\n'
+        f'{items_html}\n'
+        f'      </section>'
+    )
+
+
+def build_service_html(data: dict, service: str) -> str:
+    sections = [s for s in data["sections"] if s.get("service") == service]
+    return "\n".join(render_section(s) for s in sections)
+
+
+def build_schema(data: dict) -> str:
+    """Render JSON-LD Restaurant + full priced Menu."""
     sections_jsonld = []
     for section in data["sections"]:
         section_obj = {
@@ -100,10 +91,7 @@ def build_schema(data) -> str:
         if section.get("note"):
             section_obj["description"] = section["note"]
         for item in section["items"]:
-            mi = {
-                "@type": "MenuItem",
-                "name": item["name"],
-            }
+            mi = {"@type": "MenuItem", "name": item["name"]}
             if item.get("description"):
                 mi["description"] = item["description"]
             if item.get("price"):
@@ -161,11 +149,11 @@ def main():
     data = json.loads(DATA.read_text(encoding="utf-8"))
     html = HTML.read_text(encoding="utf-8")
     html = replace_block(html, "menu-schema", "    " + build_schema(data))
-    html = replace_block(html, "menu-content", build_browse_html(data))
+    html = replace_block(html, "breakfast-sections", build_service_html(data, "breakfast"))
+    html = replace_block(html, "lunch-sections", build_service_html(data, "lunch"))
     HTML.write_text(html, encoding="utf-8")
     n_items = sum(len(s["items"]) for s in data["sections"])
-    n_sections = len(data["sections"])
-    print(f"OK  menu.html regenerated: {n_sections} sections, {n_items} items.")
+    print(f"OK  menu.html regenerated: {len(data['sections'])} sections, {n_items} items.")
 
 
 if __name__ == "__main__":
