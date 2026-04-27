@@ -44,76 +44,1774 @@
     <meta name="twitter:description" content="Award-winning eggs benedict, house-made corned beef hash, daily specials and more. Full breakfast & lunch menu at The Copperline Eatery.">
     <meta name="twitter:image" content="https://copperlineeatery.com/logo.jpg">
 
-    <!-- Schema.org Structured Data -->
+    <!-- Schema.org Structured Data: Restaurant + full priced Menu (generated from menuData.json) -->
+    <!-- BUILD:menu-schema -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Restaurant",
-      "name": "The Copperline Eatery",
-      "url": "https://copperlineeatery.com/menu.html",
-      "image": "https://copperlineeatery.com/logo.jpg",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "409 Broadway",
-        "addressLocality": "Chicopee",
-        "addressRegion": "MA",
-        "postalCode": "01020",
-        "addressCountry": "US"
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "The Copperline Eatery",
+  "url": "https://copperlineeatery.com/menu.html",
+  "image": "https://copperlineeatery.com/logo.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "409 Broadway",
+    "addressLocality": "Chicopee",
+    "addressRegion": "MA",
+    "postalCode": "01020",
+    "addressCountry": "US"
+  },
+  "telephone": "+1-413-594-8332",
+  "servesCuisine": [
+    "American",
+    "Breakfast",
+    "Brunch",
+    "Lunch"
+  ],
+  "priceRange": "$$",
+  "hasMenu": {
+    "@type": "Menu",
+    "name": "Breakfast & Lunch Menu",
+    "description": "Award-winning homemade breakfast and lunch including eggs benedict, corned beef hash, French toast, and daily specials at The Copperline Eatery in Chicopee, MA.",
+    "hasMenuSection": [
+      {
+        "@type": "MenuSection",
+        "name": "Egg Specialties",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "1 Egg and Toast",
+            "description": "One egg cooked your way with toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "4.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "2 Eggs and Toast",
+            "description": "Two eggs cooked your way with toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.20",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "1 Egg, Toast and Homefries",
+            "description": "One egg cooked your way with toast and homefries",
+            "offers": {
+              "@type": "Offer",
+              "price": "6.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "2 Eggs, Toast and Homefries",
+            "description": "Two eggs cooked your way with toast and homefries",
+            "offers": {
+              "@type": "Offer",
+              "price": "7.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "2 Eggs, Toast and Homefries with Bacon or Sausage",
+            "description": "Two eggs cooked your way with toast, homefries, and your choice of bacon or sausage",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.55",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "2 Eggs, Toast and Homefries with Kielbasa or Ham",
+            "description": "Two eggs cooked your way with toast, homefries, and your choice of kielbasa or ham",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Extra egg add $0.95"
       },
-      "telephone": "+1-413-594-8332",
-      "servesCuisine": ["American", "Breakfast", "Brunch", "Lunch"],
-      "priceRange": "$$",
-      "hasMenu": {
-        "@type": "Menu",
-        "name": "Breakfast & Lunch Menu",
-        "description": "Award-winning homemade breakfast and lunch including eggs benedict, corned beef hash, and daily specials",
-        "hasMenuSection": [
+      {
+        "@type": "MenuSection",
+        "name": "Eggs Benedict",
+        "hasMenuItem": [
           {
-            "@type": "MenuSection",
-            "name": "Breakfast",
-            "description": "All-day breakfast featuring house-made eggs benedict, corned beef hash, and more",
-            "hasMenuItem": [
-              {
-                "@type": "MenuItem",
-                "name": "Eggs Benedict",
-                "description": "Poached eggs on an English muffin topped with our award-winning house-made hollandaise sauce"
-              },
-              {
-                "@type": "MenuItem",
-                "name": "Corned Beef Hash",
-                "description": "House-made corned beef hash, slow-cooked and served with eggs your way"
-              },
-              {
-                "@type": "MenuItem",
-                "name": "Pancakes",
-                "description": "Fluffy, made-from-scratch pancakes"
-              },
-              {
-                "@type": "MenuItem",
-                "name": "Home Fries",
-                "description": "Perfectly seasoned and cooked home fries"
-              },
-              {
-                "@type": "MenuItem",
-                "name": "French Toast",
-                "description": "Thick-cut, golden-brown French toast — named best in Western Massachusetts by WWLP 22News"
-              }
-            ]
+            "@type": "MenuItem",
+            "name": "Eggs Benedict",
+            "description": "Two poached eggs on English muffin halves with Canadian bacon, topped with our award-winning house-made hollandaise sauce, served with homefries",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.50",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "French Toast & Pancakes",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "3 Pancakes or French Toast",
+            "description": "Three fluffy made-from-scratch pancakes or thick-cut golden-brown French toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "7.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
           },
           {
-            "@type": "MenuSection",
-            "name": "Lunch",
-            "description": "Fresh sandwiches, wraps, soups, and lunch plates served daily"
+            "@type": "MenuItem",
+            "name": "Pancakes or French Toast with Bacon or Sausage",
+            "description": "Three pancakes or French toast with your choice of bacon or sausage",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.55",
+              "priceCurrency": "USD"
+            }
           },
           {
-            "@type": "MenuSection",
-            "name": "Daily Specials",
-            "description": "Chef's daily specials featuring seasonal ingredients and rotating favorites — check our website or ask your server"
+            "@type": "MenuItem",
+            "name": "Pancakes or French Toast with Kielbasa or Ham",
+            "description": "Three pancakes or French toast with your choice of kielbasa or ham",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Banana Bread French Toast",
+            "description": "French toast made from our homemade banana bread",
+            "offers": {
+              "@type": "Offer",
+              "price": "8.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Banana Pancakes",
+            "description": "Fluffy pancakes loaded with fresh bananas",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Blueberry Pancakes",
+            "description": "Fluffy pancakes loaded with blueberries",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chocolate Chip Pancakes",
+            "description": "Fluffy pancakes loaded with chocolate chips",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Apple Cinnamon Pancakes",
+            "description": "Fluffy pancakes with apple and cinnamon",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          }
+        ],
+        "description": "Real maple syrup add $0.75. Substitute French toast add $0.75"
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Omelets & Scrambles",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "2 Egg Omelet",
+            "description": "Two-egg omelet with your choice of fillings, served with homefries and toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.00",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "3 Egg Omelet",
+            "description": "Three-egg omelet with your choice of fillings, served with homefries and toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "13.00",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Cheese Omelet (2 Egg)",
+            "description": "Two-egg cheese omelet, served with homefries and toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Cheese Omelet (3 Egg)",
+            "description": "Three-egg cheese omelet, served with homefries and toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.20",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          }
+        ],
+        "description": "Served with homefries and toast. Substitute shredded potatoes add $2.25. Choose ingredients: mushrooms, peppers, onions, tomatoes, bacon, sausage, ham, kielbasa, cheese."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Specialty Omelets",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Farmer's Omelet",
+            "description": "Grilled mashed potatoes, ham, and cheese",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.75",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Spinach Omelet",
+            "description": "Chopped spinach, onion, and cheese",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.75",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Hash Omelet",
+            "description": "Stuffed with our homemade corned beef hash and cheese",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.75",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Santa F\u00e9 Omelet",
+            "description": "Diced chicken, onions, green peppers, mushrooms, salsa, and cheddar cheese",
+            "offers": {
+              "@type": "Offer",
+              "price": "13.50",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Served with homefries and toast. Substitute shredded potatoes add $2.25."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Breakfast Specials",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Copperline Special",
+            "description": "Three eggs, two pancakes, homefries, and toast (substitute French toast add $0.75; substitute shredded potatoes add $2.25)",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Copperline Special with Bacon or Sausage",
+            "description": "Three eggs, two pancakes, homefries, toast, and your choice of bacon or sausage",
+            "offers": {
+              "@type": "Offer",
+              "price": "15.55",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Copperline Special with Kielbasa or Ham",
+            "description": "Three eggs, two pancakes, homefries, toast, and your choice of kielbasa or ham",
+            "offers": {
+              "@type": "Offer",
+              "price": "16.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Huck's Special",
+            "description": "Two pancakes with two eggs (substitute French toast add $0.75)",
+            "offers": {
+              "@type": "Offer",
+              "price": "7.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Huck's Special with Bacon or Sausage",
+            "description": "Two pancakes, two eggs, and your choice of bacon or sausage",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.55",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Huck's Special with Kielbasa or Ham",
+            "description": "Two pancakes, two eggs, and your choice of kielbasa or ham",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Steak Breakfast",
+            "description": "7 oz. ribeye steak with two eggs, homefries, and toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "18.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Hash Breakfast",
+            "description": "Our homemade corned beef hash served with two eggs and toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.50",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Egg Sandwiches",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Egg Sandwich",
+            "description": "Egg sandwich on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.95",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Ham and Egg Sandwich",
+            "description": "Ham and egg on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "6.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Bacon and Egg Sandwich",
+            "description": "Bacon and egg on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.75",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Sausage and Egg Sandwich",
+            "description": "Sausage and egg on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.75",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Western Egg Sandwich",
+            "description": "Western-style egg sandwich on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "6.50",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Served on a water roll. Add cheese $0.60 extra."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Breakfast Wrap",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Create-A-Wrap",
+            "description": "Two scrambled eggs with your choice of omelet ingredients, served with homefries",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.00",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Children's Menu",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Kids' Breakfast",
+            "description": "Choice of one egg and toast, two French toast, or two pancakes, with sausage, bacon, or ham; milk or juice included",
+            "offers": {
+              "@type": "Offer",
+              "price": "7.50",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Children under 12 only. Milk or juice included."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Sandwiches",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Grilled Cheese",
+            "description": "Classic grilled cheese sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.00",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Grilled Cheese with Tomato",
+            "description": "Grilled cheese with tomato, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.95",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Fish Sandwich",
+            "description": "Fried fish sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Western Sandwich",
+            "description": "Western sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.00",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Western Grinder",
+            "description": "Western grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.00",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "BLT Sandwich",
+            "description": "Bacon, lettuce, and tomato sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "BLT Grinder",
+            "description": "Bacon, lettuce, and tomato grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Egg Salad Sandwich",
+            "description": "Egg salad sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Egg Salad Grinder",
+            "description": "Egg salad grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.00",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Tuna Sandwich",
+            "description": "Tuna salad sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Tuna Grinder",
+            "description": "Tuna salad grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chicken Salad Sandwich",
+            "description": "Chicken salad sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chicken Salad Grinder",
+            "description": "Chicken salad grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Turkey Sandwich",
+            "description": "Sliced turkey sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Turkey Grinder",
+            "description": "Sliced turkey grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Ham Sandwich",
+            "description": "Sliced ham sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Ham Grinder",
+            "description": "Sliced ham grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Corned Beef Sandwich",
+            "description": "House-made corned beef sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.00",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Corned Beef Grinder",
+            "description": "House-made corned beef grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "15.00",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Roast Beef Sandwich",
+            "description": "Roast beef sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.25",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Roast Beef Grinder",
+            "description": "Roast beef grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "14.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Vegetarian Sandwich",
+            "description": "Vegetarian sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.75",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Vegetarian Grinder",
+            "description": "Vegetarian grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Clam Roll",
+            "description": "Fried clam roll, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Clam Roll Grinder",
+            "description": "Fried clam grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.00",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Steak & Cheese Grinder",
+            "description": "Steak and cheese grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "14.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Hamburger Grinder",
+            "description": "Hamburger grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Cheeseburger Grinder",
+            "description": "Cheeseburger grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "13.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chicken Filet Grinder",
+            "description": "Chicken filet grinder, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Served with French fries and pickles. Sandwich price first, grinder price second when listed."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Specialty Sandwiches",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Monte Cristo",
+            "description": "Ham, turkey, and Swiss dipped in our special egg batter, served with maple syrup",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Reuben",
+            "description": "A generous portion of sliced corned beef with Swiss cheese, sauerkraut, and dressing on grilled rye",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "BBQ Roast Beef",
+            "description": "Thin sliced roast beef smothered in BBQ sauce on a grilled water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chicken Cordon Bleu",
+            "description": "Chicken filet patty with sliced ham and Swiss cheese on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chicken Filet Sandwich",
+            "description": "Chicken filet with lettuce, tomato, and mayo on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "American Classic",
+            "description": "A hamburger with cheese, lettuce, tomato, and mayo on grilled bread (add bacon $2.25)",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "The Pilgrim",
+            "description": "Fresh roasted turkey with stuffing and cranberry sauce on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "The Cabotville",
+            "description": "A generous portion of turkey with bacon, lettuce, tomato, and mayo on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Dirty Harry",
+            "description": "Sliced ham with Swiss cheese and fried onions on grilled rye",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "The Duke",
+            "description": "Roast beef with fried mushrooms, horseradish, and mayo on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Messy Marvin",
+            "description": "A cheeseburger with chili, fried onions, and a side of sour cream on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "The Colossal Burger",
+            "description": "A huge 8 oz. cheeseburger with lettuce, tomato, and mayo on a water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "13.25",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Served with French fries and pickles. Cole slaw add $1.75."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Club Sandwiches",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Ham Club",
+            "description": "Ham club sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Tuna Club",
+            "description": "Tuna salad club sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Turkey Club",
+            "description": "Turkey club sandwich, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "13.25",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Hamburger Club",
+            "description": "Hamburger club, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.75",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Cheeseburger Club",
+            "description": "Cheeseburger club, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "13.25",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Grilled Chicken Club (Italian or Teriyaki)",
+            "description": "Grilled chicken club with a choice of Italian or teriyaki marinade, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Served with French fries and pickles."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Wraps",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Buffalo Chicken Wrap",
+            "description": "Buffalo chicken wrap, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Veggie Wrap",
+            "description": "Vegetarian wrap, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.95",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Tuna Wrap",
+            "description": "Tuna salad wrap, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Teriyaki Chicken Wrap",
+            "description": "Teriyaki chicken wrap, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Turkey Wrap",
+            "description": "Turkey wrap, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chicken Filet Wrap",
+            "description": "Chicken filet wrap, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Marinated Chicken Wrap",
+            "description": "Marinated chicken wrap, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.50",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Served with French fries and pickles."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Burgers",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Hamburger",
+            "description": "Classic hamburger, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.00",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Cheeseburger",
+            "description": "Classic cheeseburger, served with French fries and pickles",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.60",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Served with French fries and pickles. Add fried onions, mushrooms, or peppers $0.75. Add bacon $2.25."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Hot Dogs",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Plain Hot Dog",
+            "description": "Classic hot dog",
+            "offers": {
+              "@type": "Offer",
+              "price": "8.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Cheese Hot Dog",
+            "description": "Hot dog with cheese",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chili Hot Dog",
+            "description": "Hot dog with chili",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.50",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Soup Combos",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Soup & Salad",
+            "description": "Cup of homemade soup with a garden salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Half Deli Sandwich & Soup",
+            "description": "Half deli sandwich with a cup of soup",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.50",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Salads",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Tuna Salad Bowl",
+            "description": "Garden salad topped with tuna salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chicken Salad Bowl",
+            "description": "Garden salad topped with chicken salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "11.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Egg Salad Bowl",
+            "description": "Garden salad topped with egg salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "10.95",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Teriyaki Chicken Bowl",
+            "description": "Garden salad topped with teriyaki chicken",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chicken Caesar Bowl",
+            "description": "Caesar salad with grilled chicken",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Chef Salad Bowl",
+            "description": "Chef salad with assorted meats and cheese",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Garden Salad (small)",
+            "description": "Small garden salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.50",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Garden Salad (large)",
+            "description": "Large garden salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "9.95",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Dinners",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "5 Pierogi (Cabbage or Potato)",
+            "description": "Five pierogi with your choice of cabbage or potato filling, served with French fries and coleslaw",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.50",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Kielbasa with 5 Pierogi",
+            "description": "Kielbasa with five pierogi, served with French fries and coleslaw",
+            "offers": {
+              "@type": "Offer",
+              "price": "14.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Liver and Onions with Bacon",
+            "description": "Liver and onions topped with bacon, served with French fries and coleslaw",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Fried Clams",
+            "description": "Fried clam plate, served with French fries and coleslaw",
+            "offers": {
+              "@type": "Offer",
+              "price": "13.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Fried Scrod",
+            "description": "Fried scrod plate, served with French fries and coleslaw",
+            "offers": {
+              "@type": "Offer",
+              "price": "15.50",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Hamburger Steak",
+            "description": "Hamburger steak with fried peppers, onions, mushrooms, and gravy, served with French fries and coleslaw",
+            "offers": {
+              "@type": "Offer",
+              "price": "12.75",
+              "priceCurrency": "USD"
+            }
+          }
+        ],
+        "description": "Served with French fries and coleslaw."
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Soups & Sides",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Soup (cup)",
+            "description": "Cup of our homemade soup",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.65",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Soup (bowl)",
+            "description": "Bowl of our homemade soup",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.25",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "French Fries (small)",
+            "description": "Small order of French fries",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.50",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "French Fries (large)",
+            "description": "Large order of French fries",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.75",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Curly Fries (small)",
+            "description": "Small order of curly fries",
+            "offers": {
+              "@type": "Offer",
+              "price": "4.00",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Curly Fries (large)",
+            "description": "Large order of curly fries",
+            "offers": {
+              "@type": "Offer",
+              "price": "6.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Onion Rings (small)",
+            "description": "Small order of onion rings",
+            "offers": {
+              "@type": "Offer",
+              "price": "4.75",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Onion Rings (large)",
+            "description": "Large order of onion rings",
+            "offers": {
+              "@type": "Offer",
+              "price": "6.55",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Coleslaw",
+            "description": "Homemade coleslaw",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.65",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Pasta Salad",
+            "description": "Homemade pasta salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.65",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Potato Salad",
+            "description": "Homemade potato salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.65",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Macaroni Salad",
+            "description": "Homemade macaroni salad",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.65",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Breakfast Sides",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Bacon",
+            "description": "Side of bacon",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.85",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Sausage",
+            "description": "Side of breakfast sausage",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.85",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Ham",
+            "description": "Side of ham",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.75",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Kielbasa",
+            "description": "Side of kielbasa",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.75",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homefries (small)",
+            "description": "Small order of homefries",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.90",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homefries (large)",
+            "description": "Large order of homefries",
+            "offers": {
+              "@type": "Offer",
+              "price": "4.50",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Cold Cereal",
+            "description": "Cold cereal with milk",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Hot Cereal (cup)",
+            "description": "Cup of hot cereal",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Hot Cereal (bowl)",
+            "description": "Bowl of hot cereal",
+            "offers": {
+              "@type": "Offer",
+              "price": "4.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Hash (small)",
+            "description": "Small order of our homemade corned beef hash",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.75",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Hash (large)",
+            "description": "Large order of our homemade corned beef hash",
+            "offers": {
+              "@type": "Offer",
+              "price": "6.95",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Shredded Potatoes",
+            "description": "Shredded potatoes",
+            "offers": {
+              "@type": "Offer",
+              "price": "5.50",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Breads",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Toast",
+            "description": "Choice of toast",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.00",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "English Muffin",
+            "description": "Toasted English muffin",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.10",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Bagel",
+            "description": "Toasted bagel",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.45",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Bagel with Cream Cheese",
+            "description": "Toasted bagel with cream cheese",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Water Roll",
+            "description": "Toasted water roll",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.40",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Muffin",
+            "description": "Fresh muffin",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.25",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Danish",
+            "description": "Fresh Danish",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.00",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Homemade Bread",
+            "description": "Slice of our homemade bread",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.80",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Beverages",
+        "hasMenuItem": [
+          {
+            "@type": "MenuItem",
+            "name": "Coffee (small)",
+            "description": "Small coffee",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.35",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Coffee (large)",
+            "description": "Large coffee",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.95",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Tea",
+            "description": "Hot tea",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.10",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Hot Chocolate",
+            "description": "Hot chocolate with one refill",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.95",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Milk or Juice (small)",
+            "description": "Small milk or juice",
+            "offers": {
+              "@type": "Offer",
+              "price": "1.70",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Milk or Juice (large)",
+            "description": "Large milk or juice",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.45",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Milk or Juice (x-large)",
+            "description": "Extra-large milk or juice",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.75",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
+          },
+          {
+            "@type": "MenuItem",
+            "name": "Soda",
+            "description": "Fountain soda with free refills",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.40",
+              "priceCurrency": "USD"
+            },
+            "suitableForDiet": "https://schema.org/VegetarianDiet"
           }
         ]
       }
-    }
+    ]
+  }
+}
     </script>
+    <!-- BUILD:end -->
 
     <!-- Logo preload for LCP -->
     <link rel="preload" as="image" href="logo.jpg">
@@ -134,7 +1832,7 @@
     </script>
 </head>
 <body class="menu-page">
-    <a href="#main" class="skip-link">Skip to main content</a>
+
     <!-- Header (same as index.html) -->
     <header class="main-header">
         <div class="header-container">
@@ -165,27 +1863,1310 @@
         </div>
     </header>
 
-    <main id="main">
+    <main>
         <section class="page-header">
             <div class="container">
-                <h1>Our Menu</h1>
-                <p>Homemade breakfast & lunch made fresh daily</p>
+                <h1>Best Breakfast &amp; Lunch Menu in Chicopee, MA</h1>
+                <p>Hampden County's Favorite Brunch Spot Since 1993 — Voted Best Breakfast in Western Massachusetts by MassLive Readers</p>
             </div>
         </section>
 
         <section class="menu-page-section">
             <div class="container">
                 <div class="menu-tabs" role="tablist" aria-label="Menu sections">
-                    <button class="menu-tab active" data-tab="breakfast" role="tab" id="tab-breakfast" aria-selected="true" aria-controls="breakfast" tabindex="0">Breakfast</button>
-                    <button class="menu-tab" data-tab="lunch" role="tab" id="tab-lunch" aria-selected="false" aria-controls="lunch" tabindex="-1">Lunch</button>
+                    <button class="menu-tab active" data-tab="browse" role="tab" id="tab-browse" aria-selected="true" aria-controls="browse" tabindex="0">Browse Menu</button>
+                    <button class="menu-tab" data-tab="visual" role="tab" id="tab-visual" aria-selected="false" aria-controls="visual" tabindex="-1">Visual Menu</button>
                     <button class="menu-tab" data-tab="catering" role="tab" id="tab-catering" aria-selected="false" aria-controls="catering" tabindex="-1">Catering</button>
                     <button class="menu-tab" data-tab="specials" role="tab" id="tab-specials" aria-selected="false" aria-controls="specials" tabindex="-1">Daily Specials</button>
                 </div>
 
                 <div class="menu-content-page">
-                    <div id="breakfast" class="menu-panel-page active" role="tabpanel" aria-labelledby="tab-breakfast" tabindex="0">
-                        <div class="menu-side-by-side">
+                    <div id="browse" class="menu-panel-page active" role="tabpanel" aria-labelledby="tab-browse" tabindex="0">
+                        <div class="browse-menu-intro">
+                            <p>Made-from-scratch breakfast and lunch at <strong>409 Broadway, Chicopee, MA</strong>. Open Mon–Fri 6am–2pm, Sat 6am–1:30pm, Sun 6:30am–1pm. Call <a href="tel:+14135948332">(413)&nbsp;594-8332</a> for takeout, or order on <a href="https://www.doordash.com/store/the-copperline-eatery-chicopee-36368789/81460747" target="_blank" rel="noopener">DoorDash</a>.</p>
+                            <p class="browse-legend"><span class="browse-badge browse-badge-popular">★ Popular</span> = signature dish &nbsp;·&nbsp; <span class="browse-badge browse-badge-diet">V</span> = vegetarian</p>
+                        </div>
+                        <!-- BUILD:menu-content -->
+    <h2 class="browse-service">Breakfast</h2>
+    <div class="browse-grid">
+    <section class="browse-section" aria-labelledby="sec-egg-specialties">
+      <h3 id="sec-egg-specialties" class="browse-section-title">Egg Specialties</h3>
+      <p class="browse-section-note">Extra egg add $0.95</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">1 Egg and Toast</h4>
+            <span class="browse-item-price" aria-label="Price">$4.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">One egg cooked your way with toast</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">2 Eggs and Toast</h4>
+            <span class="browse-item-price" aria-label="Price">$5.20</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Two eggs cooked your way with toast</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">1 Egg, Toast and Homefries</h4>
+            <span class="browse-item-price" aria-label="Price">$6.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">One egg cooked your way with toast and homefries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">2 Eggs, Toast and Homefries</h4>
+            <span class="browse-item-price" aria-label="Price">$7.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Two eggs cooked your way with toast and homefries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">2 Eggs, Toast and Homefries with Bacon or Sausage</h4>
+            <span class="browse-item-price" aria-label="Price">$10.55</span>
+          </div>
+          <p class="browse-item-desc">Two eggs cooked your way with toast, homefries, and your choice of bacon or sausage</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">2 Eggs, Toast and Homefries with Kielbasa or Ham</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">Two eggs cooked your way with toast, homefries, and your choice of kielbasa or ham</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-benedicts">
+      <h3 id="sec-benedicts" class="browse-section-title">Eggs Benedict</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Eggs Benedict</h4>
+            <span class="browse-item-price" aria-label="Price">$11.50</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">Two poached eggs on English muffin halves with Canadian bacon, topped with our award-winning house-made hollandaise sauce, served with homefries</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-french-toast-pancakes">
+      <h3 id="sec-french-toast-pancakes" class="browse-section-title">French Toast &amp; Pancakes</h3>
+      <p class="browse-section-note">Real maple syrup add $0.75. Substitute French toast add $0.75</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">3 Pancakes or French Toast</h4>
+            <span class="browse-item-price" aria-label="Price">$7.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Three fluffy made-from-scratch pancakes or thick-cut golden-brown French toast</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Pancakes or French Toast with Bacon or Sausage</h4>
+            <span class="browse-item-price" aria-label="Price">$10.55</span>
+          </div>
+          <p class="browse-item-desc">Three pancakes or French toast with your choice of bacon or sausage</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Pancakes or French Toast with Kielbasa or Ham</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Three pancakes or French toast with your choice of kielbasa or ham</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Banana Bread French Toast</h4>
+            <span class="browse-item-price" aria-label="Price">$8.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">French toast made from our homemade banana bread</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Banana Pancakes</h4>
+            <span class="browse-item-price" aria-label="Price">$9.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Fluffy pancakes loaded with fresh bananas</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Blueberry Pancakes</h4>
+            <span class="browse-item-price" aria-label="Price">$9.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Fluffy pancakes loaded with blueberries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chocolate Chip Pancakes</h4>
+            <span class="browse-item-price" aria-label="Price">$9.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Fluffy pancakes loaded with chocolate chips</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Apple Cinnamon Pancakes</h4>
+            <span class="browse-item-price" aria-label="Price">$9.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Fluffy pancakes with apple and cinnamon</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-omelets">
+      <h3 id="sec-omelets" class="browse-section-title">Omelets &amp; Scrambles</h3>
+      <p class="browse-section-note">Served with homefries and toast. Substitute shredded potatoes add $2.25. Choose ingredients: mushrooms, peppers, onions, tomatoes, bacon, sausage, ham, kielbasa, cheese.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">2 Egg Omelet</h4>
+            <span class="browse-item-price" aria-label="Price">$12.00</span>
+          </div>
+          <p class="browse-item-desc">Two-egg omelet with your choice of fillings, served with homefries and toast</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">3 Egg Omelet</h4>
+            <span class="browse-item-price" aria-label="Price">$13.00</span>
+          </div>
+          <p class="browse-item-desc">Three-egg omelet with your choice of fillings, served with homefries and toast</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Cheese Omelet (2 Egg)</h4>
+            <span class="browse-item-price" aria-label="Price">$9.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Two-egg cheese omelet, served with homefries and toast</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Cheese Omelet (3 Egg)</h4>
+            <span class="browse-item-price" aria-label="Price">$10.20</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Three-egg cheese omelet, served with homefries and toast</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-specialty-omelets">
+      <h3 id="sec-specialty-omelets" class="browse-section-title">Specialty Omelets</h3>
+      <p class="browse-section-note">Served with homefries and toast. Substitute shredded potatoes add $2.25.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Farmer's Omelet</h4>
+            <span class="browse-item-price" aria-label="Price">$12.75</span>
+          </div>
+          <p class="browse-item-desc">Grilled mashed potatoes, ham, and cheese</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Spinach Omelet</h4>
+            <span class="browse-item-price" aria-label="Price">$12.75</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Chopped spinach, onion, and cheese</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hash Omelet</h4>
+            <span class="browse-item-price" aria-label="Price">$12.75</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">Stuffed with our homemade corned beef hash and cheese</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Santa Fé Omelet</h4>
+            <span class="browse-item-price" aria-label="Price">$13.50</span>
+          </div>
+          <p class="browse-item-desc">Diced chicken, onions, green peppers, mushrooms, salsa, and cheddar cheese</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-breakfast-specials">
+      <h3 id="sec-breakfast-specials" class="browse-section-title">Breakfast Specials</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Copperline Special</h4>
+            <span class="browse-item-price" aria-label="Price">$12.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Three eggs, two pancakes, homefries, and toast (substitute French toast add $0.75; substitute shredded potatoes add $2.25)</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Copperline Special with Bacon or Sausage</h4>
+            <span class="browse-item-price" aria-label="Price">$15.55</span>
+          </div>
+          <p class="browse-item-desc">Three eggs, two pancakes, homefries, toast, and your choice of bacon or sausage</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Copperline Special with Kielbasa or Ham</h4>
+            <span class="browse-item-price" aria-label="Price">$16.95</span>
+          </div>
+          <p class="browse-item-desc">Three eggs, two pancakes, homefries, toast, and your choice of kielbasa or ham</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Huck's Special</h4>
+            <span class="browse-item-price" aria-label="Price">$7.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Two pancakes with two eggs (substitute French toast add $0.75)</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Huck's Special with Bacon or Sausage</h4>
+            <span class="browse-item-price" aria-label="Price">$10.55</span>
+          </div>
+          <p class="browse-item-desc">Two pancakes, two eggs, and your choice of bacon or sausage</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Huck's Special with Kielbasa or Ham</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Two pancakes, two eggs, and your choice of kielbasa or ham</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Steak Breakfast</h4>
+            <span class="browse-item-price" aria-label="Price">$18.95</span>
+          </div>
+          <p class="browse-item-desc">7 oz. ribeye steak with two eggs, homefries, and toast</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hash Breakfast</h4>
+            <span class="browse-item-price" aria-label="Price">$11.50</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">Our homemade corned beef hash served with two eggs and toast</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-egg-sandwiches">
+      <h3 id="sec-egg-sandwiches" class="browse-section-title">Egg Sandwiches</h3>
+      <p class="browse-section-note">Served on a water roll. Add cheese $0.60 extra.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Egg Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$3.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Egg sandwich on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Ham and Egg Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$6.50</span>
+          </div>
+          <p class="browse-item-desc">Ham and egg on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Bacon and Egg Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$5.75</span>
+          </div>
+          <p class="browse-item-desc">Bacon and egg on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Sausage and Egg Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$5.75</span>
+          </div>
+          <p class="browse-item-desc">Sausage and egg on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Western Egg Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$6.50</span>
+          </div>
+          <p class="browse-item-desc">Western-style egg sandwich on a water roll</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-breakfast-wraps">
+      <h3 id="sec-breakfast-wraps" class="browse-section-title">Breakfast Wrap</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Create-A-Wrap</h4>
+            <span class="browse-item-price" aria-label="Price">$12.00</span>
+          </div>
+          <p class="browse-item-desc">Two scrambled eggs with your choice of omelet ingredients, served with homefries</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-kids-menu">
+      <h3 id="sec-kids-menu" class="browse-section-title">Children's Menu</h3>
+      <p class="browse-section-note">Children under 12 only. Milk or juice included.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Kids' Breakfast</h4>
+            <span class="browse-item-price" aria-label="Price">$7.50</span>
+          </div>
+          <p class="browse-item-desc">Choice of one egg and toast, two French toast, or two pancakes, with sausage, bacon, or ham; milk or juice included</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-breakfast-sides">
+      <h3 id="sec-breakfast-sides" class="browse-section-title">Breakfast Sides</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Bacon</h4>
+            <span class="browse-item-price" aria-label="Price">$3.85</span>
+          </div>
+          <p class="browse-item-desc">Side of bacon</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Sausage</h4>
+            <span class="browse-item-price" aria-label="Price">$3.85</span>
+          </div>
+          <p class="browse-item-desc">Side of breakfast sausage</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Ham</h4>
+            <span class="browse-item-price" aria-label="Price">$5.75</span>
+          </div>
+          <p class="browse-item-desc">Side of ham</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Kielbasa</h4>
+            <span class="browse-item-price" aria-label="Price">$5.75</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">Side of kielbasa</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homefries (small)</h4>
+            <span class="browse-item-price" aria-label="Price">$2.90</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Small order of homefries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homefries (large)</h4>
+            <span class="browse-item-price" aria-label="Price">$4.50</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Large order of homefries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Cold Cereal</h4>
+            <span class="browse-item-price" aria-label="Price">$3.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Cold cereal with milk</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hot Cereal (cup)</h4>
+            <span class="browse-item-price" aria-label="Price">$3.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Cup of hot cereal</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hot Cereal (bowl)</h4>
+            <span class="browse-item-price" aria-label="Price">$4.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Bowl of hot cereal</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Hash (small)</h4>
+            <span class="browse-item-price" aria-label="Price">$3.75</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">Small order of our homemade corned beef hash</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Hash (large)</h4>
+            <span class="browse-item-price" aria-label="Price">$6.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">Large order of our homemade corned beef hash</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Shredded Potatoes</h4>
+            <span class="browse-item-price" aria-label="Price">$5.50</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Shredded potatoes</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-breads">
+      <h3 id="sec-breads" class="browse-section-title">Breads</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Toast</h4>
+            <span class="browse-item-price" aria-label="Price">$2.00</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Choice of toast</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">English Muffin</h4>
+            <span class="browse-item-price" aria-label="Price">$2.10</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Toasted English muffin</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Bagel</h4>
+            <span class="browse-item-price" aria-label="Price">$2.45</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Toasted bagel</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Bagel with Cream Cheese</h4>
+            <span class="browse-item-price" aria-label="Price">$3.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Toasted bagel with cream cheese</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Water Roll</h4>
+            <span class="browse-item-price" aria-label="Price">$2.40</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Toasted water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Muffin</h4>
+            <span class="browse-item-price" aria-label="Price">$3.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Fresh muffin</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Danish</h4>
+            <span class="browse-item-price" aria-label="Price">$3.00</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Fresh Danish</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Bread</h4>
+            <span class="browse-item-price" aria-label="Price">$2.80</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Slice of our homemade bread</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-beverages">
+      <h3 id="sec-beverages" class="browse-section-title">Beverages</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Coffee (small)</h4>
+            <span class="browse-item-price" aria-label="Price">$2.35</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Small coffee</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Coffee (large)</h4>
+            <span class="browse-item-price" aria-label="Price">$2.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Large coffee</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Tea</h4>
+            <span class="browse-item-price" aria-label="Price">$2.10</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Hot tea</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hot Chocolate</h4>
+            <span class="browse-item-price" aria-label="Price">$2.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Hot chocolate with one refill</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Milk or Juice (small)</h4>
+            <span class="browse-item-price" aria-label="Price">$1.70</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Small milk or juice</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Milk or Juice (large)</h4>
+            <span class="browse-item-price" aria-label="Price">$2.45</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Large milk or juice</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Milk or Juice (x-large)</h4>
+            <span class="browse-item-price" aria-label="Price">$3.75</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Extra-large milk or juice</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Soda</h4>
+            <span class="browse-item-price" aria-label="Price">$3.40</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Fountain soda with free refills</p>
+        </li>
+      </ul>
+    </section>
+    </div>
+    <h2 class="browse-service">Lunch</h2>
+    <div class="browse-grid">
+    <section class="browse-section" aria-labelledby="sec-sandwiches-cold">
+      <h3 id="sec-sandwiches-cold" class="browse-section-title">Sandwiches</h3>
+      <p class="browse-section-note">Served with French fries and pickles. Sandwich price first, grinder price second when listed.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Grilled Cheese</h4>
+            <span class="browse-item-price" aria-label="Price">$9.00</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Classic grilled cheese sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Grilled Cheese with Tomato</h4>
+            <span class="browse-item-price" aria-label="Price">$9.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Grilled cheese with tomato, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Fish Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Fried fish sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Western Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$10.00</span>
+          </div>
+          <p class="browse-item-desc">Western sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Western Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.00</span>
+          </div>
+          <p class="browse-item-desc">Western grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">BLT Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$10.95</span>
+          </div>
+          <p class="browse-item-desc">Bacon, lettuce, and tomato sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">BLT Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.50</span>
+          </div>
+          <p class="browse-item-desc">Bacon, lettuce, and tomato grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Egg Salad Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$9.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Egg salad sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Egg Salad Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$11.00</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Egg salad grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Tuna Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$10.95</span>
+          </div>
+          <p class="browse-item-desc">Tuna salad sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Tuna Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.50</span>
+          </div>
+          <p class="browse-item-desc">Tuna salad grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chicken Salad Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$10.95</span>
+          </div>
+          <p class="browse-item-desc">Chicken salad sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chicken Salad Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.50</span>
+          </div>
+          <p class="browse-item-desc">Chicken salad grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Turkey Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$10.95</span>
+          </div>
+          <p class="browse-item-desc">Sliced turkey sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Turkey Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Sliced turkey grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Ham Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$10.50</span>
+          </div>
+          <p class="browse-item-desc">Sliced ham sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Ham Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.50</span>
+          </div>
+          <p class="browse-item-desc">Sliced ham grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Corned Beef Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$12.00</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">House-made corned beef sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Corned Beef Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$15.00</span>
+          </div>
+          <p class="browse-item-desc">House-made corned beef grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Roast Beef Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$11.25</span>
+          </div>
+          <p class="browse-item-desc">Roast beef sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Roast Beef Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$14.50</span>
+          </div>
+          <p class="browse-item-desc">Roast beef grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Vegetarian Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$9.75</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Vegetarian sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Vegetarian Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$11.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Vegetarian grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Clam Roll</h4>
+            <span class="browse-item-price" aria-label="Price">$9.95</span>
+          </div>
+          <p class="browse-item-desc">Fried clam roll, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Clam Roll Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.00</span>
+          </div>
+          <p class="browse-item-desc">Fried clam grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Steak &amp; Cheese Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$14.50</span>
+          </div>
+          <p class="browse-item-desc">Steak and cheese grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hamburger Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Hamburger grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Cheeseburger Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$13.95</span>
+          </div>
+          <p class="browse-item-desc">Cheeseburger grinder, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chicken Filet Grinder</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Chicken filet grinder, served with French fries and pickles</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-specialty-sandwiches">
+      <h3 id="sec-specialty-sandwiches" class="browse-section-title">Specialty Sandwiches</h3>
+      <p class="browse-section-note">Served with French fries and pickles. Cole slaw add $1.75.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Monte Cristo</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Ham, turkey, and Swiss dipped in our special egg batter, served with maple syrup</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Reuben</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">A generous portion of sliced corned beef with Swiss cheese, sauerkraut, and dressing on grilled rye</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">BBQ Roast Beef</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Thin sliced roast beef smothered in BBQ sauce on a grilled water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chicken Cordon Bleu</h4>
+            <span class="browse-item-price" aria-label="Price">$12.50</span>
+          </div>
+          <p class="browse-item-desc">Chicken filet patty with sliced ham and Swiss cheese on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chicken Filet Sandwich</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Chicken filet with lettuce, tomato, and mayo on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">American Classic</h4>
+            <span class="browse-item-price" aria-label="Price">$10.95</span>
+          </div>
+          <p class="browse-item-desc">A hamburger with cheese, lettuce, tomato, and mayo on grilled bread (add bacon $2.25)</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">The Pilgrim</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Fresh roasted turkey with stuffing and cranberry sauce on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">The Cabotville</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">A generous portion of turkey with bacon, lettuce, tomato, and mayo on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Dirty Harry</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Sliced ham with Swiss cheese and fried onions on grilled rye</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">The Duke</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Roast beef with fried mushrooms, horseradish, and mayo on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Messy Marvin</h4>
+            <span class="browse-item-price" aria-label="Price">$12.50</span>
+          </div>
+          <p class="browse-item-desc">A cheeseburger with chili, fried onions, and a side of sour cream on a water roll</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">The Colossal Burger</h4>
+            <span class="browse-item-price" aria-label="Price">$13.25</span>
+          </div>
+          <p class="browse-item-desc">A huge 8 oz. cheeseburger with lettuce, tomato, and mayo on a water roll</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-club-sandwiches">
+      <h3 id="sec-club-sandwiches" class="browse-section-title">Club Sandwiches</h3>
+      <p class="browse-section-note">Served with French fries and pickles.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Ham Club</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Ham club sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Tuna Club</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Tuna salad club sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Turkey Club</h4>
+            <span class="browse-item-price" aria-label="Price">$13.25</span>
+          </div>
+          <p class="browse-item-desc">Turkey club sandwich, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hamburger Club</h4>
+            <span class="browse-item-price" aria-label="Price">$12.75</span>
+          </div>
+          <p class="browse-item-desc">Hamburger club, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Cheeseburger Club</h4>
+            <span class="browse-item-price" aria-label="Price">$13.25</span>
+          </div>
+          <p class="browse-item-desc">Cheeseburger club, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Grilled Chicken Club (Italian or Teriyaki)</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Grilled chicken club with a choice of Italian or teriyaki marinade, served with French fries and pickles</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-wraps">
+      <h3 id="sec-wraps" class="browse-section-title">Wraps</h3>
+      <p class="browse-section-note">Served with French fries and pickles.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Buffalo Chicken Wrap</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Buffalo chicken wrap, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Veggie Wrap</h4>
+            <span class="browse-item-price" aria-label="Price">$9.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Vegetarian wrap, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Tuna Wrap</h4>
+            <span class="browse-item-price" aria-label="Price">$10.95</span>
+          </div>
+          <p class="browse-item-desc">Tuna salad wrap, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Teriyaki Chicken Wrap</h4>
+            <span class="browse-item-price" aria-label="Price">$11.50</span>
+          </div>
+          <p class="browse-item-desc">Teriyaki chicken wrap, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Turkey Wrap</h4>
+            <span class="browse-item-price" aria-label="Price">$10.95</span>
+          </div>
+          <p class="browse-item-desc">Turkey wrap, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chicken Filet Wrap</h4>
+            <span class="browse-item-price" aria-label="Price">$11.50</span>
+          </div>
+          <p class="browse-item-desc">Chicken filet wrap, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Marinated Chicken Wrap</h4>
+            <span class="browse-item-price" aria-label="Price">$11.50</span>
+          </div>
+          <p class="browse-item-desc">Marinated chicken wrap, served with French fries and pickles</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-burgers">
+      <h3 id="sec-burgers" class="browse-section-title">Burgers</h3>
+      <p class="browse-section-note">Served with French fries and pickles. Add fried onions, mushrooms, or peppers $0.75. Add bacon $2.25.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hamburger</h4>
+            <span class="browse-item-price" aria-label="Price">$10.00</span>
+          </div>
+          <p class="browse-item-desc">Classic hamburger, served with French fries and pickles</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Cheeseburger</h4>
+            <span class="browse-item-price" aria-label="Price">$10.60</span>
+          </div>
+          <p class="browse-item-desc">Classic cheeseburger, served with French fries and pickles</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-hot-dogs">
+      <h3 id="sec-hot-dogs" class="browse-section-title">Hot Dogs</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Plain Hot Dog</h4>
+            <span class="browse-item-price" aria-label="Price">$8.95</span>
+          </div>
+          <p class="browse-item-desc">Classic hot dog</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Cheese Hot Dog</h4>
+            <span class="browse-item-price" aria-label="Price">$9.95</span>
+          </div>
+          <p class="browse-item-desc">Hot dog with cheese</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chili Hot Dog</h4>
+            <span class="browse-item-price" aria-label="Price">$10.50</span>
+          </div>
+          <p class="browse-item-desc">Hot dog with chili</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-soup-combos">
+      <h3 id="sec-soup-combos" class="browse-section-title">Soup Combos</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Soup &amp; Salad</h4>
+            <span class="browse-item-price" aria-label="Price">$9.50</span>
+          </div>
+          <p class="browse-item-desc">Cup of homemade soup with a garden salad</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Half Deli Sandwich &amp; Soup</h4>
+            <span class="browse-item-price" aria-label="Price">$9.50</span>
+          </div>
+          <p class="browse-item-desc">Half deli sandwich with a cup of soup</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-salads">
+      <h3 id="sec-salads" class="browse-section-title">Salads</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Tuna Salad Bowl</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Garden salad topped with tuna salad</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chicken Salad Bowl</h4>
+            <span class="browse-item-price" aria-label="Price">$11.95</span>
+          </div>
+          <p class="browse-item-desc">Garden salad topped with chicken salad</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Egg Salad Bowl</h4>
+            <span class="browse-item-price" aria-label="Price">$10.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Garden salad topped with egg salad</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Teriyaki Chicken Bowl</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Garden salad topped with teriyaki chicken</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chicken Caesar Bowl</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Caesar salad with grilled chicken</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Chef Salad Bowl</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Chef salad with assorted meats and cheese</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Garden Salad (small)</h4>
+            <span class="browse-item-price" aria-label="Price">$5.50</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Small garden salad</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Garden Salad (large)</h4>
+            <span class="browse-item-price" aria-label="Price">$9.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Large garden salad</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-dinners">
+      <h3 id="sec-dinners" class="browse-section-title">Dinners</h3>
+      <p class="browse-section-note">Served with French fries and coleslaw.</p>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">5 Pierogi (Cabbage or Potato)</h4>
+            <span class="browse-item-price" aria-label="Price">$12.50</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Five pierogi with your choice of cabbage or potato filling, served with French fries and coleslaw</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Kielbasa with 5 Pierogi</h4>
+            <span class="browse-item-price" aria-label="Price">$14.95</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-popular" title="Signature dish">★ Popular</span></div>
+          <p class="browse-item-desc">Kielbasa with five pierogi, served with French fries and coleslaw</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Liver and Onions with Bacon</h4>
+            <span class="browse-item-price" aria-label="Price">$12.95</span>
+          </div>
+          <p class="browse-item-desc">Liver and onions topped with bacon, served with French fries and coleslaw</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Fried Clams</h4>
+            <span class="browse-item-price" aria-label="Price">$13.50</span>
+          </div>
+          <p class="browse-item-desc">Fried clam plate, served with French fries and coleslaw</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Fried Scrod</h4>
+            <span class="browse-item-price" aria-label="Price">$15.50</span>
+          </div>
+          <p class="browse-item-desc">Fried scrod plate, served with French fries and coleslaw</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Hamburger Steak</h4>
+            <span class="browse-item-price" aria-label="Price">$12.75</span>
+          </div>
+          <p class="browse-item-desc">Hamburger steak with fried peppers, onions, mushrooms, and gravy, served with French fries and coleslaw</p>
+        </li>
+      </ul>
+    </section>
+    <section class="browse-section" aria-labelledby="sec-sides-soups">
+      <h3 id="sec-sides-soups" class="browse-section-title">Soups &amp; Sides</h3>
+      <ul class="browse-item-list">
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Soup (cup)</h4>
+            <span class="browse-item-price" aria-label="Price">$3.65</span>
+          </div>
+          <p class="browse-item-desc">Cup of our homemade soup</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Soup (bowl)</h4>
+            <span class="browse-item-price" aria-label="Price">$5.25</span>
+          </div>
+          <p class="browse-item-desc">Bowl of our homemade soup</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">French Fries (small)</h4>
+            <span class="browse-item-price" aria-label="Price">$5.50</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Small order of French fries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">French Fries (large)</h4>
+            <span class="browse-item-price" aria-label="Price">$5.75</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Large order of French fries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Curly Fries (small)</h4>
+            <span class="browse-item-price" aria-label="Price">$4.00</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Small order of curly fries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Curly Fries (large)</h4>
+            <span class="browse-item-price" aria-label="Price">$6.25</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Large order of curly fries</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Onion Rings (small)</h4>
+            <span class="browse-item-price" aria-label="Price">$4.75</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Small order of onion rings</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Onion Rings (large)</h4>
+            <span class="browse-item-price" aria-label="Price">$6.55</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Large order of onion rings</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Coleslaw</h4>
+            <span class="browse-item-price" aria-label="Price">$2.65</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Homemade coleslaw</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Pasta Salad</h4>
+            <span class="browse-item-price" aria-label="Price">$2.65</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Homemade pasta salad</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Potato Salad</h4>
+            <span class="browse-item-price" aria-label="Price">$2.65</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Homemade potato salad</p>
+        </li>
+        <li class="browse-item">
+          <div class="browse-item-head">
+            <h4 class="browse-item-name">Homemade Macaroni Salad</h4>
+            <span class="browse-item-price" aria-label="Price">$2.65</span>
+          </div>
+          <div class="browse-item-badges"><span class="browse-badge browse-badge-diet" title="Vegetarian">V</span></div>
+          <p class="browse-item-desc">Homemade macaroni salad</p>
+        </li>
+      </ul>
+    </section>
+    </div>
+    <!-- BUILD:end -->
+                        <div class="browse-menu-foot">
+                            <p>Menu items and prices subject to change. For today's specials, see the <button class="link-as-button" data-tab="specials">Daily Specials tab</button> or call <a href="tel:+14135948332">(413)&nbsp;594-8332</a>.</p>
+                        </div>
+                    </div>
+
+                    <div id="visual" class="menu-panel-page" role="tabpanel" aria-labelledby="tab-visual" tabindex="0">
+                        <h2 class="visual-menu-heading">Printed Menus</h2>
+                        <p class="visual-menu-intro">Tap an image to view full size, or download for printing.</p>
+                        <div class="visual-menu-grid">
                             <div class="menu-image-wrap">
+                                <h3>Breakfast</h3>
                                 <a href="breakfast-menu.jpg" download class="download-link">Download Breakfast Menu</a>
                                 <a href="breakfast-menu.jpg" target="_blank" rel="noopener">
                                     <picture>
@@ -194,24 +3175,8 @@
                                     </picture>
                                 </a>
                             </div>
-                        </div>
-                        <div class="signature-dishes">
-                            <h3>Signature Dishes</h3>
-                            <ul class="dish-list">
-                                <li><strong>Eggs Benedict</strong> — Poached eggs on an English muffin with our award-winning house-made hollandaise sauce</li>
-                                <li><strong>Corned Beef Hash</strong> — House-made, slow-cooked corned beef hash served with eggs your way</li>
-                                <li><strong>Pancakes</strong> — Fluffy, made-from-scratch pancakes</li>
-                                <li><strong>French Toast</strong> — Thick-cut, golden-brown French toast, named best in Western Massachusetts by WWLP 22News</li>
-                                <li><strong>Home Fries</strong> — Perfectly seasoned, golden home fries</li>
-                                <li><strong>Breakfast Sausage</strong> — Classic breakfast sausage links</li>
-                            </ul>
-                            <p>View the full menu above or <a href="breakfast-menu.jpg" download>download a copy</a>. Menu items and prices subject to change.</p>
-                        </div>
-                    </div>
-
-                    <div id="lunch" class="menu-panel-page" role="tabpanel" aria-labelledby="tab-lunch" tabindex="0">
-                        <div class="menu-side-by-side">
                             <div class="menu-image-wrap">
+                                <h3>Lunch</h3>
                                 <a href="lunch-menu.jpg" download class="download-link">Download Lunch Menu</a>
                                 <a href="lunch-menu.jpg" target="_blank" rel="noopener">
                                     <picture>

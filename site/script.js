@@ -30,20 +30,28 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('.menu-tab')) {
         initMenuTabs();
         loadDailySpecials();
-        
+
+        // In-body links/buttons that switch tabs (e.g., "Daily Specials tab")
+        document.querySelectorAll('.link-as-button[data-tab]').forEach(el => {
+            el.addEventListener('click', function() {
+                const target = document.querySelector(`.menu-tab[data-tab="${this.dataset.tab}"]`);
+                if (target) target.click();
+            });
+        });
+
         // Handle URL hash for direct linking to specials
         if (window.location.hash === '#specials') {
-            const specialsTab = document.querySelector('[data-tab="specials"]');
+            const specialsTab = document.querySelector('.menu-tab[data-tab="specials"]');
             if (specialsTab) {
                 specialsTab.click();
             }
         }
-        
+
         // Listen for hash changes (when clicking nav links while on menu page)
         window.addEventListener('hashchange', function() {
             const hash = window.location.hash.substring(1);
             if (hash) {
-                const targetTab = document.querySelector(`[data-tab="${hash}"]`);
+                const targetTab = document.querySelector(`.menu-tab[data-tab="${hash}"]`);
                 if (targetTab) {
                     targetTab.click();
                     // Close mobile menu after navigation

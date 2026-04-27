@@ -1,0 +1,326 @@
+{
+  "$comment": "Source of truth for the Copperline Eatery menu. Edit this file then run scripts/build-menu.py to regenerate menu.html sections + JSON-LD. Prices in USD. dietaryFlags: 'v' = vegetarian, 'gf' = gluten-free. 'popular' marks signature dishes.",
+  "lastUpdated": "2026-04-27",
+  "currency": "USD",
+  "sections": [
+    {
+      "id": "egg-specialties",
+      "name": "Egg Specialties",
+      "service": "breakfast",
+      "note": "Extra egg add $0.95",
+      "items": [
+        { "name": "1 Egg and Toast", "description": "One egg cooked your way with toast", "price": "4.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "2 Eggs and Toast", "description": "Two eggs cooked your way with toast", "price": "5.20", "dietaryFlags": ["v"], "popular": false },
+        { "name": "1 Egg, Toast and Homefries", "description": "One egg cooked your way with toast and homefries", "price": "6.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "2 Eggs, Toast and Homefries", "description": "Two eggs cooked your way with toast and homefries", "price": "7.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "2 Eggs, Toast and Homefries with Bacon or Sausage", "description": "Two eggs cooked your way with toast, homefries, and your choice of bacon or sausage", "price": "10.55", "dietaryFlags": [], "popular": false },
+        { "name": "2 Eggs, Toast and Homefries with Kielbasa or Ham", "description": "Two eggs cooked your way with toast, homefries, and your choice of kielbasa or ham", "price": "11.95", "dietaryFlags": [], "popular": true }
+      ]
+    },
+    {
+      "id": "benedicts",
+      "name": "Eggs Benedict",
+      "service": "breakfast",
+      "items": [
+        { "name": "Eggs Benedict", "description": "Two poached eggs on English muffin halves with Canadian bacon, topped with our award-winning house-made hollandaise sauce, served with homefries", "price": "11.50", "dietaryFlags": [], "popular": true }
+      ]
+    },
+    {
+      "id": "french-toast-pancakes",
+      "name": "French Toast & Pancakes",
+      "service": "breakfast",
+      "note": "Real maple syrup add $0.75. Substitute French toast add $0.75",
+      "items": [
+        { "name": "3 Pancakes or French Toast", "description": "Three fluffy made-from-scratch pancakes or thick-cut golden-brown French toast", "price": "7.25", "dietaryFlags": ["v"], "popular": true },
+        { "name": "Pancakes or French Toast with Bacon or Sausage", "description": "Three pancakes or French toast with your choice of bacon or sausage", "price": "10.55", "dietaryFlags": [], "popular": false },
+        { "name": "Pancakes or French Toast with Kielbasa or Ham", "description": "Three pancakes or French toast with your choice of kielbasa or ham", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "Banana Bread French Toast", "description": "French toast made from our homemade banana bread", "price": "8.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Banana Pancakes", "description": "Fluffy pancakes loaded with fresh bananas", "price": "9.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Blueberry Pancakes", "description": "Fluffy pancakes loaded with blueberries", "price": "9.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Chocolate Chip Pancakes", "description": "Fluffy pancakes loaded with chocolate chips", "price": "9.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Apple Cinnamon Pancakes", "description": "Fluffy pancakes with apple and cinnamon", "price": "9.25", "dietaryFlags": ["v"], "popular": false }
+      ]
+    },
+    {
+      "id": "omelets",
+      "name": "Omelets & Scrambles",
+      "service": "breakfast",
+      "note": "Served with homefries and toast. Substitute shredded potatoes add $2.25. Choose ingredients: mushrooms, peppers, onions, tomatoes, bacon, sausage, ham, kielbasa, cheese.",
+      "items": [
+        { "name": "2 Egg Omelet", "description": "Two-egg omelet with your choice of fillings, served with homefries and toast", "price": "12.00", "dietaryFlags": [], "popular": false },
+        { "name": "3 Egg Omelet", "description": "Three-egg omelet with your choice of fillings, served with homefries and toast", "price": "13.00", "dietaryFlags": [], "popular": false },
+        { "name": "Cheese Omelet (2 Egg)", "description": "Two-egg cheese omelet, served with homefries and toast", "price": "9.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Cheese Omelet (3 Egg)", "description": "Three-egg cheese omelet, served with homefries and toast", "price": "10.20", "dietaryFlags": ["v"], "popular": false }
+      ]
+    },
+    {
+      "id": "specialty-omelets",
+      "name": "Specialty Omelets",
+      "service": "breakfast",
+      "note": "Served with homefries and toast. Substitute shredded potatoes add $2.25.",
+      "items": [
+        { "name": "Farmer's Omelet", "description": "Grilled mashed potatoes, ham, and cheese", "price": "12.75", "dietaryFlags": [], "popular": false },
+        { "name": "Spinach Omelet", "description": "Chopped spinach, onion, and cheese", "price": "12.75", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Hash Omelet", "description": "Stuffed with our homemade corned beef hash and cheese", "price": "12.75", "dietaryFlags": [], "popular": true },
+        { "name": "Santa Fé Omelet", "description": "Diced chicken, onions, green peppers, mushrooms, salsa, and cheddar cheese", "price": "13.50", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "breakfast-specials",
+      "name": "Breakfast Specials",
+      "service": "breakfast",
+      "items": [
+        { "name": "Copperline Special", "description": "Three eggs, two pancakes, homefries, and toast (substitute French toast add $0.75; substitute shredded potatoes add $2.25)", "price": "12.25", "dietaryFlags": ["v"], "popular": true },
+        { "name": "Copperline Special with Bacon or Sausage", "description": "Three eggs, two pancakes, homefries, toast, and your choice of bacon or sausage", "price": "15.55", "dietaryFlags": [], "popular": false },
+        { "name": "Copperline Special with Kielbasa or Ham", "description": "Three eggs, two pancakes, homefries, toast, and your choice of kielbasa or ham", "price": "16.95", "dietaryFlags": [], "popular": false },
+        { "name": "Huck's Special", "description": "Two pancakes with two eggs (substitute French toast add $0.75)", "price": "7.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Huck's Special with Bacon or Sausage", "description": "Two pancakes, two eggs, and your choice of bacon or sausage", "price": "10.55", "dietaryFlags": [], "popular": false },
+        { "name": "Huck's Special with Kielbasa or Ham", "description": "Two pancakes, two eggs, and your choice of kielbasa or ham", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "Steak Breakfast", "description": "7 oz. ribeye steak with two eggs, homefries, and toast", "price": "18.95", "dietaryFlags": [], "popular": false },
+        { "name": "Hash Breakfast", "description": "Our homemade corned beef hash served with two eggs and toast", "price": "11.50", "dietaryFlags": [], "popular": true }
+      ]
+    },
+    {
+      "id": "egg-sandwiches",
+      "name": "Egg Sandwiches",
+      "service": "breakfast",
+      "note": "Served on a water roll. Add cheese $0.60 extra.",
+      "items": [
+        { "name": "Egg Sandwich", "description": "Egg sandwich on a water roll", "price": "3.95", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Ham and Egg Sandwich", "description": "Ham and egg on a water roll", "price": "6.50", "dietaryFlags": [], "popular": false },
+        { "name": "Bacon and Egg Sandwich", "description": "Bacon and egg on a water roll", "price": "5.75", "dietaryFlags": [], "popular": false },
+        { "name": "Sausage and Egg Sandwich", "description": "Sausage and egg on a water roll", "price": "5.75", "dietaryFlags": [], "popular": false },
+        { "name": "Western Egg Sandwich", "description": "Western-style egg sandwich on a water roll", "price": "6.50", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "breakfast-wraps",
+      "name": "Breakfast Wrap",
+      "service": "breakfast",
+      "items": [
+        { "name": "Create-A-Wrap", "description": "Two scrambled eggs with your choice of omelet ingredients, served with homefries", "price": "12.00", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "kids-menu",
+      "name": "Children's Menu",
+      "service": "breakfast",
+      "note": "Children under 12 only. Milk or juice included.",
+      "items": [
+        { "name": "Kids' Breakfast", "description": "Choice of one egg and toast, two French toast, or two pancakes, with sausage, bacon, or ham; milk or juice included", "price": "7.50", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "sandwiches-cold",
+      "name": "Sandwiches",
+      "service": "lunch",
+      "note": "Served with French fries and pickles. Sandwich price first, grinder price second when listed.",
+      "items": [
+        { "name": "Grilled Cheese", "description": "Classic grilled cheese sandwich, served with French fries and pickles", "price": "9.00", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Grilled Cheese with Tomato", "description": "Grilled cheese with tomato, served with French fries and pickles", "price": "9.95", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Fish Sandwich", "description": "Fried fish sandwich, served with French fries and pickles", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Western Sandwich", "description": "Western sandwich, served with French fries and pickles", "price": "10.00", "dietaryFlags": [], "popular": false },
+        { "name": "Western Grinder", "description": "Western grinder, served with French fries and pickles", "price": "12.00", "dietaryFlags": [], "popular": false },
+        { "name": "BLT Sandwich", "description": "Bacon, lettuce, and tomato sandwich, served with French fries and pickles", "price": "10.95", "dietaryFlags": [], "popular": false },
+        { "name": "BLT Grinder", "description": "Bacon, lettuce, and tomato grinder, served with French fries and pickles", "price": "12.50", "dietaryFlags": [], "popular": false },
+        { "name": "Egg Salad Sandwich", "description": "Egg salad sandwich, served with French fries and pickles", "price": "9.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Egg Salad Grinder", "description": "Egg salad grinder, served with French fries and pickles", "price": "11.00", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Tuna Sandwich", "description": "Tuna salad sandwich, served with French fries and pickles", "price": "10.95", "dietaryFlags": [], "popular": false },
+        { "name": "Tuna Grinder", "description": "Tuna salad grinder, served with French fries and pickles", "price": "12.50", "dietaryFlags": [], "popular": false },
+        { "name": "Chicken Salad Sandwich", "description": "Chicken salad sandwich, served with French fries and pickles", "price": "10.95", "dietaryFlags": [], "popular": false },
+        { "name": "Chicken Salad Grinder", "description": "Chicken salad grinder, served with French fries and pickles", "price": "12.50", "dietaryFlags": [], "popular": false },
+        { "name": "Turkey Sandwich", "description": "Sliced turkey sandwich, served with French fries and pickles", "price": "10.95", "dietaryFlags": [], "popular": false },
+        { "name": "Turkey Grinder", "description": "Sliced turkey grinder, served with French fries and pickles", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Ham Sandwich", "description": "Sliced ham sandwich, served with French fries and pickles", "price": "10.50", "dietaryFlags": [], "popular": false },
+        { "name": "Ham Grinder", "description": "Sliced ham grinder, served with French fries and pickles", "price": "12.50", "dietaryFlags": [], "popular": false },
+        { "name": "Corned Beef Sandwich", "description": "House-made corned beef sandwich, served with French fries and pickles", "price": "12.00", "dietaryFlags": [], "popular": true },
+        { "name": "Corned Beef Grinder", "description": "House-made corned beef grinder, served with French fries and pickles", "price": "15.00", "dietaryFlags": [], "popular": false },
+        { "name": "Roast Beef Sandwich", "description": "Roast beef sandwich, served with French fries and pickles", "price": "11.25", "dietaryFlags": [], "popular": false },
+        { "name": "Roast Beef Grinder", "description": "Roast beef grinder, served with French fries and pickles", "price": "14.50", "dietaryFlags": [], "popular": false },
+        { "name": "Vegetarian Sandwich", "description": "Vegetarian sandwich, served with French fries and pickles", "price": "9.75", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Vegetarian Grinder", "description": "Vegetarian grinder, served with French fries and pickles", "price": "11.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Clam Roll", "description": "Fried clam roll, served with French fries and pickles", "price": "9.95", "dietaryFlags": [], "popular": false },
+        { "name": "Clam Roll Grinder", "description": "Fried clam grinder, served with French fries and pickles", "price": "12.00", "dietaryFlags": [], "popular": false },
+        { "name": "Steak & Cheese Grinder", "description": "Steak and cheese grinder, served with French fries and pickles", "price": "14.50", "dietaryFlags": [], "popular": false },
+        { "name": "Hamburger Grinder", "description": "Hamburger grinder, served with French fries and pickles", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Cheeseburger Grinder", "description": "Cheeseburger grinder, served with French fries and pickles", "price": "13.95", "dietaryFlags": [], "popular": false },
+        { "name": "Chicken Filet Grinder", "description": "Chicken filet grinder, served with French fries and pickles", "price": "12.95", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "specialty-sandwiches",
+      "name": "Specialty Sandwiches",
+      "service": "lunch",
+      "note": "Served with French fries and pickles. Cole slaw add $1.75.",
+      "items": [
+        { "name": "Monte Cristo", "description": "Ham, turkey, and Swiss dipped in our special egg batter, served with maple syrup", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "Reuben", "description": "A generous portion of sliced corned beef with Swiss cheese, sauerkraut, and dressing on grilled rye", "price": "12.95", "dietaryFlags": [], "popular": true },
+        { "name": "BBQ Roast Beef", "description": "Thin sliced roast beef smothered in BBQ sauce on a grilled water roll", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "Chicken Cordon Bleu", "description": "Chicken filet patty with sliced ham and Swiss cheese on a water roll", "price": "12.50", "dietaryFlags": [], "popular": false },
+        { "name": "Chicken Filet Sandwich", "description": "Chicken filet with lettuce, tomato, and mayo on a water roll", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "American Classic", "description": "A hamburger with cheese, lettuce, tomato, and mayo on grilled bread (add bacon $2.25)", "price": "10.95", "dietaryFlags": [], "popular": false },
+        { "name": "The Pilgrim", "description": "Fresh roasted turkey with stuffing and cranberry sauce on a water roll", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "The Cabotville", "description": "A generous portion of turkey with bacon, lettuce, tomato, and mayo on a water roll", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Dirty Harry", "description": "Sliced ham with Swiss cheese and fried onions on grilled rye", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "The Duke", "description": "Roast beef with fried mushrooms, horseradish, and mayo on a water roll", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "Messy Marvin", "description": "A cheeseburger with chili, fried onions, and a side of sour cream on a water roll", "price": "12.50", "dietaryFlags": [], "popular": false },
+        { "name": "The Colossal Burger", "description": "A huge 8 oz. cheeseburger with lettuce, tomato, and mayo on a water roll", "price": "13.25", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "club-sandwiches",
+      "name": "Club Sandwiches",
+      "service": "lunch",
+      "note": "Served with French fries and pickles.",
+      "items": [
+        { "name": "Ham Club", "description": "Ham club sandwich, served with French fries and pickles", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Tuna Club", "description": "Tuna salad club sandwich, served with French fries and pickles", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Turkey Club", "description": "Turkey club sandwich, served with French fries and pickles", "price": "13.25", "dietaryFlags": [], "popular": false },
+        { "name": "Hamburger Club", "description": "Hamburger club, served with French fries and pickles", "price": "12.75", "dietaryFlags": [], "popular": false },
+        { "name": "Cheeseburger Club", "description": "Cheeseburger club, served with French fries and pickles", "price": "13.25", "dietaryFlags": [], "popular": false },
+        { "name": "Grilled Chicken Club (Italian or Teriyaki)", "description": "Grilled chicken club with a choice of Italian or teriyaki marinade, served with French fries and pickles", "price": "12.95", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "wraps",
+      "name": "Wraps",
+      "service": "lunch",
+      "note": "Served with French fries and pickles.",
+      "items": [
+        { "name": "Buffalo Chicken Wrap", "description": "Buffalo chicken wrap, served with French fries and pickles", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "Veggie Wrap", "description": "Vegetarian wrap, served with French fries and pickles", "price": "9.95", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Tuna Wrap", "description": "Tuna salad wrap, served with French fries and pickles", "price": "10.95", "dietaryFlags": [], "popular": false },
+        { "name": "Teriyaki Chicken Wrap", "description": "Teriyaki chicken wrap, served with French fries and pickles", "price": "11.50", "dietaryFlags": [], "popular": false },
+        { "name": "Turkey Wrap", "description": "Turkey wrap, served with French fries and pickles", "price": "10.95", "dietaryFlags": [], "popular": false },
+        { "name": "Chicken Filet Wrap", "description": "Chicken filet wrap, served with French fries and pickles", "price": "11.50", "dietaryFlags": [], "popular": false },
+        { "name": "Marinated Chicken Wrap", "description": "Marinated chicken wrap, served with French fries and pickles", "price": "11.50", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "burgers",
+      "name": "Burgers",
+      "service": "lunch",
+      "note": "Served with French fries and pickles. Add fried onions, mushrooms, or peppers $0.75. Add bacon $2.25.",
+      "items": [
+        { "name": "Hamburger", "description": "Classic hamburger, served with French fries and pickles", "price": "10.00", "dietaryFlags": [], "popular": false },
+        { "name": "Cheeseburger", "description": "Classic cheeseburger, served with French fries and pickles", "price": "10.60", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "hot-dogs",
+      "name": "Hot Dogs",
+      "service": "lunch",
+      "items": [
+        { "name": "Plain Hot Dog", "description": "Classic hot dog", "price": "8.95", "dietaryFlags": [], "popular": false },
+        { "name": "Cheese Hot Dog", "description": "Hot dog with cheese", "price": "9.95", "dietaryFlags": [], "popular": false },
+        { "name": "Chili Hot Dog", "description": "Hot dog with chili", "price": "10.50", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "soup-combos",
+      "name": "Soup Combos",
+      "service": "lunch",
+      "items": [
+        { "name": "Soup & Salad", "description": "Cup of homemade soup with a garden salad", "price": "9.50", "dietaryFlags": [], "popular": false },
+        { "name": "Half Deli Sandwich & Soup", "description": "Half deli sandwich with a cup of soup", "price": "9.50", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "salads",
+      "name": "Salads",
+      "service": "lunch",
+      "items": [
+        { "name": "Tuna Salad Bowl", "description": "Garden salad topped with tuna salad", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "Chicken Salad Bowl", "description": "Garden salad topped with chicken salad", "price": "11.95", "dietaryFlags": [], "popular": false },
+        { "name": "Egg Salad Bowl", "description": "Garden salad topped with egg salad", "price": "10.95", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Teriyaki Chicken Bowl", "description": "Garden salad topped with teriyaki chicken", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Chicken Caesar Bowl", "description": "Caesar salad with grilled chicken", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Chef Salad Bowl", "description": "Chef salad with assorted meats and cheese", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Garden Salad (small)", "description": "Small garden salad", "price": "5.50", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Garden Salad (large)", "description": "Large garden salad", "price": "9.95", "dietaryFlags": ["v"], "popular": false }
+      ]
+    },
+    {
+      "id": "dinners",
+      "name": "Dinners",
+      "service": "lunch",
+      "note": "Served with French fries and coleslaw.",
+      "items": [
+        { "name": "5 Pierogi (Cabbage or Potato)", "description": "Five pierogi with your choice of cabbage or potato filling, served with French fries and coleslaw", "price": "12.50", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Kielbasa with 5 Pierogi", "description": "Kielbasa with five pierogi, served with French fries and coleslaw", "price": "14.95", "dietaryFlags": [], "popular": true },
+        { "name": "Liver and Onions with Bacon", "description": "Liver and onions topped with bacon, served with French fries and coleslaw", "price": "12.95", "dietaryFlags": [], "popular": false },
+        { "name": "Fried Clams", "description": "Fried clam plate, served with French fries and coleslaw", "price": "13.50", "dietaryFlags": [], "popular": false },
+        { "name": "Fried Scrod", "description": "Fried scrod plate, served with French fries and coleslaw", "price": "15.50", "dietaryFlags": [], "popular": false },
+        { "name": "Hamburger Steak", "description": "Hamburger steak with fried peppers, onions, mushrooms, and gravy, served with French fries and coleslaw", "price": "12.75", "dietaryFlags": [], "popular": false }
+      ]
+    },
+    {
+      "id": "sides-soups",
+      "name": "Soups & Sides",
+      "service": "lunch",
+      "items": [
+        { "name": "Homemade Soup (cup)", "description": "Cup of our homemade soup", "price": "3.65", "dietaryFlags": [], "popular": false },
+        { "name": "Homemade Soup (bowl)", "description": "Bowl of our homemade soup", "price": "5.25", "dietaryFlags": [], "popular": false },
+        { "name": "French Fries (small)", "description": "Small order of French fries", "price": "5.50", "dietaryFlags": ["v"], "popular": false },
+        { "name": "French Fries (large)", "description": "Large order of French fries", "price": "5.75", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Curly Fries (small)", "description": "Small order of curly fries", "price": "4.00", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Curly Fries (large)", "description": "Large order of curly fries", "price": "6.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Onion Rings (small)", "description": "Small order of onion rings", "price": "4.75", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Onion Rings (large)", "description": "Large order of onion rings", "price": "6.55", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Homemade Coleslaw", "description": "Homemade coleslaw", "price": "2.65", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Homemade Pasta Salad", "description": "Homemade pasta salad", "price": "2.65", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Homemade Potato Salad", "description": "Homemade potato salad", "price": "2.65", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Homemade Macaroni Salad", "description": "Homemade macaroni salad", "price": "2.65", "dietaryFlags": ["v"], "popular": false }
+      ]
+    },
+    {
+      "id": "breakfast-sides",
+      "name": "Breakfast Sides",
+      "service": "breakfast",
+      "items": [
+        { "name": "Bacon", "description": "Side of bacon", "price": "3.85", "dietaryFlags": [], "popular": false },
+        { "name": "Sausage", "description": "Side of breakfast sausage", "price": "3.85", "dietaryFlags": [], "popular": false },
+        { "name": "Ham", "description": "Side of ham", "price": "5.75", "dietaryFlags": [], "popular": false },
+        { "name": "Kielbasa", "description": "Side of kielbasa", "price": "5.75", "dietaryFlags": [], "popular": true },
+        { "name": "Homefries (small)", "description": "Small order of homefries", "price": "2.90", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Homefries (large)", "description": "Large order of homefries", "price": "4.50", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Cold Cereal", "description": "Cold cereal with milk", "price": "3.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Hot Cereal (cup)", "description": "Cup of hot cereal", "price": "3.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Hot Cereal (bowl)", "description": "Bowl of hot cereal", "price": "4.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Homemade Hash (small)", "description": "Small order of our homemade corned beef hash", "price": "3.75", "dietaryFlags": [], "popular": true },
+        { "name": "Homemade Hash (large)", "description": "Large order of our homemade corned beef hash", "price": "6.95", "dietaryFlags": [], "popular": true },
+        { "name": "Shredded Potatoes", "description": "Shredded potatoes", "price": "5.50", "dietaryFlags": ["v"], "popular": false }
+      ]
+    },
+    {
+      "id": "breads",
+      "name": "Breads",
+      "service": "breakfast",
+      "items": [
+        { "name": "Toast", "description": "Choice of toast", "price": "2.00", "dietaryFlags": ["v"], "popular": false },
+        { "name": "English Muffin", "description": "Toasted English muffin", "price": "2.10", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Bagel", "description": "Toasted bagel", "price": "2.45", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Bagel with Cream Cheese", "description": "Toasted bagel with cream cheese", "price": "3.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Water Roll", "description": "Toasted water roll", "price": "2.40", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Muffin", "description": "Fresh muffin", "price": "3.25", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Danish", "description": "Fresh Danish", "price": "3.00", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Homemade Bread", "description": "Slice of our homemade bread", "price": "2.80", "dietaryFlags": ["v"], "popular": false }
+      ]
+    },
+    {
+      "id": "beverages",
+      "name": "Beverages",
+      "service": "breakfast",
+      "items": [
+        { "name": "Coffee (small)", "description": "Small coffee", "price": "2.35", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Coffee (large)", "description": "Large coffee", "price": "2.95", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Tea", "description": "Hot tea", "price": "2.10", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Hot Chocolate", "description": "Hot chocolate with one refill", "price": "2.95", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Milk or Juice (small)", "description": "Small milk or juice", "price": "1.70", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Milk or Juice (large)", "description": "Large milk or juice", "price": "2.45", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Milk or Juice (x-large)", "description": "Extra-large milk or juice", "price": "3.75", "dietaryFlags": ["v"], "popular": false },
+        { "name": "Soda", "description": "Fountain soda with free refills", "price": "3.40", "dietaryFlags": ["v"], "popular": false }
+      ]
+    }
+  ]
+}

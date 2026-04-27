@@ -23,6 +23,17 @@
 - **Analytics:** GA4 click-event tracking on phone (`tel:`), email (`mailto:`), DoorDash, Google Maps directions, PDF downloads; 404 page sends a `page_not_found` event.
 - **Cleanup:** moved inline `style="..."` attrs from catering.html and menu.html to CSS classes; `/index.html` → `/` 301 redirect.
 
+### Round 3 — Hybrid AI-discoverable menu page
+- **`site/menuData.json`** — single source of truth for all menu items, prices, dietary flags, and signature/popular markers. 22 sections, 153 items extracted by vision from `breakfast-menu.jpg` and `lunch-menu.jpg`.
+- **`scripts/build-menu.py`** — regenerates `menu.html` blocks from `menuData.json`. Run it after any menu edit.
+- **menu.html restructured:**
+  - Topical H1 ("Best Breakfast & Lunch Menu in Chicopee, MA") and H2 subhead anchoring "Hampden County's Favorite Brunch Spot Since 1993" — for regional entity recognition.
+  - Tabs reordered: **Browse Menu** (text grid, default) · **Visual Menu** (printed JPGs) · Catering · Daily Specials.
+  - Browse Menu renders all 153 items with prices, dietary tags, popular badges, organized in a responsive grid (1 col mobile / 2–3 cols desktop).
+  - Existing Restaurant + simplified `hasMenu` schema replaced by full `Menu` / `MenuSection` / `MenuItem` JSON-LD with `Offer.price`, `priceCurrency`, and `suitableForDiet` URIs — Google + AI ingest priced items directly.
+- Removed skip-to-main-content link (was visually noisy on desktop).
+- Whitelisted Netlify RUM endpoint (`ingesteer.services-prod.nsvcs.net`) in CSP `connect-src`.
+
 ### Skipped intentionally (need user input or net-new infra)
 - Templating / shared header–footer (would require a build tool)
 - Live Google Reviews widget (third-party signup)
