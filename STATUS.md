@@ -2,7 +2,28 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Static HTML/CSS/JS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-04-27
+**Last updated:** 2026-05-07
+
+---
+
+## Recent Updates (2026-05-07)
+
+### GSC clean-URL migration + 404 canonical fix
+GSC was flagging `/menu`, `/catering`, `/contact`, `/about`, `/faq` as "Alternate page with proper canonical tag" and stale orphan URLs (e.g., HVAC-related `condensing-units-cal-series.html` from a prior owner of the domain) as "Duplicate without user-selected canonical." Two distinct root causes, both fixed:
+
+**1. Duplicate URLs at `/page` and `/page.html`** — Netlify was serving identical content at both URL forms with no redirect between them. Google was treating the `.html` versions as canonical (per the canonical tag) and the bare URLs as alternates. Fix: switched the entire site to clean URLs (no `.html`) — the modern best practice — and added 301 redirects from `.html` → clean URLs.
+  - `_redirects` — added 5 new 301 rules (`/menu.html → /menu`, etc.)
+  - All 5 main HTML files — updated canonical, `og:url`, JSON-LD `url`, BreadcrumbList `item` from `.html` → clean URLs
+  - All 7 HTML files (incl. index.html, 404.html) — updated all internal nav `href`s from relative `.html` paths to root-absolute clean URLs (`href="menu.html"` → `href="/menu"`)
+  - `sitemap.xml` — switched to clean URLs, `lastmod` bumped to 2026-05-07
+  - `.github/workflows/deploy.yml` — IndexNow ping list updated to clean URLs
+  - `scripts/build-menu.py` — fixed `Restaurant.url` in JSON-LD generator so a future regen doesn't clobber `menu.html`'s canonical
+
+**2. 404.html had a self-referential canonical to homepage** — every non-existent URL on the site (orphans, typos, ghost URLs from prior ownership) was returning a 404 body claiming `<link rel="canonical" href="https://copperlineeatery.com/">`. This caused GSC to flag dozens of stale URLs as duplicates of the homepage. Fix: removed the canonical tag from 404.html. The existing `<meta name="robots" content="noindex, follow">` is the correct, sufficient signal for a 404 page.
+
+**Verification:** post-deploy curl on each `.html` URL returns 301; clean URL returns 200. Live nav click-tested.
+
+**GSC follow-up (manual, performed by Ian post-deploy):** sitemap re-submitted; URL Inspection → Request Indexing run on each clean URL; `condensing-units-cal-series.html` and any other orphan URLs submitted to GSC Removals tool.
 
 ---
 

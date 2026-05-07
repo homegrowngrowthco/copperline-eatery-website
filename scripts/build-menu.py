@@ -209,7 +209,7 @@ def build_schema(data: dict) -> str:
         "@context": "https://schema.org",
         "@type": "Restaurant",
         "name": "The Copperline Eatery",
-        "url": "https://copperlineeatery.com/menu.html",
+        "url": "https://copperlineeatery.com/menu",
         "image": "https://copperlineeatery.com/logo.jpg",
         "address": {
             "@type": "PostalAddress",

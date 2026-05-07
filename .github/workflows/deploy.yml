@@ -57,11 +57,11 @@ jobs:
               "keyLocation": "https://copperlineeatery.com/670b4b1e5abe94d9050c77bc3a1011e2.txt",
               "urlList": [
                 "https://copperlineeatery.com/",
-                "https://copperlineeatery.com/menu.html",
-                "https://copperlineeatery.com/catering.html",
-                "https://copperlineeatery.com/contact.html",
-                "https://copperlineeatery.com/about.html",
-                "https://copperlineeatery.com/faq.html"
+                "https://copperlineeatery.com/menu",
+                "https://copperlineeatery.com/catering",
+                "https://copperlineeatery.com/contact",
+                "https://copperlineeatery.com/about",
+                "https://copperlineeatery.com/faq"
               ]
             }')
           echo "IndexNow response: $STATUS"
