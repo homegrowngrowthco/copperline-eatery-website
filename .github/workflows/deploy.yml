@@ -6,18 +6,13 @@ on:
   pull_request:
     branches: [master]
 
-env:
-  # Silence the "Node.js 20 actions deprecated" warning by opting actions/checkout
-  # and actions/setup-node into Node 24 now (becomes the default June 2026).
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
 
