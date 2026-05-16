@@ -41,7 +41,21 @@ Push to `master` → GitHub Actions runs `netlify deploy --prod` then pings Inde
 - All other content authored directly in HTML.
 
 ## Open Questions / TODO
-See `STATUS.md` "Remaining Items" — Google Business Profile setup, citation audits, optional WebP/breadcrumb improvements. Dev side is largely complete.
+
+**Next focused session: Astro 5 migration to mirror homegrowngrowth.co's stack.** Decided 2026-05-16 — the goal is to have both static marketing sites deploying through the same process/structure (Astro 5 + TypeScript + shared BaseLayout + `npm ci && npm run build && netlify deploy --dir=dist`). The HGC migration playbook is fresh; copperline is the next site to apply it to. Specific deltas vs HGC's migration:
+
+- **Smaller scope** — fewer pages, no SMS form, simpler schema. Estimate: ~half a working day.
+- **Modernize the menu pipeline** — replace `scripts/build-menu.py` with an Astro page that imports `site/menuData.json` directly and renders the menu at build time. Drops the Python dependency from a Node project; `menuData.json` stays as the single source of truth.
+- **Consolidate Netlify config** — move `site/_headers` + `site/_redirects` content into `netlify.toml` to match HGC's pattern. (Current setup has the redirects in two places because the `nwtgck/actions-netlify@v3` deploy bypasses `netlify.toml`.)
+- **Update `deploy.yml`** — swap `nwtgck/actions-netlify@v3` (the archived flavor) for `actions/setup-node@v4` + `npm install -g netlify-cli@22` + `npm ci` + `npm run build` + `netlify deploy --dir=dist --prod`. Same shape as HGC's `deploy.yml`.
+- **Add `.claude/settings.json`** (committed shared allowlist, copy from HGC) + the 4 slash commands (`/preview`, `/build-check`, `/add-page`, `/audit-seo`).
+- **Add `SECURITY.md` + `LICENSE`** at repo root (proprietary, same template as HGC).
+- **Branch preview verification → `--no-ff` merge** per the same playbook.
+- **Watch out for**: the same trailing-slash 301 footgun HGC hit (`build.format: 'file'` not the default `'directory'`); the same Netlify Forms detection gotcha if any form is added (use a hidden `NetlifyFormStubs` duplicate); CSP header should be hardened from the start (add `scripts.clarity.ms` to script-src if Clarity is in use, `frame-ancestors 'none'`, `upgrade-insecure-requests`).
+
+**Reference plan**: [`~/.claude/plans/homegrown-growthco-2026-04-20-hgc-v8-cl-elegant-corbato.md`](file:///C:/Users/Ian/.claude/plans/homegrown-growthco-2026-04-20-hgc-v8-cl-elegant-corbato.md) — adapt the Phase B step-by-step section. Phase A filesystem-reorg is N/A (copperline's layout is already clean).
+
+Then: see `STATUS.md` "Remaining Items" — Google Business Profile setup, citation audits, optional WebP/breadcrumb improvements. Distribution/content work, not code.
 
 ## Recovery Notes
 This project survived the **2026-05-04** complete machine wipe.
