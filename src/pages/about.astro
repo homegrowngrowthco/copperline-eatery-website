@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ADDRESS, AREA_SERVED, AWARDS, EMAIL, PHONE, SITE_URL } from '../data/restaurant';
+
+const title = 'About The Copperline Eatery | Family-Owned Restaurant Since 1993 | Chicopee, MA';
+const description = 'Family-owned since 1993, The Copperline Eatery has served Chicopee and Western Massachusetts for over 33 years. Voted Best Breakfast by MassLive readers. Meet the team behind your favorite local breakfast spot.';
+
+const restaurantSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: 'The Copperline Eatery',
+  url: `${SITE_URL}/about`,
+  image: `${SITE_URL}/logo.jpg`,
+  description: 'Family-owned restaurant in Chicopee, MA serving award-winning breakfast and lunch since 1993. Voted Best Breakfast in Western Massachusetts by MassLive readers.',
+  foundingDate: '1993',
+  address: ADDRESS,
+  telephone: PHONE,
+  email: EMAIL,
+  servesCuisine: ['American', 'Breakfast', 'Brunch', 'Lunch'],
+  priceRange: '$$',
+  award: AWARDS[0],
+  areaServed: AREA_SERVED,
+};
+
+const videoSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'Best of Western MA Breakfast: The Copperline Eatery in Chicopee',
+  description: 'The Copperline Eatery in Chicopee, MA is featured on Western Mass News as one of the best breakfast restaurants in Western Massachusetts, renowned for house-made eggs benedict and corned beef hash.',
+  thumbnailUrl: 'https://img.youtube.com/vi/lPCIlXEzSPs/maxresdefault.jpg',
+  embedUrl: 'https://www.youtube.com/embed/lPCIlXEzSPs',
+  url: 'https://www.youtube.com/watch?v=lPCIlXEzSPs',
+  uploadDate: '2016-06-01',
+  publisher: { '@type': 'Organization', name: 'Western Mass News' },
+  about: {
+    '@type': 'Restaurant',
+    name: 'The Copperline Eatery',
+    address: ADDRESS,
+  },
+};
+
+const masslivearticle = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: 'Best of Mass Breakfast: Copperline Eatery, Chicopee',
+  url: 'https://www.masslive.com/bestofmass/2016/06/best_of_mass_breakfast_copperline_eatery_chicopee.html',
+  datePublished: '2016-06-01',
+  publisher: { '@type': 'Organization', name: 'MassLive', url: 'https://www.masslive.com' },
+  about: { '@type': 'Restaurant', name: 'The Copperline Eatery', url: SITE_URL },
+};
+
+const wwlpArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: 'National French Toast Day: Where to get the best French toast in Western Massachusetts',
+  url: 'https://www.wwlp.com/news/local-news/national-french-toast-day-where-to-get-the-best-french-toast-in-western-massachusetts/',
+  datePublished: '2023-11-28',
+  publisher: { '@type': 'Organization', name: 'WWLP 22News', url: 'https://www.wwlp.com' },
+  about: { '@type': 'Restaurant', name: 'The Copperline Eatery', url: SITE_URL },
+  mentions: {
+    '@type': 'MenuItem',
+    name: 'French Toast',
+    description: 'Thick-cut, golden-brown French toast — named best in Western Massachusetts by WWLP 22News',
+  },
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'About', item: `${SITE_URL}/about` },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={`${SITE_URL}/about`}
+  ogTitle="About The Copperline Eatery | Family-Owned Since 1993 | Chicopee, MA"
+  ogDescription="Family-owned since 1993, The Copperline Eatery has served Chicopee and Western Massachusetts for 33+ years. Voted Best Breakfast by MassLive readers."
+  ogImageAlt="The Copperline Eatery - Family-Owned Restaurant Since 1993"
+  twitterTitle="About The Copperline Eatery | Family-Owned Since 1993"
+  twitterDescription="Family-owned since 1993, serving Chicopee and Western Massachusetts for 33+ years. Voted Best Breakfast by MassLive readers."
+  schema={[restaurantSchema, videoSchema, masslivearticle, wwlpArticle, breadcrumb]}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Family Owned Since 1993</h1>
+        <p>Serving Western Massachusetts for more than 33 years!</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="about-text">
+          <p>Since 1993, Copperline Eatery has served the Chicopee &amp; Western MA community. Whether you're one of our 'regulars' or thinking about visiting us for the first time, we hope to see you soon!</p>
+          <p>Every meal is prepared from scratch, using the freshest ingredients and time-tested recipes from over 30 years in business and over 150 years of combined restaurant experience. We're known for a few signature dishes, most notably our homemade corned beef hash and signature hollandaise sauce over eggs benedict. Whatever you're in the mood for, we're confident you'll find something you'll enjoy.</p>
+          <p>Thank you for supporting our small, family-owned restaurant and letting us be a part of your community. Whether you're dining with friends, ordering takeout for family, or catering a special event, we look forward to serving you with great taste for many years to come.</p>
+        </div>
+
+        <div class="awards-box">
+          <h2>In The News</h2>
+          <div class="award-item">
+            <h3>&#127942; Best of Western MA</h3>
+            <p>Voted Best Breakfast by MassLive readers</p>
+            <a href="https://www.masslive.com/bestofmass/2016/06/best_of_mass_breakfast_copperline_eatery_chicopee.html" target="_blank" rel="noopener" class="read-more">Read More &rarr;</a>
+          </div>
+          <div class="award-item">
+            <h3>&#128250; Featured on Western Mass News</h3>
+            <div class="video-embed">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/lPCIlXEzSPs?si=-_oV-6hqRCkJhRjB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="award-item">
+            <h3>&#127838; Best French Toast in Western Massachusetts</h3>
+            <p>Named one of the best spots for French toast in Western Massachusetts by WWLP 22News on National French Toast Day</p>
+            <a href="https://www.wwlp.com/news/local-news/national-french-toast-day-where-to-get-the-best-french-toast-in-western-massachusetts/" target="_blank" rel="noopener" class="read-more">Read Article &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

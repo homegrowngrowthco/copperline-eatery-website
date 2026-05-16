@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_URL } from '../data/restaurant';
+
+const title = 'FAQ - Hours, Reservations, Catering & More | The Copperline Eatery Chicopee MA';
+const description = 'Answers to common questions about The Copperline Eatery in Chicopee, MA — hours, parking, takeout, delivery, catering, dietary options, gift cards, and more. Family-owned breakfast & lunch since 1993.';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: "What are The Copperline Eatery's hours?", acceptedAnswer: { '@type': 'Answer', text: 'We are open seven days a week. Monday through Friday from 6:00 AM to 2:00 PM, Saturday from 6:00 AM to 1:30 PM, and Sunday from 6:30 AM to 1:00 PM. Breakfast is served all day and lunch is available during all open hours.' } },
+    { '@type': 'Question', name: 'Where is The Copperline Eatery located?', acceptedAnswer: { '@type': 'Answer', text: 'We are at 409 Broadway, Chicopee, MA 01020, in the heart of Hampden County. We serve customers from Chicopee, Springfield, Holyoke, West Springfield, South Hadley, and across Western Massachusetts.' } },
+    { '@type': 'Question', name: 'Is parking available at The Copperline Eatery?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. We offer free parking in our private lot directly at the restaurant, plus additional on-street parking on Broadway. There is no parking fee or time limit.' } },
+    { '@type': 'Question', name: 'Is The Copperline Eatery wheelchair accessible?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The dining room and entrance are wheelchair accessible. If you need additional accommodations, please call (413) 594-8332 ahead of your visit.' } },
+    { '@type': 'Question', name: 'When is The Copperline Eatery busiest?', acceptedAnswer: { '@type': 'Answer', text: 'Saturday and Sunday mornings between 8:00 AM and 11:00 AM are typically our busiest. For shorter waits on weekends, we recommend arriving before 8:00 AM or after 11:30 AM. Weekdays are generally less crowded.' } },
+    { '@type': 'Question', name: 'What is The Copperline Eatery known for?', acceptedAnswer: { '@type': 'Answer', text: "We're best known for our house-made eggs benedict with our award-winning hollandaise sauce, our homemade corned beef hash, and our French toast — named Best French Toast in Western Massachusetts by WWLP 22News. We were also voted Best Breakfast in Western Massachusetts by MassLive readers." } },
+    { '@type': 'Question', name: 'What is the most popular dish at The Copperline Eatery?', acceptedAnswer: { '@type': 'Answer', text: 'Our most-ordered dishes are eggs benedict, the Copperline Special (three eggs, two pancakes, homefries, and toast), corned beef hash with eggs, and our Reuben sandwich at lunch. Many regulars also order the Italian Buffet for catering.' } },
+    { '@type': 'Question', name: 'Does The Copperline Eatery have vegetarian options?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Vegetarian breakfast options include pancakes, French toast, cheese omelets, eggs and toast, banana bread French toast, and home fries. For lunch we offer the Vegetarian Sandwich and Grinder, Veggie Wrap, Egg Salad, Garden Salad, Vegetable Lasagna (catering), and pierogi (cabbage or potato).' } },
+    { '@type': 'Question', name: 'Does The Copperline Eatery have gluten-free options?', acceptedAnswer: { '@type': 'Answer', text: 'We can accommodate gluten-free diners on request — many breakfast items including eggs, omelets, bacon, sausage, kielbasa, ham, and corned beef hash are naturally gluten-free when ordered without bread or pancakes. Please tell your server about your dietary needs and we will work with you. Our kitchen is not a fully dedicated gluten-free environment, so cross-contact is possible.' } },
+    { '@type': 'Question', name: 'Can The Copperline Eatery accommodate food allergies?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Please inform your server of any food allergies before placing your order. As is standard, consuming raw or undercooked meats, poultry, seafood, shellfish, or eggs may increase your risk of foodborne illness.' } },
+    { '@type': 'Question', name: 'Does The Copperline Eatery offer takeout?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Call us at (413) 594-8332 to place a takeout order. Most breakfast and lunch orders are ready in 15 to 20 minutes.' } },
+    { '@type': 'Question', name: 'Does The Copperline Eatery deliver?', acceptedAnswer: { '@type': 'Answer', text: 'We do not deliver directly, but you can order delivery through DoorDash, which serves the Chicopee, Springfield, and Holyoke area.' } },
+    { '@type': 'Question', name: 'Can I order from The Copperline Eatery online?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — order online through DoorDash for delivery. For takeout, please call us directly at (413) 594-8332.' } },
+    { '@type': 'Question', name: 'Does The Copperline Eatery offer catering?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. We cater breakfast, lunch, and dinner across Western Massachusetts, including Chicopee, Springfield, Holyoke, and Hampden County. Options include Buffet Packages from $12.95 per person, Hot Item Buffets from $15.95 per person, and Specialty Buffets including Italian, Choice #1, and Choice #2 menus. Service options are on-site, drop-off, or pick-up.' } },
+    { '@type': 'Question', name: 'What types of events does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'We cater corporate meetings and lunches, weddings and rehearsal dinners, bridal showers, graduations, birthdays, family reunions, holiday parties, church socials, school functions, banquets, fundraisers, sporting events and tailgates, memorial services, film and photo shoots, and healthcare facilities.' } },
+    { '@type': 'Question', name: 'How far in advance should I book catering with The Copperline Eatery?', acceptedAnswer: { '@type': 'Answer', text: 'For most events we recommend booking at least one to two weeks in advance. Larger events, weekend dates, and Hot Item Buffets (which require a 40-person minimum) should be booked three to four weeks ahead when possible. Call (413) 594-8332 to check availability.' } },
+    { '@type': 'Question', name: 'Does The Copperline Eatery take reservations?', acceptedAnswer: { '@type': 'Answer', text: 'We operate first-come, first-serve for breakfast and lunch service. For special requests or large parties of eight or more, please call (413) 594-8332 in advance and we will do our best to accommodate.' } },
+    { '@type': 'Question', name: 'Is The Copperline Eatery kid-friendly?', acceptedAnswer: { '@type': 'Answer', text: "Absolutely. We have a Children's Menu for guests under 12 — choose one egg and toast, two French toast, or two pancakes with bacon, sausage, or ham, plus milk or juice, all for $7.50. High chairs and booster seats are available. Our family-owned diner has welcomed local families for over 33 years." } },
+    { '@type': 'Question', name: 'Can The Copperline Eatery accommodate large groups?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. For groups of eight or more, please call (413) 594-8332 ahead of your visit so we can prepare seating. We can also cater on-site or off-site for groups too large to seat in the dining room.' } },
+    { '@type': 'Question', name: 'What payment methods does The Copperline Eatery accept?', acceptedAnswer: { '@type': 'Answer', text: 'We accept cash and all major credit cards including Visa, Mastercard, American Express, and Discover.' } },
+    { '@type': 'Question', name: 'Does The Copperline Eatery sell gift cards?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Gift cards are available in any denomination and make a great gift for birthdays, holidays, and thank-yous. Stop in or call (413) 594-8332 to purchase.' } },
+    { '@type': 'Question', name: 'Is The Copperline Eatery family-owned?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The Copperline Eatery has been family-owned and operated since 1993, proudly serving Chicopee and Western Massachusetts for over 33 years. Our team has more than 150 years of combined restaurant experience.' } },
+    { '@type': 'Question', name: 'What awards has The Copperline Eatery won?', acceptedAnswer: { '@type': 'Answer', text: "We were voted Best Breakfast in Western Massachusetts by MassLive readers, named Best French Toast in Western Massachusetts by WWLP 22News, and earned a Travelers' Choice award from TripAdvisor. We've also been featured on Western Mass News for our breakfast." } },
+  ],
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'FAQ', item: `${SITE_URL}/faq` },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={`${SITE_URL}/faq`}
+  ogTitle="FAQ - The Copperline Eatery | Chicopee, MA"
+  ogDescription="Hours, parking, takeout, catering, dietary options, gift cards — quick answers about the family-owned breakfast & lunch spot in Chicopee, MA."
+  ogImageAlt="The Copperline Eatery - Frequently Asked Questions"
+  schema={[faqSchema, breadcrumb]}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Frequently Asked Questions</h1>
+        <p>Hours, parking, takeout, catering, dietary options &amp; more — answers about The Copperline Eatery in Chicopee, MA.</p>
+      </div>
+    </section>
+
+    <section class="faq-page-section">
+      <div class="container">
+        <nav class="faq-toc" aria-label="FAQ topics">
+          <h2 class="faq-toc-title">Jump to a topic</h2>
+          <ul>
+            <li><a href="#visiting">Visiting Us</a></li>
+            <li><a href="#menu">Our Menu</a></li>
+            <li><a href="#ordering">Ordering &amp; Delivery</a></li>
+            <li><a href="#catering-faq">Catering</a></li>
+            <li><a href="#reservations">Reservations &amp; Family Dining</a></li>
+            <li><a href="#payment">Payment &amp; Gift Cards</a></li>
+            <li><a href="#about-us">About Us</a></li>
+          </ul>
+        </nav>
+
+        <section class="faq-group" id="visiting">
+          <h2>Visiting Us</h2>
+          <details class="faq-q" open>
+            <summary>What are The Copperline Eatery's hours?</summary>
+            <div class="faq-a"><p>We are open <strong>seven days a week</strong>:</p><ul><li><strong>Mon&ndash;Fri:</strong> 6:00 AM &ndash; 2:00 PM</li><li><strong>Saturday:</strong> 6:00 AM &ndash; 1:30 PM</li><li><strong>Sunday:</strong> 6:30 AM &ndash; 1:00 PM</li></ul><p>Breakfast is served all day; lunch is available during all open hours.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Where is The Copperline Eatery located?</summary>
+            <div class="faq-a"><p>We are at <strong>409 Broadway, Chicopee, MA 01020</strong>, in the heart of Hampden County. We serve customers from Chicopee, Springfield, Holyoke, West Springfield, South Hadley, and across Western Massachusetts. <a href="https://www.google.com/maps/dir//409+Broadway,+Chicopee,+MA+01020" target="_blank" rel="noopener">Get directions on Google Maps &rarr;</a></p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Is parking available?</summary>
+            <div class="faq-a"><p>Yes &mdash; free parking in our private lot at the restaurant, plus on-street parking on Broadway. No fee, no time limit.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Is the restaurant wheelchair accessible?</summary>
+            <div class="faq-a"><p>Yes. The dining room and entrance are wheelchair accessible. If you need additional accommodations, please call <a href="tel:+14135948332">(413) 594-8332</a> ahead of your visit.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>When is the restaurant busiest?</summary>
+            <div class="faq-a"><p>Saturday and Sunday mornings between 8:00 AM and 11:00 AM are typically our busiest. For shorter waits on weekends, we recommend arriving <strong>before 8:00 AM</strong> or <strong>after 11:30 AM</strong>. Weekdays are generally less crowded.</p></div>
+          </details>
+        </section>
+
+        <section class="faq-group" id="menu">
+          <h2>Our Menu</h2>
+          <details class="faq-q">
+            <summary>What is The Copperline Eatery known for?</summary>
+            <div class="faq-a"><p>We're best known for our house-made <strong>eggs benedict</strong> with award-winning hollandaise sauce, our <strong>homemade corned beef hash</strong>, and our <strong>French toast</strong> &mdash; named Best French Toast in Western Massachusetts by WWLP 22News. We were also voted <a href="https://www.masslive.com/bestofmass/2016/06/best_of_mass_breakfast_copperline_eatery_chicopee.html" target="_blank" rel="noopener">Best Breakfast in Western Massachusetts by MassLive readers</a>.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>What's the most popular dish?</summary>
+            <div class="faq-a"><p>Our most-ordered dishes are <strong>Eggs Benedict</strong>, the <strong>Copperline Special</strong> (three eggs, two pancakes, homefries, and toast), <strong>corned beef hash</strong> with eggs, and the <strong>Reuben sandwich</strong> at lunch. <a href="/menu">View the full menu &rarr;</a></p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Do you have vegetarian options?</summary>
+            <div class="faq-a"><p>Yes. <strong>Vegetarian breakfast options</strong> include pancakes, French toast, cheese omelets, eggs and toast, banana bread French toast, and home fries. <strong>For lunch:</strong> Vegetarian Sandwich and Grinder, Veggie Wrap, Egg Salad, Garden Salad, and pierogi (cabbage or potato). For catering: <strong>Vegetable Lasagna</strong> on the Italian Buffet.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Do you have gluten-free options?</summary>
+            <div class="faq-a"><p>We can accommodate gluten-free diners on request. Many breakfast items &mdash; eggs, omelets, bacon, sausage, kielbasa, ham, and our homemade corned beef hash &mdash; are naturally gluten-free when ordered without bread or pancakes. Please tell your server about your dietary needs and we will work with you. <em>Our kitchen is not a fully dedicated gluten-free environment, so cross-contact is possible.</em></p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Can you accommodate food allergies?</summary>
+            <div class="faq-a"><p>Yes &mdash; please inform your server of any food allergies before placing your order. As is standard, consuming raw or undercooked meats, poultry, seafood, shellfish, or eggs may increase your risk of foodborne illness.</p></div>
+          </details>
+        </section>
+
+        <section class="faq-group" id="ordering">
+          <h2>Ordering &amp; Delivery</h2>
+          <details class="faq-q">
+            <summary>Do you offer takeout?</summary>
+            <div class="faq-a"><p>Yes. Call us at <a href="tel:+14135948332">(413) 594-8332</a> to place a takeout order. Most breakfast and lunch orders are ready in <strong>15 to 20 minutes</strong>.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Do you deliver?</summary>
+            <div class="faq-a"><p>We do not deliver directly, but you can order delivery through <a href="https://www.doordash.com/store/the-copperline-eatery-chicopee-36368789/81460747" target="_blank" rel="noopener">DoorDash</a>, which serves Chicopee, Springfield, and Holyoke.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Can I order online or through an app?</summary>
+            <div class="faq-a"><p>Yes &mdash; order online through <a href="https://www.doordash.com/store/the-copperline-eatery-chicopee-36368789/81460747" target="_blank" rel="noopener">DoorDash</a> for delivery. For takeout, please call <a href="tel:+14135948332">(413) 594-8332</a> directly.</p></div>
+          </details>
+        </section>
+
+        <section class="faq-group" id="catering-faq">
+          <h2>Catering</h2>
+          <details class="faq-q">
+            <summary>Do you offer catering?</summary>
+            <div class="faq-a"><p>Yes. We cater breakfast, lunch, and dinner across Western Massachusetts including <strong>Chicopee, Springfield, Holyoke, and all of Hampden County</strong>. Pricing options include:</p><ul><li><strong>Buffet Packages</strong> from $12.95 per person (5 packages)</li><li><strong>Hot Item Buffet</strong> from $15.95 per person (40-person minimum)</li><li><strong>Specialty Buffets</strong> &mdash; Choice #1 ($14.95/pp), Choice #2 ($17.95/pp), Italian Buffet ($17.95/pp)</li></ul><p>Service options: on-site, drop-off, or pick-up. <a href="/catering">View catering details &rarr;</a></p></div>
+          </details>
+          <details class="faq-q">
+            <summary>What types of events do you cater?</summary>
+            <div class="faq-a"><p>Corporate meetings &amp; lunches, weddings &amp; rehearsal dinners, bridal &amp; baby showers, graduations, birthdays, family reunions, holiday parties, church socials, school functions, banquets, fundraisers, sporting events &amp; tailgates, memorial services, film &amp; photo shoots, and healthcare facilities.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>How far in advance should I book catering?</summary>
+            <div class="faq-a"><p>For most events, book at least <strong>1&ndash;2 weeks in advance</strong>. Larger events, weekend dates, and Hot Item Buffets (40-person minimum) should be booked <strong>3&ndash;4 weeks ahead</strong> when possible. Call <a href="tel:+14135948332">(413) 594-8332</a> to check availability.</p></div>
+          </details>
+        </section>
+
+        <section class="faq-group" id="reservations">
+          <h2>Reservations &amp; Family Dining</h2>
+          <details class="faq-q">
+            <summary>Do you take reservations?</summary>
+            <div class="faq-a"><p>We operate <strong>first-come, first-serve</strong> for breakfast and lunch. For special requests or large parties of <strong>eight or more</strong>, please call <a href="tel:+14135948332">(413) 594-8332</a> in advance and we'll do our best to accommodate.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Are you kid-friendly?</summary>
+            <div class="faq-a"><p>Absolutely. We have a <strong>Children's Menu</strong> for guests under 12 &mdash; choose one egg and toast, two French toast, or two pancakes with bacon, sausage, or ham, plus milk or juice, all for <strong>$7.50</strong>. High chairs and booster seats are available. Our family-owned diner has welcomed local families for over 33 years.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Can you accommodate large groups?</summary>
+            <div class="faq-a"><p>Yes. For groups of <strong>eight or more</strong>, please call <a href="tel:+14135948332">(413) 594-8332</a> ahead so we can prepare seating. We also <a href="/catering">cater on-site or off-site</a> for groups too large to seat in the dining room.</p></div>
+          </details>
+        </section>
+
+        <section class="faq-group" id="payment">
+          <h2>Payment &amp; Gift Cards</h2>
+          <details class="faq-q">
+            <summary>What payment methods do you accept?</summary>
+            <div class="faq-a"><p>We accept <strong>cash</strong> and all major credit cards: <strong>Visa, Mastercard, American Express, and Discover</strong>.</p></div>
+          </details>
+          <details class="faq-q">
+            <summary>Do you sell gift cards?</summary>
+            <div class="faq-a"><p>Yes &mdash; gift cards are available in any denomination and make a great gift for birthdays, holidays, and thank-yous. Stop in or call <a href="tel:+14135948332">(413) 594-8332</a> to purchase.</p></div>
+          </details>
+        </section>
+
+        <section class="faq-group" id="about-us">
+          <h2>About Us</h2>
+          <details class="faq-q">
+            <summary>Are you family-owned?</summary>
+            <div class="faq-a"><p>Yes &mdash; family-owned and operated <strong>since 1993</strong>, proudly serving Chicopee and Western Massachusetts for over 33 years. Our team has more than 150 years of combined restaurant experience. <a href="/about">Read our story &rarr;</a></p></div>
+          </details>
+          <details class="faq-q">
+            <summary>What awards has The Copperline Eatery won?</summary>
+            <div class="faq-a"><ul><li><strong>Best Breakfast in Western Massachusetts</strong> &mdash; MassLive Readers' Choice</li><li><strong>Best French Toast in Western Massachusetts</strong> &mdash; WWLP 22News</li><li><strong>Travelers' Choice</strong> &mdash; TripAdvisor</li><li>Featured on Western Mass News for our breakfast</li></ul><p><a href="/about">See all our press &amp; awards &rarr;</a></p></div>
+          </details>
+        </section>
+
+        <div class="faq-cta">
+          <h2>Still have a question?</h2>
+          <p>Call us at <a href="tel:+14135948332" class="highlight-link">(413) 594-8332</a> or email <a href="mailto:copperlineeatery@yahoo.com">copperlineeatery@yahoo.com</a>. We're happy to help.</p>
+          <p class="faq-cta-links"><a href="/menu" class="btn btn-secondary">View Menu</a> <a href="/catering" class="btn btn-secondary">Catering</a> <a href="/contact" class="btn btn-secondary">Hours &amp; Location</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
