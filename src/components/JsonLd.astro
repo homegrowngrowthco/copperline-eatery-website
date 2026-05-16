@@ -1,0 +1,20 @@
+---
+type SchemaInput = Record<string, unknown> | Record<string, unknown>[];
+
+interface Props {
+  schema: SchemaInput;
+}
+
+const { schema } = Astro.props;
+const schemas = Array.isArray(schema) ? schema : [schema];
+
+// Escape </script> inside JSON strings so a future stray "</script>" in any
+// schema field (e.g., user-derived testimonial) can't break out of the script.
+function serialize(obj: Record<string, unknown>): string {
+  return JSON.stringify(obj).replace(/</g, '\\u003c');
+}
+---
+
+{schemas.map((s) => (
+  <script type="application/ld+json" set:html={serialize(s)} />
+))}

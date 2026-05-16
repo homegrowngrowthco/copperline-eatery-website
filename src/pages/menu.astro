@@ -1,0 +1,209 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MenuSection, { type MenuSectionData } from '../components/MenuSection.astro';
+import menuData from '../data/menuData.json';
+import { ADDRESS, PHONE, SITE_URL } from '../data/restaurant';
+
+interface MenuDataItem {
+  name: string;
+  description?: string;
+  price?: string;
+  dietaryFlags?: string[];
+  popular?: boolean;
+  includes?: string[] | Array<{ label: string; items: string[] }>;
+}
+
+interface MenuDataSection {
+  id: string;
+  name: string;
+  service: string;
+  note?: string;
+  included?: string[];
+  items: MenuDataItem[];
+  extras?: { title: string; note?: string; groups: Array<{ label: string; items: string[] }> };
+}
+
+const sections = menuData.sections as MenuDataSection[];
+const currency = menuData.currency || 'USD';
+
+const DIET_TO_SCHEMA: Record<string, string> = {
+  v: 'https://schema.org/VegetarianDiet',
+  gf: 'https://schema.org/GlutenFreeDiet',
+};
+
+function buildSchemaSections() {
+  return sections.map((section) => {
+    const obj: Record<string, unknown> = {
+      '@type': 'MenuSection',
+      name: section.name,
+      hasMenuItem: [] as Record<string, unknown>[],
+    };
+    const descPieces: string[] = [];
+    if (section.note) descPieces.push(section.note);
+    if (section.included) descPieces.push('Includes: ' + section.included.join(', ') + '.');
+    if (descPieces.length) obj.description = descPieces.join(' ');
+
+    const items: Record<string, unknown>[] = [];
+    for (const item of section.items) {
+      const mi: Record<string, unknown> = { '@type': 'MenuItem', name: item.name };
+      const dParts: string[] = [];
+      if (item.description) dParts.push(item.description);
+      if (item.includes) {
+        if (Array.isArray(item.includes) && item.includes.length > 0 && typeof item.includes[0] === 'object') {
+          for (const group of item.includes as Array<{ label: string; items: string[] }>) {
+            dParts.push(`${group.label}: ` + group.items.join(', ') + '.');
+          }
+        } else {
+          dParts.push('Includes: ' + (item.includes as string[]).join(', ') + '.');
+        }
+      }
+      if (dParts.length) mi.description = dParts.join(' ').trim();
+      if (item.price) {
+        mi.offers = { '@type': 'Offer', price: item.price, priceCurrency: currency };
+      }
+      const dietUris = (item.dietaryFlags || []).map((d) => DIET_TO_SCHEMA[d]).filter(Boolean);
+      if (dietUris.length === 1) mi.suitableForDiet = dietUris[0];
+      else if (dietUris.length > 1) mi.suitableForDiet = dietUris;
+      items.push(mi);
+    }
+    if (section.extras) {
+      for (const group of section.extras.groups) {
+        items.push({
+          '@type': 'MenuItem',
+          name: group.label,
+          description: 'Includes: ' + group.items.join(', ') + '.',
+        });
+      }
+    }
+    obj.hasMenuItem = items;
+    return obj;
+  });
+}
+
+const menuSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: 'The Copperline Eatery',
+  url: `${SITE_URL}/menu`,
+  image: `${SITE_URL}/logo.jpg`,
+  address: ADDRESS,
+  telephone: PHONE,
+  servesCuisine: ['American', 'Breakfast', 'Brunch', 'Lunch'],
+  priceRange: '$$',
+  hasMenu: {
+    '@type': 'Menu',
+    name: 'Breakfast & Lunch Menu',
+    description:
+      'Award-winning homemade breakfast and lunch including eggs benedict, corned beef hash, French toast, and daily specials at The Copperline Eatery in Chicopee, MA.',
+    hasMenuSection: buildSchemaSections(),
+  },
+};
+
+const breakcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'Menu', item: `${SITE_URL}/menu` },
+  ],
+};
+
+const breakfastSections = sections.filter((s) => s.service === 'breakfast') as MenuSectionData[];
+const lunchSections = sections.filter((s) => s.service === 'lunch') as MenuSectionData[];
+const cateringSections = sections.filter((s) => s.service === 'catering') as MenuSectionData[];
+
+const title = 'Breakfast & Lunch Menu - Eggs Benedict, Corned Beef Hash & Daily Specials | The Copperline Eatery Chicopee MA';
+const description = 'View our full breakfast and lunch menu featuring award-winning eggs benedict, house-made corned beef hash, hollandaise sauce, daily specials and more. Family-owned restaurant in Chicopee, MA serving Western Massachusetts.';
+const ogTitle = 'Menu - The Copperline Eatery | Chicopee, MA';
+const ogDescription = 'Award-winning eggs benedict, house-made corned beef hash, daily specials and more. Full breakfast & lunch menu at The Copperline Eatery in Chicopee, MA.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={`${SITE_URL}/menu`}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  ogImageAlt="The Copperline Eatery - Breakfast and Lunch Menu"
+  twitterDescription="Award-winning eggs benedict, house-made corned beef hash, daily specials and more. Full breakfast & lunch menu at The Copperline Eatery."
+  schema={[menuSchema, breakcrumb]}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Best Breakfast &amp; Lunch Menu in Chicopee, MA</h1>
+        <p>Hampden County's Favorite Brunch Spot Since 1993 &mdash; Voted Best Breakfast in Western Massachusetts by MassLive Readers</p>
+      </div>
+    </section>
+
+    <section class="menu-page-section">
+      <div class="container">
+        <div class="menu-tabs" role="tablist" aria-label="Menu sections">
+          <button class="menu-tab active" data-tab="breakfast" role="tab" id="tab-breakfast" aria-selected="true" aria-controls="breakfast" tabindex="0">Breakfast</button>
+          <button class="menu-tab" data-tab="lunch" role="tab" id="tab-lunch" aria-selected="false" aria-controls="lunch" tabindex="-1">Lunch</button>
+          <button class="menu-tab" data-tab="catering" role="tab" id="tab-catering" aria-selected="false" aria-controls="catering" tabindex="-1">Catering</button>
+          <button class="menu-tab" data-tab="specials" role="tab" id="tab-specials" aria-selected="false" aria-controls="specials" tabindex="-1">Daily Specials</button>
+        </div>
+
+        <div class="menu-content-page">
+          <div id="breakfast" class="menu-panel-page active" role="tabpanel" aria-labelledby="tab-breakfast" tabindex="0">
+            <div class="service-intro">
+              <div>
+                <h2>Breakfast</h2>
+                <p>Made from scratch every morning.</p>
+                <p class="service-hours"><strong>Mon&ndash;Fri</strong> 6am&ndash;2pm<span class="sep">&middot;</span><strong>Sat</strong> 6am&ndash;1:30pm<span class="sep">&middot;</span><strong>Sun</strong> 6:30am&ndash;1pm</p>
+              </div>
+              <a href="/breakfast-menu.jpg" download class="btn-download" aria-label="Download breakfast menu image">&#x2B07;&nbsp; Download Menu</a>
+            </div>
+            <div class="menu-sections-grid">
+              {breakfastSections.map((section) => <MenuSection section={section} />)}
+            </div>
+            <p class="menu-legend"><span class="menu-item-popular">&#9733;</span>&nbsp;Popular &nbsp;&middot;&nbsp; <span class="menu-item-veg">V</span>&nbsp;Vegetarian &nbsp;&middot;&nbsp; Prices subject to change. Call <a href="tel:+14135948332">(413)&nbsp;594-8332</a> for takeout.</p>
+          </div>
+
+          <div id="lunch" class="menu-panel-page" role="tabpanel" aria-labelledby="tab-lunch" tabindex="0">
+            <div class="service-intro">
+              <div>
+                <h2>Lunch</h2>
+                <p>Sandwiches, wraps, salads, and dinner plates served fresh daily.</p>
+                <p class="service-hours"><strong>Mon&ndash;Fri</strong> 6am&ndash;2pm<span class="sep">&middot;</span><strong>Sat</strong> 6am&ndash;1:30pm<span class="sep">&middot;</span><strong>Sun</strong> 6:30am&ndash;1pm</p>
+              </div>
+              <a href="/lunch-menu.jpg" download class="btn-download" aria-label="Download lunch menu image">&#x2B07;&nbsp; Download Menu</a>
+            </div>
+            <div class="menu-sections-grid">
+              {lunchSections.map((section) => <MenuSection section={section} />)}
+            </div>
+            <p class="menu-legend"><span class="menu-item-popular">&#9733;</span>&nbsp;Popular &nbsp;&middot;&nbsp; <span class="menu-item-veg">V</span>&nbsp;Vegetarian &nbsp;&middot;&nbsp; Prices subject to change. Call <a href="tel:+14135948332">(413)&nbsp;594-8332</a> for takeout.</p>
+          </div>
+
+          <div id="catering" class="menu-panel-page" role="tabpanel" aria-labelledby="tab-catering" tabindex="0">
+            <div class="service-intro">
+              <div>
+                <h2>Catering</h2>
+                <p>Breakfast, lunch &amp; dinner catering for corporate events, weddings, parties, and special occasions across Western Massachusetts.</p>
+              </div>
+              <a href="/catering-menu.pdf" download class="btn-download" aria-label="Download catering menu PDF">&#x2B07;&nbsp; Download Menu</a>
+            </div>
+            <div class="menu-sections-grid menu-sections-grid--catering">
+              {cateringSections.map((section) => <MenuSection section={section} />)}
+            </div>
+            <p class="menu-legend menu-legend-fees">All catering prices do not include 7% Massachusetts meal tax and 15% service fee.</p>
+            <p class="menu-legend">Need to place an order? <a href="/catering-order-form.pdf" download>Download the order form (PDF)</a> &nbsp;&middot;&nbsp; Visit our <a href="/catering">Catering page</a> for full details &nbsp;&middot;&nbsp; Or call <a href="tel:+14135948332">(413)&nbsp;594-8332</a>.</p>
+          </div>
+
+          <div id="specials" class="menu-panel-page" role="tabpanel" aria-labelledby="tab-specials" tabindex="0">
+            <div class="service-intro">
+              <div>
+                <h2>Today's Specials</h2>
+                <p>Updated each morning. Subject to change &mdash; call us to confirm.</p>
+              </div>
+            </div>
+            <div id="specialsContent" class="specials-content">
+              <div class="loading">Loading today's specials&hellip;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

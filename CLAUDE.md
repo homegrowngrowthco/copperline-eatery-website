@@ -4,10 +4,15 @@
 Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chicopee, MA. Engineered for SEO/local-search performance, structured data (Restaurant + Menu schemas), and Google Business Profile signals. See `STATUS.md` for the current punch list.
 
 ## Tech Stack
-- Static HTML5 + vanilla CSS + vanilla JS (no framework)
-- Hosted on Netlify
-- Deployed via GitHub Actions (`nwtgck/actions-netlify@v3`) — note this bypasses `netlify.toml`, so security headers and cache rules live in `_headers` and `_redirects` files inside `site/`
-- GA4 + IndexNow auto-ping integration
+- **Astro 5** + **TypeScript strict** + **vanilla CSS** (no Tailwind; the existing design system in `src/styles/global.css` is the canonical source)
+- `output: 'static'` + `build.format: 'file'` (produces flat `dist/<slug>.html`, served at `/<slug>` natively by Netlify without trailing-slash 301s)
+- `@astrojs/sitemap` integration autogenerates sitemap at build time (filters out `/404`)
+- Google Fonts (Oswald + Merriweather) via `<link>` in BaseLayout
+- Netlify hosting + GitHub Actions deploy (`npm ci && npm run build && netlify deploy --dir=dist`)
+- `NODE_VERSION="24"` pinned in `netlify.toml` (matches local Node 24.15)
+- `netlify-cli@22` pinned in deploy workflow
+- GA4 analytics (Measurement ID `G-DXYNCF0G79`); no Microsoft Clarity
+- IndexNow auto-ping on every prod deploy
 
 ## Live site
 - Production: https://copperlineeatery.com
@@ -15,17 +20,30 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - Default branch: `master`
 
 ## Key Files & Folders
-- `site/` — published files (HTML, CSS, JS, images, `_headers`, `_redirects`, `menuData.json`)
-- `site/menuData.json` — single source of truth for all menu items, prices, dietary flags. 22 sections, 153 items.
-- `scripts/build-menu.py` — regenerates `menu.html` blocks from `menuData.json`. Run after any menu edit.
-- `.github/workflows/deploy.yml` — Netlify deploy on push to `master` + IndexNow ping
-- `STATUS.md` — running checklist of completed work and remaining items (authoritative)
-- `netlify.toml` — present but largely superseded by `_headers`/`_redirects` since the deploy method bypasses it
+- `src/pages/*.astro` — 7 routes, 1:1 to URLs (`index`, `menu`, `catering`, `contact`, `about`, `faq`, `404`).
+- `src/layouts/BaseLayout.astro` — full `<head>` (charset/viewport, GA4 inline script, title/description, geo meta, canonical, favicons, manifest, OG/Twitter, JSON-LD via JsonLd component, Google Fonts); body with Nav, `<slot />`, Footer, bundled `main.ts`. Props: `title`, `description`, `canonical`, `ogType?`, `ogTitle?`, `ogDescription?`, `ogImage?`, `ogImageAlt?`, `twitterTitle?`, `twitterDescription?`, `noindex?`, `schema?`, `hideNavCanonical?`.
+- `src/components/` — `Nav.astro` (header with logo, nav links, social icons, DoorDash button, mobile menu toggle; active class via `Astro.url.pathname`), `Footer.astro` (6-column footer), `JsonLd.astro` (single or array, with `</script>` XSS-escape), `MenuSection.astro` (renders one menu section: header + items + extras; same HTML structure the prior `scripts/build-menu.py` produced).
+- `src/data/restaurant.ts` — NAP, hours, phone, email, geo, sameAs, aggregateRating, awards, area served. Single source of truth for the Restaurant schema fields reused across pages.
+- `src/data/menuData.json` — 22 sections, 153 menu items + dietary flags + signature markers. Imported by `src/pages/menu.astro` at build time; the page renders both the visible HTML and full JSON-LD Menu schema from this file.
+- `src/styles/global.css` — single shared stylesheet (was `site/styles.css` pre-migration). Imported once in `BaseLayout.astro`; Vite bundles, hashes, and emits to `/_astro/*.css`.
+- `src/scripts/main.ts` — mobile menu, reviews carousel, menu tabs, daily-specials loader (Google Sheets gviz), GA4 click event tracking (`click_phone`, `click_email`, `click_doordash`, `click_directions`, `download_pdf`). TypeScript strict.
+- `public/` — served at site root as-is: favicons, `site.webmanifest`, `robots.txt`, logo.jpg, breakfast/lunch/catering menu images (jpg + webp), catering PDFs, IndexNow verification file.
+- `_baseline/lighthouse-2026-05-16/*.json` — pre-migration Lighthouse reports (12 JSONs: 6 routes × desktop+mobile) kept as the performance budget reference. Astro doesn't process this folder (only `src/`).
+- `netlify.toml` — build (NODE_VERSION="24"), security headers (CSP with `frame-ancestors 'none'`, HSTS, Permissions-Policy, X-Frame-Options DENY), cache rules, legacy `.html` → clean URL 301s, www → non-www redirect, trailing 404 fallback.
+- `astro.config.mjs` — `site`, `output: 'static'`, `trailingSlash: 'never'`, `build.format: 'file'`, sitemap integration with the `/404` filter.
+- `tsconfig.json` — extends `astro/tsconfigs/strict`; excludes `dist`, `node_modules`, `_baseline`, `site`, `scripts`.
+- `.github/workflows/deploy.yml` — `actions/setup-node@v4` + `npm ci` + `npm run build` + `netlify-cli@22` deploy + IndexNow ping (prod only)
+- `.claude/settings.json` (committed) — shared project allowlist for safe-default commands (git, npm, gh, netlify, curl, lighthouse).
+- `.claude/settings.local.json` (gitignored) — per-machine overrides.
+- `.claude/commands/` — slash commands (`/preview`, `/build-check`, `/add-page`, `/audit-seo`).
+- `SECURITY.md`, `LICENSE` — vulnerability reporting policy + proprietary license.
+- `STATUS.md` — running checklist of completed/remaining work (authoritative).
 
 ## External Dependencies
 - Netlify (hosting + edge)
 - GA4 (Measurement ID `G-DXYNCF0G79`, public)
 - IndexNow protocol (Bing/Yandex; key `670b4b1e5abe94d9050c77bc3a1011e2`, public)
+- Google Sheets (`1i-lXjDxKOfwmOCfM9oBKUS4X7zYl65JFcIwJ2RydLA0`, "Specials" sheet, public — feeds the daily specials tab via gviz JSON)
 - DoorDash, Google Maps, TripAdvisor, Yelp, The Q 99.7, LinkedIn (citations / external links only — no API integration)
 
 ## Environment Variables
@@ -34,34 +52,38 @@ None for build. Deploy uses two GitHub Actions secrets:
 - `NETLIFY_SITE_ID`
 
 ## Deployment
-Push to `master` → GitHub Actions runs `netlify deploy --prod` then pings IndexNow with the canonical URL list. ~30s end-to-end.
+Push to `master` → GitHub Actions runs `npm ci && npm run build && netlify deploy --dir=dist --prod` then pings IndexNow with the canonical URL list. End-to-end ~1 minute.
+
+**When adding a new page**, use the `/add-page <slug>` slash command — it scaffolds `src/pages/<slug>.astro` from the BaseLayout template and appends the URL to the IndexNow list in `deploy.yml` in one shot. The sitemap is autogenerated by `@astrojs/sitemap` and the nav/footer are shared components, so no longer-list-of-files-to-update like the pre-Astro era.
+
+**When editing the menu**, edit `src/data/menuData.json` and run `npm run build` (or `/build-check`). No more `scripts/build-menu.py`; the menu page imports the JSON directly and renders both visible HTML and full JSON-LD Menu schema at build time.
 
 ## Data Sources
-- `menuData.json` was extracted by vision from `breakfast-menu.jpg` and `lunch-menu.jpg`. See `STATUS.md` "Round 3" for context.
-- All other content authored directly in HTML.
+- `src/data/menuData.json` was extracted by vision from `breakfast-menu.jpg` and `lunch-menu.jpg`. See `STATUS.md` "Round 3" for context.
+- All other content authored directly in `.astro` files.
 
 ## Open Questions / TODO
 
-**Next focused session: Astro 5 migration to mirror homegrowngrowth.co's stack.** Decided 2026-05-16 — the goal is to have both static marketing sites deploying through the same process/structure (Astro 5 + TypeScript + shared BaseLayout + `npm ci && npm run build && netlify deploy --dir=dist`). The HGC migration playbook is fresh; copperline is the next site to apply it to. Specific deltas vs HGC's migration:
+See `STATUS.md` "Remaining Items" — Google Business Profile setup, citation audits, optional WebP/breadcrumb improvements. Distribution/content work, not code.
 
-- **Smaller scope** — fewer pages, no SMS form, simpler schema. Estimate: ~half a working day.
-- **Modernize the menu pipeline** — replace `scripts/build-menu.py` with an Astro page that imports `site/menuData.json` directly and renders the menu at build time. Drops the Python dependency from a Node project; `menuData.json` stays as the single source of truth.
-- **Consolidate Netlify config** — move `site/_headers` + `site/_redirects` content into `netlify.toml` to match HGC's pattern. (Current setup has the redirects in two places because the `nwtgck/actions-netlify@v3` deploy bypasses `netlify.toml`.)
-- **Update `deploy.yml`** — swap `nwtgck/actions-netlify@v3` (the archived flavor) for `actions/setup-node@v4` + `npm install -g netlify-cli@22` + `npm ci` + `npm run build` + `netlify deploy --dir=dist --prod`. Same shape as HGC's `deploy.yml`.
-- **Add `.claude/settings.json`** (committed shared allowlist, copy from HGC) + the 4 slash commands (`/preview`, `/build-check`, `/add-page`, `/audit-seo`).
-- **Add `SECURITY.md` + `LICENSE`** at repo root (proprietary, same template as HGC).
-- **Branch preview verification → `--no-ff` merge** per the same playbook.
-- **Watch out for**: the same trailing-slash 301 footgun HGC hit (`build.format: 'file'` not the default `'directory'`); the same Netlify Forms detection gotcha if any form is added (use a hidden `NetlifyFormStubs` duplicate); CSP header should be hardened from the start (add `scripts.clarity.ms` to script-src if Clarity is in use, `frame-ancestors 'none'`, `upgrade-insecure-requests`).
+Long-term tech debt now resolved (2026-05-16):
 
-**Reference plan**: [`~/.claude/plans/homegrown-growthco-2026-04-20-hgc-v8-cl-elegant-corbato.md`](file:///C:/Users/Ian/.claude/plans/homegrown-growthco-2026-04-20-hgc-v8-cl-elegant-corbato.md) — adapt the Phase B step-by-step section. Phase A filesystem-reorg is N/A (copperline's layout is already clean).
+- ✅ **Astro 5 migration** — shared BaseLayout + Nav + Footer + MenuSection components eliminate the per-page duplication. `scripts/build-menu.py` retired (menu page imports `menuData.json` directly).
+- ✅ **Netlify config consolidation** — `_headers` + `_redirects` merged into `netlify.toml`. Deploy now uses `netlify-cli@22` directly, so `netlify.toml` is respected.
+- ✅ **CSP `frame-ancestors` tightened** — was `'self'`, now `'none'` (no self-framing needed; matches X-Frame-Options DENY header).
+- ✅ **Cache-bust pipeline retired** — Astro/Vite hashes bundled CSS/JS in `/_astro/<hash>.css|.js` filenames automatically. Dropped the `sha256sum` `sed` rewrite step from the GitHub Action.
 
-Then: see `STATUS.md` "Remaining Items" — Google Business Profile setup, citation audits, optional WebP/breadcrumb improvements. Distribution/content work, not code.
+Deliberately kept as-is, with rationale:
+
+- **`'unsafe-inline'` in `script-src` and `style-src`** — removing requires per-build SHA-256 hashing of all inline JSON-LD blocks + Astro's bundled module scripts, with a custom build step to inject hashes into the netlify.toml CSP header on every deploy. ~2–4 hour focused task that doesn't unblock a specific user-facing security threat (static marketing site, no user-generated content, no auth surface). Astro 5's `experimental.csp` doesn't help — SSR-only, ships CSP via meta tag not header, won't work with our `output: 'static'` setup. Revisit when there's a specific compliance/audit driver.
+- **Self-hosting Google Fonts** — Oswald + Merriweather still load from fonts.googleapis.com. CSP already permits the necessary origins. Self-hosting would save one DNS lookup but adds build complexity. Defer.
+- **Branch protection on `master`** — explicitly skipped while solo. Friction cost is real, security benefit is near-zero on a static marketing site with no secrets in the repo. Revisit if a collaborator joins.
 
 ## Recovery Notes
 This project survived the **2026-05-04** complete machine wipe.
 
 **Preserved:**
-- Full git history on GitHub. Last commit: 2026-04-27 ("Auto-stamp styles.css/script.js cache-bust with content hashes").
+- Full git history on GitHub.
 - Live production site at copperlineeatery.com (untouched).
 - GitHub Actions secrets (Netlify token + site ID — stored in GitHub, never local).
 - Rich `STATUS.md` documenting all prior work.
@@ -79,4 +101,32 @@ This project survived the **2026-05-04** complete machine wipe.
 ## Session Log
 ### Session 1 — 2026-05-05
 - Recovered from machine wipe; CLAUDE.md created.
-- `.gitignore` rewritten cleanly (corruption from a prior PowerShell `echo .claude/ >> .gitignore` redirect was fixed; standard env/node_modules/dist/.next/.vercel/.claude blocks added per Option B).
+- `.gitignore` rewritten cleanly.
+
+### Session 2 — 2026-05-16
+**Astro 5 migration, end-to-end.** Site moved from raw static HTML/CSS/JS deployed via `nwtgck/actions-netlify@v3` onto the same Astro 5 stack as homegrowngrowth.co (which shipped its own migration earlier the same day). Live-site behavior unchanged — same 7 routes, same content, same URL shape (clean, no trailing slash).
+
+**Architecture:**
+- 7 `.astro` pages under `src/pages/`. Single `BaseLayout.astro` renders head/nav/footer/analytics for every page. `Nav.astro` reads `Astro.url.pathname` (stripping `.html`/trailing slash) and applies the `active` class.
+- `JsonLd.astro` supports both a single schema object and an array (used by pages with multiple schemas — `/about` has 5: Restaurant + VideoObject + 2 NewsArticle + BreadcrumbList; `/` has Restaurant + WebSite; `/menu` has Restaurant-with-Menu + BreadcrumbList; etc.). Uses the `</script>`-escape XSS-defensive pattern preemptively.
+- `src/data/restaurant.ts` extracts the NAP / hours / sameAs / aggregateRating / awards constants that were previously hand-duplicated across 5 HTML files into a single source of truth.
+- `src/components/MenuSection.astro` + `src/pages/menu.astro` together replace `scripts/build-menu.py`. The page imports `src/data/menuData.json` directly, filters by service (breakfast / lunch / catering), and renders both the visible HTML and the full JSON-LD Menu schema (with `Offer.price`, `priceCurrency`, `suitableForDiet`). Python dependency dropped.
+
+**Infra:**
+- `NODE_VERSION="24"` pinned in netlify.toml (matches local).
+- `deploy.yml` rewritten: `actions/setup-node@v4` (node 24) + `npm ci` + `npm run build` + `npm install -g netlify-cli@22` + `netlify deploy --dir=dist`. IndexNow ping unchanged (master push only).
+- The legacy GitHub Action `sha256sum` cache-bust step was **deleted** — Astro/Vite hashes `/_astro/*.css|.js` filenames automatically, so cache invalidation is built in.
+- `netlify.toml` consolidates everything: build env, security headers (CSP tightened: `frame-ancestors 'self'` → `'none'`), cache rules, 7 legacy `.html` → clean URL 301s, www → non-www, trailing 404 fallback. `site/_headers` + `site/_redirects` deleted.
+- `build.format: 'file'` (produces flat `dist/<slug>.html`) preserves the existing no-trailing-slash URL shape and avoids the 301-chain footgun HGC hit mid-migration.
+
+**Phase C + D bundled in:**
+- `.claude/settings.json` (committed audited allowlist) + 4 slash commands (`/preview`, `/build-check`, `/add-page`, `/audit-seo`) adapted from HGC for copperline's 7-route surface.
+- `SECURITY.md` + `LICENSE` added.
+
+**Pre-flight Lighthouse baseline** at `_baseline/lighthouse-2026-05-16/*.json` (12 JSONs, 6 routes × desktop+mobile) committed. Performance budget reference for the `--no-ff` merge verification step.
+
+**CSP audit finding** confirmed before migration: Clarity is NOT in use on copperline (script-src only allows googletagmanager + google-analytics). The Clarity fix from the open-questions TODO is N/A.
+
+**Deleted:** `site/` (whole tree), `scripts/build-menu.py`, `scripts/`, `sitemap.xml` (autogenerated).
+
+**Revert path:** Netlify dashboard → previous prod deploy → "Publish deploy" (instant rollback) — THEN `git revert -m 1 <merge-sha>` AND revert `netlify.toml` build config in the same commit to keep repo state in sync with rolled-back deploy.

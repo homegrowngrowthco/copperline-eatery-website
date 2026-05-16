@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ADDRESS, AREA_SERVED, EMAIL, PHONE, SITE_URL } from '../data/restaurant';
+
+const title = 'Catering Services - Western MA Breakfast, Lunch & Dinner Catering | The Copperline Eatery';
+const description = 'Professional catering in Chicopee, Springfield, Holyoke & Western MA. Breakfast, lunch, dinner catering for corporate events, weddings, parties. On-site, drop-off, pick-up available. Call (413) 594-8332';
+
+const cateringSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FoodEstablishment',
+  name: 'The Copperline Eatery',
+  description: 'Professional catering services for Western Massachusetts - breakfast, lunch, and dinner catering for corporate events, weddings, parties, and special occasions',
+  servesCuisine: ['American', 'Breakfast', 'Lunch', 'Dinner'],
+  address: ADDRESS,
+  telephone: PHONE,
+  email: EMAIL,
+  priceRange: '$$',
+  areaServed: AREA_SERVED,
+  hasMenu: {
+    '@type': 'Menu',
+    hasMenuSection: [
+      { '@type': 'MenuSection', name: 'Breakfast Catering' },
+      { '@type': 'MenuSection', name: 'Lunch Catering' },
+      { '@type': 'MenuSection', name: 'Dinner Catering' },
+    ],
+  },
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'Catering', item: `${SITE_URL}/catering` },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={`${SITE_URL}/catering`}
+  ogTitle="Catering Services - Western MA Breakfast, Lunch & Dinner Catering | The Copperline Eatery"
+  ogDescription="Professional catering in Chicopee, Springfield, Holyoke & Western MA. Breakfast, lunch, dinner catering for corporate events, weddings, and parties. Call (413) 594-8332."
+  ogImageAlt="The Copperline Eatery - Catering Services Western MA"
+  twitterTitle="Catering Services - Western MA | The Copperline Eatery"
+  twitterDescription="Professional catering in Chicopee, Springfield, Holyoke & Western MA. Corporate events, weddings, and parties. Call (413) 594-8332."
+  schema={[cateringSchema, breadcrumb]}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Catering Services</h1>
+        <p>Western MA's Premier Catering Service</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="catering-content">
+          <p class="lead catering-lead">Whether you're planning a corporate event, family gathering, or special celebration, Copperline Eatery is willing to work with you to create a catering menu that your party will enjoy.</p>
+
+          <div class="catering-cta-row">
+            <a href="/catering-menu.pdf" download class="btn btn-primary">Download Catering Menu</a>
+            <a href="/catering-order-form.pdf" download class="btn btn-secondary">Download Catering Order Form</a>
+          </div>
+
+          <div class="catering-options">
+            <div class="catering-option-card">
+              <h2>Service Options</h2>
+              <ul>
+                <li>On-Site Service</li>
+                <li>Drop Off</li>
+                <li>Pick Up</li>
+                <li>Custom - Talk To Us!</li>
+              </ul>
+            </div>
+
+            <div class="catering-option-card">
+              <h2>Cuisine Options</h2>
+              <ul>
+                <li>Breakfast</li>
+                <li>Lunch</li>
+                <li>Dinner</li>
+              </ul>
+            </div>
+
+            <div class="catering-option-card">
+              <h2>Meal Styles</h2>
+              <ul>
+                <li>Buffet Style</li>
+                <li>To-Go (Buffet Style)</li>
+                <li>Individual Portions</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 class="catering-events-title">Events We've Catered</h2>
+          <p class="catering-events-intro">From intimate gatherings to large corporate events, we've served Western Massachusetts communities with memorable meals for every occasion:</p>
+
+          <div class="catering-options">
+            <div class="catering-option-card">
+              <h3>Corporate &amp; Business</h3>
+              <ul>
+                <li>Office Meetings &amp; Lunches</li>
+                <li>Corporate Retreats</li>
+                <li>Networking Events</li>
+                <li>Grand Openings</li>
+                <li>Employee Appreciation</li>
+              </ul>
+            </div>
+
+            <div class="catering-option-card">
+              <h3>Celebrations</h3>
+              <ul>
+                <li>Weddings &amp; Rehearsals</li>
+                <li>Bridal &amp; Jack &amp; Jill Showers</li>
+                <li>Graduations</li>
+                <li>Birthdays</li>
+                <li>Family Reunions</li>
+                <li>Holiday Parties</li>
+              </ul>
+            </div>
+
+            <div class="catering-option-card">
+              <h3>Community &amp; Special Events</h3>
+              <ul>
+                <li>Church Socials</li>
+                <li>School Functions</li>
+                <li>Banquets &amp; Fundraisers</li>
+                <li>Sporting Events &amp; Tailgates</li>
+                <li>Memorial Services</li>
+                <li>Film &amp; Photo Shoots</li>
+                <li>Healthcare Facilities</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cta-box">
+            <h3>Ready to Cater Your Event?</h3>
+            <p>Call us at <a href="tel:+14135948332" class="highlight-link">(413) 594-8332</a></p>
+            <p>Email us at <a href={`mailto:${EMAIL}`} class="highlight-link">{EMAIL}</a></p>
+            <p class="cta-box-note">Serving Chicopee, Springfield, Holyoke, and all of Western Massachusetts</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

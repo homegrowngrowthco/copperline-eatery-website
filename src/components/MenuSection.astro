@@ -1,0 +1,96 @@
+---
+interface MenuItem {
+  name: string;
+  description?: string;
+  price?: string;
+  dietaryFlags?: string[];
+  popular?: boolean;
+  includes?: string[] | Array<{ label: string; items: string[] }>;
+}
+
+interface ExtrasGroup {
+  label: string;
+  items: string[];
+}
+
+interface Extras {
+  title: string;
+  note?: string;
+  groups: ExtrasGroup[];
+}
+
+export interface MenuSectionData {
+  id: string;
+  name: string;
+  service: string;
+  note?: string;
+  included?: string[];
+  items: MenuItem[];
+  extras?: Extras;
+}
+
+interface Props {
+  section: MenuSectionData;
+}
+
+const { section } = Astro.props;
+
+function isGrouped(includes: MenuItem['includes']): includes is Array<{ label: string; items: string[] }> {
+  return Array.isArray(includes) && includes.length > 0 && typeof includes[0] === 'object';
+}
+---
+
+<section class="menu-section" aria-labelledby={`sec-${section.id}`}>
+  <header class="menu-section-header">
+    <h3 id={`sec-${section.id}`} class="menu-section-title">{section.name}</h3>
+    {section.note && <p class="menu-section-note">{section.note}</p>}
+  </header>
+  {section.included && (
+    <p class="menu-section-includes">
+      <span class="menu-section-includes-label">Includes</span> {section.included.join(', ')}
+    </p>
+  )}
+  {section.items.map((item) => (
+    <div class="menu-item">
+      <div class="menu-item-row">
+        {item.popular && <span class="menu-item-popular" aria-label="Signature dish" title="Signature dish">★</span>}
+        <span class="menu-item-name">
+          {item.name}
+          {item.dietaryFlags?.includes('v') && <span class="menu-item-veg" aria-label="Vegetarian" title="Vegetarian">V</span>}
+        </span>
+        {item.price && <span class="menu-item-leader" aria-hidden="true"></span>}
+        {item.price && <span class="menu-item-price">${item.price}</span>}
+      </div>
+      {item.description && <p class="menu-item-desc">{item.description}</p>}
+      {item.includes && isGrouped(item.includes) && item.includes.map((group) => (
+        <>
+          <p class="menu-item-includes-label">{group.label}</p>
+          <ul class="menu-item-includes">
+            {group.items.map((it) => <li>{it}</li>)}
+          </ul>
+        </>
+      ))}
+      {item.includes && !isGrouped(item.includes) && (
+        <ul class="menu-item-includes">
+          {(item.includes as string[]).map((it) => <li>{it}</li>)}
+        </ul>
+      )}
+    </div>
+  ))}
+  {section.extras && (
+    <div class="menu-section-extras">
+      <p class="menu-section-extras-title">{section.extras.title}</p>
+      {section.extras.note && <p class="menu-section-extras-note">{section.extras.note}</p>}
+      <div class="menu-section-extras-grid">
+        {section.extras.groups.map((group) => (
+          <div class="menu-section-extras-group">
+            <p class="menu-item-includes-label">{group.label}</p>
+            <ul class="menu-item-includes">
+              {group.items.map((it) => <li>{it}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</section>

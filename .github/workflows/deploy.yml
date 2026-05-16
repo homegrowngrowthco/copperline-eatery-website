@@ -3,9 +3,8 @@ name: Deploy to Netlify
 on:
   push:
     branches: [master]
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  pull_request:
+    branches: [master]
 
 jobs:
   deploy:
@@ -13,40 +12,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Stamp styles.css / script.js cache-bust query params with content hashes.
-      # styles.css and script.js are served immutable (1y cache) per site/_headers,
-      # so the URL must change whenever file content changes — otherwise browsers
-      # never re-fetch. Hash-based stamping does this automatically: same content =
-      # same URL (cache hit), changed content = new URL (forced refresh).
-      - name: Stamp asset cache-bust hashes
-        run: |
-          CSS_HASH=$(sha256sum site/styles.css | cut -c1-8)
-          JS_HASH=$(sha256sum site/script.js | cut -c1-8)
-          echo "styles.css?v=$CSS_HASH"
-          echo "script.js?v=$JS_HASH"
-          sed -i -E "s|styles\.css\?v=[a-zA-Z0-9]+|styles.css?v=${CSS_HASH}|g" site/*.html
-          sed -i -E "s|script\.js\?v=[a-zA-Z0-9]+|script.js?v=${JS_HASH}|g" site/*.html
-          # Sanity check: every HTML file must reference both stamped assets.
-          for f in site/*.html; do
-            grep -q "styles.css?v=${CSS_HASH}" "$f" || { echo "MISSING styles.css stamp in $f"; exit 1; }
-            grep -q "script.js?v=${JS_HASH}"  "$f" || { echo "MISSING script.js stamp in $f"; exit 1; }
-          done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro site
+        run: npm run build
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli@22
 
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3
-        with:
-          publish-dir: ./site
-          production-branch: master
-          production-deploy: true
-          deploy-message: "Deploy from ${{ github.sha }} - ${{ github.event.head_commit.message }}"
-          enable-pull-request-comment: false
-          enable-commit-comment: false
+        run: netlify deploy --dir=dist ${{ github.ref == 'refs/heads/master' && '--prod' || '' }}
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-      - name: Notify IndexNow
-        if: success()
+      - name: Ping IndexNow (prod only)
+        if: github.ref == 'refs/heads/master'
         run: |
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
             -X POST "https://api.indexnow.org/indexnow" \

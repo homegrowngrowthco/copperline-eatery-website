@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_URL } from '../data/restaurant';
+---
+
+<BaseLayout
+  title="Page Not Found - The Copperline Eatery"
+  description="Sorry, we couldn't find that page. Try our menu, hours, or catering info."
+  canonical={`${SITE_URL}/404`}
+  noindex={true}
+  hideNavCanonical={true}
+>
+  <main>
+    <div class="error-page">
+      <div>
+        <h1>404</h1>
+        <h2>Page Not Found</h2>
+        <p>Sorry, we couldn't find that page. Maybe you're looking for our menu, hours, or catering info?</p>
+        <div class="error-links">
+          <a href="/" class="btn btn-primary">Home</a>
+          <a href="/menu" class="btn btn-secondary">Menu</a>
+          <a href="/contact" class="btn btn-secondary">Hours &amp; Location</a>
+          <a href="/catering" class="btn btn-secondary">Catering</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script is:inline>
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_not_found', { page_path: location.pathname + location.search });
+    }
+  </script>
+</BaseLayout>

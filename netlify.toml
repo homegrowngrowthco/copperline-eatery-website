@@ -1,23 +1,37 @@
 [build]
-  publish = "site"
+  command = "npm run build"
+  publish = "dist"
 
-# Security headers on all pages
+[build.environment]
+  NODE_VERSION = "24"
+
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://img.youtube.com; frame-src https://www.youtube.com https://www.google.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://docs.google.com https://ingesteer.services-prod.nsvcs.net; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
 
-# Cache HTML for 1 hour (short so content updates are seen quickly)
 [[headers]]
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=3600"
 
-# Cache images/CSS/JS for 1 year (they're content-stable)
 [[headers]]
   for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
@@ -36,15 +50,69 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
-# Correct MIME type for sitemap
 [[headers]]
-  for = "/sitemap.xml"
+  for = "/sitemap-index.xml"
   [headers.values]
     Content-Type = "application/xml; charset=utf-8"
     Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/sitemap-0.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/site.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=86400"
+
+# Permanent redirects from the legacy *.html URLs to the clean Astro routes.
+# Kept indefinitely — GSC previously indexed both forms (see STATUS.md 2026-05-07).
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/menu.html"
+  to = "/menu"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/catering.html"
+  to = "/catering"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/contact"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/about.html"
+  to = "/about"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/faq.html"
+  to = "/faq"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "https://www.copperlineeatery.com/*"
   to = "https://copperlineeatery.com/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
