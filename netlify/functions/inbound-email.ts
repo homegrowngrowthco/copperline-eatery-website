@@ -11,6 +11,7 @@ const SPECIALS_DATA_PATH = 'src/data/specials.json';
 const PENDING_STORE = 'pending-specials';
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'] as const;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const REPLY_TO_ADDRESS = 'specials-bot@parse.copperlineeatery.com';
 
 type AllowedImageType = (typeof ALLOWED_IMAGE_TYPES)[number];
 
@@ -301,6 +302,7 @@ async function sendReply(
   const client = new ServerClient(token);
   await client.sendEmail({
     From: from,
+    ReplyTo: REPLY_TO_ADDRESS,
     To: inbound.FromFull?.Email || inbound.From,
     Subject: opts.subject,
     TextBody: opts.body,
