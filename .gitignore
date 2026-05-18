@@ -38,3 +38,8 @@ dist/
 # Claude Code (commit settings.json; ignore local overrides + history)
 .claude/settings.local.json
 .claude/file-history/
+
+# Scratch / shared with Claude (screenshots, emails, drafts)
+# Never commit these — may contain credentials, PII, or test payloads
+Screenshots/
+*.eml
