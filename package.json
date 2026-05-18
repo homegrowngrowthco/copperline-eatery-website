@@ -13,6 +13,11 @@
   },
   "dependencies": {
     "astro": "^5.0.0",
-    "@astrojs/sitemap": "^3.0.0"
+    "@astrojs/sitemap": "^3.0.0",
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@netlify/blobs": "^9.0.0",
+    "@netlify/functions": "^4.0.0",
+    "@octokit/rest": "^22.0.0",
+    "postmark": "^4.0.0"
   }
 }

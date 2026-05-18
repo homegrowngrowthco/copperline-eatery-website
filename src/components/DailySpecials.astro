@@ -1,0 +1,56 @@
+---
+import specialsData from '../data/specials.json';
+
+interface Special {
+  name: string;
+  description: string | null;
+  price: string | null;
+}
+
+interface SpecialsFile {
+  updatedAt?: string | null;
+  specials?: Special[];
+}
+
+const data = specialsData as SpecialsFile;
+const specials = data.specials ?? [];
+const updatedAt = data.updatedAt ?? null;
+const hasAny = specials.length > 0;
+
+const updatedLabel = updatedAt
+  ? new Date(updatedAt).toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+---
+
+<div class="specials-content">
+  {hasAny ? (
+    <>
+      {specials.map((s) => (
+        <div class="special-item">
+          <h4>
+            <span>{s.name}</span>
+            {s.price && (
+              <span class="special-price">
+                {s.price.startsWith('$') ? s.price : `$${s.price}`}
+              </span>
+            )}
+          </h4>
+          {s.description && <p>{s.description}</p>}
+        </div>
+      ))}
+      {updatedLabel && <p class="specials-updated">Updated {updatedLabel}</p>}
+    </>
+  ) : (
+    <div class="no-specials">
+      <h4>No Specials Today</h4>
+      <p>
+        Daily specials updated each morning.<br />
+        Call us at <a href="tel:+14135948332">(413) 594-8332</a> for today's offerings!
+      </p>
+    </div>
+  )}
+</div>

@@ -1,9 +1,5 @@
 declare function gtag(...args: unknown[]): void;
 
-const SHEET_ID = '1i-lXjDxKOfwmOCfM9oBKUS4X7zYl65JFcIwJ2RydLA0';
-const SHEET_NAME = 'Specials';
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-
 document.addEventListener('DOMContentLoaded', () => {
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const mainNav = document.getElementById('mainNav');
@@ -26,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.querySelector('.menu-tab')) {
     initMenuTabs();
-    loadDailySpecials();
 
     document.querySelectorAll<HTMLElement>('.link-as-button[data-tab]').forEach((el) => {
       el.addEventListener('click', () => {
@@ -157,100 +152,12 @@ function initMenuTabs() {
         history.pushState(null, '', '#' + targetPanel);
       }
 
-      if (targetPanel === 'specials') {
-        const specialsContent = document.getElementById('specialsContent');
-        if (specialsContent?.querySelector('.loading')) {
-          loadDailySpecials();
-        }
-      }
-
       if (mainNav?.classList.contains('active')) {
         mainNav.classList.remove('active');
       }
     });
   });
 }
-
-async function loadDailySpecials() {
-  const specialsContent = document.getElementById('specialsContent');
-  if (!specialsContent) return;
-
-  try {
-    const response = await fetch(SHEET_URL);
-    const text = await response.text();
-    const json = JSON.parse(text.substring(47).slice(0, -2));
-    const rows = json.table.rows;
-
-    const hasSpecials = rows.some((row: { c: Array<{ v?: unknown } | null> }) => {
-      const specialName = row.c[2]?.v;
-      return typeof specialName === 'string' && specialName.trim() !== '';
-    });
-
-    if (!hasSpecials) {
-      specialsContent.innerHTML = `
-        <div class="no-specials">
-          <h4>No Specials Today</h4>
-          <p>Daily specials updated each morning.<br>Call us at <a href="tel:+14135948332">(413) 594-8332</a> for today's offerings!</p>
-        </div>
-      `;
-      return;
-    }
-
-    let specialsHTML = '';
-    rows.forEach((row: { c: Array<{ v?: unknown } | null> }) => {
-      const specialName = row.c[2]?.v;
-      const price = row.c[3]?.v;
-      let description = row.c[4]?.v;
-
-      if (description) {
-        description = String(description).replace(/\$/g, '').trim();
-      }
-
-      if (typeof specialName === 'string' && specialName.trim() !== '') {
-        const cleanName = escapeHtml(specialName);
-        const cleanPrice = price ? escapeHtml(String(price)) : '';
-        const cleanDesc = description ? escapeHtml(String(description)) : '';
-
-        specialsHTML += `
-          <div class="special-item">
-            <h4>
-              <span>${cleanName}</span>
-              ${cleanPrice ? `<span class="special-price">$${cleanPrice}</span>` : ''}
-            </h4>
-            ${cleanDesc ? `<p>${cleanDesc}</p>` : ''}
-          </div>
-        `;
-      }
-    });
-
-    specialsContent.innerHTML = specialsHTML;
-  } catch (error) {
-    console.error('Error loading specials:', error);
-    specialsContent.innerHTML = `
-      <div class="no-specials">
-        <h4>Unable to Load Specials</h4>
-        <p>Please call us at <a href="tel:+14135948332">(413) 594-8332</a> for today's specials!</p>
-      </div>
-    `;
-  }
-}
-
-function escapeHtml(unsafe: string): string {
-  return unsafe
-    .toString()
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-setInterval(() => {
-  const specialsPanel = document.getElementById('specials');
-  if (specialsPanel && specialsPanel.classList.contains('active')) {
-    loadDailySpecials();
-  }
-}, 300000);
 
 document.addEventListener('click', (e) => {
   const target = e.target as HTMLElement | null;

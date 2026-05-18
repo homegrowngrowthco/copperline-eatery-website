@@ -26,6 +26,44 @@ Site migrated from raw static HTML/CSS/JS to Astro 5 + TypeScript on a feature b
 
 **Revert path**: Netlify dashboard → previous prod deploy → "Publish deploy" (instant), THEN `git revert -m 1 <merge-sha>` on master AND revert `netlify.toml` build config in the same commit (otherwise GH Actions tries `npm run build` against a tree with no `package.json`).
 
+### Automated daily-specials pipeline (email + Claude vision + GitHub commit)
+
+Replaced the Google Sheets gviz feed with an end-to-end pipeline: staff emails a photo of the chalkboard to a Postmark inbound address, Claude vision (`claude-sonnet-4-6`) extracts the items, the system replies with the parsed specials and asks for a YES confirmation, and on YES it commits `src/data/specials.json` back to the repo. The Astro rebuild then bakes the specials into static HTML, so they are indexable by search engines and AI ingest instead of being a JS-only client-side fetch.
+
+**New files**
+- `netlify/functions/inbound-email.ts` (Netlify Function, web-standard `Request`/`Response` handler, ~280 lines incl. types)
+- `src/components/DailySpecials.astro` (renders from build-time JSON import; handles empty state inline)
+- `src/data/specials.json` (single source of truth, written by the function via the GitHub Contents API)
+- `.env.example` (documents all required runtime env vars)
+
+**Modified files**
+- `package.json` — added runtime deps: `@anthropic-ai/sdk`, `@netlify/blobs`, `@netlify/functions`, `@octokit/rest`, `postmark`
+- `src/pages/menu.astro` — `<div id="specialsContent">` placeholder replaced with `<DailySpecials />` import
+- `src/scripts/main.ts` — removed `SHEET_*` constants, `loadDailySpecials()`, `escapeHtml` helper, the 5-minute polling interval, and the tab-click lazy-load branch (~80 lines gone)
+- `netlify.toml` — added `[functions]` block (`directory = "netlify/functions"`, `node_bundler = "esbuild"`) and removed `https://docs.google.com` from CSP `connect-src` (the Sheet fetch is gone)
+- `.github/workflows/deploy.yml` — added `--functions=netlify/functions` to the `netlify deploy` command so the function actually ships
+
+**Pipeline flow**
+1. Staff emails a photo to the Postmark inbound address (Postmark inbound is free and unlimited).
+2. Postmark POSTs the parsed email + base64 attachment to `/.netlify/functions/inbound-email` with HTTP Basic auth.
+3. Function validates auth, checks `From` against `ALLOWED_SENDER_EMAILS`, branches on whether the `In-Reply-To` header matches a pending batch id.
+4. **New-photo branch**: validates image type (JPEG/PNG/GIF/WebP, max 5 MB), calls Claude with the exact prompt from the brief, parses + validates the JSON, stores the result as a pending batch in Netlify Blobs keyed by a UUID, sends a Postmark reply containing the parsed specials with `Message-ID: <batch-{uuid}@copperlineeatery.com>` and asks for YES.
+5. **Reply branch**: extracts batch UUID from `In-Reply-To`, loads the pending blob, if the body starts with YES commits to `src/data/specials.json` via Octokit, deletes the blob, sends a "published" confirmation. Anything other than YES deletes the blob and sends a "not published" note.
+6. The commit triggers GitHub Actions, Astro rebuild bakes the specials into static HTML, IndexNow pings on prod, total ~30 s.
+
+**Why GitHub commit over Netlify Blobs for the live data**: with `output: 'static'` a Blob store would force a client-side fetch (same shape as the old Sheet flow) and the specials would not be in the indexable HTML. The once-per-day cadence makes a 30 s rebuild acceptable, and a permanent audit trail of menu changes is a side benefit.
+
+**Free-tier sizing**: Netlify Functions 125k/mo (use ~60), Netlify Blobs 100k reads / 1k writes (use ~6/day), Postmark inbound unlimited + outbound 100/mo free.
+
+**Required setup (outside this repo, on first deploy)**
+- Postmark server with an inbound stream on a subdomain (e.g., `parse.copperlineeatery.com`), MX records pointed at Postmark.
+- Postmark webhook URL set to `https://USER:PASS@copperlineeatery.com/.netlify/functions/inbound-email` (Basic auth credentials embedded in the URL).
+- Verified sender signature for `SPECIALS_FROM_ADDRESS` on the parse subdomain.
+- Fine-grained GitHub PAT with `contents:write` on `homegrowngrowthco/copperline-eatery-website`.
+- All env vars from `.env.example` set in Netlify Site Settings -> Environment Variables.
+
+**Revert path**: this work landed as a single feature bundle. To revert: `git revert <sha>` after the commit lands, then push. The pipeline can also be fully disabled at runtime by removing the Netlify env vars without any code change. If the Google Sheet flow is ever needed again, it can be restored from git history.
+
 ---
 
 ## Recent Updates (2026-05-07)

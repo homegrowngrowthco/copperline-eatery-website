@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MenuSection, { type MenuSectionData } from '../components/MenuSection.astro';
+import DailySpecials from '../components/DailySpecials.astro';
 import menuData from '../data/menuData.json';
 import { ADDRESS, PHONE, SITE_URL } from '../data/restaurant';
 
@@ -198,9 +199,7 @@ const ogDescription = 'Award-winning eggs benedict, house-made corned beef hash,
                 <p>Updated each morning. Subject to change &mdash; call us to confirm.</p>
               </div>
             </div>
-            <div id="specialsContent" class="specials-content">
-              <div class="loading">Loading today's specials&hellip;</div>
-            </div>
+            <DailySpecials />
           </div>
         </div>
       </div>
