@@ -105,6 +105,34 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 3 — 2026-05-18
+**Automated daily-specials pipeline shipped end-to-end** + same-day configuration journey through Postmark constraints + credentials rotation. Replaces the prior Google Sheets gviz client-side fetch (now removed) with a real email pipeline that bakes specials into static HTML.
+
+**Pipeline (feature commit `4af2b9a`):**
+- `netlify/functions/inbound-email.ts` — web-standard `Request`/`Response` handler. Validates Basic auth, allowlists `From` against `ALLOWED_SENDER_EMAILS`, branches on `In-Reply-To` (new-photo vs YES-reply).
+- New-photo branch: validates image (JPEG/PNG/GIF/WebP, max 5 MB), calls Claude `claude-sonnet-4-6` vision, parses + validates JSON, stores pending batch in Netlify Blobs `pending-specials` keyed by UUID, sends Postmark reply with `Message-ID: <batch-{uuid}@copperlineeatery.com>` asking for YES.
+- Reply branch: extracts UUID from `In-Reply-To`, loads pending blob, on YES commits `src/data/specials.json` via Octokit + GitHub Contents API, deletes blob, sends published confirmation. Non-YES deletes blob and sends declined note.
+- `src/components/DailySpecials.astro` reads `src/data/specials.json` at build time, renders inline empty state if absent. Bakes specials into static HTML (indexable, no JS fetch).
+- `[functions]` block added to `netlify.toml`; `--functions=netlify/functions` flag added to `deploy.yml`; ~80 lines of Sheet-fetch JS stripped from `main.ts`; `docs.google.com` removed from CSP `connect-src`.
+
+**Same-day post-ship configuration (5 follow-up deploys to land):**
+- `0c350b8` — discovered Netlify Functions bake env vars at deploy time. Env vars set AFTER first deploy meant the function returned 401 with correct creds. Empty-commit redeploy is the fix. Saved as reference memory `reference_netlify_function_envvars_redeploy.md`.
+- `4c9d4ca` — user initially used the Postmark **Account API Token** instead of the **Server API Token**. Symptom: `InvalidAPIKeyError statusCode 401 code 10` in function logs. Fix: corrected token + redeploy.
+- `2e3e120` — Postmark new accounts are in pending approval, restricted to "recipient domain must equal sender domain" (`ApiInputError statusCode 422 code 412`). Workaround: switch `SPECIALS_FROM_ADDRESS` env var to `specials-bot@homegrowngrowth.co` (hgc.com also verified in Postmark) + add `Reply-To: specials-bot@parse.copperlineeatery.com` constant in function code so YES replies still route through the parse-subdomain inbound MX (not hgc.com which uses Google Workspace MX).
+- `e4b2821` — cleanup commit after `2e3e120` accidentally swept `Screenshots/netlify_postmark_screenshot.jpg` (containing `POSTMARK_WEBHOOK_USER`/`POSTMARK_WEBHOOK_PASS` in plaintext) and `Today's Specials List.eml` to the public repo via `git add -A`. Removed from HEAD, added `Screenshots/` + `*.eml` to `.gitignore`. Old values remain in git history of `2e3e120`. Webhook credentials rotated in Netlify env vars + Postmark webhook URL. Saved feedback memory `feedback_never_git_add_dash_a.md`.
+- `afdefb8` — empty-commit redeploy after webhook credentials rotation.
+
+**Verification:**
+- Curl probes confirmed every state: rotated creds work, old creds inert, allowlist accepts `ian@homegrowngrowth.co`, reply-send works (probes triggered real "no image found" replies that landed in inbox).
+- User sent real test email from `ian@homegrowngrowth.co` with photo attached; bot replied with extracted specials. User did NOT reply YES (test photo was outdated specials); `src/data/specials.json` remains in initial empty state `{"updatedAt": null, "specials": []}`.
+
+**Current state / pending follow-ups:**
+- **Postmark account approval pending.** When it lands: revert `SPECIALS_FROM_ADDRESS` env var back to `specials-bot@parse.copperlineeatery.com` (cleaner brand) + empty-commit redeploy. Reply-To header stays in code (harmless when From and Reply-To match).
+- **Orphan pending batches** from probes are sitting in Netlify Blobs `pending-specials` store with no TTL. Harmless (can't be confirmed without a matching In-Reply-To). Manual purge possible via Netlify dashboard.
+- **3 enhancement proposals deferred** pending user pickup: (1) free-form natural-language edit mechanism in reply (Claude re-parses corrections, loops to YES); (2) include extracted-from image inline at top of confirmation reply for visual validation; (3) daily auto-expiry (component renders empty state if `updatedAt` >18h old + scheduled GH Action rebuilds at 5 UTC daily). Recommended bundle order: 2+3 first (small, no UX changes for staff), then 1.
+
+**Commits on master (chronological):** `4af2b9a` (feat) → `0c350b8` (redeploy env vars) → `4c9d4ca` (redeploy server token fix) → `2e3e120` (feat: Reply-To, accidentally included screenshot+eml) → `e4b2821` (chore: untrack + gitignore) → `afdefb8` (redeploy: rotated webhook creds). 6 prod deploys verified green. **Revert path**: `git revert <sha>` per commit; the function can be fully disabled at runtime by clearing Netlify env vars without any code change. To restore the Google Sheet flow: revert `4af2b9a`.
+
 ### Session 1 — 2026-05-05
 - Recovered from machine wipe; CLAUDE.md created.
 - `.gitignore` rewritten cleanly.

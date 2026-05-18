@@ -2,7 +2,79 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-05-16
+**Last updated:** 2026-05-18
+
+---
+
+## Recent Updates (2026-05-18)
+
+### Session 3 — Automated daily-specials pipeline shipped + Postmark workarounds + credentials rotation
+
+Replaced the prior public Google Sheets gviz client-side fetch with an end-to-end email pipeline: staff emails a photo of the chalkboard to a Postmark inbound address, Claude vision (`claude-sonnet-4-6`) extracts the items, the system replies with the parsed specials and asks for YES, and on confirmation it commits `src/data/specials.json` back to the repo via the GitHub Contents API. The Astro rebuild bakes the specials into static HTML (indexable by search engines and AI ingest, not a JS-only client-side fetch).
+
+**New files (commit `4af2b9a`):**
+- `netlify/functions/inbound-email.ts` (Netlify Function, web-standard `Request`/`Response` handler with Basic-auth webhook validation, sender allowlist, In-Reply-To branch for YES gate, 5 MB / JPEG-PNG-GIF-WebP image guard; ~290 lines incl. types + Reply-To addition)
+- `src/components/DailySpecials.astro` (build-time JSON import, empty state inline)
+- `src/data/specials.json` (initial empty state, written by the function via Octokit)
+- `.env.example` (9 runtime env vars documented)
+
+**Modified files (same feature commit):**
+- `package.json` — runtime deps: `@anthropic-ai/sdk`, `@netlify/blobs`, `@netlify/functions`, `@octokit/rest`, `postmark`
+- `src/pages/menu.astro` — placeholder replaced with `<DailySpecials />`
+- `src/scripts/main.ts` — removed `SHEET_*` constants, `loadDailySpecials()`, `escapeHtml` helper, 5-minute polling interval, tab-click lazy-load branch (~80 lines gone)
+- `netlify.toml` — added `[functions]` block; removed `https://docs.google.com` from CSP `connect-src`
+- `.github/workflows/deploy.yml` — added `--functions=netlify/functions` flag
+
+**Pipeline flow:**
+1. Staff emails a photo to `specials@parse.copperlineeatery.com` (inbound MX on parse subdomain points at Postmark; inbound is free and unlimited).
+2. Postmark POSTs the parsed email + base64 attachment to `/.netlify/functions/inbound-email` with HTTP Basic auth.
+3. Function validates auth, checks `From` against `ALLOWED_SENDER_EMAILS`, branches on whether `In-Reply-To` matches a pending batch id.
+4. **New-photo branch**: validates image, calls Claude, parses + validates JSON, stores pending batch in Netlify Blobs `pending-specials` keyed by UUID, sends Postmark reply with `Message-ID: <batch-{uuid}@copperlineeatery.com>` asking for YES.
+5. **Reply branch**: extracts UUID from `In-Reply-To`, loads pending blob, on YES commits to `src/data/specials.json` via Octokit, deletes blob, sends "published" confirmation. Non-YES deletes blob and sends a "not published" note.
+6. Commit triggers GH Actions, Astro rebuild bakes specials into static HTML, IndexNow pings on prod, total ~30 s.
+
+**6 prod deploys to land the configuration:**
+- `4af2b9a` (feat) — pipeline + Astro component + env.example + workflow + memory + tracking docs.
+- `0c350b8` (chore) — empty-commit redeploy after discovering Netlify Functions bake env vars at deploy time. Initial env vars set AFTER first deploy meant the function returned 401 with correct credentials. Reference memory saved: `reference_netlify_function_envvars_redeploy.md`.
+- `4c9d4ca` (chore) — empty-commit redeploy after correcting `POSTMARK_SERVER_TOKEN`. User initially used the Postmark **Account API Token** (account-wide) instead of the **Server API Token** (per-server send permission). Function logs showed `InvalidAPIKeyError statusCode 401 code 10` from Postmark.
+- `2e3e120` (feat) — added `Reply-To: specials-bot@parse.copperlineeatery.com` constant in function code so YES replies route back through the parse-subdomain MX regardless of what FROM the bot sends from. Needed for the Postmark pending-approval workaround (see below). **This commit also accidentally included a credentials screenshot** via `git add -A` (see Credentials Rotation).
+- `e4b2821` (chore) — untracked the accidentally-committed screenshot + `.eml` and gitignored `Screenshots/` + `*.eml`. Files remain in git history of `2e3e120`.
+- `afdefb8` (chore) — empty-commit redeploy after webhook credentials rotation.
+
+**Postmark pending-approval workaround:**
+
+Postmark restricts new (pending-approval) accounts: outbound recipient domain must match the sender (From) domain. With `FROM = specials-bot@parse.copperlineeatery.com` and `TO = ian@homegrowngrowth.co`, sends were blocked with `ApiInputError statusCode 422 code 412`.
+
+Workaround applied:
+1. `SPECIALS_FROM_ADDRESS` env var temporarily switched to `specials-bot@homegrowngrowth.co` (homegrowngrowth.co domain also verified in Postmark for sending).
+2. Function code adds `Reply-To: specials-bot@parse.copperlineeatery.com` so YES replies still route through the parse-subdomain inbound MX (not hgc.com which has Google Workspace MX).
+3. **Revert after Postmark approval lands**: change `SPECIALS_FROM_ADDRESS` env var back to `specials-bot@parse.copperlineeatery.com` + empty-commit redeploy. Reply-To header can stay in code (harmless when From and Reply-To match).
+
+**Credentials rotation incident:**
+
+Commit `2e3e120` was made with `git add -A` (despite system-prompt guidance against this pattern). It swept up `Screenshots/netlify_postmark_screenshot.jpg` (containing `POSTMARK_WEBHOOK_USER` + `POSTMARK_WEBHOOK_PASS` in plaintext) and `Today's Specials List.eml` (a test email) into the public repo. Cleanup commit `e4b2821` removed both files from HEAD and gitignored their patterns. Old credentials are inert (rotated immediately in Netlify env vars + Postmark webhook URL). Old values remain readable in the diff of commit `2e3e120` on the public repo; not scrubbed via filter-repo since the chars are inert. Feedback memory saved: `feedback_never_git_add_dash_a.md`.
+
+**Verification (end-to-end):**
+- Curl probes confirmed every state: old creds → 401, new creds + no body → 400, new creds + valid body from allowlisted sender → 200 + reply email sent.
+- User sent real test email from `ian@homegrowngrowth.co` with photo attached; bot replied with extracted specials. User did NOT reply YES (test photo was an outdated specials list); waiting for a fresh real-board photo to do the full publish-to-site round trip. So `src/data/specials.json` is still in its initial empty state.
+
+**3 enhancement proposals discussed, deferred pending user pickup:**
+1. **Edit mechanism**: free-form natural-language corrections in the reply ("Change Salmon Benny to Salmon Eggs Benedict", "Item 3 should be $14"). Function pipes original parsed JSON + staff reply to Claude with a corrections prompt, gets back updated JSON, sends fresh confirmation email asking YES on the new version. Loops naturally.
+2. **Image in reply**: include the original extracted-from image inline at the top of the confirmation email so staff can spot extraction errors at a glance. Requires storing the image base64 in the pending Netlify Blob (along with parsed specials) so corrections rounds can re-show it.
+3. **Daily auto-expiry**: component renders empty state if `updatedAt` is more than ~18h old at build time. Add a scheduled GH Actions workflow that triggers a rebuild around 5 UTC daily so stale specials auto-clear without staff doing anything extra.
+
+Recommended bundle order: **2 + 3 first** (small, no UX changes for staff), then **1** as a follow-up (changes staff workflow).
+
+**Free-tier sizing**: Netlify Functions 125k/mo (use ~60), Netlify Blobs 100k reads / 1k writes/mo (use ~6/day), Postmark inbound unlimited + outbound 100/mo (free, lifts after approval). Anthropic vision call ~$0.01-0.02 per photo via Sonnet 4.6.
+
+**Required infra setup (done outside the repo):**
+- Postmark server with inbound stream + sender signatures verified for both `parse.copperlineeatery.com` (canonical) and `homegrowngrowth.co` (workaround sending).
+- MX record `parse.copperlineeatery.com IN MX 10 inbound.postmarkapp.com` (verified globally via Cloudflare resolver).
+- Postmark webhook URL set to `https://USER:PASS@copperlineeatery.com/.netlify/functions/inbound-email`.
+- Fine-grained GitHub PAT with `contents:write` on the repo (1Password: "GitHub PAT — Copperline Specials Bot", expires 2027-05-18).
+- 9 runtime env vars in Netlify Site Settings (see `.env.example`).
+
+**Revert path**: each commit in the 6-deploy chain can be reverted individually with `git revert <sha>` + push. Runtime kill switch: clear the function's env vars in Netlify (no code change needed). To restore the Google Sheet flow: `git revert 4af2b9a` reverts the entire feature in one shot.
 
 ---
 
@@ -25,44 +97,6 @@ Site migrated from raw static HTML/CSS/JS to Astro 5 + TypeScript on a feature b
 **Verification**: All 7 routes build clean (`npm run build`). JSON-LD per page: 1 schema on `/404`, 2 on `/`, `/menu`, `/catering`, `/contact`, `/faq`; 5 on `/about` (Restaurant + VideoObject + 2 NewsArticle + BreadcrumbList). Sitemap autogenerated with 6 indexable routes (excludes `/404`). Lighthouse budget: see `_baseline/lighthouse-2026-05-16/`.
 
 **Revert path**: Netlify dashboard → previous prod deploy → "Publish deploy" (instant), THEN `git revert -m 1 <merge-sha>` on master AND revert `netlify.toml` build config in the same commit (otherwise GH Actions tries `npm run build` against a tree with no `package.json`).
-
-### Automated daily-specials pipeline (email + Claude vision + GitHub commit)
-
-Replaced the Google Sheets gviz feed with an end-to-end pipeline: staff emails a photo of the chalkboard to a Postmark inbound address, Claude vision (`claude-sonnet-4-6`) extracts the items, the system replies with the parsed specials and asks for a YES confirmation, and on YES it commits `src/data/specials.json` back to the repo. The Astro rebuild then bakes the specials into static HTML, so they are indexable by search engines and AI ingest instead of being a JS-only client-side fetch.
-
-**New files**
-- `netlify/functions/inbound-email.ts` (Netlify Function, web-standard `Request`/`Response` handler, ~280 lines incl. types)
-- `src/components/DailySpecials.astro` (renders from build-time JSON import; handles empty state inline)
-- `src/data/specials.json` (single source of truth, written by the function via the GitHub Contents API)
-- `.env.example` (documents all required runtime env vars)
-
-**Modified files**
-- `package.json` — added runtime deps: `@anthropic-ai/sdk`, `@netlify/blobs`, `@netlify/functions`, `@octokit/rest`, `postmark`
-- `src/pages/menu.astro` — `<div id="specialsContent">` placeholder replaced with `<DailySpecials />` import
-- `src/scripts/main.ts` — removed `SHEET_*` constants, `loadDailySpecials()`, `escapeHtml` helper, the 5-minute polling interval, and the tab-click lazy-load branch (~80 lines gone)
-- `netlify.toml` — added `[functions]` block (`directory = "netlify/functions"`, `node_bundler = "esbuild"`) and removed `https://docs.google.com` from CSP `connect-src` (the Sheet fetch is gone)
-- `.github/workflows/deploy.yml` — added `--functions=netlify/functions` to the `netlify deploy` command so the function actually ships
-
-**Pipeline flow**
-1. Staff emails a photo to the Postmark inbound address (Postmark inbound is free and unlimited).
-2. Postmark POSTs the parsed email + base64 attachment to `/.netlify/functions/inbound-email` with HTTP Basic auth.
-3. Function validates auth, checks `From` against `ALLOWED_SENDER_EMAILS`, branches on whether the `In-Reply-To` header matches a pending batch id.
-4. **New-photo branch**: validates image type (JPEG/PNG/GIF/WebP, max 5 MB), calls Claude with the exact prompt from the brief, parses + validates the JSON, stores the result as a pending batch in Netlify Blobs keyed by a UUID, sends a Postmark reply containing the parsed specials with `Message-ID: <batch-{uuid}@copperlineeatery.com>` and asks for YES.
-5. **Reply branch**: extracts batch UUID from `In-Reply-To`, loads the pending blob, if the body starts with YES commits to `src/data/specials.json` via Octokit, deletes the blob, sends a "published" confirmation. Anything other than YES deletes the blob and sends a "not published" note.
-6. The commit triggers GitHub Actions, Astro rebuild bakes the specials into static HTML, IndexNow pings on prod, total ~30 s.
-
-**Why GitHub commit over Netlify Blobs for the live data**: with `output: 'static'` a Blob store would force a client-side fetch (same shape as the old Sheet flow) and the specials would not be in the indexable HTML. The once-per-day cadence makes a 30 s rebuild acceptable, and a permanent audit trail of menu changes is a side benefit.
-
-**Free-tier sizing**: Netlify Functions 125k/mo (use ~60), Netlify Blobs 100k reads / 1k writes (use ~6/day), Postmark inbound unlimited + outbound 100/mo free.
-
-**Required setup (outside this repo, on first deploy)**
-- Postmark server with an inbound stream on a subdomain (e.g., `parse.copperlineeatery.com`), MX records pointed at Postmark.
-- Postmark webhook URL set to `https://USER:PASS@copperlineeatery.com/.netlify/functions/inbound-email` (Basic auth credentials embedded in the URL).
-- Verified sender signature for `SPECIALS_FROM_ADDRESS` on the parse subdomain.
-- Fine-grained GitHub PAT with `contents:write` on `homegrowngrowthco/copperline-eatery-website`.
-- All env vars from `.env.example` set in Netlify Site Settings -> Environment Variables.
-
-**Revert path**: this work landed as a single feature bundle. To revert: `git revert <sha>` after the commit lands, then push. The pipeline can also be fully disabled at runtime by removing the Netlify env vars without any code change. If the Google Sheet flow is ever needed again, it can be restored from git history.
 
 ---
 
