@@ -8,6 +8,30 @@
 
 ## Recent Updates (2026-05-22)
 
+### Session 6 — Schema enrichment, home description rewrite, footer redesign, catering mobile button fix (commit `5ee2ac3`)
+
+Single bundled commit; deploy ~51s green; live + verified.
+
+**AI / SERP discoverability (schema)**
+- `src/data/restaurant.ts`: `AREA_SERVED` upgraded from bare string array to typed `AdministrativeArea` objects. Added West Springfield, South Hadley, Pioneer Valley (8 total). New `PAYMENT_ACCEPTED` ("Cash, Credit Card, Visa, Mastercard, American Express, Discover") and `CURRENCIES_ACCEPTED` ("USD") constants, sourced from FAQ Q20.
+- `src/pages/index.astro` + `src/pages/about.astro`: Restaurant schema gains `paymentAccepted`, `currenciesAccepted`, `acceptsReservations: false` (boolean, not the string "False"), `hasMenu: ${SITE_URL}/menu`. Origin: Gemini suggested a Restaurant schema snippet for "Springfield area" inclusion; assessment was that the user's existing schema was already richer than Gemini's draft, so we kept what we had and borrowed only the typed-AdministrativeArea idea + added the four genuinely missing factual fields. Honest framing for the user: schema alone does not get a restaurant into "best breakfast in Springfield" AI answers — that's driven by Google Business Profile + editorial mentions + citations + on-page geographic prose (latter addressed below). Schema is the table-stakes layer.
+
+**Home meta + descriptions (`src/pages/index.astro`)**
+- Page meta description, OG description, Restaurant schema description, and WebSite schema description rewritten to lead with the user's preferred dish list (eggs benedict, homemade corned beef hash, banana bread French toast) and demote the previous "homemade eggs benedict, corned beef hash, hollandaise sauce, brunch, lunch & catering" string. New page meta description: "Family-owned Chicopee restaurant since 1993, serving brunch classics like eggs benedict, homemade corned beef hash, and banana bread French toast. Voted Best Breakfast in Western MA. Catering available across Springfield, Holyoke, and Hampden County." Grep confirmed the old string was only in `index.astro`.
+
+**About page location anchor (`src/pages/about.astro`)**
+- New paragraph inserted between the existing signature-dishes paragraph and the closing thank-you paragraph: "Located at 409 Broadway in Chicopee, we proudly serve guests from across the Pioneer Valley, including Springfield, Holyoke, West Springfield, South Hadley, and all of Hampden County. Whether you're driving in from downtown Springfield for our award-winning eggs benedict, picking up catering for an event in Holyoke, or visiting from anywhere in Western Massachusetts, you'll find a warm welcome and a meal worth the trip." Geographic prose for LLMs that read rendered content, not just schema.
+
+**Catering mobile button overflow (`src/styles/global.css`)**
+- Bug: at <=640px, the `Download Catering Order Form` button label extended beyond the button on both sides. Root cause: the global mobile `.btn` rule applied `flex: 1` + `white-space: nowrap` + `display: flex`; combined with the long label, the text overflowed the button bounds. Fix: scoped those mobile overrides to `.cta-buttons .btn` only (the home-page hero CTA row), since they were never meant for other CTA contexts. Added a separate `.catering-cta-row .btn` block with `white-space: normal`, `max-width: 100%`, `padding: 12px 18px`, `font-size: 0.85rem` so labels wrap inside the button on narrow screens.
+
+**Footer redesign (`src/components/Footer.astro` + `src/styles/global.css`)**
+- User reported footer took >50% of mobile viewport. Was 6 stacked sections (Name+Address, Hours, Contact, Quick Links, Follow Us, Find Us Online) × ~4 lines each = ~24 lines + h3 per row on mobile. Reworked to a 4-column grid (NAP, Hours, Contact, Explore) plus a single inline Connect bar between thin dividers containing Facebook · Instagram · Yelp · TripAdvisor · Yellow Pages. Padding tightened (40/20 → 28/14 desktop, 25/15 → 20/12 mobile), h3 font 1.1rem → 0.95rem, body 0.95rem → 0.9rem desktop and 0.85 → 0.82 mobile. Mobile uses 2-col grid; <380px collapses to single column. Class rename `footer-content` → `footer-grid`; `footer-section` → `footer-col`; new `footer-list` for the Explore links; new `footer-connect` block. Old `.email-btn` styling preserved (still used on `/contact`).
+
+**Verification:** post-deploy curl confirmed live: new meta description, `acceptsReservations":false` (boolean serialization correct), 8 AdministrativeArea entries in JSON-LD, `/catering` 200, `footer-grid` class present in rendered DOM.
+
+**Revert path:** `git revert 5ee2ac3 && git push`. Single revertable commit touching 5 files (Footer.astro, restaurant.ts, about.astro, index.astro, global.css). Reverts schema enrichment, description rewrite, About paragraph, catering CSS scope fix, and footer redesign together.
+
 ### Session 5 — Specials pipeline enhancements + font self-hosting
 
 Two unrelated work tracks bundled into the same day (different commits, separate revert paths).
