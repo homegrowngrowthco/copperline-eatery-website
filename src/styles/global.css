@@ -264,12 +264,53 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .faq-item p { font-size: 0.95rem; }
 
 /* Footer */
-.main-footer { background: var(--green-dark); color: var(--cream); padding: 40px 0 20px; }
-.footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 25px; }
-.footer-section h3 { color: var(--white); margin-bottom: 12px; font-size: 1.1rem; }
-.footer-section p, .footer-section a { color: var(--cream); font-size: 0.95rem; }
-.footer-section a:hover { color: var(--tan); }
-.footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); color: var(--cream); font-size: 0.9rem; }
+.main-footer { background: var(--green-dark); color: var(--cream); padding: 28px 0 14px; }
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 18px;
+}
+.footer-col h3 {
+    color: var(--white);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.footer-col p {
+    color: var(--cream);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0 0 6px 0;
+}
+.footer-col a { color: var(--cream); font-size: 0.9rem; }
+.footer-col a:hover { color: var(--tan); }
+.footer-list { list-style: none; padding: 0; margin: 0; }
+.footer-list li { padding: 1px 0; }
+
+.footer-connect {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 10px;
+    padding: 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 12px;
+    font-size: 0.88rem;
+}
+.footer-connect a { color: var(--cream); }
+.footer-connect a:hover { color: var(--tan); }
+.footer-connect .sep { color: rgba(255, 255, 255, 0.4); }
+
+.footer-bottom {
+    text-align: center;
+    color: var(--cream);
+    font-size: 0.82rem;
+    margin: 0;
+}
 
 /* Mobile */
 @media (max-width: 968px) {
@@ -396,16 +437,28 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     .carousel-dots { margin-top: 12px; gap: 6px; }
     
     .cta-buttons { flex-direction: row; gap: 8px; margin-bottom: 30px; }
-    .btn { 
-        flex: 1; 
-        padding: 10px 8px; 
-        font-size: 0.75rem; 
-        min-width: 0; 
+    .cta-buttons .btn {
+        flex: 1;
+        padding: 10px 8px;
+        font-size: 0.75rem;
+        min-width: 0;
         white-space: nowrap;
         text-align: center;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    /* Catering CTA buttons: allow text to wrap inside the button instead of
+       overflowing. Long labels like "Download Catering Order Form" need this. */
+    .catering-cta-row { gap: 10px; margin-bottom: 35px; }
+    .catering-cta-row .btn {
+        padding: 12px 18px;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        white-space: normal;
+        line-height: 1.2;
+        max-width: 100%;
     }
     
     .page-header { padding: 30px 15px; }
@@ -444,21 +497,32 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     .contact-map { height: 280px; }
     
     /* Compact mobile footer */
-    .main-footer { padding: 25px 0 15px; }
-    .footer-content { 
-        grid-template-columns: 1fr 1fr; 
-        gap: 20px; 
-        font-size: 0.85rem;
+    .main-footer { padding: 20px 0 12px; }
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 20px;
+        margin-bottom: 14px;
     }
-    .footer-section h3 { 
-        font-size: 0.95rem; 
-        margin-bottom: 8px;
+    .footer-col h3 {
+        font-size: 0.82rem;
+        margin-bottom: 5px;
     }
-    .footer-section p, .footer-section a {
-        font-size: 0.85rem;
-        line-height: 1.6;
+    .footer-col p,
+    .footer-col a,
+    .footer-list li a {
+        font-size: 0.82rem;
+        line-height: 1.5;
         overflow-wrap: break-word;
         word-break: break-word;
+    }
+    .footer-connect {
+        font-size: 0.8rem;
+        padding: 10px 0;
+        gap: 4px 8px;
+        margin-bottom: 10px;
+    }
+    .footer-bottom {
+        font-size: 0.75rem;
     }
     .email-btn {
         display: inline-block;
@@ -468,10 +532,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         border-radius: 4px;
         font-size: 0.8rem;
         margin-top: 4px;
-    }
-    .footer-bottom {
-        padding-top: 15px;
-        font-size: 0.8rem;
     }
 }
 
@@ -1093,7 +1153,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     .menu-item-price { font-size: 0.9rem; }
     .menu-item-row { gap: 4px; }
     .menu-tabs .menu-tab { padding: 10px 8px; font-size: 0.72rem; letter-spacing: 0.4px; }
-    .footer-content { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
 }
 
 /* Global safety: never let a single oversized child cause horizontal page

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { ADDRESS, AREA_SERVED, AWARDS, EMAIL, PHONE, SITE_URL } from '../data/restaurant';
+import { ADDRESS, AREA_SERVED, AWARDS, CURRENCIES_ACCEPTED, EMAIL, PAYMENT_ACCEPTED, PHONE, SITE_URL } from '../data/restaurant';
 
 const title = 'About The Copperline Eatery | Family-Owned Restaurant Since 1993 | Chicopee, MA';
 const description = 'Family-owned since 1993, The Copperline Eatery has served Chicopee and Western Massachusetts for over 33 years. Voted Best Breakfast by MassLive readers. Meet the team behind your favorite local breakfast spot.';
@@ -18,6 +18,10 @@ const restaurantSchema = {
   email: EMAIL,
   servesCuisine: ['American', 'Breakfast', 'Brunch', 'Lunch'],
   priceRange: '$$',
+  paymentAccepted: PAYMENT_ACCEPTED,
+  currenciesAccepted: CURRENCIES_ACCEPTED,
+  acceptsReservations: false,
+  hasMenu: `${SITE_URL}/menu`,
   award: AWARDS[0],
   areaServed: AREA_SERVED,
 };
@@ -98,6 +102,7 @@ const breadcrumb = {
         <div class="about-text">
           <p>Since 1993, Copperline Eatery has served the Chicopee &amp; Western MA community. Whether you're one of our 'regulars' or thinking about visiting us for the first time, we hope to see you soon!</p>
           <p>Every meal is prepared from scratch, using the freshest ingredients and time-tested recipes from over 30 years in business and over 150 years of combined restaurant experience. We're known for a few signature dishes, most notably our homemade corned beef hash and signature hollandaise sauce over eggs benedict. Whatever you're in the mood for, we're confident you'll find something you'll enjoy.</p>
+          <p>Located at 409 Broadway in Chicopee, we proudly serve guests from across the Pioneer Valley, including Springfield, Holyoke, West Springfield, South Hadley, and all of Hampden County. Whether you're driving in from downtown Springfield for our award-winning eggs benedict, picking up catering for an event in Holyoke, or visiting from anywhere in Western Massachusetts, you'll find a warm welcome and a meal worth the trip.</p>
           <p>Thank you for supporting our small, family-owned restaurant and letting us be a part of your community. Whether you're dining with friends, ordering takeout for family, or catering a special event, we look forward to serving you with great taste for many years to come.</p>
         </div>
 

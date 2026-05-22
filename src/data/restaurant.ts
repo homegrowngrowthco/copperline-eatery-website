@@ -55,12 +55,18 @@ export const SAME_AS = [
 ] as const;
 
 export const AREA_SERVED = [
-  'Chicopee',
-  'Springfield',
-  'Holyoke',
-  'Hampden County',
-  'Western Massachusetts',
+  { '@type': 'AdministrativeArea', name: 'Chicopee' },
+  { '@type': 'AdministrativeArea', name: 'Springfield' },
+  { '@type': 'AdministrativeArea', name: 'Holyoke' },
+  { '@type': 'AdministrativeArea', name: 'West Springfield' },
+  { '@type': 'AdministrativeArea', name: 'South Hadley' },
+  { '@type': 'AdministrativeArea', name: 'Hampden County' },
+  { '@type': 'AdministrativeArea', name: 'Pioneer Valley' },
+  { '@type': 'AdministrativeArea', name: 'Western Massachusetts' },
 ] as const;
+
+export const PAYMENT_ACCEPTED = 'Cash, Credit Card, Visa, Mastercard, American Express, Discover';
+export const CURRENCIES_ACCEPTED = 'USD';
 
 export const AWARDS = [
   'Best Breakfast Western Massachusetts - MassLive Readers Choice',

@@ -5,24 +5,26 @@ import {
   AGGREGATE_RATING,
   AREA_SERVED,
   AWARDS,
+  CURRENCIES_ACCEPTED,
   DOORDASH_URL,
   EMAIL,
   GEO,
   OPENING_HOURS,
+  PAYMENT_ACCEPTED,
   PHONE,
   SAME_AS,
   SITE_URL,
 } from '../data/restaurant';
 
 const title = 'The Copperline Eatery - Best Breakfast & Lunch in Western Massachusetts | Chicopee, Springfield, Holyoke';
-const description = 'Voted Best Breakfast in Western MA! Family-owned restaurant serving homemade eggs benedict, corned beef hash, hollandaise sauce, brunch, lunch & catering since 1993. Located in Chicopee MA, serving Springfield, Holyoke, and Hampden County.';
+const description = 'Family-owned Chicopee restaurant since 1993, serving brunch classics like eggs benedict, homemade corned beef hash, and banana bread French toast. Voted Best Breakfast in Western MA. Catering available across Springfield, Holyoke, and Hampden County.';
 
 const restaurantSchema = {
   '@context': 'https://schema.org',
   '@type': 'Restaurant',
   name: 'The Copperline Eatery',
   image: `${SITE_URL}/logo.jpg`,
-  description: 'Voted Best Breakfast in Western Massachusetts. Family-owned restaurant serving homemade breakfast, lunch, and catering since 1993.',
+  description: 'Family-owned Chicopee restaurant since 1993, voted Best Breakfast in Western Massachusetts. Brunch classics including eggs benedict, homemade corned beef hash, and banana bread French toast. Catering available.',
   address: ADDRESS,
   geo: GEO,
   telephone: PHONE,
@@ -30,6 +32,10 @@ const restaurantSchema = {
   url: SITE_URL,
   servesCuisine: ['American', 'Breakfast', 'Brunch', 'Lunch'],
   priceRange: '$$',
+  paymentAccepted: PAYMENT_ACCEPTED,
+  currenciesAccepted: CURRENCIES_ACCEPTED,
+  acceptsReservations: false,
+  hasMenu: `${SITE_URL}/menu`,
   openingHoursSpecification: OPENING_HOURS,
   aggregateRating: AGGREGATE_RATING,
   review: [
@@ -50,7 +56,7 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'The Copperline Eatery',
   url: SITE_URL,
-  description: 'Official website of The Copperline Eatery - voted Best Breakfast in Western Massachusetts.',
+  description: 'Official website of The Copperline Eatery, family-owned in Chicopee since 1993.',
   publisher: {
     '@type': 'Restaurant',
     name: 'The Copperline Eatery',
@@ -65,7 +71,7 @@ const websiteSchema = {
   description={description}
   canonical={`${SITE_URL}/`}
   ogTitle="The Copperline Eatery - Best Breakfast in Western MA"
-  ogDescription="Voted Best Breakfast by MassLive readers! Family-owned since 1993, serving homemade breakfast, lunch & catering in Chicopee, MA."
+  ogDescription="Family-owned Chicopee restaurant since 1993. Voted Best Breakfast in Western MA. Brunch classics like eggs benedict, corned beef hash, and banana bread French toast. Catering available."
   schema={[restaurantSchema, websiteSchema]}
 >
   <main>

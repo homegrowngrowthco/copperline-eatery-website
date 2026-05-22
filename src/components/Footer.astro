@@ -1,17 +1,48 @@
 ---
 import { PHONE, PHONE_DISPLAY, EMAIL } from '../data/restaurant';
 const telHref = `tel:${PHONE.replace(/[^+\d]/g, '')}`;
+const mailHref = `mailto:${EMAIL}`;
 ---
 
 <footer class="main-footer">
   <div class="container">
-    <div class="footer-content">
-      <div class="footer-section"><h3>The Copperline Eatery</h3><p>409 Broadway<br />Chicopee, MA 01020</p></div>
-      <div class="footer-section"><h3>Hours</h3><p>Mon-Fri: 6:00am-2:00pm<br />Saturday: 6:00am-1:30pm<br />Sunday: 6:30am-1:00pm</p></div>
-      <div class="footer-section"><h3>Contact</h3><p><a href={telHref}>{PHONE_DISPLAY}</a><br /><a href={`mailto:${EMAIL}`} class="email-btn">Email Us</a></p></div>
-      <div class="footer-section"><h3>Quick Links</h3><a href="/menu">Menu</a><br /><a href="/catering">Catering</a><br /><a href="/faq">FAQ</a><br /><a href="/about">About</a></div>
-      <div class="footer-section"><h3>Follow Us</h3><a href="https://www.facebook.com/CopperlineEatery/" target="_blank" rel="noopener">Facebook</a><br /><a href="https://www.instagram.com/copperlineeatery/" target="_blank" rel="noopener">Instagram</a></div>
-      <div class="footer-section"><h3>Find Us Online</h3><a href="https://www.yelp.com/biz/the-copperline-eatery-chicopee-3" target="_blank" rel="noopener">Yelp</a><br /><a href="https://www.tripadvisor.com/Restaurant_Review-g41507-d4177681-Reviews-The_Copperline_Eatery-Chicopee_Massachusetts.html" target="_blank" rel="noopener">TripAdvisor</a><br /><a href="https://www.yellowpages.com/chicopee-ma/mip/copperline-eatery-6724625" target="_blank" rel="noopener">Yellow Pages</a></div>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>The Copperline Eatery</h3>
+        <p>409 Broadway<br />Chicopee, MA 01020</p>
+      </div>
+      <div class="footer-col">
+        <h3>Hours</h3>
+        <p>Mon-Fri: 6:00am-2:00pm<br />Sat: 6:00am-1:30pm<br />Sun: 6:30am-1:00pm</p>
+      </div>
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <p>
+          <a href={telHref}>{PHONE_DISPLAY}</a><br />
+          <a href={mailHref}>Email Us</a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <h3>Explore</h3>
+        <ul class="footer-list">
+          <li><a href="/menu">Menu</a></li>
+          <li><a href="/catering">Catering</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-connect">
+      <a href="https://www.facebook.com/CopperlineEatery/" target="_blank" rel="noopener">Facebook</a>
+      <span class="sep">&middot;</span>
+      <a href="https://www.instagram.com/copperlineeatery/" target="_blank" rel="noopener">Instagram</a>
+      <span class="sep">&middot;</span>
+      <a href="https://www.yelp.com/biz/the-copperline-eatery-chicopee-3" target="_blank" rel="noopener">Yelp</a>
+      <span class="sep">&middot;</span>
+      <a href="https://www.tripadvisor.com/Restaurant_Review-g41507-d4177681-Reviews-The_Copperline_Eatery-Chicopee_Massachusetts.html" target="_blank" rel="noopener">TripAdvisor</a>
+      <span class="sep">&middot;</span>
+      <a href="https://www.yellowpages.com/chicopee-ma/mip/copperline-eatery-6724625" target="_blank" rel="noopener">Yellow Pages</a>
     </div>
     <p class="footer-bottom">&copy; 2026 The Copperline Eatery</p>
   </div>
