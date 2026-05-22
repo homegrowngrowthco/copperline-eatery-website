@@ -2,7 +2,28 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-05-18
+**Last updated:** 2026-05-22
+
+---
+
+## Recent Updates (2026-05-22)
+
+### Session 4 — Sitemap discovery fix (robots.txt + 301 for legacy /sitemap.xml)
+
+Investigating 7 GSC "Page with redirect" entries (mix of `http://` and `.html` URLs) surfaced a real bug behind the noise: `public/robots.txt` was still pointing at `https://copperlineeatery.com/sitemap.xml`, but `@astrojs/sitemap` generates `sitemap-index.xml`. Old path was 404ing, so crawlers had no live sitemap to discover and were leaning on stale memory of pre-migration `.html` URLs.
+
+The "Page with redirect" entries themselves are not a bug — they're GSC's informational status when it crawls a URL that 301s to a canonical one (Netlify's HTTP→HTTPS auto-redirect + the legacy `.html` → clean-URL 301s in `netlify.toml` doing their job). Those drop off on their own; no code change needed.
+
+**Changes:**
+- `public/robots.txt` — `Sitemap:` line updated `/sitemap.xml` → `/sitemap-index.xml`.
+- `netlify.toml` — added 301 `from = "/sitemap.xml"` → `to = "/sitemap-index.xml"` so any old GSC/Bing entries land on the right file.
+
+**Manual follow-up in Google Search Console:**
+1. Sitemaps → remove `sitemap.xml`.
+2. Sitemaps → submit `sitemap-index.xml`.
+3. Leave the 7 "Page with redirect" entries alone; they'll age out.
+
+**Revert path**: `git revert <sha>` of this commit. Single commit, two files, no infra changes.
 
 ---
 

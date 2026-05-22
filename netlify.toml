@@ -111,6 +111,12 @@
   force = true
 
 [[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "https://www.copperlineeatery.com/*"
   to = "https://copperlineeatery.com/:splat"
   status = 301

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://copperlineeatery.com/sitemap.xml
+Sitemap: https://copperlineeatery.com/sitemap-index.xml
