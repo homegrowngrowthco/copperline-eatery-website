@@ -105,6 +105,18 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 4 — 2026-05-22
+**Sitemap discovery fix (robots.txt + 301 for legacy `/sitemap.xml`).** User asked about 7 GSC "Page with redirect" entries; diagnosed those as informational (HTTP→HTTPS + legacy `.html` → clean-URL 301s working correctly, no fix needed). While inspecting, found `public/robots.txt` was still advertising `https://copperlineeatery.com/sitemap.xml` (404 — Astro's `@astrojs/sitemap` generates `sitemap-index.xml` not `sitemap.xml`). Stale since Astro 5 migration on 2026-05-16. Same bug class HGC Session 7 fixed earlier same day; caught here by the `feedback_robots_sitemap_after_migration.md` memory saved at that session's close ~6h prior. Two changes in commit `e31ba08`:
+
+- `public/robots.txt` — `Sitemap:` line `/sitemap.xml` → `/sitemap-index.xml`.
+- `netlify.toml` — added 301 `from = "/sitemap.xml"` → `to = "/sitemap-index.xml"` (force=true) in the legacy-301 block before the www→non-www rule, so old GSC/Bing entries land on the right file.
+
+`STATUS.md` Session 4 entry was bundled into the same commit. GH Actions deployed clean.
+
+**Manual follow-up in GSC** (user action): Sitemaps → remove `sitemap.xml` → submit `sitemap-index.xml`. The 7 "Page with redirect" entries that triggered the diagnostic age out on their own; no code action.
+
+**Revert path**: `git revert e31ba08 && git push` reverts the robots.txt + netlify.toml + project STATUS.md in one shot. Would re-introduce the 404 sitemap discovery; don't actually revert.
+
 ### Session 3 — 2026-05-18
 **Automated daily-specials pipeline shipped end-to-end** + same-day configuration journey through Postmark constraints + credentials rotation. Replaces the prior Google Sheets gviz client-side fetch (now removed) with a real email pipeline that bakes specials into static HTML.
 
