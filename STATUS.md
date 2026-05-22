@@ -28,9 +28,12 @@ Two unrelated work tracks bundled into the same day (different commits, separate
 - CSP tightened: `style-src` drops `https://fonts.googleapis.com`, `font-src` drops `https://fonts.gstatic.com` (now `'self'` only). Removes 2 external DNS lookups on every page load.
 - Net effect: same fonts, same weights, served from self. No visual change expected.
 
+**Postmark FROM revert complete** (commit `d0b6b69`, empty-commit redeploy). Postmark account approval landed this session; user flipped `SPECIALS_FROM_ADDRESS` in Netlify Site Settings from `specials-bot@homegrowngrowth.co` back to `specials-bot@parse.copperlineeatery.com`; empty commit forced the Netlify Function to pick up the new env var.
+
 **Revert paths:**
 - `git revert 46e7608 && git push` — reverts specials function to Session 3 state (YES/non-YES binary, no threading, no purge). Reply branch behavior changes: corrections become declines. Re-introduces orphan accumulation.
 - `git revert 6ca3237 && git push` — reverts fonts to Google Fonts CDN. Need to also re-add the loosened CSP (or just revert the commit which does that). 7 woff2 files removed from bundle.
+- `git revert d0b6b69 && git push` is a no-op since the commit is empty; to revert the FROM revert, change `SPECIALS_FROM_ADDRESS` in Netlify back to `specials-bot@homegrowngrowth.co` and trigger another empty-commit redeploy.
 
 ### Session 4 — Sitemap discovery fix (robots.txt + 301 for legacy /sitemap.xml)
 
