@@ -105,6 +105,28 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 5 — 2026-05-22 (later same day)
+**Specials pipeline enhancements + font self-hosting.** Two unrelated work tracks shipped as separate commits same day, after Session 4 morning's robots.txt fix.
+
+**Specials function (`netlify/functions/inbound-email.ts`, commit `46e7608`):**
+- **Threaded replies.** Outbound replies now set `In-Reply-To` + `References` (RFC 2822) referencing the inbound `MessageID`. Gmail threads the YES-gate confirmation into the original photo email's conversation, so staff can scroll up to see the source photo whenever they need to reference it.
+- **Free-form natural-language edit-via-reply.** Reply branch distinguishes YES (publish + cleanup), NO/decline keyword (discard + cleanup), and anything else (corrections). Corrections call Haiku 4.5 with current specials JSON + staff reply, apply edits, write a new pending blob with a fresh `batchId`, send a corrected confirmation threaded to staff's reply. Loops until publish or discard. Quoted-previous-message text stripped before pattern-matching + Claude call.
+- **Opportunistic orphan purge.** Top of every handler invocation (after auth + sender check) lists `pending-specials` blobs, deletes any with `createdAt` >24h old.
+- Vision call stays on Sonnet 4.6 (image-in-text-out). Corrections call uses Haiku 4.5 (structured text-in-text-out). Right-sized per `feedback_right_size_models.md` memory.
+
+Daily auto-expiry of specials themselves intentionally NOT implemented — ops cadence (boards update Fridays, run until sold out mid-week, new Thursday) doesn't fit an `updatedAt`-based time check.
+
+**Font self-hosting (`src/layouts/BaseLayout.astro` + `netlify.toml`, commit `6ca3237`):**
+- `@fontsource/oswald` + `@fontsource/merriweather` ESM imports in BaseLayout replace the Google Fonts `<link>` + 2 preconnects. Latin subset only (validated: only non-ASCII in source is `é` in `menuData.json`, U+00E9, included in latin subset). Vite bundles 7 woff2 files (4 Oswald + 3 Merriweather weights) into `/_astro/` with hashed filenames + existing immutable cache headers.
+- CSP tightened: `style-src` drops `https://fonts.googleapis.com`; `font-src` is now `'self'` only.
+- Same fonts, same weights, served from self; removes 2 external DNS lookups per page load.
+
+**Revert paths:**
+- `git revert 46e7608 && git push` — reverts specials function to Session 3 state. Corrections become declines, no threading, no orphan purge.
+- `git revert 6ca3237 && git push` — reverts fonts back to Google Fonts CDN (re-loosens CSP in same commit).
+
+**Postmark FROM revert still pending** — needs `SPECIALS_FROM_ADDRESS` flipped in Netlify Site Settings from `specials-bot@homegrowngrowth.co` to `specials-bot@parse.copperlineeatery.com`, then an empty-commit redeploy. Postmark account approval came through this session.
+
 ### Session 4 — 2026-05-22
 **Sitemap discovery fix (robots.txt + 301 for legacy `/sitemap.xml`).** User asked about 7 GSC "Page with redirect" entries; diagnosed those as informational (HTTP→HTTPS + legacy `.html` → clean-URL 301s working correctly, no fix needed). While inspecting, found `public/robots.txt` was still advertising `https://copperlineeatery.com/sitemap.xml` (404 — Astro's `@astrojs/sitemap` generates `sitemap-index.xml` not `sitemap.xml`). Stale since Astro 5 migration on 2026-05-16. Same bug class HGC Session 7 fixed earlier same day; caught here by the `feedback_robots_sitemap_after_migration.md` memory saved at that session's close ~6h prior. Two changes in commit `e31ba08`:
 

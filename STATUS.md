@@ -8,6 +8,30 @@
 
 ## Recent Updates (2026-05-22)
 
+### Session 5 — Specials pipeline enhancements + font self-hosting
+
+Two unrelated work tracks bundled into the same day (different commits, separate revert paths).
+
+**Specials function (`netlify/functions/inbound-email.ts`, commit `46e7608`):**
+- **Threaded replies.** Outbound emails now set `In-Reply-To` + `References` headers (RFC 2822) referencing the inbound `MessageID`. Gmail threads the YES-gate confirmation into the original photo email's conversation, so staff can scroll up in the thread to see the source photo whenever they need to reference it. Picked over base64-inlining the image (lighter, equivalent UX for "available to reference").
+- **Free-form natural-language edit-via-reply.** Reply branch now distinguishes three cases:
+  - YES / PUBLISH / CONFIRM / Y (tight regex, body must be just the word) → commit + delete pending.
+  - NO / NOPE / CANCEL / STOP / DECLINE / DISCARD / NEVERMIND (tight regex, body must be just the word) → delete pending without publish.
+  - Anything else → treat as corrections. Pipes current specials JSON + staff reply to Haiku 4.5 (`claude-haiku-4-5-20251001`) with a corrections prompt, applies edits (rename / re-price / remove / add / reorder), writes a new pending blob with a fresh `batchId`, sends a corrected confirmation email threaded to staff's reply. Loops naturally until publish or discard. Quoted previous-message text stripped before pattern-matching and Claude call.
+- **Opportunistic orphan purge.** At the top of every function invocation (after auth, after sender allowlist), lists all blobs in `pending-specials`, fetches each, deletes any with `createdAt` older than 24h. Handles the orphans created during Session 3 diagnosis + any future no-reply scenarios. Runs on every email (low volume system, free-tier safe).
+- **Model right-sizing.** Vision call stays on Sonnet 4.6 (image-in-text-out). Corrections call uses Haiku 4.5 (text-in-text-out structured task). Memory `feedback_right_size_models.md` applied.
+
+**Daily auto-expiry of specials (`updatedAt` >18h check + scheduled rebuild) was discussed and intentionally not implemented** — the ops cadence doesn't fit (boards update Fridays, run until sold out, typically clear mid-week, new specials Thursday). Auto-expiry would either kick in too soon (mid-week) or too late (Thursday for already-cleared Wednesday specials).
+
+**Font self-hosting (`src/layouts/BaseLayout.astro` + `netlify.toml`, commit `6ca3237`):**
+- Replaced Google Fonts `<link>` + 2 `preconnect`s with `@fontsource/oswald` + `@fontsource/merriweather` ESM imports in BaseLayout. Latin subset only (covers all source content; only non-ASCII char in src is `é` in `menuData.json`, U+00E9, which is in the latin subset). Vite bundles 7 woff2 files (4 Oswald weights 400/500/600/700 + 3 Merriweather weights 300/400/700) into `/_astro/` with hashed filenames + the existing immutable cache headers.
+- CSP tightened: `style-src` drops `https://fonts.googleapis.com`, `font-src` drops `https://fonts.gstatic.com` (now `'self'` only). Removes 2 external DNS lookups on every page load.
+- Net effect: same fonts, same weights, served from self. No visual change expected.
+
+**Revert paths:**
+- `git revert 46e7608 && git push` — reverts specials function to Session 3 state (YES/non-YES binary, no threading, no purge). Reply branch behavior changes: corrections become declines. Re-introduces orphan accumulation.
+- `git revert 6ca3237 && git push` — reverts fonts to Google Fonts CDN. Need to also re-add the loosened CSP (or just revert the commit which does that). 7 woff2 files removed from bundle.
+
 ### Session 4 — Sitemap discovery fix (robots.txt + 301 for legacy /sitemap.xml)
 
 Investigating 7 GSC "Page with redirect" entries (mix of `http://` and `.html` URLs) surfaced a real bug behind the noise: `public/robots.txt` was still pointing at `https://copperlineeatery.com/sitemap.xml`, but `@astrojs/sitemap` generates `sitemap-index.xml`. Old path was 404ing, so crawlers had no live sitemap to discover and were leaning on stale memory of pre-migration `.html` URLs.
