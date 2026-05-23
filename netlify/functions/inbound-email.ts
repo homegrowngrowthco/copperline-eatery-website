@@ -122,8 +122,14 @@ function headerValue(inbound: PostmarkInbound, name: string): string | null {
 
 function stripEmailQuoting(raw: string): string {
   let body = raw;
-  const onWroteMatch = body.match(/\n+On .{0,200}wrote:\s*\n/);
+  // "On <date>, <sender> wrote:" attribution (Gmail/Apple Mail). The line break between
+  // "<sender>" and "wrote:" plus a missing trailing newline (when wrote: is the last
+  // line after `>`-stripping) means we need [\s\S] not `.`, and \n? not \n.
+  const onWroteMatch = body.match(/\n+On [\s\S]{0,300}?wrote:[ \t]*\n?/);
   if (onWroteMatch?.index !== undefined) body = body.slice(0, onWroteMatch.index);
+  // Outlook quote header.
+  const outlookMatch = body.match(/\n+(From:|-+\s*Original Message\s*-+)/i);
+  if (outlookMatch?.index !== undefined) body = body.slice(0, outlookMatch.index);
   body = body
     .split('\n')
     .filter((line) => !line.trim().startsWith('>'))
