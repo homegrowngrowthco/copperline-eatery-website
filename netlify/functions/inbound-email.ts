@@ -130,7 +130,37 @@ function stripEmailQuoting(raw: string): string {
     .join('\n');
   const sigIdx = body.search(/\n--\s*\n/);
   if (sigIdx >= 0) body = body.slice(0, sigIdx);
+  // Common mobile signatures that don't use the standard "-- " separator.
+  body = body.replace(/\n+(Sent from my (iPhone|iPad|Android|mobile device|Galaxy)[\s\S]*)$/i, '');
+  body = body.replace(/\n+(Get Outlook for (iOS|Android)[\s\S]*)$/i, '');
   return body.trim();
+}
+
+function htmlToText(html: string): string {
+  if (!html) return '';
+  let s = html;
+  s = s.replace(/<style[\s\S]*?<\/style>/gi, '');
+  s = s.replace(/<script[\s\S]*?<\/script>/gi, '');
+  s = s.replace(/<\/(p|div|li|h[1-6]|tr)>/gi, '\n');
+  s = s.replace(/<br\s*\/?>/gi, '\n');
+  s = s.replace(/<[^>]+>/g, '');
+  s = s
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x27;/g, "'")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)));
+  return s.replace(/[ \t]+/g, ' ').replace(/\n[ \t]+/g, '\n').trim();
+}
+
+function extractReplyBody(inbound: PostmarkInbound): string {
+  const textSource = inbound.TextBody && inbound.TextBody.trim()
+    ? inbound.TextBody
+    : htmlToText(inbound.HtmlBody || '');
+  return stripEmailQuoting(textSource);
 }
 
 async function purgeOldPendingBatches() {
@@ -203,12 +233,13 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     return;
   }
 
-  const body = stripEmailQuoting(inbound.TextBody || '');
+  const body = extractReplyBody(inbound);
+  console.log(`Reply body (batch=${batchId}, len=${body.length}): ${body.slice(0, 200)}`);
 
   if (!body) {
     await safeReply(
       inbound,
-      'I got an empty reply. Reply YES to publish, NO to discard, or send corrections like "Change item 2 to $14, remove item 4".',
+      'I got an empty reply (no text body found in your message). Reply YES to publish, NO to discard, or send corrections like "Change item 2 to $14, remove item 4".',
     );
     return;
   }
