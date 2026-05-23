@@ -2,7 +2,39 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-05-22
+**Last updated:** 2026-05-23
+
+---
+
+## Recent Updates (2026-05-23)
+
+### Session 7 — Specials pipeline reply-parsing bugs (commits `8536a5d`, `e543fc2`) + first real publish (`43259a4`)
+
+User reported: submitted photo, submitted corrections successfully, replied YES, got a blank email back, site not updated. Two distinct bugs in the inbound-email function's reply parser. Both fixed; specials are now live on `/menu` for the first time since the pipeline shipped (Session 3, commit `4af2b9a`).
+
+**Diagnosis from Netlify Function logs:**
+- 11:40:55 / 720ms invocation: hit the `if (!body)` empty-reply branch — Gmail/Apple Mail had sent the reply HTML-only with no `TextBody` populated.
+- 11:47:38 / 7350ms: vision-call invocation (new photo round).
+- 11:48:21 / 2356ms: Haiku corrections call (legitimate edits round).
+- 12:03:55 / 2970ms: YES attempt reinterpreted as corrections because the body string `"yes\n\nOn Sat, May 23, 2026 at 11:48 AM <bot>\nwrote:"` (len 86) failed the YES_PATTERN due to incomplete quote-stripping.
+
+**Bug 1 — HTML-only inbound replies (commit `8536a5d`):**
+- Some mail clients send replies with only `HtmlBody` populated and an empty `TextBody`. Function read only `TextBody`, hit the empty-body branch, and sent a "I got an empty reply" message that the user's threaded view collapsed (so it looked blank).
+- Fix: new `htmlToText()` helper (pure regex, no DOM parser dependency) that strips style/script blocks, converts `</p>`, `</div>`, `</li>`, `<br>` to newlines, removes remaining tags, decodes common entities. New `extractReplyBody()` chooses `TextBody` when populated, falls back to `htmlToText(HtmlBody)` when not.
+- Also added mobile-signature stripping for "Sent from my iPhone/iPad/Android/Galaxy" and "Get Outlook for iOS/Android" footers, which don't use the standard `-- ` signature separator and were previously polluting the parsed body and breaking the tight YES/NO regex matching.
+- Added a `console.log(\`Reply body (batch=..., len=N): ...\`)` to every confirmation-reply invocation. This is what surfaced Bug 2 below — without the log, the second failure mode would have been indistinguishable from the first.
+
+**Bug 2 — "On <date>, <sender> wrote:" attribution not stripped without trailing newline (commit `e543fc2`):**
+- After Bug 1's HtmlBody fallback shipped, the user's second YES attempt hit the new log line and revealed: the user's reply body, after `>`-prefix line filtering, ended with `"yes\n\nOn Sat, May 23, 2026 at 11:48 AM <bot>\nwrote:"`. The Gmail attribution line was supposed to be stripped by the existing `\n+On .{0,200}wrote:\s*\n` regex, but two real-world issues broke that regex:
+  - `.{0,200}` doesn't match newlines (Gmail puts a newline between sender and `wrote:` on long attribution lines).
+  - Trailing `\n` was required, but after the `>` lines below are stripped, `wrote:` becomes the LAST line of the body with no trailing newline.
+- Fix: `\n+On [\s\S]{0,300}?wrote:[ \t]*\n?` — `[\s\S]` matches across newlines; non-greedy `{0,300}?`; trailing `\n` is optional. Also added an Outlook-style "From:" / "-----Original Message-----" header strip in case of Outlook MIME quirks.
+
+**The "blank email" piece is still partly unsolved.** The function definitely sent a non-empty body in every code path post-parse (verified by reading every branch). The user observed truly blank content even after expanding "trimmed content" in Gmail. Best theory: client-side rendering bug specific to threaded specials-bot replies (possibly multiple identical "Updated specials" previews collapsing in a way that hides the latest). Not pursued further once Bug 2 fix unblocked publishing. If it recurs, ask user to forward the email and inspect "Show original" headers + raw MIME.
+
+**First successful publish (auto-commit `43259a4`):** 8 specials live on `/menu` via the DailySpecials component at build time. Verified by `curl https://copperlineeatery.com/menu` matching "Southwest Chicken Hash", "Pineapple French Toast", "Rueben Omelet". One typo in source ("Rueben" → "Reuben") flagged to user for next correction round.
+
+**Revert path:** `git revert e543fc2 && git revert 8536a5d` reverts both function patches independently. The `43259a4` auto-commit is data, not code — revert if specials need to be reset.
 
 ---
 
