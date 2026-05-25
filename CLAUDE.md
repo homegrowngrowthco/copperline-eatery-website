@@ -109,6 +109,50 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 7 — 2026-05-23
+**Specials pipeline reply-parsing bugs (commits `8536a5d`, `e543fc2`) + first real specials publish (`43259a4`).** User submitted photo + corrections + YES; got back a blank email; site not updated. Diagnosed two distinct bugs in the inbound function's reply parser; both fixed in same-day deploys; 8 specials now live on `/menu` for the first time since the pipeline shipped in Session 3.
+
+**Diagnosis from Netlify Function logs:**
+- 11:40:55 / 720ms = empty-body branch hit (Gmail sent HTML-only reply with no `TextBody`).
+- 11:47:38 / 7350ms = vision call (new photo round).
+- 11:48:21 / 2356ms = Haiku corrections call (legitimate edits round).
+- 12:03:55 / 2970ms = YES attempt reinterpreted as corrections because the body string `"yes\n\nOn Sat, May 23, 2026 at 11:48 AM <bot>\nwrote:"` (len 86) failed the YES_PATTERN due to incomplete quote-stripping.
+
+**Bug 1 (commit `8536a5d`) — HTML-only inbound replies:** Some mail clients send replies with only `HtmlBody` populated. Function read only `TextBody`, hit the empty-body branch, sent "I got an empty reply" message which threaded under the user's existing conversation in Gmail and appeared blank in the user's inbox view. Fix: new `htmlToText()` regex helper (strips style/script blocks, converts block closers + `<br>` to newlines, decodes common entities). New `extractReplyBody()` prefers `TextBody`, falls back to `htmlToText(HtmlBody)`. Also added mobile-signature stripping to `stripEmailQuoting` for iPhone/iPad/Android/Galaxy/Get Outlook footers (which don't use the standard `-- ` separator and were polluting parsed bodies). Added `console.log(\`Reply body (batch=..., len=N): ...\`)` to every confirmation-reply invocation — this log surfaced Bug 2 in the next deploy.
+
+**Bug 2 (commit `e543fc2`) — "On <date>, <sender> wrote:" attribution not stripped without trailing newline:** The Gmail attribution line was supposed to be stripped by the existing regex `\n+On .{0,200}wrote:\s*\n`, but: (a) `.{0,200}` doesn't span newlines (Gmail wraps long attributions across two lines), and (b) when `wrote:` ends up as the last line of the body after `>`-quoted lines are stripped, there is no trailing newline. Fix: `\n+On [\s\S]{0,300}?wrote:[ \t]*\n?` uses `[\s\S]` to span newlines, non-greedy `{0,300}?`, and makes the trailing `\n` optional. Also added an Outlook "From:" / "-----Original Message-----" header strip in case of Outlook MIME quirks.
+
+**First successful publish (auto-commit `43259a4`):** 8 specials live on `/menu` via the `<DailySpecials />` component at build time. Verified via curl on the live site. One source-image typo flagged to user for next correction round: "Rueben" → "Reuben".
+
+**Blank-email mystery partially unresolved.** Every code path post-parse sends a non-empty body by construction (verified by reading every branch). User reported truly blank content even after expanding "trimmed content" in Gmail. Best theory: client-side rendering bug specific to threaded specials-bot replies (multiple "Updated specials" previews collapsing in a way that hides the latest). Not pursued further once Bug 2 unblocked publishing. If it recurs, ask user to forward + inspect "Show original" headers + raw MIME.
+
+**Revert paths:**
+- `git revert e543fc2 && git push` — reverts the regex fix only. Would re-introduce Bug 2 for Gmail/Apple Mail replies.
+- `git revert 8536a5d && git push` — reverts the HtmlBody fallback only. Would re-introduce Bug 1 for HTML-only mail clients.
+- `git revert 43259a4 && git push` — resets `src/data/specials.json` to empty `{ "updatedAt": null, "specials": [] }`. Site rebuilds with no specials.
+
+### Session 6 — 2026-05-22 (later same day)
+**Schema enrichment + home description rewrite + footer redesign + catering mobile button fix.** Bundle of SEO + UX work after the user asked whether a Gemini-suggested Restaurant JSON-LD snippet would improve "Springfield area" AI discoverability. Single feature commit `5ee2ac3`; docs commit `d045236`.
+
+**Assessment of Gemini's snippet:** the user's existing Restaurant schema was already richer than what Gemini proposed (Gemini's draft missed `aggregateRating`, `review`, `award`, `sameAs`, `openingHoursSpecification`, `knowsAbout`, and had a `telePhone` typo + rougher geo coordinates). Adopted only the one valid idea: typing `areaServed` entries as `AdministrativeArea` objects instead of bare strings. Also added the four genuinely missing factual fields. Framed for the user: schema alone does not get a restaurant into "best breakfast in Springfield" AI answers — Google Business Profile, editorial mentions, citations, and on-page geographic prose are the real levers.
+
+**Schema enrichment (`src/data/restaurant.ts` + `src/pages/index.astro` + `src/pages/about.astro`):**
+- `AREA_SERVED` upgraded from a bare string array to typed `AdministrativeArea` objects; added West Springfield, South Hadley, Pioneer Valley (8 entries total, up from 5).
+- New `PAYMENT_ACCEPTED` ("Cash, Credit Card, Visa, Mastercard, American Express, Discover") and `CURRENCIES_ACCEPTED` ("USD") constants sourced from FAQ Q20.
+- Restaurant schema on index + about pages gains `paymentAccepted`, `currenciesAccepted`, `acceptsReservations: false` (boolean, not the string "False"), `hasMenu: ${SITE_URL}/menu`.
+
+**Home meta + descriptions rewritten (`src/pages/index.astro`):** page meta description, OG description, Restaurant schema description, and WebSite schema description all rewritten to lead with the user's preferred dish list (eggs benedict, homemade corned beef hash, banana bread French toast) and demote the previous "homemade eggs benedict, corned beef hash, hollandaise sauce, brunch, lunch & catering" string the user flagged. Grep confirmed the problematic copy was only in `index.astro`.
+
+**About-page location anchor (`src/pages/about.astro`):** new paragraph inserted between the existing signature-dishes paragraph and the closing thank-you paragraph: "Located at 409 Broadway in Chicopee, we proudly serve guests from across the Pioneer Valley, including Springfield, Holyoke, West Springfield, South Hadley, and all of Hampden County. Whether you're driving in from downtown Springfield for our award-winning eggs benedict, picking up catering for an event in Holyoke, or visiting from anywhere in Western Massachusetts, you'll find a warm welcome and a meal worth the trip." On-page geographic prose for LLMs that read rendered content rather than just schema.
+
+**Catering mobile button overflow (`src/styles/global.css`):** bug — at <=640px, the "Download Catering Order Form" button label extended beyond the button on both sides. Root cause: the global mobile `.btn` rule applied `flex: 1` + `white-space: nowrap` + `display: flex`, combined with a long label. Fix: scoped those mobile overrides to `.cta-buttons .btn` only (the home-page hero CTA row), since they were never meant for other CTA contexts. Added a separate `.catering-cta-row .btn` block with `white-space: normal`, `max-width: 100%`, `padding: 12px 18px`, `font-size: 0.85rem` so labels wrap inside the button on narrow screens.
+
+**Footer redesign (`src/components/Footer.astro` + `src/styles/global.css`):** user reported the footer took >50% of the mobile viewport. Was 6 stacked sections (Name+Address, Hours, Contact, Quick Links, Follow Us, Find Us Online) × ~4 lines each. Reworked to a 4-column grid (NAP, Hours, Contact, Explore) plus a single inline Connect bar with Facebook · Instagram · Yelp · TripAdvisor · Yellow Pages between thin dividers. Padding tightened (40/20 → 28/14 desktop, 25/15 → 20/12 mobile); h3 1.1rem → 0.95rem; body 0.95 → 0.9 desktop and 0.85 → 0.82 mobile. Mobile uses 2-col grid; <380px collapses to single column. Class renames: `footer-content` → `footer-grid`; `footer-section` → `footer-col`; new `footer-list` for the Explore links; new `footer-connect` block. Old `.email-btn` styling preserved for `/contact`.
+
+**Verification:** post-deploy curl confirmed live: new meta description, `acceptsReservations":false` (boolean serialization correct), 8 `AdministrativeArea` entries in JSON-LD, `/catering` returns 200, `footer-grid` class present in rendered DOM.
+
+**Revert path:** `git revert 5ee2ac3 && git push` reverts the whole bundle (5 files: Footer.astro, restaurant.ts, about.astro, index.astro, global.css). The `d045236` docs commit is doc-only and safe to keep or revert independently.
+
 ### Session 5 — 2026-05-22 (later same day)
 **Specials pipeline enhancements + font self-hosting.** Two unrelated work tracks shipped as separate commits same day, after Session 4 morning's robots.txt fix.
 
