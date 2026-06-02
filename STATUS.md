@@ -2,7 +2,31 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-05-23
+**Last updated:** 2026-06-02
+
+---
+
+## Recent Updates (2026-06-02)
+
+### Session 8 — GSC review: HTTP/HTTPS "issue" verified already resolved + GA4 install verified (no code changes)
+
+Analysis-only session triggered by a benchmarking review of the GSC export (`copperlineeatery.com-Performance-on-Search-2026-06-02.zip`, last-3-months Web). A separate session flagged `http://copperlineeatery.com/` outranking the HTTPS homepage (766 clicks / 12,389 impr vs 182 / 7,922) and recommended adding a 301 + HTTPS canonical. **That recommendation is moot — the redirects/canonical/HSTS already exist and were verified live today.** No code action taken or needed.
+
+**HTTP→HTTPS — verified resolved (live `curl` against prod 2026-06-02):**
+- `http://copperlineeatery.com/` → **301 → `https://copperlineeatery.com/`** (single hop, correct target).
+- `https://copperlineeatery.com/` → 200 with `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`.
+- Homepage canonical tag: `<link rel="canonical" href="https://copperlineeatery.com/">`.
+- `.html` legacy redirects live: `…/menu.html` → 301 → `/menu`; `http://www…/catering.html` chains http→https→non-www→`/catering`→200.
+
+**Why GSC still shows the http row (the diagnostic the other session missed):** In `Pages.csv`, the ONLY `http://` entry is the bare homepage root. Every other page (`/menu`, `/catering`, `/about`, `/contact`, `/faq`, and the `.html` variants) appears as `https://` only. So this is not a site-wide HTTP indexing problem — it's the single most-backlinked URL form (the bare `http://` domain root, historically written that way by directories / GBP / citations) draining out of Google's index as it reprocesses the 301 + HTTPS canonical. The split position (http at 13.6 vs https at 7.3) is the temporary cost of mid-consolidation; it resolves with recrawl. This is a **lagging GSC report, not an active defect.**
+
+**Only real accelerant:** update external citations still pointing at `http://copperlineeatery.com` (GBP website field, Yelp, TripAdvisor, The Q 99.7, directories) to `https://`. This is already part of the dad-gated GBP/citation work in "Remaining Items" — not new scope. Optional nudge: GSC URL Inspection → Request Indexing on `https://copperlineeatery.com/`.
+
+**`/about` low-CTR flag — not a defect.** Other session read `/about` (1,011 impr, 2 clicks, 0.2% CTR, pos 6) as a broken title/meta. The live title (`About The Copperline Eatery | Family-Owned Restaurant Since 1993 | Chicopee, MA`) and meta description are well-optimized. The near-zero CTR is the normal branded-SERP secondary-listing effect (the homepage takes the branded click; About/Contact/`menu#specials` ride underneath). No action.
+
+**GA4 install — verified present + well-formed on every route.** `curl` of `/`, `/menu`, `/catering`, `/contact`, `/about`, `/faq`, and a 404 each returns the standard gtag.js install via BaseLayout: async `googletagmanager.com/gtag/js?id=G-DXYNCF0G79` loader + exactly one `gtag('config', 'G-DXYNCF0G79')` per page (no double-fire). Custom events wired in `main.ts` (`click_phone`, `click_email`, `click_doordash`, `click_directions`, `download_pdf`). CSP permits `googletagmanager.com` (script-src) + `google-analytics.com` (connect-src/img-src). Static install is conclusive; live *firing* still requires a browser check (GA4 Realtime / DebugView) since `curl` doesn't execute JS.
+
+**No commit this session** — verification + STATUS doc only.
 
 ---
 
