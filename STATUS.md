@@ -8,6 +8,16 @@
 
 ## Recent Updates (2026-06-02)
 
+### Session 9 — Defer GA4 (CWV) + inline source photo in specials confirmation reply (CODE-COMPLETE, PENDING DEPLOY)
+
+Two low-priority items closed in code; **built + typechecked locally, not yet pushed** (deploy = push to `master` → GitHub Actions). Both intended to ship as one revertable commit.
+
+**1. Defer non-critical JS for Core Web Vitals (`src/layouts/BaseLayout.astro`).** The GA4 gtag.js library was the only JS still loading eagerly (`main.ts` is already a bundled, deferred ES module). Kept the tiny inline `dataLayer` + `gtag('js')` + `gtag('config')` block (so the pageview command queues immediately — **no analytics loss**) but removed the eager `<script async src=gtag/js>` and now inject that library on `requestIdleCallback` (3s timeout fallback; `load`+1.2s for browsers without rIC). Net effect: the ~library download moves off the critical render path; queued commands flush when it lands. Verified in built `dist/index.html`: eager tag gone, idle loader + inline config present.
+
+**2. Inline the source photo atop the specials confirmation reply (`netlify/functions/inbound-email.ts`).** Deferred enhancement #2 from Session 3. The inbound board photo is now stored on the pending batch (`PendingBatch.image`, base64 + contentType + name) so it survives correction rounds, and `sendReply` attaches it inline (Postmark `Attachments` with `ContentID`) and renders an `HtmlBody` showing the photo above the extracted-specials text. Plain `TextBody` is unchanged as the fallback; all error/status replies stay text-only (no image, no HTML). Lets staff eyeball the extraction against the board at a glance. `tsc --noEmit --strict` passes.
+
+**Revert path (once committed):** `git revert <sha>` — single commit touching `BaseLayout.astro` + `inbound-email.ts` + this STATUS entry. The specials function can also be neutralized at runtime by clearing its Netlify env vars; the GA change is inert if reverted (returns to eager async load).
+
 ### Session 8 — GSC review: HTTP/HTTPS "issue" verified already resolved + GA4 install verified (no code changes)
 
 Analysis-only session triggered by a benchmarking review of the GSC export (`copperlineeatery.com-Performance-on-Search-2026-06-02.zip`, last-3-months Web). A separate session flagged `http://copperlineeatery.com/` outranking the HTTPS homepage (766 clicks / 12,389 impr vs 182 / 7,922) and recommended adding a 301 + HTTPS canonical. **That recommendation is moot — the redirects/canonical/HSTS already exist and were verified live today.** No code action taken or needed.

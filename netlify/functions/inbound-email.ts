@@ -26,12 +26,19 @@ interface Special {
   price: string | null;
 }
 
+interface PendingImage {
+  content: string; // base64
+  contentType: string;
+  name: string;
+}
+
 interface PendingBatch {
   batchId: string;
   specials: Special[];
   originalSender: string;
   originalMessageId: string;
   createdAt: string;
+  image?: PendingImage; // source photo, re-shown inline in every confirmation round
 }
 
 interface PostmarkAttachment {
@@ -209,6 +216,12 @@ async function handleNewPhoto(inbound: PostmarkInbound) {
     return;
   }
 
+  const sourceImage: PendingImage = {
+    content: image.Content,
+    contentType: image.ContentType,
+    name: image.Name || 'specials-photo',
+  };
+
   const batchId = crypto.randomUUID();
   const pending: PendingBatch = {
     batchId,
@@ -216,6 +229,7 @@ async function handleNewPhoto(inbound: PostmarkInbound) {
     originalSender: inbound.FromFull?.Email || inbound.From,
     originalMessageId: inbound.MessageID,
     createdAt: new Date().toISOString(),
+    image: sourceImage,
   };
 
   await getStore(PENDING_STORE).setJSON(batchId, pending);
@@ -224,6 +238,7 @@ async function handleNewPhoto(inbound: PostmarkInbound) {
     subject: replySubject(inbound.Subject),
     body: buildConfirmationEmailBody(specials),
     messageId: `<batch-${batchId}@copperlineeatery.com>`,
+    image: sourceImage,
   });
 }
 
@@ -294,6 +309,7 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     originalSender: pending.originalSender,
     originalMessageId: pending.originalMessageId,
     createdAt: pending.createdAt,
+    image: pending.image,
   };
   await store.setJSON(newBatchId, newPending);
   await store.delete(batchId);
@@ -302,6 +318,7 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     subject: replySubject(inbound.Subject),
     body: buildCorrectedEmailBody(corrected),
     messageId: `<batch-${newBatchId}@copperlineeatery.com>`,
+    image: pending.image,
   });
 }
 
@@ -470,9 +487,30 @@ function replySubject(original: string | undefined): string {
   return base.toLowerCase().startsWith('re:') ? base : `Re: ${base}`;
 }
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// Build an HTML body that shows the source photo at the top (so staff can
+// eyeball the extraction against the board) followed by the plain-text body.
+function buildHtmlBody(body: string, cid: string): string {
+  const textHtml = escapeHtml(body).replace(/\n/g, '<br>');
+  return [
+    '<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#222;">',
+    `<p style="margin:0 0 12px;">Here's the photo I read (check it against the list below):</p>`,
+    `<img src="cid:${cid}" alt="Specials board photo" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px;margin-bottom:16px;" />`,
+    `<div>${textHtml}</div>`,
+    '</div>',
+  ].join('\n');
+}
+
 async function sendReply(
   inbound: PostmarkInbound,
-  opts: { subject: string; body: string; messageId?: string },
+  opts: { subject: string; body: string; messageId?: string; image?: PendingImage },
 ) {
   const token = process.env.POSTMARK_SERVER_TOKEN;
   const from = process.env.SPECIALS_FROM_ADDRESS;
@@ -486,6 +524,24 @@ async function sendReply(
     headers.push({ Name: 'References', Value: ref });
   }
 
+  // When a source image is provided, attach it inline (referenced by ContentID)
+  // and render an HTML body that displays it above the text. The TextBody stays
+  // as the plain-text fallback for clients that don't render HTML.
+  let htmlBody: string | undefined;
+  let attachments: Array<{ Name: string; Content: string; ContentType: string; ContentID: string }> | undefined;
+  if (opts.image) {
+    const cid = `specials-source-${(opts.messageId || 'photo').replace(/[^a-zA-Z0-9]/g, '')}`;
+    htmlBody = buildHtmlBody(opts.body, cid);
+    attachments = [
+      {
+        Name: opts.image.name,
+        Content: opts.image.content,
+        ContentType: opts.image.contentType,
+        ContentID: `cid:${cid}`,
+      },
+    ];
+  }
+
   const client = new ServerClient(token);
   await client.sendEmail({
     From: from,
@@ -493,6 +549,8 @@ async function sendReply(
     To: inbound.FromFull?.Email || inbound.From,
     Subject: opts.subject,
     TextBody: opts.body,
+    HtmlBody: htmlBody,
+    Attachments: attachments,
     Headers: headers.length > 0 ? headers : undefined,
     MessageStream: 'outbound',
   });

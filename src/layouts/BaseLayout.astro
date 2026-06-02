@@ -52,12 +52,30 @@ const {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-DXYNCF0G79"></script>
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-DXYNCF0G79');
+    // Defer the gtag.js library download off the critical render path.
+    // The commands above queue in dataLayer immediately and flush once the
+    // library loads, so no pageview is lost; the library itself waits for
+    // browser idle (or first load + short delay as a fallback).
+    (function () {
+      function loadGtag() {
+        if (window.__gtagLoaded) return;
+        window.__gtagLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-DXYNCF0G79';
+        document.head.appendChild(s);
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGtag, { timeout: 3000 });
+      } else {
+        window.addEventListener('load', function () { setTimeout(loadGtag, 1200); });
+      }
+    })();
   </script>
   <title>{title}</title>
   <meta name="description" content={description} />
