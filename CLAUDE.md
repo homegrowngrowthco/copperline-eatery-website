@@ -70,7 +70,7 @@ Push to `master` → GitHub Actions runs `npm ci && npm run build && netlify dep
 
 ## Open Questions / TODO
 
-See `STATUS.md` "Remaining Items" — Google Business Profile setup, citation audits. Distribution/content work, not code; both are gated on Ian's dad's involvement since he owns the restaurant and holds the business-platform accounts (see memory `project_copperline_ownership.md`).
+Open tasks live in [../TODO.md](../TODO.md) (single source of truth, synced to Notion): Google Business Profile setup, citation audits. Distribution/content work, not code; both are gated on Ian's dad's involvement since he owns the restaurant and holds the business-platform accounts (see memory `project_copperline_ownership.md`).
 
 Status of the "optional WebP/breadcrumb improvements" notes that used to live here (audited 2026-05-22):
 - **Breadcrumb schemas** — done. 5 of 7 pages have `BreadcrumbList` JSON-LD (`/menu`, `/about`, `/catering`, `/contact`, `/faq`). The 2 that don't (`/` and `/404`) are correct as-is: homepage is the root (no breadcrumb to show); `/404` is `noindex` and out of the sitemap.

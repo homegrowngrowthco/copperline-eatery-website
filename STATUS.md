@@ -353,28 +353,7 @@ GSC was flagging `/menu`, `/catering`, `/contact`, `/about`, `/faq` as "Alternat
 
 ## Remaining Items
 
-### You Can Do Now (No Dev Work Needed)
-
-| Task | Where | Why |
-|------|--------|-----|
-| **Google Business Profile** — Set primary category to "Breakfast Restaurant" | business.google.com | Increases local pack visibility |
-| **Google Business Profile** — Add interior/food photos | business.google.com | Photos increase click-through rate |
-| **Google Business Profile** — Fill in menu editor | business.google.com | Shows in search results directly |
-| **Google Business Profile** — Enable messaging | business.google.com | Customers can message directly from search |
-| **Google Business Profile** — Post weekly updates | business.google.com | Signals active business to Google |
-| **Review solicitation** — Add QR code at register linking to your Google review page | Print | More reviews = better local rankings |
-| **Citation audit** — Verify exact NAP match on Yelp, TripAdvisor, Yellow Pages | Each platform | Inconsistent name/address/phone hurts local SEO |
-| **DoorDash menu audit** — Verify prices and items are current | DoorDash dashboard | Outdated menus frustrate customers |
-| **Google Search Console** — Monitor Core Web Vitals and coverage errors | search.google.com/search-console | Catch crawl issues early |
-
-### Low-Priority Dev Tasks (Nice to Have)
-
-| Task | Effort | Why |
-|------|--------|-----|
-| **Breadcrumb schema** on all pages | Low | Minor SEO signal, adds breadcrumb display in SERPs |
-| **WebP image conversion** | Low | Further image size reduction (~30% vs JPEG) |
-| **Defer non-critical JS** | Low | Minor Core Web Vitals improvement |
-| **Redirect `/index.html` → `/`** via `netlify.toml` | Low | Canonical tag already consolidates these; redirect would be tidier |
+Open tasks are tracked in [../TODO.md](../TODO.md) (single source of truth, synced to Notion), not enumerated here, to avoid drift. The open work is the (DAD) Google Business Profile setup, citation NAP audit, and DoorDash menu audit, all gated on Ian's dad (he holds those business-platform accounts), plus Microsoft Clarity setup. The earlier "Low-Priority Dev Tasks" list is superseded: breadcrumb schema, WebP conversion, and defer-JS are all done (see Website/CLAUDE.md), and the optional `/index.html` redirect is unnecessary because the canonical tag already consolidates it.
 
 ---
 
