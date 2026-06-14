@@ -109,6 +109,23 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 10 — 2026-06-14
+**Full SEO/technical audit + fixed the one Core Web Vitals outlier (`/about` YouTube facade) + finished header logo WebP. Deployed (commit `deec810`).**
+
+Ran a fresh end-to-end audit (saved as `copperline_audit_report.md` in the project root): crawled all routes, verified redirects/canonicals/titles/H1s/schema/OG/robots/sitemap. **All previously-known technical-SEO issues confirmed resolved** (HTTP→HTTPS single-hop 301 + HSTS preload; `.html`→clean 301s; self-referencing canonicals; sitemap-index correct). No critical/moderate defects.
+
+**Performance — measured, not assumed.** The keyless PageSpeed Insights v5 API is now hard-blocked (`429 / quota=0`, no Google API key here), so used **local Lighthouse 13.4.0 mobile**. Current prod: `/` 99, `/menu` 97, `/catering` 99 — but **`/about` 58** (LCP 9.8 s), the lone outlier. Root cause: an eagerly-loaded `youtube.com/embed/lPCIlXEzSPs` `<iframe>` (the LCP element + a heavy third-party payload). This is the "underperforming /about" from the brief — a *performance*, not content/indexing, problem.
+
+**Fix 1 — `/about` click-to-load facade** (`src/pages/about.astro` + `src/scripts/main.ts` + `src/styles/global.css` + `public/about-video-poster.{jpg,webp}`). Replaced the iframe with an accessible `<button class="video-facade">` showing a local poster (`<picture>` WebP+JPG) inside the existing responsive `.video-embed` box; new `initVideoFacade()` injects the real `youtube.com/embed/...?autoplay=1` iframe on click. **No CSP change** — existing `frame-src www.youtube.com` + `img-src img.youtube.com` already cover it. Result: **mobile perf 58 → 98, LCP 9.8 s → 1.6 s (prod)**, CLS unchanged (~0.06).
+
+**Fix 2 — header logo WebP** (`public/logo.webp` + `src/components/Nav.astro` + `src/layouts/BaseLayout.astro`). Logo served via `<picture>` (WebP ~20 KB vs JPG 62 KB, JPG fallback). Preload retargeted `logo.jpg` → `logo.webp` (`type="image/webp"`) to avoid a double download. `og:image` deliberately kept as `logo.jpg` (social-card compatibility). Closes the lone WebP-coverage gap noted in the 2026-05-22 audit.
+
+**Not changed:** `/contact` Maps iframe was already `loading="lazy"` (corrected an over-statement in the audit draft). Sitemap-root trailing-slash + http→https external citations deliberately deferred (cosmetic / owner-gated; sitemap item now tracked in `../TODO.md` @low).
+
+**Verification (every gate green):** `npm run build` clean; strict `tsc` on `main.ts` exit 0; static `dist/` assertions (no eager `<iframe>`, facade present, logo WebP `<source>`+preload, `og:image` still JPG, contact map still lazy); **headless Chrome (Playwright, mobile 390×844)** — zero youtube.com/googlevideo.com requests on `/about` load, only `.webp` assets fetched (no JPG double-download), click **and** keyboard (Enter) both hydrate the iframe, zero console/CSP errors; Lighthouse before(prod)/after(preview+prod); post-deploy `curl` of prod confirms facade live + assets 200. GH Actions deploy success (59s) + IndexNow ping.
+
+**Revert path:** `git revert deec810 && git push origin master` — single commit (5 source files + 3 public assets + `copperline_audit_report.md` + `STATUS.md`). Facade degrades gracefully (poster renders, `og:image` untouched) even if `main.ts` fails to load.
+
 ### Session 9 — 2026-06-02
 **Defer GA4 to idle (CWV) + inline the source photo in the specials confirmation reply.** Two low-priority items shipped as one commit `7579c2d` on master; GH Actions deploy green; both verified live on prod.
 
