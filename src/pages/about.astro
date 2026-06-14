@@ -116,7 +116,13 @@ const breadcrumb = {
           <div class="award-item">
             <h3>&#128250; Featured on Western Mass News</h3>
             <div class="video-embed">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/lPCIlXEzSPs?si=-_oV-6hqRCkJhRjB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <button class="video-facade" type="button" data-video-id="lPCIlXEzSPs" aria-label="Play video: Copperline Eatery featured on Western Mass News">
+                <picture>
+                  <source srcset="/about-video-poster.webp" type="image/webp" />
+                  <img src="/about-video-poster.jpg" alt="" width="560" height="315" loading="lazy" decoding="async" />
+                </picture>
+                <span class="video-facade__play" aria-hidden="true"></span>
+              </button>
             </div>
           </div>
           <div class="award-item">

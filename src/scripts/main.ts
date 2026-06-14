@@ -1,5 +1,24 @@
 declare function gtag(...args: unknown[]): void;
 
+function initVideoFacade() {
+  const facade = document.querySelector<HTMLButtonElement>('.video-facade');
+  if (!facade) return;
+  facade.addEventListener('click', () => {
+    const id = facade.dataset.videoId;
+    if (!id) return;
+    const iframe = document.createElement('iframe');
+    iframe.width = '560';
+    iframe.height = '315';
+    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+    iframe.title = 'YouTube video player';
+    iframe.allow =
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.allowFullscreen = true;
+    facade.replaceWith(iframe);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const mainNav = document.getElementById('mainNav');
@@ -19,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   initReviewsCarousel();
+  initVideoFacade();
 
   if (document.querySelector('.menu-tab')) {
     initMenuTabs();
