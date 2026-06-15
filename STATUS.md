@@ -8,9 +8,9 @@
 
 ## Recent Updates (2026-06-14)
 
-### Session 10 — Full SEO/technical audit + `/about` YouTube facade + logo WebP (CODE-COMPLETE, PENDING DEPLOY)
+### Session 10 — Full SEO/technical audit + `/about` YouTube facade + logo WebP (DEPLOYED, commit `deec810`)
 
-Ran a fresh end-to-end audit (saved as `copperline_audit_report.md`). Site is healthy — all previously-known technical-SEO issues confirmed resolved. Measured mobile Lighthouse: `/` 99, `/menu` 97, `/catering` 99, **`/about` 58** — the lone outlier, dragged by an eagerly-loaded YouTube `<iframe>` (LCP 9.8 s). Fixed it plus finished WebP coverage on the header logo. **Built + typechecked + headless-verified locally, not yet pushed** (deploy = push to `master` → GitHub Actions).
+Ran a fresh end-to-end audit (saved as `copperline_audit_report.md`). Site is healthy — all previously-known technical-SEO issues confirmed resolved. Measured mobile Lighthouse: `/` 99, `/menu` 97, `/catering` 99, **`/about` 58** — the lone outlier, dragged by an eagerly-loaded YouTube `<iframe>` (LCP 9.8 s). Fixed it plus finished WebP coverage on the header logo. **Shipped + verified live** (commit `deec810` → GH Actions deploy success 59s): prod `/about` now **perf 98 / LCP 1.6 s**; `curl` confirms no eager iframe + `logo.webp` served + assets 200.
 
 **1. `/about` YouTube click-to-load facade** (`src/pages/about.astro`, `src/scripts/main.ts`, `src/styles/global.css`, `public/about-video-poster.{jpg,webp}`). Replaced the eager iframe with an accessible `<button class="video-facade">` showing a local poster (`<picture>` WebP + JPG) over the existing responsive `.video-embed` box; new `initVideoFacade()` in `main.ts` injects the real `youtube.com/embed/...?autoplay=1` iframe on click. **No CSP change needed** (existing `frame-src youtube.com` + `img-src img.youtube.com` already cover it). Measured result: **perf 58 → 98, LCP 9.8 s → 2.0 s**, CLS unchanged (~0.06).
 
@@ -20,7 +20,7 @@ Ran a fresh end-to-end audit (saved as `copperline_audit_report.md`). Site is he
 
 **Verification (all green):** `npm run build` clean; strict `tsc` on `main.ts` exit 0; static `dist/` assertions (no eager iframe, facade present, logo WebP `<source>` + preload, og:image still JPG, contact map still lazy); **headless Chrome (Playwright, mobile 390×844)** — zero youtube.com/googlevideo.com requests on `/about` load, only `.webp` assets fetched (no JPG double-download), click + keyboard (Enter) both hydrate the iframe, **zero console/CSP errors**; Lighthouse before(prod)/after(preview) as above.
 
-**Revert path (once committed):** `git revert <sha>` — single commit touching the 5 source files + 3 new public assets + `copperline_audit_report.md` + this STATUS entry. Facade degrades gracefully (poster still renders, `og:image` untouched) even if `main.ts` fails to load.
+**Revert path:** `git revert deec810 && git push origin master` — single commit touching the 5 source files + 3 new public assets + `copperline_audit_report.md` + this STATUS entry. Facade degrades gracefully (poster still renders, `og:image` untouched) even if `main.ts` fails to load.
 
 ---
 
