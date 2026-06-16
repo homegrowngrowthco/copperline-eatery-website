@@ -2,7 +2,29 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-06-14
+**Last updated:** 2026-06-16
+
+---
+
+## Recent Updates (2026-06-16)
+
+### Session 11 — Homepage URL form aligned slashless across canonical + sitemap + breadcrumbs (DEPLOYED)
+
+Closed the long-deferred "align sitemap homepage URL to the canonical trailing slash" item (was @low, cosmetic). **The planned fix was impossible:** `@astrojs/sitemap` 3.7.2 runs a hardcoded XML-text stream-replace in `write-sitemap.js` that strips the root trailing slash whenever `trailingSlash:'never'` **or** `build.format:'file'` — copperline has both. That replace runs *after* the `serialize` hook, so no config/hook can make the sitemap emit a slashed root short of forking the package or a post-build rewrite.
+
+**Resolved the other direction instead** — made the homepage URL slashless everywhere so it matches the sitemap (and the whole site's `trailingSlash:'never'` identity). Discovery showed the homepage canonical (`${SITE_URL}/`) and its auto-derived `og:url` were already the *lone* slash outliers — the homepage Restaurant/WebSite JSON-LD `url` fields were already slashless. So this removed an existing internal inconsistency rather than creating one.
+
+**6 one-character edits (`${SITE_URL}/` → `${SITE_URL}` for the homepage URL only):**
+- `src/pages/index.astro` — homepage canonical (also flips the derived `og:url`).
+- `src/pages/{about,catering,contact,faq,menu}.astro` — the `BreadcrumbList` "Home" `item` URL (included so they don't become a new inconsistency vs the home canonical).
+
+All other `${SITE_URL}/...` refs are real paths (`/menu`, `/logo.jpg`, `/404`) — untouched.
+
+**Risk review:** the two forms `https://copperlineeatery.com` and `https://copperlineeatery.com/` are the same resource per RFC 3986 §6.2.3 and Google canonicalizes them together, so SEO impact is ~nil; the change *reduces* risk by making canonical match the sitemap. Verified the slashless root serves `200` with `0` redirects (no redirect chain introduced).
+
+**QA (pre-deploy, all green):** `npm run build` clean; built-DOM assertions — homepage canonical + `og:url` slashless, homepage JSON-LD `url` still slashless, all 5 breadcrumb Home items slashless, sitemap root now equals the canonical; grep confirms no `${SITE_URL}/`-as-homepage refs remain.
+
+**Revert path:** `git revert <this commit> && git push origin master` — single commit (6 source pages + this STATUS entry + CLAUDE.md Session 11). Pure URL-string change; nothing functional depends on the slash.
 
 ---
 

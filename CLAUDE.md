@@ -109,6 +109,9 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 11 — 2026-06-16
+**Aligned the homepage URL form slashless across canonical + sitemap + breadcrumbs (deployed).** Closed the deferred "align sitemap homepage URL to the canonical" @low item. Key finding: the planned `serialize`-hook fix is impossible — `@astrojs/sitemap` 3.7.2 hardcodes a slashless root (text stream-replace in `write-sitemap.js`) for `trailingSlash:'never'`/`build.format:'file'`, running *after* `serialize`. Resolved the other way: made the homepage canonical slashless to match the sitemap. Discovery showed the canonical + its derived `og:url` were the only slash outliers (homepage JSON-LD `url` was already slashless), so this removed an existing inconsistency. 6 one-char edits: `index.astro` canonical + the `BreadcrumbList` "Home" item in `{about,catering,contact,faq,menu}.astro`. RFC 3986/Google treat the two forms as identical (zero SEO impact); slashless root verified to serve `200`/`0` redirects. QA: clean build + built-DOM assertions (canonical/og:url/breadcrumbs slashless, sitemap root == canonical, homepage JSON-LD unchanged). Revert: `git revert <commit> && git push origin master`. See STATUS.md Session 11.
+
 ### Session 10 — 2026-06-14
 **Full SEO/technical audit + fixed the one Core Web Vitals outlier (`/about` YouTube facade) + finished header logo WebP. Deployed (commit `deec810`).**
 
