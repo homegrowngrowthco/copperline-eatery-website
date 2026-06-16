@@ -8,6 +8,18 @@
 
 ## Recent Updates (2026-06-16)
 
+### Session 12 — Microsoft Clarity added (heatmaps + session recordings), idle-loaded (DEPLOYED)
+
+Closed the "Set up Microsoft Clarity" @low TODO item. Clarity project `x7y38jzmw3` (Ian created it; the project ID is all that's needed — no copy-paste of the vendor snippet).
+
+**Install (`src/layouts/BaseLayout.astro`).** Added a second inline `<script is:inline>` after the GA4 block. The `clarity()` command queue is set up immediately, but the tag-library download (`https://www.clarity.ms/tag/x7y38jzmw3`) is deferred to `requestIdleCallback` (3s timeout; `load`+1.2s fallback) — **not** the vendor's default blocking-async snippet. This mirrors the GA4 CWV deferral from Session 9 so Clarity stays off the critical render path (no queued events lost).
+
+**CSP (`netlify.toml`).** Extended the three relevant directives for Clarity's origins: `script-src` += `https://www.clarity.ms https://*.clarity.ms`; `img-src` += `https://*.clarity.ms`; `connect-src` += `https://*.clarity.ms https://c.bing.com` (Clarity uploads session data to `*.clarity.ms` and `c.bing.com`). No other directive touched.
+
+**QA (all green).** `npm run build` clean; static assertions — Clarity snippet + project ID present on all 7 built pages, GA4 idle loader intact, CSP carries the clarity origins. Runtime verified on prod via headless Chrome (Playwright): the `www.clarity.ms/tag/x7y38jzmw3` request fires after idle, `window.clarity` is defined, zero CSP/console errors. **Data appears in the Clarity dashboard within a few minutes to ~2h of first real traffic** — owner can confirm at clarity.microsoft.com.
+
+**Revert path:** `git revert <this commit> && git push origin master` — single commit (`BaseLayout.astro` + `netlify.toml` + this STATUS entry + CLAUDE.md). Clarity can also be paused from the Clarity dashboard without a code change.
+
 ### Session 11 — Homepage URL form aligned slashless across canonical + sitemap + breadcrumbs (DEPLOYED)
 
 Closed the long-deferred "align sitemap homepage URL to the canonical trailing slash" item (was @low, cosmetic). **The planned fix was impossible:** `@astrojs/sitemap` 3.7.2 runs a hardcoded XML-text stream-replace in `write-sitemap.js` that strips the root trailing slash whenever `trailingSlash:'never'` **or** `build.format:'file'` — copperline has both. That replace runs *after* the `serialize` hook, so no config/hook can make the sitemap emit a slashed root short of forking the package or a post-build rewrite.

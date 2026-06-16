@@ -11,7 +11,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - Netlify hosting + GitHub Actions deploy (`npm ci && npm run build && netlify deploy --dir=dist`)
 - `NODE_VERSION="24"` pinned in `netlify.toml` (matches local Node 24.15)
 - `netlify-cli@22` pinned in deploy workflow
-- GA4 analytics (Measurement ID `G-DXYNCF0G79`); no Microsoft Clarity
+- GA4 analytics (Measurement ID `G-DXYNCF0G79`) + Microsoft Clarity (project `x7y38jzmw3`, heatmaps + session recordings); both deferred to browser idle for CWV
 - IndexNow auto-ping on every prod deploy
 
 ## Live site
@@ -45,6 +45,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 ## External Dependencies
 - Netlify (hosting + edge)
 - GA4 (Measurement ID `G-DXYNCF0G79`, public)
+- Microsoft Clarity (project `x7y38jzmw3`, public; heatmaps + session recordings, idle-loaded)
 - IndexNow protocol (Bing/Yandex; key `670b4b1e5abe94d9050c77bc3a1011e2`, public)
 - Anthropic Claude API (`claude-sonnet-4-6`) — vision extraction in the specials Netlify Function
 - Postmark — inbound email parsing + outbound replies for the specials pipeline
@@ -109,6 +110,9 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 12 — 2026-06-16
+**Added Microsoft Clarity (heatmaps + session recordings), idle-loaded (deployed).** Closed the "Set up Microsoft Clarity" @low item. Project `x7y38jzmw3`. Install in `BaseLayout.astro`: a second `<script is:inline>` after GA4 that sets up the `clarity()` queue immediately but defers the tag download (`www.clarity.ms/tag/x7y38jzmw3`) to `requestIdleCallback` — mirrors the GA4 CWV deferral (Session 9), not the vendor's blocking-async snippet. CSP (`netlify.toml`) extended: `script-src` += `www.clarity.ms *.clarity.ms`, `img-src` += `*.clarity.ms`, `connect-src` += `*.clarity.ms c.bing.com`. QA: clean build + static assertions (snippet+ID on all 7 pages, GA4 intact, CSP correct) + Playwright on prod (tag request fires after idle, `window.clarity` defined, zero CSP/console errors). Data shows in the Clarity dashboard within minutes-to-~2h of real traffic. Revert: `git revert <commit> && git push origin master`. See STATUS.md Session 12.
+
 ### Session 11 — 2026-06-16
 **Aligned the homepage URL form slashless across canonical + sitemap + breadcrumbs (deployed).** Closed the deferred "align sitemap homepage URL to the canonical" @low item. Key finding: the planned `serialize`-hook fix is impossible — `@astrojs/sitemap` 3.7.2 hardcodes a slashless root (text stream-replace in `write-sitemap.js`) for `trailingSlash:'never'`/`build.format:'file'`, running *after* `serialize`. Resolved the other way: made the homepage canonical slashless to match the sitemap. Discovery showed the canonical + its derived `og:url` were the only slash outliers (homepage JSON-LD `url` was already slashless), so this removed an existing inconsistency. 6 one-char edits: `index.astro` canonical + the `BreadcrumbList` "Home" item in `{about,catering,contact,faq,menu}.astro`. RFC 3986/Google treat the two forms as identical (zero SEO impact); slashless root verified to serve `200`/`0` redirects. QA: clean build + built-DOM assertions (canonical/og:url/breadcrumbs slashless, sitemap root == canonical, homepage JSON-LD unchanged). Revert: `git revert <commit> && git push origin master`. See STATUS.md Session 11.
 
