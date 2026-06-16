@@ -405,7 +405,7 @@ GSC was flagging `/menu`, `/catering`, `/contact`, `/about`, `/faq` as "Alternat
 
 ## Remaining Items
 
-Open tasks are tracked in [../TODO.md](../TODO.md) (single source of truth, synced to Notion), not enumerated here, to avoid drift. The open work is the (DAD) Google Business Profile setup, citation NAP audit, and DoorDash menu audit, all gated on Ian's dad (he holds those business-platform accounts), plus Microsoft Clarity setup. The earlier "Low-Priority Dev Tasks" list is superseded: breadcrumb schema, WebP conversion, and defer-JS are all done (see Website/CLAUDE.md), and the optional `/index.html` redirect is unnecessary because the canonical tag already consolidates it.
+Open tasks are tracked in [../TODO.md](../TODO.md) (single source of truth, synced to Notion), not enumerated here, to avoid drift. The open work is the (DAD) Google Business Profile setup, citation NAP audit, and DoorDash menu audit, all gated on Ian's dad (he holds those business-platform accounts). The earlier "Low-Priority Dev Tasks" list is superseded: breadcrumb schema, WebP conversion, and defer-JS are all done (see Website/CLAUDE.md), Microsoft Clarity is live (Session 12), and the optional `/index.html` redirect is unnecessary because the canonical tag already consolidates it.
 
 ---
 
