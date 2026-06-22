@@ -2,7 +2,37 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-06-16
+**Last updated:** 2026-06-22
+
+---
+
+## Recent Updates (2026-06-22)
+
+### Session 13 — Full audit (a11y + security + code + SEO delta): 8 fixes DEPLOYED
+
+Ran a full four-dimension audit (report: `copperline_audit_report.md`). No critical defects, no security exposure. Eight issues fixed in one commit; two reported for Ian's decision (em/en-dash style rule; Astro 7 upgrade).
+
+**Accessibility (the prior gap), all fixed — `/menu` axe 93 → 100:**
+1. Menu-tab **keyboard trap** (roving tabindex, no arrow handler): keyboard users could not reach Lunch/Catering/Specials. Added Arrow/Home/End handler in `main.ts` (ARIA Tabs APG). Verified in-browser.
+2. Mobile menu button `aria-expanded` never updated (+ no `aria-controls`): fixed in `main.ts` + `Nav.astro`.
+3. Tap targets < 24px (nav social icons, carousel dots, footer Contact links): 24px hit areas in `global.css` (dots keep 8px visual via padding + content-box).
+4. Download-menu buttons label/name mismatch: `aria-label`s now contain visible text, "Download Menu (breakfast/lunch/catering)".
+5. Colour-only in-text `tel:` link in menu legend: underlined.
+
+**Performance — one real, reproducible CWV regression fixed:**
+6. `/menu` **CLS 0.296 → 0.001** (perf 83 → 98). Root cause (confirmed via LayoutShift API): self-hosted fonts use `font-display:swap` with no preload, so the text-dense menu page reflowed ~35-40px on font swap. Fix: preload Oswald 700/600 + Merriweather 400 (hash-stable `@fontsource` asset imports) in `BaseLayout.astro`. Home/about unchanged (99/100); fonts deduped (still 7 woff2). (An initial home reading of 75 was single-run noise; re-measured 99.)
+
+**Responsive bug (pre-existing on prod), fixed:**
+7. Hamburger toggle was **clipped off the right edge on phones up to ~385px** (header crammed logo + 5 social icons + DoorDash + toggle on one nowrap row). Fixed by hiding the redundant Facebook/Instagram icons in the mobile header (both still in the footer) + trimming header gaps. Now fits down to ~330px with the toggle on-screen; kept the phone/email/directions icons (each a 24px target).
+
+**Security (1 safe fix):**
+8. `npm audit fix` (non-breaking) resolved 6 of 8 advisories (form-data CRLF high, js-yaml/tar/tmp moderate, vite high). Remaining 3 need Astro 7 (breaking, build-time-only) — deferred. The specials Netlify function reviewed end-to-end: well-hardened (auth + allowlist + image validation + LLM-output validation + escapeHtml), no changes needed. Headers/secrets/CSP all clean (CSP `'unsafe-inline'` kept, same documented trade-off).
+
+**Verified clean, no action:** all redirects single-hop 301, robots/sitemap/canonicals correct, JSON-LD parses with correct types on all 7 pages, external links healthy (DoorDash/Yelp/TripAdvisor/MassLive 403s are anti-bot, not broken). best-practices 77 is third-party analytics cookies (expected).
+
+**QA:** clean build + strict tsc; local production build re-measured before deploy (menu CLS 0.001, a11y 100, header fits at 360px, keyboard tabs work); prod re-checked post-deploy.
+
+**Revert path:** `git revert <commit> && git push origin master` — one commit (5 source files + `package-lock.json` + report + this entry + CLAUDE.md Session 13). Font preloads are inert if reverted; a11y/CSS changes are additive.
 
 ---
 

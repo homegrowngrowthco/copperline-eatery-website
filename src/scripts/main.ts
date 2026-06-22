@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (mobileMenuToggle && mainNav) {
     mobileMenuToggle.addEventListener('click', () => {
-      mainNav.classList.toggle('active');
+      const open = mainNav.classList.toggle('active');
+      mobileMenuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   }
 
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', () => {
       if (mainNav && mainNav.classList.contains('active')) {
         mainNav.classList.remove('active');
+        mobileMenuToggle?.setAttribute('aria-expanded', 'false');
       }
     });
   });
@@ -175,6 +177,21 @@ function initMenuTabs() {
       if (mainNav?.classList.contains('active')) {
         mainNav.classList.remove('active');
       }
+    });
+
+    // ARIA tabs keyboard pattern: arrow/Home/End move + activate the roving tab.
+    tab.addEventListener('keydown', (e) => {
+      const arr = Array.from(tabs);
+      const i = arr.indexOf(tab);
+      let n = -1;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = (i + 1) % arr.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = (i - 1 + arr.length) % arr.length;
+      else if (e.key === 'Home') n = 0;
+      else if (e.key === 'End') n = arr.length - 1;
+      if (n === -1) return;
+      e.preventDefault();
+      arr[n].focus();
+      arr[n].click();
     });
   });
 }

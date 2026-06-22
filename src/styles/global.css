@@ -35,7 +35,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .header-actions { display: flex; align-items: center; gap: 15px; }
 .social-icons { display: flex; gap: 12px; }
-.social-icons a { color: var(--green-dark); }
+/* >=24px hit area for icon links (WCAG 2.5.8 Target Size) without enlarging the glyph */
+.social-icons a { color: var(--green-dark); display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; }
 .social-icons a:hover { color: var(--red); transform: translateY(-2px); }
 .doordash-btn { display: flex; align-items: center; gap: 6px; background: var(--red); color: var(--white); padding: 10px 20px; border-radius: 6px; font-family: var(--font-display); font-weight: 600; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
 .doordash-btn:hover { background: var(--red-dark); transform: translateY(-1px); }
@@ -74,8 +75,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .carousel-btn.prev { left: 0; }
 .carousel-btn.next { right: 0; }
 .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
-.carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: #888888; border: none; cursor: pointer; }
-.carousel-dot.active { background: var(--red); transform: scale(1.2); }
+/* 8px dot kept visually; padding + content-box extends the tap target to 24px (WCAG 2.5.8) */
+.carousel-dot { width: 8px; height: 8px; padding: 8px; box-sizing: content-box; background-clip: content-box; border-radius: 50%; background-color: #888888; border: none; cursor: pointer; }
+.carousel-dot.active { background-color: var(--red); transform: scale(1.2); }
 
 .cta-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
 .btn { display: inline-block; padding: 14px 30px; border-radius: 6px; font-family: var(--font-display); font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; text-align: center; }
@@ -290,7 +292,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     line-height: 1.55;
     margin: 0 0 6px 0;
 }
-.footer-col a { color: var(--cream); font-size: 0.9rem; }
+.footer-col a { color: var(--cream); font-size: 0.9rem; display: inline-block; padding: 4px 0; }
 .footer-col a:hover { color: var(--tan); }
 .footer-list { list-style: none; padding: 0; margin: 0; }
 .footer-list li { padding: 1px 0; }
@@ -359,10 +361,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     }
     
     /* Right side container: icons + button + toggle */
-    .header-actions { 
+    .header-actions {
         display: flex;
         flex-direction: row;
-        gap: 8px; 
+        gap: 6px;
         align-items: center;
         flex-shrink: 0;
     }
@@ -374,12 +376,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     }
     
     /* Social icons more compact */
-    .social-icons { 
+    .social-icons {
         display: flex;
-        gap: 8px;
+        gap: 2px;
         align-items: center;
     }
     .social-icons a svg { width: 15px; height: 15px; }
+    /* On narrow phones the single nowrap header row was overflowing and pushing the
+       hamburger toggle off the right edge. Drop the redundant Facebook/Instagram
+       links here (both live in the footer) to make room; keep the actionable
+       phone/email/directions icons (each a >=24px tap target). */
+    .social-icons a[href*="facebook.com"],
+    .social-icons a[href*="instagram.com"] { display: none; }
     
     /* Very compact DoorDash button - just logo + text */
     .header-actions .doordash-btn { 
@@ -939,6 +947,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     border-top: 1px dashed rgba(38, 70, 83, 0.15);
 }
 .menu-legend .menu-item-veg { margin: 0 2px 0 0; }
+/* In-text links underlined so they aren't distinguished by color alone (WCAG 1.4.1) */
+.menu-legend a { text-decoration: underline; }
 .menu-legend-fees {
     background: var(--cream);
     color: var(--green-dark);

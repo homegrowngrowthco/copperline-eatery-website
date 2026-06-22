@@ -1,126 +1,89 @@
-# Copperline Eatery — Technical & SEO Audit
+# Copperline Eatery — Full Site Audit (a11y · security · code · SEO)
 **Site:** https://copperlineeatery.com
-**Date:** 2026-06-14 (updated same day with measured Lighthouse data + post-fix results)
-**Method:** Live read-only HTTP inspection of all 7 routes (raw HTML, headers, redirects), robots/sitemap fetch, and Lighthouse mobile runs (local Chrome — the keyless PageSpeed Insights API is now quota-blocked).
+**Date:** 2026-06-22 (Session 13)
+**Scope:** Accessibility (WCAG / axe), Security (deps, CSP, specials Netlify function), Code quality, and an SEO/content/schema delta re-check. Builds on the 2026-06-14 technical-SEO/perf audit (Session 10).
+**Method:** Full source read; `npm audit`; strict `tsc`; clean `astro build`; live `curl` (headers/redirects/robots/sitemap); Lighthouse 13.4.0 mobile (perf + accessibility + SEO + best-practices) on `/`, `/menu`, `/about`, `/contact`; JSON-LD parse/type validation on built DOM; headless-browser (Playwright, 360–390 px) keyboard/ARIA + layout-overflow + LayoutShift-API CLS attribution; external-link probes.
 
-> **Update (2026-06-14, post-fix):** The `/about` performance issue identified below was fixed the same day via a click-to-load YouTube facade — mobile perf **58 → 98**, LCP **9.8 s → 2.0 s**. Header logo also moved to WebP. See the "Resolution" notes inline and the `STATUS.md` session entry.
-
----
-
-## Executive Summary
-
-1. **No critical or moderate technical-SEO defects.** All three previously-known issues are confirmed **resolved**: HTTP→HTTPS is a clean single-hop 301, `.html` legacy URLs 301 to clean equivalents, and `/menu` + `/catering` canonicals are correct and self-referencing.
-2. **(Moderate, performance — NOW FIXED)** The `/about` page was the one CWV outlier: measured mobile perf **58 / LCP 9.8 s**, caused by an eagerly-loaded YouTube `<iframe>`. The other three pages were already excellent (perf 97–99). Fixed 2026-06-14 with a click-to-load facade → **perf 98 / LCP 2.0 s**. *(The `/contact` Google Maps iframe was already `loading="lazy"` — no action needed.)*
-3. **Performance measured with local Lighthouse** (mobile). The keyless PSI v5 API is now quota-blocked (`429 / quota=0`), so the report's earlier pre-migration baseline was replaced with fresh Lighthouse runs. Current state: `/` 99, `/menu` 97, `/catering` 99, `/about` 58→**98** after fix.
-4. **On-page, schema, and local-SEO coverage are strong across the board** — unique titles/descriptions on every page, one H1 each, self-referencing canonicals, complete Open Graph, rich JSON-LD (Restaurant, Menu, FAQPage, Review, AggregateRating, BreadcrumbList), consistent NAP + `tel:` link + Maps embed.
-5. **(Low) Minor polish:** `logo.jpg` now paired with `logo.webp` (done 2026-06-14, header logo served via `<picture>`). Remaining: sitemap homepage entry omits the trailing slash the canonical uses (cosmetic, deferred); external citations still need http→https updates (owner-gated GBP/citation work).
+> All fixes below were applied, built, **verified on the local production build**, and deployed in one revertable commit. Re-verified on prod after deploy.
 
 ---
 
-## 1. Technical SEO Findings
+## Executive summary
 
-| URL | Status | Canonical | Title (unique?) | H1 | Issues |
-|---|---|---|---|---|---|
-| `/` | 200 | `https://copperlineeatery.com/` (self) | ✅ unique | 1 — "Best Breakfast & Lunch in Western MA!" | None |
-| `/menu` | 200 | `…/menu` (self) | ✅ unique | 1 — "Best Breakfast & Lunch Menu in Chicopee, MA" | None |
-| `/catering` | 200 | `…/catering` (self) | ✅ unique | 1 — "Catering Services" | None |
-| `/about` | 200 | `…/about` (self) | ✅ unique | 1 — "Family Owned Since 1993" | None (perf — see §2) |
-| `/contact` | 200 | `…/contact` (self) | ✅ unique | 1 — "Visit Us" | None (perf — see §2) |
-| `/faq` | 200 | `…/faq` (self) | ✅ unique | 1 — "Frequently Asked Questions" | None |
-
-**Redirects (all verified single-hop 301):**
-- `http://copperlineeatery.com/` → `https://copperlineeatery.com/` ✅ (HSTS `max-age=31536000; includeSubDomains; preload`)
-- `https://www.copperlineeatery.com/` → `https://copperlineeatery.com/` ✅
-- `/menu.html → /menu`, `/catering.html → /catering`, `/about.html → /about`, `/contact.html → /contact`, `/faq.html → /faq`, `/index.html → /` ✅ (all 301, clean target)
-- `/sitemap.xml → /sitemap-index.xml` (301) ✅
-
-**robots.txt:** present, `User-agent: * / Allow: /`, advertises `https://copperlineeatery.com/sitemap-index.xml`. Not blocking any important page. ✅
-
-**Sitemap:** `/sitemap-index.xml` → `/sitemap-0.xml` listing **6 URLs** (`/`, `/about`, `/catering`, `/contact`, `/faq`, `/menu`). All return **200** — none 404 or redirect. `/404` correctly excluded. ✅
-- ⚠️ **Minor:** the homepage entry in the sitemap is `https://copperlineeatery.com` (no trailing slash) while the page's canonical is `https://copperlineeatery.com/` (with slash). Google treats these as equivalent so impact is negligible, but aligning the sitemap to the canonical form is tidy.
-
-**Duplicate titles/descriptions:** none — all 6 indexable pages have distinct, well-formed titles and meta descriptions.
-**Missing/multiple H1:** none — every page has exactly one H1.
-**Missing canonicals:** none — every page self-references.
-
-> **Verdict:** All previously-known technical issues (HTTP/HTTPS fragmentation, `.html` canonical mismatch on `/menu` + `/catering`) are resolved. (Consistent with CLAUDE.md Sessions 4 & 8.)
+- **No critical defects. No security exposure.** Secrets clean; the specials Netlify function is well-hardened; technical SEO remains green across the board.
+- **8 issues fixed and deployed** this session — concentrated in **accessibility** (the dimension prior audits had only skimmed) plus one **reproducible CWV regression** and one **pre-existing mobile-header bug**:
+  1. *(Moderate, a11y)* Menu tabs were a **keyboard trap** — fixed.
+  2. *(Moderate, a11y)* Mobile menu button `aria-expanded` never updated — fixed.
+  3. *(Moderate, responsive — pre-existing on prod)* Hamburger toggle **clipped off-screen on phones ≤ ~385 px** — fixed.
+  4. *(Moderate, perf/CWV)* `/menu` **CLS 0.296 → 0.001** (font-swap reflow) — fixed.
+  5–7. *(Minor, a11y)* Tap-target sizes, a label/name mismatch, and a colour-only in-text link — fixed (`/menu` axe score **93 → 100**).
+  8. *(Low, security)* **6 of 8** npm advisories resolved (non-breaking).
+- **2 items reported for your decision** (not auto-changed): the em/en-dash style question, and the Astro 7 upgrade (breaking; clears the last 3 build-time advisories).
 
 ---
 
-## 2. Page Speed & Core Web Vitals (measured)
+## 1. Accessibility — biggest gap closed (all fixed)
 
-**Note on method:** the keyless PageSpeed Insights v5 API is now quota-blocked (`HTTP 429 / quota_limit_value: "0"` — Google no longer serves anonymous requests, and no Google API key is configured here). All numbers below are from **local Lighthouse 13.4.0, mobile form factor**, run against the live prod URLs (and, for the after-fix column, the local production build via `astro preview`).
+Measured with Lighthouse/axe (mobile) + manual headless-browser keyboard and ARIA testing.
 
-**Measured mobile performance (2026-06-14):**
-
-| Page | Mobile Score | LCP | CLS | TBT | Flags |
-|---|---|---|---|---|---|
-| Home (`/`) | **99** | 1.9 s | 0.039 | 40 ms | — |
-| Menu (`/menu`) | **97** | 1.9 s | 0 | 70 ms | — |
-| Catering (`/catering`) | **99** | 1.7 s | 0.028 | 60 ms | — |
-| About (`/about`) — *before* | **58** | **9.8 s** | 0.061 | 0 ms | Eager YouTube embed → severe LCP |
-| About (`/about`) — *after fix* | **98** | **2.0 s** | 0.06 | 80 ms | ✅ resolved |
-
-**Interpretation:**
-- The Astro migration had already lifted three of four pages to near-perfect mobile scores (97–99). The earlier pre-migration baseline (kept in `_baseline/lighthouse-2026-05-16/`) drastically *understated* current performance and has been superseded by these measured numbers.
-- **`/about` was the sole outlier** (58 / 9.8 s LCP). Root cause: the eagerly-loaded `youtube.com/embed/lPCIlXEzSPs` `<iframe>` — the LCP element and a large third-party payload. This was the "underperforming /about page" from the brief: a **performance** problem, not a content/indexing one (its title, meta, schema, and local copy are all well-optimized; CLAUDE.md Session 8 correctly attributes its low SERP CTR to the branded-secondary-listing effect).
-- **Resolution (2026-06-14):** replaced the eager iframe with a **click-to-load facade** (local poster image + play button; the real YouTube iframe is injected only on click). Result: **perf 58 → 98, LCP 9.8 s → 2.0 s**, CLS unchanged, no console/CSP errors. Verified in a headless browser: **zero** youtube.com requests fire until the user clicks. *(CSP already permitted `frame-src youtube.com` + `img-src img.youtube.com`, so no header change was needed.)*
-- **`/contact`** Google Maps `<iframe>` is already `loading="lazy"` (`src/pages/contact.astro`) — no action required; this corrects an over-statement in the original draft.
-
----
-
-## 3. On-Page Content
-
-| Page | Title Tag | Meta Description | Local Signal? | Schema? |
+| # | Severity | Finding | WCAG | Fix |
 |---|---|---|---|---|
-| `/` | "The Copperline Eatery - Best Breakfast & Lunch in Western Massachusetts \| Chicopee, Springfield, Holyoke" | ✅ rich, dish-led, 33-yr/award/area | ✅ strong (Chicopee, Western MA, Springfield, Holyoke, Hampden) | ✅ Restaurant + WebSite + AggregateRating + 5 Review + 8 AdministrativeArea + OpeningHours |
-| `/menu` | "Breakfast & Lunch Menu - Eggs Benedict, Corned Beef Hash & Daily Specials \| …Chicopee MA" | ✅ specific dishes + location | ✅ | ✅ Restaurant + Menu (165 MenuItem / 162 Offer) + BreadcrumbList |
-| `/catering` | "Catering Services - Western MA Breakfast, Lunch & Dinner Catering \| …" | ✅ services + cities + phone | ✅ | ✅ FoodEstablishment + Menu + 8 AdministrativeArea + BreadcrumbList |
-| `/about` | "About The Copperline Eatery \| Family-Owned Restaurant Since 1993 \| Chicopee, MA" | ✅ heritage + award + team | ✅ strong | ✅ Restaurant + Organization + 2 NewsArticle + VideoObject + BreadcrumbList |
-| `/contact` | "Contact & Hours - …\| 409 Broadway, Chicopee MA \| (413) 594-8332" | ✅ full NAP + hours | ✅ | ✅ Restaurant + GeoCoordinates + OpeningHours + BreadcrumbList |
-| `/faq` | "FAQ - Hours, Reservations, Catering & More \| …Chicopee MA" | ✅ topic list + heritage | ✅ | ✅ FAQPage (23 Q&A) + BreadcrumbList |
+| 1 | Moderate | **Menu-tab keyboard trap.** The four menu tabs use a roving `tabindex` (only the active tab is tabbable) but had **no arrow-key handler**, so keyboard users could not switch to Lunch/Catering/Specials at all. | 2.1.1 | Added `ArrowLeft/Right/Up/Down` + `Home/End` handler in `main.ts` (ARIA Tabs APG, automatic activation). Verified: Arrow steps breakfast→lunch→catering, Home wraps to first. |
+| 2 | Moderate | **Mobile menu toggle `aria-expanded` never changed.** Hardcoded `false`; `main.ts` toggled the class only. Screen-reader users got no open/closed state. | 4.1.2 | Toggle now flips `aria-expanded` on open/close (and on nav-link close); added `aria-controls="mainNav"`. |
+| 3 | Minor | **Tap targets < 24×24** — nav social icons (20 px), carousel dots (8 px), stacked footer Contact links. | 2.5.8 (AA) | Icons → 24 px min hit area; dots → 8 px visual kept but 24 px hit area via `padding`+`content-box`; footer links → `inline-block` + vertical padding. |
+| 4 | Minor | **Label/name mismatch** — the three "Download Menu" buttons had `aria-label`s ("Download breakfast menu image") that didn't contain the visible text. | 2.5.3 | `aria-label`s changed to `Download Menu (breakfast/lunch/catering)` — contain the visible text and stay unique. |
+| 5 | Minor | **Colour-only in-text link** — the `tel:` link inside the menu-legend paragraph wasn't underlined. | 1.4.1 | Underlined `.menu-legend a`. |
 
-**Content quality checks:**
-- **Thin content:** none below the ~150-word threshold. Visible-word counts: `/menu` 2692, `/faq` 1017, `/` 513, `/about` 321, `/catering` 215, `/contact` 193. `/catering` and `/contact` are leanest but appropriate for their page types (form/CTA and contact-info pages).
-- **Keyword stuffing:** not observed — titles are descriptive and natural; local terms appear in context.
-- **Generic title/meta:** none — every page is specific and benefit/dish-led.
-- **Local signal:** present on every page (Chicopee / Western MA / Springfield / Holyoke / Pioneer Valley / Hampden County).
-- **Homepage & /about schema:** both carry full `Restaurant` JSON-LD (homepage also `WebSite` + `AggregateRating` + reviews; `/about` adds `Organization`, `VideoObject`, `NewsArticle`). ✅
+**Result:** `/menu` axe score **93 → 100** (zero failures); `/`, `/about`, `/contact` already 95–96 and clean of the above. The `<details>`-based FAQ and `role="tablist"` markup were already correct.
 
 ---
 
-## 4. Mobile & Accessibility
+## 2. Performance / Core Web Vitals (one real regression — fixed)
 
-- ✅ **Viewport meta** present on all 6 indexable pages (`width=device-width, initial-scale=1.0`).
-- ✅ **Image alt text:** each page renders a single `<img>` (the logo) and all have non-empty `alt`. Menus and catering visuals are rendered as HTML/CSS rather than `<img>` tags, so there is no missing-alt exposure. *(Note: this also means the page-level image count is low; if decorative menu/food photos are added later as `<img>`, re-audit alt coverage.)*
-- ✅ **Phone number:** `(413) 594-8332` present on the homepage as a clickable `tel:+14135948332` link **and** inside the `Restaurant` JSON-LD `telephone` field.
-- ✅ **Address:** `409 Broadway, Chicopee, MA 01020` present on the homepage in `PostalAddress` schema and as text; `/contact` adds a Google Maps embed + directions link.
-- ✅ **(perf, resolved 2026-06-14):** the `/about` YouTube iframe is now a click-to-load facade; the `/contact` Maps iframe was already `loading="lazy"`. No eager third-party embeds remain.
+Fresh Lighthouse mobile. `/about` and `/contact` are **100**; `/` is **99** (an initial 75 reading was single-run noise on a loaded machine — re-measured 99, LCP 1.7 s).
 
----
+- **`/menu` CLS = 0.296 (FAILING), reproduced across runs.** Root cause confirmed via the browser LayoutShift API: the self-hosted Oswald/Merriweather fonts load with `font-display: swap` and **nothing preloads them**, so on the text-dense menu page the page-header subtitle + tab row reflow ~35–40 px when the real fonts arrive (FOUT). Home uses the same fonts but shifts little, so it slipped past prior audits.
+- **Fix:** preload the three above-the-fold weights (Oswald 700/600, Merriweather 400) via hash-stable `@fontsource` asset imports in `BaseLayout`. **`/menu` CLS 0.296 → 0.001, perf 83 → 98**; `/` and `/about` unchanged (99/100). Fonts deduped (still 7 woff2, no extra download).
 
-## 5. Local SEO
-
-**Present:**
-- ✅ **NAP** consistent and complete on the homepage (name, `409 Broadway, Chicopee, MA 01020`, `(413) 594-8332`) — matched in `PostalAddress` + `telephone` schema and a `tel:` link.
-- ✅ **Google Maps:** embedded `<iframe>` on `/contact` plus "directions" deep-links (`google.com/maps/dir//409+Broadway…`) on homepage and contact.
-- ✅ **Open Graph:** complete on **all** pages — `og:title`, `og:description`, `og:type`, `og:url`, `og:image`, `og:image:alt`, `og:locale`, `og:site_name` (no missing/malformed tags). `og:image` is `logo.jpg` (`.jpg` correctly retained for social-card compatibility).
-- ✅ **Geo signals:** `GeoCoordinates` + `areaServed` (8 typed `AdministrativeArea` entries) + on-page geographic prose.
-
-**Missing / to improve:**
-- ⚠️ **External citation hygiene** (off-site, dad-gated): legacy `http://` homepage form still drains from Google's index per the GSC review (CLAUDE.md Session 8). Accelerant is updating GBP/Yelp/TripAdvisor/The Q listings from `http://` → `https://` — this is the existing GBP/citation work that needs the restaurant owner, not a code change.
-- ⚠️ **Sitemap homepage URL** lacks the canonical trailing slash (cosmetic; deferred — see §1).
+**Best-practices = 77 on every page** is driven solely by `third-party-cookies` (GA4 + Clarity) and the related inspector notice — expected for analytics on a static site; **accept** (removing analytics is the only "fix").
 
 ---
 
-## Prioritized Recommendations
+## 3. Security — clean (1 safe fix applied)
 
-1. ✅ **DONE (2026-06-14) — `/about` YouTube facade.** Eager `<iframe>` replaced with a click-to-load facade (local poster + play button; iframe injected on click). Measured perf **58 → 98**, LCP **9.8 s → 2.0 s**. *(`src/pages/about.astro`, `src/scripts/main.ts`, `src/styles/global.css`.)*
-2. ✅ **N/A — `/contact` Maps embed** was already `loading="lazy"`. No change required.
-3. ✅ **DONE — real Lighthouse measurement** captured (mobile, all four pages) and the report's performance table updated with measured numbers (replacing the pre-migration baseline). PSI API remains keyless-blocked; local Lighthouse is the standing method.
-4. ⬜ **(Low, deferred) Align the sitemap homepage URL to the canonical** (`https://copperlineeatery.com/`). Cosmetic — needs a `serialize` hook on `@astrojs/sitemap` in `astro.config.mjs`. Deferred per owner decision.
-5. ⬜ **(Low — off-site, owner-gated) Update external citations http→https** (GBP, Yelp, TripAdvisor, The Q). Tracked as the owner-gated GBP/citation work in TODO.md.
-6. ✅ **DONE (2026-06-14) — `logo.webp` coverage.** Header logo now served via `<picture>` (WebP source, JPG fallback); preload retargeted to `logo.webp` to avoid a double download; `og:image` kept as `logo.jpg`. *(`public/logo.webp`, `src/components/Nav.astro`, `src/layouts/BaseLayout.astro`.)*
+- **Dependencies:** `npm audit` showed 8 advisories. `npm audit fix` (non-breaking) resolved **6** — `form-data` CRLF (high), `js-yaml`/`tar`/`tmp` (moderate), `vite` (high). The remaining **3** (astro/esbuild XSS-SSRF + `@netlify/zip-it-and-ship-it`→esbuild) require **Astro 7** (breaking) and are **build-time only** — deferred (see §6). None are runtime-exploitable on a static marketing site with no user input surface.
+- **Specials Netlify function (`inbound-email.ts`) — well-hardened, no changes needed.** Reviewed end-to-end: Basic-auth gate → sender allowlist (lower-cased, silent 200 drop for non-allowlisted) → image type+size validation → LLM output is JSON-parsed, shape-validated, and string-coerced → outbound HTML is `escapeHtml`-escaped → orphan pending-batch purge (>24 h). GitHub write happens only on an allowlisted "YES". *Low note (no action):* auth compares with `===` (not constant-time) — negligible over HTTPS with random creds.
+- **Headers (verified live):** full CSP, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`, HSTS `preload`. Strong.
+- **Secrets:** none tracked (`git ls-files`/`git grep` clean); `.gitignore` covers `.env*`, `Screenshots/`, `*.eml`. `.env.example` has no values.
+- **CSP `'unsafe-inline'`** remains in `script-src`/`style-src` (inline GA4/Clarity + JSON-LD). Same deliberate, documented trade-off — static site, no auth/UGC surface. Not changed.
 
 ---
-*Measurement notes: redirect/header claims verified via `curl -D -`; on-page elements parsed from live HTML (2026-06-14); performance via local Lighthouse 13.4.0 mobile (keyless PSI v5 is quota-blocked). Post-fix `/about` + logo changes verified in a headless browser (zero youtube.com requests until click; WebP-only logo fetch).*
+
+## 4. Code quality — clean
+
+- `astro build` clean, zero warnings; strict `tsc` on `main.ts` passes; built JSON-LD on all 7 routes parses with correct `@type`s (Restaurant/WebSite, Menu, FAQPage, NewsArticle/VideoObject, BreadcrumbList, FoodEstablishment).
+- Single source of truth (`restaurant.ts`) + shared components; no duplication or dead code of note. Function uses right-sized models (Sonnet vision / Haiku corrections).
+
+---
+
+## 5. SEO / content / schema delta — green (matches Session 10)
+
+- **Redirects (all single-hop 301, live):** `http→https`, `www→non-www`, six `/*.html→/clean`, `/sitemap.xml→/sitemap-index.xml`. 404 returns 404. HSTS preload present.
+- **robots.txt** advertises `sitemap-index.xml`; **sitemap** lists the 6 indexable URLs; `/404` excluded; canonicals self-reference; homepage URL form slashless-consistent (Session 11).
+- **External links:** `linkedin` / `theq997` / `wwlp` → 200. `doordash` / `yelp` / `tripadvisor` / `masslive` → 403 = **anti-bot blocking of automated user-agents, not broken links** (confirmed live in-browser previously).
+- **NAP / hours** consistent across pages, schema, footer, and contact table.
+
+---
+
+## 6. Reported for your decision (not auto-changed)
+
+- **Em/en dashes vs your "no dashes" style rule.** ~34 dash occurrences in content: FAQ `&mdash;`/`&ndash;`, menu hours en-dashes, two meta descriptions, the About + FAQ schema, and **two verbatim customer-review quotes**. Left unchanged because (a) altering customer quotes is wrong, and (b) en-dashes in time ranges are standard typography while the footer/contact already use plain hyphens. **Recommended (on your go-ahead):** replace dashes in *marketing prose + hours ranges* with hyphens/commas to match the footer and your rule; leave the two review quotes verbatim. Code comments are out of scope.
+- **Astro 7 upgrade.** Clears the last 3 (build-time-only) advisories but is a breaking major migration — schedule as its own verified pass, not bundled here.
+
+---
+
+## Deploy & revert
+
+All fixes shipped in **one commit** (5 source files + `package-lock.json` + this report + STATUS/CLAUDE log). Revert: `git revert <sha> && git push origin master`. Each change degrades gracefully — the font preloads are inert if reverted (returns to the prior swap behaviour), and the a11y/CSS changes are additive.
+
+*Verification: local production build re-measured (menu CLS 0.001, a11y 100, home 99) before deploy; prod re-checked post-deploy (headers + menu CLS).*
