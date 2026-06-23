@@ -125,6 +125,8 @@ This project survived the **2026-05-04** complete machine wipe.
 
 **Reported, NOT auto-changed (await Ian):** (a) em/en-dash style rule — ~34 dash occurrences in content incl. 2 verbatim customer-review quotes + standard hours en-dashes; recommend replacing in marketing prose/hours only, leaving quotes; (b) Astro 7 upgrade (breaking; clears last 3 build-time advisories) — schedule as its own pass.
 
+**Update (same session, after Ian's go-ahead):** (a) DONE — em/en dashes replaced across `index/menu/about/faq` (visible copy + meta + JSON-LD schema text): hours ranges to hyphens, sentence-break em dashes to commas/periods/colons, one parenthetical to parens; the two verbatim customer-review quotes left intact. Commit `0d5611a`, deployed + prod-verified (`/faq` and `/menu` show 0 entity/en dashes; review-quote em dash still present). (b) Astro 7 deferred to its own session, now tracked in `../TODO.md` @low.
+
 **QA + revert:** clean `astro build`, strict `tsc` on `main.ts`; local prod build re-measured pre-deploy (menu CLS 0.001, a11y 100, header fits @360px, keyboard tabs step + wrap); prod re-checked post-deploy. Revert: `git revert <commit> && git push origin master` (5 source files + `package-lock.json` + report + STATUS + this entry). Font preloads inert if reverted; a11y/CSS additive. See STATUS.md Session 13.
 
 ### Session 12 — 2026-06-16

@@ -12,6 +12,8 @@
 
 Ran a full four-dimension audit (report: `copperline_audit_report.md`). No critical defects, no security exposure. Eight issues fixed in one commit; two reported for Ian's decision (em/en-dash style rule; Astro 7 upgrade).
 
+**Follow-up (same session):** Ian approved the dash change. Em/en dashes replaced across `index/menu/about/faq` (visible copy + meta + JSON-LD) with hyphens/commas/periods/parens; the two verbatim customer-review quotes kept. Commit `0d5611a`, deployed + prod-verified. Astro 7 upgrade deferred to its own session, tracked in `../TODO.md` @low.
+
 **Accessibility (the prior gap), all fixed — `/menu` axe 93 → 100:**
 1. Menu-tab **keyboard trap** (roving tabindex, no arrow handler): keyboard users could not reach Lunch/Catering/Specials. Added Arrow/Home/End handler in `main.ts` (ARIA Tabs APG). Verified in-browser.
 2. Mobile menu button `aria-expanded` never updated (+ no `aria-controls`): fixed in `main.ts` + `Nav.astro`.
