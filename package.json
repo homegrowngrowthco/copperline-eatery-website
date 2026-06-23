@@ -19,7 +19,7 @@
     "@netlify/blobs": "^9.0.0",
     "@netlify/functions": "^4.0.0",
     "@octokit/rest": "^22.0.0",
-    "astro": "^6.4.8",
+    "astro": "^7.0.0",
     "postmark": "^4.0.0"
   }
 }
