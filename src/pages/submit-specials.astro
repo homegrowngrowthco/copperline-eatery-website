@@ -55,6 +55,7 @@ import { SITE_URL } from '../data/restaurant';
               </div>
               <p class="upload-main">Tap to take a photo</p>
               <p class="upload-sub">or choose from your camera roll</p>
+              <p class="upload-tip">Tip: make sure the entire board is in frame</p>
             </div>
             <div class="upload-preview" id="upload-preview" hidden>
               <img id="preview-img" src="" alt="Preview of your specials board photo" />
@@ -193,6 +194,12 @@ import { SITE_URL } from '../data/restaurant';
     font-size: 0.85rem;
     color: var(--gray);
     margin: 0;
+  }
+  .upload-tip {
+    font-size: 0.78rem;
+    color: var(--tan);
+    margin: 4px 0 0;
+    font-style: italic;
   }
 
   /* Preview */

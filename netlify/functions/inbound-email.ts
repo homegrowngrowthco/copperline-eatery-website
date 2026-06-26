@@ -313,10 +313,14 @@ async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
       return;
     }
     const contextLine = `A photo was submitted by ${sender || 'an unknown sender'}.`;
+    const itemCount = result.specials.length;
+    const lowCountWarning = itemCount <= 3
+      ? `\n⚠️ Only ${itemCount} item${itemCount === 1 ? '' : 's'} extracted — the photo may not show the full board. Check the image above before publishing.`
+      : '';
     await sendDirectEmail({
       to: reviewerEmails.join(', '),
-      subject: 'Specials Submission — Review Required',
-      body: buildEmailBody(result.specials, contextLine + '\n' + `I extracted ${result.specials.length} special${result.specials.length === 1 ? '' : 's'}:` + confidenceNote),
+      subject: `Specials Submission — ${itemCount} item${itemCount === 1 ? '' : 's'} — Review Required`,
+      body: buildEmailBody(result.specials, contextLine + '\n' + `I extracted ${itemCount} special${itemCount === 1 ? '' : 's'}:` + confidenceNote + lowCountWarning),
       messageId: `<batch-${batchId}@copperlineeatery.com>`,
       image: sourceImage,
     });
