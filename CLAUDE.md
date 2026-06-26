@@ -110,6 +110,23 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 15 — 2026-06-26
+**Gmail threading fix (unique subject per submission) + low-count warning + photo composition tip -- commit `9f1fe03`, deployed to copperlineeatery.com.**
+
+**Root cause A -- Gmail threading collapse:** Both reviewer emails had the identical static subject `'Specials Submission — Review Required'`. Gmail threaded them together and collapsed the second email's body behind the "..." expander. The reviewer only saw the first email's specials. The second email's body (the newer submission) was invisible unless the reviewer clicked to expand. This was not a code bug in the extraction logic -- the vision model correctly extracted 8 items from Email 1 and correctly extracted only the 2-3 visible items from Email 2. The threading was the display issue.
+
+**Root cause B -- partial board photo:** Email 2's photo showed only the bottom-right corner of the specials board (visible text: "SWEET PO..." and "FRESH FR..."). The AI extracted only what was legible -- not an extraction failure. The reviewer would have caught this visually in the email, but the subject collapse meant they didn't see the email body at all.
+
+**Fix 1 -- unique subject per submission (`inbound-email.ts`):** Reviewer email subject changed from the static string to `Specials Submission -- N items -- Review Required` (e.g. "Specials Submission -- 8 items -- Review Required"). Each submission now produces a distinct Gmail thread. Item count is also useful context for the reviewer at a glance.
+
+**Fix 2 -- low-count warning in reviewer email (`inbound-email.ts`):** When ≤3 items are extracted, the email body now includes: `⚠️ Only N item(s) extracted -- the photo may not show the full board. Check the image above before publishing.` This prompts the reviewer to inspect the attached photo before publishing, catching partial-board submissions before they go live.
+
+**Fix 3 -- photo composition tip on upload form (`src/pages/submit-specials.astro`):** Added a third line of text in the upload placeholder: `"Tip: make sure the entire board is in frame"` (styled `.upload-tip`, 0.78rem italic in `var(--tan)`). Visible before any photo is selected, on both mobile and desktop.
+
+**Build verification:** `npm run build` clean (8 pages, 0 warnings), `npx tsc --noEmit --strict` clean/silent.
+
+**Commit on master:** `9f1fe03` (fix(specials): unique email subject per submission + low-count warning + photo tip). Deployed green. Revert: `git revert 9f1fe03 && git push origin master`.
+
 ### Session 14 — 2026-06-26
 **Crowd-source specials pipeline — Option A (open email gate) + Option B (web upload form) — shipped in two commits; deployed to copperlineeatery.com.**
 
