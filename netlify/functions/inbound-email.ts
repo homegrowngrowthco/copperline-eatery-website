@@ -3,28 +3,33 @@ import { getStore } from '@netlify/blobs';
 import Anthropic from '@anthropic-ai/sdk';
 import { ServerClient } from 'postmark';
 import { Octokit } from '@octokit/rest';
+import {
+  extractSpecialsFromImage,
+  parseExtractionResult,
+  ALLOWED_IMAGE_TYPES,
+  MAX_IMAGE_BYTES,
+  PENDING_STORE,
+  type Special,
+} from './lib/specials';
 
-const VISION_MODEL = 'claude-sonnet-4-6';
 const TEXT_MODEL = 'claude-haiku-4-5-20251001';
-const VISION_PROMPT =
-  'Extract all specials from this menu board image. Return only valid JSON in this format: { "specials": [ { "name": string, "description": string, "price": string } ] }. If a field is not visible, use null.';
 const SPECIALS_DATA_PATH = 'src/data/specials.json';
-const PENDING_STORE = 'pending-specials';
-const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'] as const;
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const REPLY_TO_ADDRESS = 'specials-bot@parse.copperlineeatery.com';
 const PENDING_TTL_MS = 24 * 60 * 60 * 1000;
 
+// Auto-publish trusted-sender photos that score at or above this confidence threshold.
+// Set AUTO_PUBLISH_THRESHOLD env var to override (0 = always manual, 100 = always manual).
+const AUTO_PUBLISH_THRESHOLD = parseInt(process.env.AUTO_PUBLISH_THRESHOLD || '85', 10);
+
+function getReviewerEmails(): string[] {
+  return (process.env.REVIEWER_EMAILS || '')
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+}
+
 const YES_PATTERN = /^\s*(?:yes|publish|confirm|y)\b(?:\s+(?:please|thanks|thx))*\s*[.!]*\s*$/i;
 const NO_PATTERN = /^\s*(?:no|nope|n|cancel|stop|decline|discard|nevermind|never\s*mind)\b(?:\s+(?:please|thanks|thx))*\s*[.!]*\s*$/i;
-
-type AllowedImageType = (typeof ALLOWED_IMAGE_TYPES)[number];
-
-interface Special {
-  name: string;
-  description: string | null;
-  price: string | null;
-}
 
 interface PendingImage {
   content: string; // base64
@@ -38,7 +43,11 @@ interface PendingBatch {
   originalSender: string;
   originalMessageId: string;
   createdAt: string;
-  image?: PendingImage; // source photo, re-shown inline in every confirmation round
+  image?: PendingImage;
+  reviewerMode?: boolean;   // true = confirmation went to reviewers, not back to submitter
+  submittedBy?: string;     // original public submitter's address (reviewer-mode email path)
+  submissionSource?: 'email' | 'web';
+  confidence?: number;
 }
 
 interface PostmarkAttachment {
@@ -71,21 +80,27 @@ export default async (req: Request, _context: Context): Promise<Response> => {
   }
 
   const sender = (inbound.FromFull?.Email || inbound.From || '').toLowerCase();
-  if (!senderAllowed(sender)) {
-    console.warn('Rejected email from non-allowlisted sender:', sender);
-    return new Response('OK', { status: 200 });
-  }
+  const inReplyTo = headerValue(inbound, 'In-Reply-To') || '';
+  const batchMatch = inReplyTo.match(/<batch-([a-f0-9-]+)@/i);
+  const trusted = isTrustedSender(sender);
 
   await purgeOldPendingBatches().catch((e) => console.warn('purge failed (non-fatal):', e));
 
-  const inReplyTo = headerValue(inbound, 'In-Reply-To') || '';
-  const batchMatch = inReplyTo.match(/<batch-([a-f0-9-]+)@/i);
+  // Batch replies are authenticated by UUID — skip the sender gate.
+  // Unknown senders with no batch reply are treated as public photo submissions
+  // (confirmation goes to reviewers, not back to the submitter).
+  if (!batchMatch && !trusted) {
+    await handleNewPhoto(inbound, false).catch((e) =>
+      console.error('Public photo handler error:', e),
+    );
+    return new Response('OK', { status: 200 });
+  }
 
   try {
     if (batchMatch) {
       await handleConfirmationReply(batchMatch[1], inbound);
     } else {
-      await handleNewPhoto(inbound);
+      await handleNewPhoto(inbound, true);
     }
   } catch (err) {
     console.error('Handler error:', err);
@@ -113,7 +128,7 @@ function checkBasicAuth(req: Request): boolean {
   }
 }
 
-function senderAllowed(sender: string): boolean {
+function isTrustedSender(sender: string): boolean {
   const allowed = (process.env.ALLOWED_SENDER_EMAILS || '')
     .split(',')
     .map((s) => s.trim().toLowerCase())
@@ -129,12 +144,8 @@ function headerValue(inbound: PostmarkInbound, name: string): string | null {
 
 function stripEmailQuoting(raw: string): string {
   let body = raw;
-  // "On <date>, <sender> wrote:" attribution (Gmail/Apple Mail). The line break between
-  // "<sender>" and "wrote:" plus a missing trailing newline (when wrote: is the last
-  // line after `>`-stripping) means we need [\s\S] not `.`, and \n? not \n.
   const onWroteMatch = body.match(/\n+On [\s\S]{0,300}?wrote:[ \t]*\n?/);
   if (onWroteMatch?.index !== undefined) body = body.slice(0, onWroteMatch.index);
-  // Outlook quote header.
   const outlookMatch = body.match(/\n+(From:|-+\s*Original Message\s*-+)/i);
   if (outlookMatch?.index !== undefined) body = body.slice(0, outlookMatch.index);
   body = body
@@ -143,7 +154,6 @@ function stripEmailQuoting(raw: string): string {
     .join('\n');
   const sigIdx = body.search(/\n--\s*\n/);
   if (sigIdx >= 0) body = body.slice(0, sigIdx);
-  // Common mobile signatures that don't use the standard "-- " separator.
   body = body.replace(/\n+(Sent from my (iPhone|iPad|Android|mobile device|Galaxy)[\s\S]*)$/i, '');
   body = body.replace(/\n+(Get Outlook for (iOS|Android)[\s\S]*)$/i, '');
   return body.trim();
@@ -170,9 +180,10 @@ function htmlToText(html: string): string {
 }
 
 function extractReplyBody(inbound: PostmarkInbound): string {
-  const textSource = inbound.TextBody && inbound.TextBody.trim()
-    ? inbound.TextBody
-    : htmlToText(inbound.HtmlBody || '');
+  const textSource =
+    inbound.TextBody && inbound.TextBody.trim()
+      ? inbound.TextBody
+      : htmlToText(inbound.HtmlBody || '');
   return stripEmailQuoting(textSource);
 }
 
@@ -191,28 +202,51 @@ async function purgeOldPendingBatches() {
   if (purged > 0) console.log(`Purged ${purged} orphaned pending batches`);
 }
 
-async function handleNewPhoto(inbound: PostmarkInbound) {
+async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
   const image = (inbound.Attachments || []).find((a) =>
     (ALLOWED_IMAGE_TYPES as readonly string[]).includes(a.ContentType),
   );
+
   if (!image) {
-    await safeReply(
-      inbound,
-      "I didn't find a supported image attached (JPEG, PNG, GIF, or WebP). Please reply with a photo of the specials board.",
-    );
-    return;
-  }
-  if (image.ContentLength > MAX_IMAGE_BYTES) {
-    await safeReply(
-      inbound,
-      `That image is too large (${(image.ContentLength / 1024 / 1024).toFixed(1)} MB, max 5 MB). Please resize and resend.`,
-    );
+    if (trusted) {
+      await safeReply(
+        inbound,
+        "I didn't find a supported image attached (JPEG, PNG, GIF, or WebP). Please reply with a photo of the specials board.",
+      );
+    }
     return;
   }
 
-  const specials = await extractSpecialsFromImage(image);
-  if (specials.length === 0) {
-    await safeReply(inbound, "I couldn't read any specials from that image. Please send a clearer photo.");
+  if (image.ContentLength > MAX_IMAGE_BYTES) {
+    if (trusted) {
+      await safeReply(
+        inbound,
+        `That image is too large (${(image.ContentLength / 1024 / 1024).toFixed(1)} MB, max 5 MB). Please resize and resend.`,
+      );
+    }
+    return;
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
+
+  const result = await extractSpecialsFromImage({
+    content: image.Content,
+    contentType: image.ContentType,
+    apiKey,
+  });
+
+  console.log(
+    `Vision result: confidence=${result.confidence}%, specials=${result.specials.length}, trusted=${trusted}`,
+  );
+
+  if (result.specials.length === 0) {
+    if (trusted) {
+      await safeReply(
+        inbound,
+        "I couldn't read any specials from that image. Please send a clearer photo.",
+      );
+    }
     return;
   }
 
@@ -222,24 +256,79 @@ async function handleNewPhoto(inbound: PostmarkInbound) {
     name: image.Name || 'specials-photo',
   };
 
+  // Auto-publish for trusted senders above the confidence threshold.
+  if (trusted && result.confidence >= AUTO_PUBLISH_THRESHOLD) {
+    console.log(
+      `Auto-publishing ${result.specials.length} specials (confidence ${result.confidence}% >= ${AUTO_PUBLISH_THRESHOLD}%)`,
+    );
+    await commitSpecialsToRepo(result.specials);
+    await safeReply(
+      inbound,
+      [
+        `Auto-published ${result.specials.length} special${result.specials.length === 1 ? '' : 's'} (confidence ${result.confidence}%). Live in ~30 seconds.`,
+        '',
+        result.specials.map((s: Special, i: number) => {
+          const parts = [`${i + 1}. ${s.name}`];
+          if (s.price) parts.push(`   ${s.price.startsWith('$') ? s.price : '$' + s.price}`);
+          if (s.description) parts.push(`   ${s.description}`);
+          return parts.join('\n');
+        }).join('\n'),
+        '',
+        'If anything looks wrong, send a corrected photo to republish.',
+      ].join('\n'),
+    );
+    return;
+  }
+
+  // Below threshold or public sender: create a pending batch for manual review.
+  const sender = (inbound.FromFull?.Email || inbound.From || '').toLowerCase();
+  const reviewerMode = !trusted;
   const batchId = crypto.randomUUID();
+
   const pending: PendingBatch = {
     batchId,
-    specials,
-    originalSender: inbound.FromFull?.Email || inbound.From,
+    specials: result.specials,
+    originalSender: sender,
     originalMessageId: inbound.MessageID,
     createdAt: new Date().toISOString(),
     image: sourceImage,
+    reviewerMode,
+    submittedBy: reviewerMode ? sender : undefined,
+    submissionSource: 'email',
+    confidence: result.confidence,
   };
 
   await getStore(PENDING_STORE).setJSON(batchId, pending);
 
-  await sendReply(inbound, {
-    subject: replySubject(inbound.Subject),
-    body: buildConfirmationEmailBody(specials),
-    messageId: `<batch-${batchId}@copperlineeatery.com>`,
-    image: sourceImage,
-  });
+  const confidenceNote =
+    trusted && result.confidence < AUTO_PUBLISH_THRESHOLD
+      ? `\n(Confidence: ${result.confidence}% — below the ${AUTO_PUBLISH_THRESHOLD}% auto-publish threshold. Manual review needed.)`
+      : '';
+
+  if (reviewerMode) {
+    // Public sender: route confirmation to reviewers.
+    const reviewerEmails = getReviewerEmails();
+    if (reviewerEmails.length === 0) {
+      console.warn('REVIEWER_EMAILS not set — cannot route public submission');
+      return;
+    }
+    const contextLine = `A photo was submitted by ${sender || 'an unknown sender'}.`;
+    await sendDirectEmail({
+      to: reviewerEmails.join(', '),
+      subject: 'Specials Submission — Review Required',
+      body: buildEmailBody(result.specials, contextLine + '\n' + `I extracted ${result.specials.length} special${result.specials.length === 1 ? '' : 's'}:` + confidenceNote),
+      messageId: `<batch-${batchId}@copperlineeatery.com>`,
+      image: sourceImage,
+    });
+  } else {
+    // Trusted sender below threshold: send YES-gate back to them.
+    await sendReply(inbound, {
+      subject: replySubject(inbound.Subject),
+      body: buildConfirmationEmailBody(result.specials) + confidenceNote,
+      messageId: `<batch-${batchId}@copperlineeatery.com>`,
+      image: sourceImage,
+    });
+  }
 }
 
 async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound) {
@@ -249,7 +338,7 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
   if (!pending) {
     await safeReply(
       inbound,
-      "I couldn't find that pending batch — it may have already been published, declined, or expired. Please send a fresh photo.",
+      "That batch has already been published, discarded, or expired. If you need to update specials again, send a fresh photo or use the specials form.",
     );
     return;
   }
@@ -310,6 +399,10 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     originalMessageId: pending.originalMessageId,
     createdAt: pending.createdAt,
     image: pending.image,
+    reviewerMode: pending.reviewerMode,
+    submittedBy: pending.submittedBy,
+    submissionSource: pending.submissionSource,
+    confidence: pending.confidence,
   };
   await store.setJSON(newBatchId, newPending);
   await store.delete(batchId);
@@ -320,37 +413,6 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     messageId: `<batch-${newBatchId}@copperlineeatery.com>`,
     image: pending.image,
   });
-}
-
-async function extractSpecialsFromImage(attachment: PostmarkAttachment): Promise<Special[]> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
-
-  const anthropic = new Anthropic({ apiKey });
-  const response = await anthropic.messages.create({
-    model: VISION_MODEL,
-    max_tokens: 1024,
-    messages: [
-      {
-        role: 'user',
-        content: [
-          {
-            type: 'image',
-            source: {
-              type: 'base64',
-              media_type: attachment.ContentType as AllowedImageType,
-              data: attachment.Content,
-            },
-          },
-          { type: 'text', text: VISION_PROMPT },
-        ],
-      },
-    ],
-  });
-
-  const textBlock = response.content.find((c) => c.type === 'text');
-  if (!textBlock || textBlock.type !== 'text') throw new Error('Vision response had no text block');
-  return parseSpecialsJson(textBlock.text);
 }
 
 async function applyCorrections(current: Special[], userReply: string): Promise<Special[]> {
@@ -385,35 +447,7 @@ async function applyCorrections(current: Special[], userReply: string): Promise<
 
   const textBlock = response.content.find((c) => c.type === 'text');
   if (!textBlock || textBlock.type !== 'text') throw new Error('Correction response had no text block');
-  return parseSpecialsJson(textBlock.text);
-}
-
-function parseSpecialsJson(text: string): Special[] {
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error(`No JSON in response: ${text.slice(0, 200)}`);
-
-  let parsed: { specials?: unknown };
-  try {
-    parsed = JSON.parse(jsonMatch[0]);
-  } catch (e) {
-    throw new Error(`Invalid JSON: ${(e as Error).message}`);
-  }
-  if (!Array.isArray(parsed.specials)) throw new Error('Response missing "specials" array');
-
-  return parsed.specials
-    .filter((s: unknown): s is { name: unknown; description?: unknown; price?: unknown } => {
-      return (
-        !!s &&
-        typeof s === 'object' &&
-        typeof (s as { name: unknown }).name === 'string' &&
-        !!(s as { name: string }).name.trim()
-      );
-    })
-    .map((s) => ({
-      name: String(s.name).trim(),
-      description: s.description ? String(s.description).trim() : null,
-      price: s.price ? String(s.price).trim() : null,
-    }));
+  return parseExtractionResult(textBlock.text).specials;
 }
 
 async function commitSpecialsToRepo(specials: Special[]) {
@@ -478,7 +512,7 @@ function buildEmailBody(specials: Special[], header: string): string {
     '',
     'Reply YES to publish on the website.',
     'Reply NO to discard.',
-    'Or reply with corrections (e.g. "Change item 2 to $14, remove item 4") and I\'ll revise the list.',
+    "Or reply with corrections (e.g. \"Change item 2 to $14, remove item 4\") and I'll revise the list.",
   ].join('\n');
 }
 
@@ -495,8 +529,6 @@ function escapeHtml(s: string): string {
     .replace(/"/g, '&quot;');
 }
 
-// Build an HTML body that shows the source photo at the top (so staff can
-// eyeball the extraction against the board) followed by the plain-text body.
 function buildHtmlBody(body: string, cid: string): string {
   const textHtml = escapeHtml(body).replace(/\n/g, '<br>');
   return [
@@ -508,14 +540,11 @@ function buildHtmlBody(body: string, cid: string): string {
   ].join('\n');
 }
 
+// Send a reply to the inbound email's sender (or an optional override address).
 async function sendReply(
   inbound: PostmarkInbound,
-  opts: { subject: string; body: string; messageId?: string; image?: PendingImage },
+  opts: { subject: string; body: string; messageId?: string; image?: PendingImage; to?: string },
 ) {
-  const token = process.env.POSTMARK_SERVER_TOKEN;
-  const from = process.env.SPECIALS_FROM_ADDRESS;
-  if (!token || !from) throw new Error('POSTMARK_SERVER_TOKEN or SPECIALS_FROM_ADDRESS not set');
-
   const headers: Array<{ Name: string; Value: string }> = [];
   if (opts.messageId) headers.push({ Name: 'Message-ID', Value: opts.messageId });
   if (inbound.MessageID) {
@@ -524,9 +553,34 @@ async function sendReply(
     headers.push({ Name: 'References', Value: ref });
   }
 
-  // When a source image is provided, attach it inline (referenced by ContentID)
-  // and render an HTML body that displays it above the text. The TextBody stays
-  // as the plain-text fallback for clients that don't render HTML.
+  await sendDirectEmail({
+    to: opts.to || inbound.FromFull?.Email || inbound.From,
+    subject: opts.subject,
+    body: opts.body,
+    messageId: opts.messageId,
+    image: opts.image,
+    extraHeaders: headers,
+  });
+}
+
+// Send an email to an arbitrary address (no inbound context required).
+async function sendDirectEmail(opts: {
+  to: string;
+  subject: string;
+  body: string;
+  messageId?: string;
+  image?: PendingImage;
+  extraHeaders?: Array<{ Name: string; Value: string }>;
+}) {
+  const token = process.env.POSTMARK_SERVER_TOKEN;
+  const from = process.env.SPECIALS_FROM_ADDRESS;
+  if (!token || !from) throw new Error('POSTMARK_SERVER_TOKEN or SPECIALS_FROM_ADDRESS not set');
+
+  const headers: Array<{ Name: string; Value: string }> = [...(opts.extraHeaders || [])];
+  if (opts.messageId && !headers.find((h) => h.Name === 'Message-ID')) {
+    headers.push({ Name: 'Message-ID', Value: opts.messageId });
+  }
+
   let htmlBody: string | undefined;
   let attachments: Array<{ Name: string; Content: string; ContentType: string; ContentID: string }> | undefined;
   if (opts.image) {
@@ -546,7 +600,7 @@ async function sendReply(
   await client.sendEmail({
     From: from,
     ReplyTo: REPLY_TO_ADDRESS,
-    To: inbound.FromFull?.Email || inbound.From,
+    To: opts.to,
     Subject: opts.subject,
     TextBody: opts.body,
     HtmlBody: htmlBody,

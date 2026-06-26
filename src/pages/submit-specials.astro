@@ -1,0 +1,449 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_URL } from '../data/restaurant';
+---
+
+<BaseLayout
+  title="Share Today's Specials - The Copperline Eatery"
+  description="Spotted the specials board? Share a photo and help us keep the website up to date."
+  canonical={`${SITE_URL}/submit-specials`}
+  noindex={true}
+  hideNavCanonical={true}
+>
+  <main>
+    <div class="page-header">
+      <h1>See the Specials Board?</h1>
+      <p>Share a quick photo and help keep our website fresh.</p>
+    </div>
+
+    <div class="container">
+      <div class="submit-wrapper">
+
+        <div class="how-it-works">
+          <div class="step">
+            <span class="step-icon">📷</span>
+            <span>Snap a photo of the specials board</span>
+          </div>
+          <div class="step-divider">→</div>
+          <div class="step">
+            <span class="step-icon">🤖</span>
+            <span>Our AI reads it automatically</span>
+          </div>
+          <div class="step-divider">→</div>
+          <div class="step">
+            <span class="step-icon">✅</span>
+            <span>We review and publish within minutes</span>
+          </div>
+        </div>
+
+        <form id="specials-form" novalidate>
+          <div class="upload-area" id="upload-area" role="button" tabindex="0" aria-label="Upload a photo of the specials board">
+            <input
+              type="file"
+              id="photo-input"
+              name="photo"
+              accept="image/*"
+              capture="environment"
+              required
+              aria-label="Choose photo"
+            />
+            <div class="upload-placeholder" id="upload-placeholder">
+              <div class="camera-icon" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+              </div>
+              <p class="upload-main">Tap to take a photo</p>
+              <p class="upload-sub">or choose from your camera roll</p>
+            </div>
+            <div class="upload-preview" id="upload-preview" hidden>
+              <img id="preview-img" src="" alt="Preview of your specials board photo" />
+              <button type="button" class="change-photo-btn" id="change-photo-btn" aria-label="Choose a different photo">
+                Change photo
+              </button>
+            </div>
+          </div>
+
+          <div class="note-field">
+            <label for="note">Anything to add? <span class="optional">(optional)</span></label>
+            <input
+              type="text"
+              id="note"
+              name="note"
+              placeholder="e.g. &ldquo;Board from this morning&rdquo;"
+              maxlength="500"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="error-message" id="error-message" role="alert" hidden></div>
+
+          <button type="submit" class="btn btn-primary submit-btn" id="submit-btn" disabled>
+            <span class="btn-label">Share Photo</span>
+            <span class="btn-loading" hidden aria-live="polite">Sending...</span>
+          </button>
+        </form>
+
+        <div class="success-state" id="success-state" hidden>
+          <div class="success-icon" aria-hidden="true">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h2>Thanks for sharing!</h2>
+          <p>We'll review your photo and update the specials within a few minutes during business hours.</p>
+          <a href="/menu" class="btn btn-secondary">View the Menu</a>
+        </div>
+
+        <p class="fine-print">
+          Photos are reviewed by our team before publishing. We typically update within minutes while we're open.
+          <br />Have a question? Call us at <a href="tel:+14135948332">(413) 594-8332</a>.
+        </p>
+
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .submit-wrapper {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 40px 0 60px;
+  }
+
+  /* How it works */
+  .how-it-works {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--gray);
+    max-width: 110px;
+  }
+  .step-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+  .step-divider {
+    color: var(--tan);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  /* Upload area */
+  .upload-area {
+    position: relative;
+    border: 2px dashed var(--tan);
+    border-radius: 12px;
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .upload-area:hover,
+  .upload-area:focus-within {
+    border-color: var(--red);
+    background: #fdf8f8;
+  }
+  .upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    gap: 8px;
+  }
+  .camera-icon {
+    color: var(--tan);
+    margin-bottom: 8px;
+  }
+  .upload-main {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+  .upload-sub {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin: 0;
+  }
+
+  /* Preview */
+  .upload-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 12px;
+  }
+  .upload-preview img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .change-photo-btn {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    background: var(--white);
+    transition: color 0.2s, border-color 0.2s;
+    position: relative;
+    z-index: 3;
+  }
+  .change-photo-btn:hover {
+    color: var(--red);
+    border-color: var(--red);
+  }
+
+  /* Note field */
+  .note-field {
+    margin-bottom: 20px;
+  }
+  .note-field label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .optional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--gray);
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+  }
+  .note-field input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--black);
+    background: var(--white);
+    transition: border-color 0.2s;
+  }
+  .note-field input:focus {
+    outline: none;
+    border-color: var(--green-dark);
+  }
+
+  /* Error */
+  .error-message {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #b91c1c;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.05rem;
+    position: relative;
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .submit-btn:disabled:hover {
+    background: var(--red);
+    transform: none;
+  }
+
+  /* Success state */
+  .success-state {
+    text-align: center;
+    padding: 48px 24px;
+  }
+  .success-icon {
+    color: var(--green);
+    margin: 0 auto 20px;
+    width: 56px;
+  }
+  .success-state h2 {
+    font-size: 1.8rem;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+  }
+  .success-state p {
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  /* Fine print */
+  .fine-print {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    color: var(--gray);
+    text-align: center;
+    line-height: 1.6;
+  }
+  .fine-print a {
+    font-weight: 700;
+  }
+
+  @media (max-width: 480px) {
+    .submit-wrapper {
+      padding: 24px 0 40px;
+    }
+    .how-it-works {
+      gap: 4px;
+    }
+    .step-divider {
+      display: none;
+    }
+    .step {
+      max-width: 90px;
+      font-size: 0.78rem;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('specials-form') as HTMLFormElement;
+  const photoInput = document.getElementById('photo-input') as HTMLInputElement;
+  const uploadArea = document.getElementById('upload-area') as HTMLDivElement;
+  const placeholder = document.getElementById('upload-placeholder') as HTMLDivElement;
+  const preview = document.getElementById('upload-preview') as HTMLDivElement;
+  const previewImg = document.getElementById('preview-img') as HTMLImageElement;
+  const changeBtn = document.getElementById('change-photo-btn') as HTMLButtonElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const btnLabel = submitBtn.querySelector('.btn-label') as HTMLSpanElement;
+  const btnLoading = submitBtn.querySelector('.btn-loading') as HTMLSpanElement;
+  const errorEl = document.getElementById('error-message') as HTMLDivElement;
+  const successEl = document.getElementById('success-state') as HTMLDivElement;
+
+  function showError(msg: string) {
+    errorEl.textContent = msg;
+    errorEl.hidden = false;
+    errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function clearError() {
+    errorEl.hidden = true;
+    errorEl.textContent = '';
+  }
+
+  function showPreview(file: File) {
+    const url = URL.createObjectURL(file);
+    previewImg.src = url;
+    placeholder.hidden = true;
+    preview.hidden = false;
+    submitBtn.disabled = false;
+    clearError();
+  }
+
+  photoInput.addEventListener('change', () => {
+    const file = photoInput.files?.[0];
+    if (file) showPreview(file);
+  });
+
+  // Allow keyboard activation of the upload area
+  uploadArea.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      photoInput.click();
+    }
+  });
+
+  // "Change photo" re-opens the picker without clearing the current selection visually
+  changeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    photoInput.value = '';
+    photoInput.click();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearError();
+
+    const file = photoInput.files?.[0];
+    if (!file) {
+      showError('Please select a photo first.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    btnLabel.hidden = true;
+    btnLoading.hidden = false;
+
+    const data = new FormData();
+    data.append('photo', file);
+    const note = (document.getElementById('note') as HTMLInputElement).value.trim();
+    if (note) data.append('note', note);
+
+    try {
+      const res = await fetch('/.netlify/functions/submit-specials', {
+        method: 'POST',
+        body: data,
+      });
+      const result = await res.json() as { success?: boolean; error?: string };
+
+      if (!res.ok || !result.success) {
+        showError(result.error || 'Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+        btnLabel.hidden = false;
+        btnLoading.hidden = true;
+        return;
+      }
+
+      form.hidden = true;
+      successEl.hidden = false;
+      successEl.scrollIntoView({ behavior: 'smooth' });
+    } catch {
+      showError('Network error. Please check your connection and try again.');
+      submitBtn.disabled = false;
+      btnLabel.hidden = false;
+      btnLoading.hidden = true;
+    }
+  });
+</script>

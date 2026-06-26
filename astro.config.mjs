@@ -13,7 +13,11 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !page.endsWith('/404') && !page.endsWith('/404/'),
+      filter: (page) =>
+        !page.endsWith('/404') &&
+        !page.endsWith('/404/') &&
+        !page.endsWith('/submit-specials') &&
+        !page.endsWith('/submit-specials/'),
     }),
   ],
 });
