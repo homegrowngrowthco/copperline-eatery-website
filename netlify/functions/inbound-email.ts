@@ -81,8 +81,11 @@ export default async (req: Request, _context: Context): Promise<Response> => {
 
   const sender = (inbound.FromFull?.Email || inbound.From || '').toLowerCase();
   const inReplyTo = headerValue(inbound, 'In-Reply-To') || '';
-  const batchMatch = inReplyTo.match(/<batch-([a-f0-9-]+)@/i);
+  // Accept both `<batch-uuid@...>` (standard) and `batch-uuid@...` (angle-brackets stripped by some servers).
+  const batchMatch = inReplyTo.match(/<?\s*batch-([a-f0-9-]+)@/i);
   const trusted = isTrustedSender(sender);
+
+  console.log(`Routing: sender=${sender}, inReplyTo=${inReplyTo.slice(0, 120)}, batchMatch=${batchMatch?.[1] ?? 'null'}, trusted=${trusted}`);
 
   await purgeOldPendingBatches().catch((e) => console.warn('purge failed (non-fatal):', e));
 
@@ -348,7 +351,6 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
   }
 
   const body = extractReplyBody(inbound);
-  console.log(`Reply body (batch=${batchId}, len=${body.length}): ${body.slice(0, 200)}`);
 
   if (!body) {
     await safeReply(
@@ -358,7 +360,14 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     return;
   }
 
-  if (YES_PATTERN.test(body)) {
+  // Test YES/NO against the first non-empty line only.
+  // Email signatures without the `-- ` delimiter survive stripEmailQuoting and would
+  // otherwise cause "YES\nIan Chamberland\n..." to fall through to the corrections flow.
+  const firstLine = body.split('\n').map((l) => l.trim()).find((l) => l.length > 0) || '';
+  console.log(`Reply body (batch=${batchId}, len=${body.length}): ${body.slice(0, 200)}`);
+  console.log(`First line for intent detection: ${JSON.stringify(firstLine)}`);
+
+  if (YES_PATTERN.test(firstLine)) {
     await commitSpecialsToRepo(pending.specials);
     await store.delete(batchId);
     const count = pending.specials.length;
@@ -369,7 +378,7 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     return;
   }
 
-  if (NO_PATTERN.test(body)) {
+  if (NO_PATTERN.test(firstLine)) {
     await store.delete(batchId);
     await safeReply(inbound, "Got it — discarding those specials, not publishing. Send a fresh photo when you're ready.");
     return;
