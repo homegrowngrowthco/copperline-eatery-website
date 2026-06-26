@@ -110,6 +110,25 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 14 — 2026-06-26
+**Crowd-source specials pipeline — Option A (open email gate) + Option B (web upload form) — shipped in two commits; deployed to copperlineeatery.com.**
+
+**Option A — open email gate (rewritten `netlify/functions/inbound-email.ts`):** Unknown senders (not in `ALLOWED_SENDER_EMAILS`) no longer get a 400 or a silent drop. Their photos run through Claude vision and are stored as a pending batch with `reviewerMode: true`; `sendDirectEmail()` fires a Postmark email directly to `REVIEWER_EMAILS` (comma-separated env var, defaulting to `ian@homegrowngrowth.co,copperlineeatery@yahoo.com`) with a YES/NO prompt. The batch UUID is embedded in the `Message-ID` header so the reviewer's YES reply threads back through `inbound-email.ts` exactly like a trusted-sender confirmation. First reviewer to reply YES publishes; second gets the "already published" message. Trusted senders get the existing YES-gate — except at ≥85% confidence (configurable via `AUTO_PUBLISH_THRESHOLD` env var, default 85) they auto-publish without a YES prompt.
+
+**New shared lib (`netlify/functions/lib/specials.ts`):** Extracted vision extraction + JSON parsing from `inbound-email.ts` so `submit-specials.ts` could reuse it without duplication. Exports `extractSpecialsFromImage()`, `parseExtractionResult()`, `VISION_MODEL`, `PENDING_STORE`, `ALLOWED_IMAGE_TYPES`, `MAX_IMAGE_BYTES`, `Special`, `ExtractionResult`. Vision prompt now requests a `confidence` field (0-100) alongside the specials array; the model rates image clarity, text readability, and whether it clearly shows a specials board.
+
+**Option B — web form (`netlify/functions/submit-specials.ts` + `src/pages/submit-specials.astro`):** Customer-facing upload form at `/submit-specials` (noindex, excluded from sitemap, not linked from nav/footer — discoverable via QR code near the specials board). No PIN. Accepts `multipart/form-data` via Web API `Request.formData()` (no extra npm dep). IP rate-limited at 5 submissions/hour via Netlify Blobs store `submit-ratelimit`. After vision extraction, sends reviewer email with `Message-ID: <batch-{uuid}@copperlineeatery.com>` so the YES reply resolves via the normal confirmation flow. UI: three-step how-it-works strip (photo → AI reads → we publish), dashed upload area with image preview (`URL.createObjectURL()`), optional note field, disabled submit until photo selected, success state with "View the Menu" CTA.
+
+**Mobile bug (commit `aad826a`):** `capture="environment"` forces the camera open directly on iOS/Android — camera roll is inaccessible. Desktop ignores the attribute. User reported: "can only take a new photo on mobile, but the upload button works on desktop." Fix: removed `capture="environment"`, left only `accept="image/*"` which shows the standard action sheet (Take Photo + Choose from Library + Browse Files).
+
+**TypeScript notes:** Netlify esbuild resolves `.ts` imports without extensions — `./lib/specials` works fine despite `--moduleResolution NodeNext` complaints from bare `tsc`. Correct flag for this bundler context is `--moduleResolution bundler` (confirmed clean). Explicit `(s: Special, i: number)` annotations needed on one `.map()` call inside an array literal.
+
+**env vars added to Netlify:** `REVIEWER_EMAILS=ian@homegrowngrowth.co,copperlineeatery@yahoo.com`, `AUTO_PUBLISH_THRESHOLD=85`. Documented in `.env.example`.
+
+**Commits on master:** `a95760c` (feat: crowd-source specials via open email gate + web upload form) → `aad826a` (fix: remove capture=environment so mobile users can pick from library). Both deployed green. Revert: `git revert aad826a && git revert a95760c && git push origin master`.
+
+**QA note for staff:** anyone can now email `specials@parse.copperlineeatery.com` (or use the `/submit-specials` form) to submit a photo. Trusted senders (in `ALLOWED_SENDER_EMAILS`) continue to get the direct YES-gate or auto-publish. All other submissions land in the reviewer inbox for approval before the site updates.
+
 ### Session 13 — 2026-06-22
 **Full four-dimension audit (accessibility + security + code + SEO/content/schema delta) — 8 fixes shipped in one commit; 2 items reported for Ian's call.** Report refreshed at `copperline_audit_report.md`. No critical defects, no security exposure.
 
