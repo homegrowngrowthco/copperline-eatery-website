@@ -110,6 +110,15 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 16 — 2026-06-26
+**CSP `blob:` fix -- photo preview now renders on `/submit-specials` -- commit `8b19427`, deployed to copperlineeatery.com.**
+
+**Root cause:** `URL.createObjectURL(file)` returns a `blob:https://copperlineeatery.com/...` URL. The `Content-Security-Policy` in `netlify.toml` listed `img-src 'self' data: ...` but was missing `blob:`. Every browser silently refused to load the preview `<img>` against that policy -- the upload-preview div showed up but the image itself never rendered. The `data:` entry already present was not sufficient; blob URLs are a distinct scheme.
+
+**Fix (`netlify.toml`):** Added `blob:` to the `img-src` directive: `img-src 'self' data: blob: ...`. `blob:` URLs for images are same-origin by definition (the browser generates them from local file data; they cannot point to any external resource), so this does not widen the effective attack surface.
+
+**Revert:** `git revert 8b19427 && git push origin master`.
+
 ### Session 15 — 2026-06-26
 **Gmail threading fix (unique subject per submission) + low-count warning + photo composition tip -- commit `9f1fe03`, deployed to copperlineeatery.com.**
 
