@@ -381,9 +381,34 @@ import { SITE_URL } from '../data/restaurant';
     clearError();
   }
 
+  const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  const MAX_BYTES = 5 * 1024 * 1024;
+
   photoInput.addEventListener('change', () => {
     const file = photoInput.files?.[0];
-    if (file) showPreview(file);
+    if (!file) return;
+
+    if (file.type && !ALLOWED_MIME.includes(file.type)) {
+      const isHeic = file.type === 'image/heic' || file.type === 'image/heif';
+      showError(
+        isHeic
+          ? 'iPhone HEIC photos can\'t be uploaded directly. Take a screenshot of the specials board instead — it works perfectly.'
+          : 'Please select a JPEG, PNG, or WebP photo.'
+      );
+      photoInput.value = '';
+      return;
+    }
+
+    if (file.size > MAX_BYTES) {
+      showError(
+        `That photo is ${(file.size / 1024 / 1024).toFixed(1)} MB — the max is 5 MB. ` +
+        'Try taking a screenshot of the board, or use a lower camera quality setting.'
+      );
+      photoInput.value = '';
+      return;
+    }
+
+    showPreview(file);
   });
 
   // Allow keyboard activation of the upload area

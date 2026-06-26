@@ -9,6 +9,9 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+[functions."submit-specials"]
+  timeout = 26
+
 [[headers]]
   for = "/*"
   [headers.values]
