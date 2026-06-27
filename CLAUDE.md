@@ -110,6 +110,13 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 18 — 2026-06-27
+**GSC index-status audit: all 6 sitemap URLs submitted and indexed. Trailing-slash homepage investigation: no fix needed.**
+
+Ran `theautomationsguide/gsc-index-status.py https://copperlineeatery.com` against `sc-domain:copperlineeatery.com`. All 6 URLs PASS (Submitted and indexed): `/`, `/about`, `/catering`, `/contact`, `/faq`, `/menu`. Last crawl dates current.
+
+Investigated the trailing-slash homepage question (GSC sometimes shows `https://copperlineeatery.com/` as "not indexed" separately from the canonical `https://copperlineeatery.com`). Confirmed: `trailingSlash: 'never'` is set in `astro.config.mjs`, canonical + sitemap both use the slashless form, and `/` returns 200 without redirect (HTTP treats both forms as path `/` — a server-side 301 between them is not possible). GSC treating the slash form as "not indexed" is correct behavior: Google is honoring the canonical and indexing only the canonical URL. No code change needed.
+
 ### Session 17 — 2026-06-27
 **YES-reply fix: first-line intent detection + resilient batchMatch + routing log -- commit `c541953`, deployed to copperlineeatery.com. Confirmed working (Ian tested live).**
 
