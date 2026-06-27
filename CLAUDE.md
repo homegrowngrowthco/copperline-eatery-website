@@ -110,6 +110,19 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 17 — 2026-06-27
+**YES-reply fix: first-line intent detection + resilient batchMatch + routing log -- commit `c541953`, deployed to copperlineeatery.com. Confirmed working (Ian tested live).**
+
+**Root cause:** `YES_PATTERN` tested the full stripped body, not just the reviewer's typed text. `stripEmailQuoting` removes `>` quote lines, "On...wrote:" blocks, and `-- ` sig delimiters -- but a bare email signature (name/org on a new line, no `-- ` prefix) survived stripping. So Ian's reply body was `"YES\nIan Chamberland\n..."` which didn't match the strict pattern that requires the entire body to be a YES variant. It fell through to `applyCorrections`, the AI returned the same specials unchanged, a new batch was created, and the reviewer got back the same specials email with "Reply YES to publish" (nothing was published).
+
+**Fix 1 -- first-line detection (`handleConfirmationReply`):** YES/NO is now tested against only the first non-empty line of the stripped body (`body.split('\n').map(l => l.trim()).find(l => l.length > 0)`). The full body is still passed to `applyCorrections` when neither YES nor NO is on line 1 -- correction instructions spanning multiple lines still work.
+
+**Fix 2 -- resilient `batchMatch` regex:** Changed `/<batch-([a-f0-9-]+)@/i` to `/<?\s*batch-([a-f0-9-]+)@/i` so it also matches if an intermediate mail server strips the leading `<` from the `In-Reply-To` header value.
+
+**Fix 3 -- routing log:** Added `console.log` at entry: `Routing: sender=..., inReplyTo=..., batchMatch=..., trusted=...` and `First line for intent detection: "..."` to make future failures diagnosable from Netlify function logs without a code change.
+
+**Revert:** `git revert c541953 && git push origin master`.
+
 ### Session 16 — 2026-06-26
 **CSP `blob:` fix -- photo preview now renders on `/submit-specials` -- commit `8b19427`, deployed to copperlineeatery.com.**
 
