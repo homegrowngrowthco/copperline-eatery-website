@@ -6,6 +6,14 @@
 
 ---
 
+## Recent Updates (2026-07-03)
+
+### Session 19 — Growth audit (SEO + GEO + local pack + off-site), analysis-only
+
+Full report: [AUDIT-GROWTH-2026-07-03.md](AUDIT-GROWTH-2026-07-03.md) — prioritized ship-now / needs-Ian / needs-Dad findings with baseline metrics (Lighthouse + GSC 90d + DataForSEO local-pack positions) for post-fix comparison. Headline: catering is the gap (invisible for "catering chicopee ma" while organic #1 for "breakfast catering near me"; /catering page is a brochure with pricing locked in PDFs), GBP category is the walk-in lever (absent from "breakfast near me" pack despite organic #1), and http→https citation updates remain the branded-consolidation accelerant. No code changed.
+
+---
+
 ## Recent Updates (2026-06-22)
 
 ### Session 13 — Full audit (a11y + security + code + SEO delta): 8 fixes DEPLOYED

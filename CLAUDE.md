@@ -110,6 +110,11 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 19 — 2026-07-03
+**Full growth audit (SEO + GEO + local pack + off-site), analysis-only — report at [AUDIT-GROWTH-2026-07-03.md](AUDIT-GROWTH-2026-07-03.md). No code/content changes.**
+
+Baseline captured (Lighthouse mobile 97-100 all routes, LCP ≤1.9s, CLS ~0; PSI API still keyless-blocked 429). GSC 90d: 1,469 clicks / 26,180 impr; non-branded only 128 clicks on 8,759 impr. Real local-pack checks via DataForSEO (Chicopee geo, $0.02): **pack #1 for "brunch chicopee ma", pack #3 "breakfast chicopee ma", ABSENT from "breakfast near me" pack** (despite organic #1 there — GBP category/relevance problem, quantifies the existing DAD GBP task), and **invisible for "catering chicopee ma"** (no pack, no top-20 organic, AI Overview present) while already organic #1 for "breakfast catering near me". Top ship-now finding: rebuild /catering into a real landing page (pricing as HTML — it already exists on /faq but not /catering, menu HTML, Netlify Forms inquiry, FAQ schema, photos) + 3 town catering pages. Known issues verified: http→https + .html canonicals resolved code-side but the http homepage GSC row still carries 75% of branded clicks (citations to https remains the DAD accelerant); /about perf regression was single-run noise (re-run 99). TAG-repurpose verdict: don't port the engine; the LP-builder two-phase pattern + deterministic lint gates are the transferable pieces. New reusable tooling in session scratchpad: GSC search-analytics miner + DataForSEO local-pack checker (both read-only, reusable next re-measure ~2026-08-15).
+
 ### Session 18 — 2026-06-27
 **GSC index-status audit: all 6 sitemap URLs submitted and indexed. Trailing-slash homepage investigation: no fix needed.**
 
