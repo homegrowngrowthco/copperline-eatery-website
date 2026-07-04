@@ -26,7 +26,7 @@ Prepared 2026-07-03. Everything below needs a human sender (accounts, email, or 
 
 > Subject: Adding Copperline Eatery to your caterer list?
 >
-> Hi [name], we're The Copperline Eatery in Chicopee — family-owned since 1993, MassLive's Best Breakfast in Western Mass winner. We cater breakfast and lunch buffets ($13.95-17.95/pp) across Hampden County and have catered events at/near [venue]. If you keep a list of caterers for renters, we'd love to be on it. Menu + details: https://copperlineeatery.com/catering — happy to drop off samples for your team. — [Ian/Dad], (413) 594-8332
+> Hi [name], we're The Copperline Eatery in Chicopee — family-owned since 1993, MassLive's Best Breakfast in Western Mass winner. We cater breakfast and lunch buffets across Hampden County, with a custom menu built for each event, and have catered events at/near [venue]. If you keep a list of caterers for renters, we'd love to be on it. Menu + details: https://copperlineeatery.com/catering — happy to drop off samples for your team. — [Ian/Dad], (413) 594-8332
 
 **Local orgs already served** (church socials, school functions, boosters, healthcare facilities per the events list): ask each for a link on their vendors/sponsors page next time they book.
 
@@ -36,8 +36,18 @@ Prepared 2026-07-03. Everything below needs a human sender (accounts, email, or 
 - **Western Mass News**: featured before; pitch a "33 years of breakfast in Chicopee" anniversary angle in 2026 (1993 + 33).
 - **Reddit r/westernmass**: shows up in the "breakfast near me" SERP. Don't astroturf; worth knowing threads exist recommending Copperline.
 
+## GSC link-profile snapshot (2026-07-04, from Ian's "More sample links" export)
+
+What actually links to the site today (~180 sample URLs):
+
+- **Almost all programmatic.** Waze (a dozen locale variants of one directions page), Wanderlog (dozens of locale variants of one place page + best-breakfast lists for Springfield/West Springfield), the YellowPages network (yellowpages.com, superpages.com, dexknows.com, dk.yp.com), Seniorly (nearby-restaurant widgets on senior-living pages), Sirved, MapQuest, restaurants.com, AutoReserve, Mindtrip, Birdeye. These are auto-generated citations; fine to have, no action, and no reason to count them as "links earned."
+- **Real editorial links are old and few:** MassLive Best of Mass breakfast (2016), offbeateats.org review (2018), thebostondaybook.com Chicopee restaurants list, funinnewengland.com, and The Q 99.7's business-partner + Father's Day pages (the existing citation). That's the whole editorial profile — which is exactly why the Tier 1/2 outreach above is the upside.
+- **Confirms two Tier 1 targets are live and unclaimed:** the Nextdoor page (`nextdoor.com/pages/copper-line-eatery-chicopee-ma` — note the "Copper Line" name variant) and an Apple Maps place record (claim via Apple Business Connect).
+- **"Broadway St" variant is in Waze too** (URLs read `broadway-st-409`). Waze pulls from its own map data; fix via the Waze Map Editor or let the GBP/citation cleanup propagate. Same NAP variant as the Yelp fix above.
+- **Ignore:** qualitybusinessawards.com (pay-to-play awards mill; do not buy anything), prospeo.io (scraper), 2005 car-forum threads (mx6.com/s10forum meetups; harmless).
+
 ## Done by the site already (this session)
 
 - 18 internal service-area pages interlinked (hub + towns + region)
 - llms.txt + explicit AI-crawler allows (GEO citations)
-- Catering pricing in HTML (quotable by AI Overviews)
+- Catering menus + FAQ in HTML (quotable by AI Overviews; pricing removed 2026-07-03 per owner — quote-on-request framing)

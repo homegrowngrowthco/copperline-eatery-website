@@ -2,7 +2,15 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-06-22
+**Last updated:** 2026-07-04
+
+---
+
+## Recent Updates (2026-07-04)
+
+### Sessions 21-22 — Town-page content variety, +59 verified links, copy QA (DEPLOYED)
+
+S21 (`cb5e82e`): de-templated the 17 town pages (per-town food/events sections + layout variants; 17/17 distinct in dist) and added 59 URL-verified venue links (big towns 8-10 links, small towns honest 4-6 max). S22 (`f4ef51d`): Amherst "Menus That Respect a Mixed Table" heading replaced with "Menus With Real Vegetarian Options" after Ian flagged the double meaning; full copy sweep of all pages found no other double-meaning phrasing. GSC link-profile snapshot from Ian's sample-links export analyzed into [BACKLINK-OUTREACH.md](BACKLINK-OUTREACH.md) (profile is directory-heavy; editorial links are 2016/2018-era; Nextdoor + Apple Maps confirmed unclaimed). Details in CLAUDE.md Sessions 21-22.
 
 ---
 
