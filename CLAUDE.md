@@ -130,6 +130,14 @@ This project survived the **2026-05-04** complete machine wipe.
 
 **Revert:** `git revert <this commit>` (single commit). New pages/data/CSS are additive; the catering.astro rewrite is the only replaced surface, restored by the revert.
 
+### Session 20 follow-up (same day) — polish pass from Ian's mobile review (commit `e08e6dd`, DEPLOYED)
+Ian flagged 4 issues from his phone; all fixed + live:
+1. **Town pages redesigned** ("super janky / AI-written"): each of the 17 pages now opens with a real town photo (Wikimedia Commons, free licenses, per-photo credit line rendered on-page; fetched/license-checked via `scratchpad/town_photos.mjs` pipeline), a facts strip (drive time / from-price / service options), rewritten varied per-town copy (formulaic openers killed; unverifiable "our regular orders" claims softened to capability framing), and an "Around {town}" block of **30+ real institutions with outbound links, every URL fetched + content-verified** (dead ones dropped: Storrowton Tavern, Ludlow CC; West Springfield town site bot-walled, skipped). Nearby towns render as pills.
+2. **iOS form bug**: the Event Date input jutted off the card on iPhone (iOS date inputs have intrinsic width inside grid). Fix: `min-width: 0` on `.form-field` + `appearance: none` on `input[type=date]`.
+3. **Catering hub polish**: long paragraphs left-aligned (were fully centered), CTA buttons equal-width, package cards content-height (`align-items: start` kills the empty-bottom stretch), and the 18-link "Catering in X, MA" wall replaced with town-name pills (also de-spams the repeated exact-match anchors).
+4. **/menu Catering tab** now carries a "Request a Catering Quote" button + a quote link in the legend, both to `/catering#catering-inquiry`.
+QA: build 27 pages + tsc clean; Playwright 390px (0 overflow, date input inside card) + 1280px; dash lint clean. Revert: `git revert e08e6dd`.
+
 ### Session 19 — 2026-07-03
 **Full growth audit (SEO + GEO + local pack + off-site), analysis-only — report at [AUDIT-GROWTH-2026-07-03.md](AUDIT-GROWTH-2026-07-03.md). No code/content changes.**
 
