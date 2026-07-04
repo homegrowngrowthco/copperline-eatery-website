@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import CateringMenus from '../../components/CateringMenus.astro';
 import { ADDRESS, EMAIL, MAPS_DIRECTIONS_URL, PHONE, PHONE_DISPLAY, SITE_URL } from '../../data/restaurant';
 import { SERVICE_AREAS, type ServiceArea } from '../../data/serviceAreas';
 
@@ -61,6 +60,11 @@ function andJoin(items: readonly string[]): string {
   if (items.length <= 1) return items[0] ?? '';
   return items.slice(0, -1).join(', ') + ' and ' + items[items.length - 1];
 }
+
+// Section order alternates by variant so neighboring town pages don't read
+// as the same template: 'a' leads with the venues, 'b' leads with the food.
+const sections: Array<'around' | 'food' | 'events'> =
+  area.variant === 'a' ? ['around', 'food', 'events'] : ['food', 'around', 'events'];
 ---
 
 <BaseLayout
@@ -87,7 +91,7 @@ function andJoin(items: readonly string[]): string {
       <div class="container">
         <div class="catering-content">
 
-          <div class="town-hero">
+          <div class={`town-hero${area.variant === 'b' ? ' town-hero--flip' : ''}`}>
             <div class="town-hero-text">
               <p class="town-intro">{area.intro}</p>
               <div class="town-facts">
@@ -118,50 +122,39 @@ function andJoin(items: readonly string[]): string {
             </div>
           </div>
 
-          <h2 class="catering-events-title">Around {area.town}</h2>
-          <p class="town-around">{area.aroundTown}</p>
-          <ul class="town-venues">
-            {area.venues.map((v) => (
-              <li><a href={v.url} target="_blank" rel="noopener">{v.name}</a></li>
-            ))}
-          </ul>
-          {area.neighborhoods && (
-            <p class="town-around">We serve all of {area.town}, including {andJoin(area.neighborhoods)}.</p>
+          {sections.map((section) =>
+            section === 'around' ? (
+              <>
+                <h2 class="catering-events-title">Around {area.town}</h2>
+                <p class="town-around">{area.aroundTown}</p>
+                <ul class="town-venues">
+                  {area.venues.map((v) => (
+                    <li><a href={v.url} target="_blank" rel="noopener">{v.name}</a></li>
+                  ))}
+                </ul>
+                {area.neighborhoods && (
+                  <p class="town-around">We serve all of {area.town}, including {andJoin(area.neighborhoods)}.</p>
+                )}
+              </>
+            ) : section === 'food' ? (
+              <>
+                <h2 class="catering-events-title">{area.foodHeading}</h2>
+                <p class="town-around">{area.foodBlurb}</p>
+                <ul class="dish-chips">
+                  {area.dishes.map((d) => <li>{d}</li>)}
+                </ul>
+                <p class="town-around town-food-links">Just a starting point. <a href="/menu#catering">Browse the full catering menu</a> or <a href="/catering#catering-inquiry">tell us what your event needs</a>.</p>
+              </>
+            ) : (
+              <>
+                <h2 class="catering-events-title">{area.eventsHeading}</h2>
+                <p class="town-around">{area.eventsBlurb}</p>
+                <ul class="event-chips">
+                  {area.eventTypes.map((e) => <li>{e}</li>)}
+                </ul>
+              </>
+            )
           )}
-
-          <h2 class="catering-events-title">What We Cater</h2>
-          <CateringMenus />
-
-          <h2 class="catering-events-title">Events We Cater in {area.town}</h2>
-          <div class="catering-options">
-            <div class="catering-option-card">
-              <h3>Corporate &amp; Business</h3>
-              <ul>
-                <li>Office Meetings &amp; Lunches</li>
-                <li>Corporate Retreats &amp; Trainings</li>
-                <li>Networking Events</li>
-                <li>Employee Appreciation</li>
-              </ul>
-            </div>
-            <div class="catering-option-card">
-              <h3>Celebrations</h3>
-              <ul>
-                <li>Weddings &amp; Rehearsals</li>
-                <li>Bridal &amp; Baby Showers</li>
-                <li>Graduations &amp; Birthdays</li>
-                <li>Family Reunions &amp; Holiday Parties</li>
-              </ul>
-            </div>
-            <div class="catering-option-card">
-              <h3>Community</h3>
-              <ul>
-                <li>Church Socials &amp; School Functions</li>
-                <li>Banquets &amp; Fundraisers</li>
-                <li>Memorial Services</li>
-                <li>Sporting Events &amp; Tailgates</li>
-              </ul>
-            </div>
-          </div>
 
           <div class="cta-box">
             <h3>Planning an Event in {area.town}?</h3>

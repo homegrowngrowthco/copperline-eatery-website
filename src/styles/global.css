@@ -1247,6 +1247,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .town-photo--portrait img { aspect-ratio: 4 / 3; object-fit: cover; }
 .town-photo-credit-bottom { margin-top: 24px; font-size: 0.72rem; color: var(--gray); }
 .town-photo-credit-bottom a { color: var(--gray); text-decoration: underline; }
+/* Variant 'b' towns put the photo on the left on desktop */
+.town-hero--flip .town-hero-text { order: 2; }
+.town-hero--flip .town-photo { order: 1; }
+/* Dish + event chips: neutral (non-link) counterparts of the venue chips */
+.dish-chips, .event-chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; max-width: 800px; margin: 0 auto 10px; }
+.dish-chips li { background: var(--white); border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 10px 16px; border-left: 3px solid var(--green); font-size: 0.95rem; }
+.event-chips li { background: none; border: 1px solid #d9d4c2; border-radius: 999px; padding: 7px 15px; color: var(--gray); font-size: 0.9rem; }
+.town-food-links a { text-decoration: underline; }
 
 .town-around { max-width: 800px; margin: 0 auto 16px; color: var(--gray); }
 .town-venues { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; max-width: 800px; margin: 0 auto 10px; }

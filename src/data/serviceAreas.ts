@@ -33,6 +33,15 @@ export interface ServiceArea {
   venues: TownVenue[];
   neighborhoods?: string[];
   photo: TownPhoto;
+  /** Layout variant: 'a' = venues section first, 'b' = food section first (also flips the hero photo side on desktop). */
+  variant: 'a' | 'b';
+  /** Per-town food section. Dishes must exist in menuData.json; copy is recommendation-framed, not order-history claims. */
+  foodHeading: string;
+  foodBlurb: string;
+  dishes: string[];
+  eventsHeading: string;
+  eventsBlurb: string;
+  eventTypes: string[];
 }
 
 export const SERVICE_AREAS: ServiceArea[] = [
@@ -54,8 +63,22 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Springfield Museums', url: 'https://springfieldmuseums.org' },
       { name: 'Baystate Medical Center', url: 'https://www.baystatehealth.org' },
           { name: 'MGM Springfield', url: 'https://mgmspringfield.mgmresorts.com' },
+          { name: 'Springfield Armory National Historic Site', url: 'https://www.nps.gov/spar/index.htm' },
+      { name: 'The Zoo in Forest Park', url: 'https://www.forestparkzoo.org' },
+      { name: 'Springfield College', url: 'https://springfield.edu' },
+      { name: 'Western New England University', url: 'https://www.wne.edu' },
+      { name: 'Springfield Regional Chamber', url: 'https://springfieldregionalchamber.com' },
     ],
     neighborhoods: ['Downtown', 'Forest Park', 'East Springfield', 'Sixteen Acres', 'Indian Orchard', 'Pine Point'],
+    variant: 'a',
+    foodHeading: 'Breakfast That Travels Well',
+    foodBlurb:
+      'Springfield leans corporate, so breakfast is the usual play: trays of scrambled eggs and bacon, home fries, French toast, and hot coffee, set up before anyone pours a second cup. For conference-room lunches, cold-cut platters and big salads carry the day.',
+    dishes: ['Scrambled eggs & bacon', 'Home fries', 'French toast', 'Muffins, coffee & juice', 'Cold-cut platters', 'Garden salad'],
+    eventsHeading: 'Events We Get Called For',
+    eventsBlurb:
+      'Downtown runs on office breakfasts, trainings, and appreciation days; the residential neighborhoods keep us busy with graduations and family milestones.',
+    eventTypes: ['Office breakfasts & lunches', 'Trainings & retreats', 'Employee appreciation', 'Graduations', 'Family reunions'],
     photo: {
       base: '/towns/springfield-ma',
       alt: 'Downtown Springfield, Massachusetts skyline along the Connecticut River',
@@ -83,8 +106,22 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Holyoke Mall', url: 'https://www.holyokemall.com' },
       { name: 'Wistariahurst Museum', url: 'https://wistariahurst.org' },
           { name: 'The Log Cabin', url: 'https://www.thelogcabin.com' },
+          { name: 'The Delaney House', url: 'https://www.delaneyhouse.com' },
+      { name: 'International Volleyball Hall of Fame', url: 'https://volleyhall.org' },
+      { name: 'Holyoke Merry-Go-Round', url: 'https://www.holyokemerrygoround.org' },
+      { name: 'City of Holyoke', url: 'https://www.holyoke.org' },
+      { name: 'Greater Holyoke Chamber', url: 'https://holyokechamber.com' },
     ],
     neighborhoods: ['Downtown', 'Ingleside', 'Highlands', 'Elmwood'],
+    variant: 'b',
+    foodHeading: 'Hot Buffets That Arrive Hot',
+    foodBlurb:
+      'Twelve minutes up I-391 means chafing-dish food actually works in Holyoke. Chicken Marsala, ziti and meatballs, and meat lasagna are the workhorses, with garden salad and rolls rounding out the table.',
+    dishes: ['Chicken Marsala', 'Ziti & meatballs', 'Meat lasagna', 'Sausage, peppers & onions', 'Garden salad', 'Rolls & butter'],
+    eventsHeading: 'What We Cater in Holyoke',
+    eventsBlurb:
+      'Workplace lunches, fundraisers, and school functions, plus family parties from the Highlands to Elmwood.',
+    eventTypes: ['Workplace lunches', 'Fundraisers & banquets', 'School functions', 'Birthdays & showers', 'Holiday parties'],
     photo: {
       base: '/towns/holyoke-ma',
       alt: 'Holyoke, Massachusetts skyline with mill buildings and church steeples',
@@ -110,8 +147,21 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Eastern States Exposition (The Big E)', url: 'https://www.thebige.com' },
           { name: 'Storrowton Village Museum', url: 'https://www.thebige.com/p/about/storrowton-village' },
       { name: 'Springfield Country Club', url: 'https://www.springfieldcountryclub.com' },
+          { name: 'Majestic Theater', url: 'https://www.majestictheater.com' },
+      { name: 'Irish Cultural Center of Western New England', url: 'https://www.irishcenterwne.org' },
+      { name: 'West Springfield Public Library', url: 'https://www.wspl.org' },
+      { name: 'Town of West Springfield', url: 'https://www.townofwestspringfield.org' },
     ],
     neighborhoods: ['Merrick', 'Riverdale', 'Mittineague'],
+    variant: 'a',
+    foodHeading: 'From Pancake Breakfasts to Platter Lunches',
+    foodBlurb:
+      'West Side swings with the calendar: pancake-and-sausage breakfasts for morning crews, grinder and wrap platters with potato salad at midday, and during fair season, anything that feeds a lot of people fast.',
+    dishes: ['Pancakes & sausage', 'Eggs benedict', 'Grinder & wrap platters', 'Potato salad', 'Macaroni salad', 'Desserts'],
+    eventsHeading: 'Occasions on This Side of the River',
+    eventsBlurb:
+      'Office lunches along Riverdale Street, crew meals in Big E season, and family celebrations in Merrick and Mittineague.',
+    eventTypes: ['Office lunches', 'Seasonal crew meals', 'Family celebrations', 'Showers', 'Networking events'],
     photo: {
       base: '/towns/west-springfield-ma',
       alt: 'Storrowton Green on the Eastern States Exposition grounds in West Springfield',
@@ -138,8 +188,19 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Town of Agawam', url: 'https://www.agawam.ma.us' },
           { name: 'Crestview Country Club', url: 'https://www.crestviewcc.org' },
       { name: 'Oak Ridge Golf Club', url: 'https://www.oakridgegc.com' },
+          { name: 'Agawam Public Library', url: 'https://www.agawamlibrary.org' },
+      { name: 'Robinson State Park', url: 'https://www.mass.gov/locations/robinson-state-park' },
     ],
     neighborhoods: ['Feeding Hills'],
+    variant: 'b',
+    foodHeading: 'Graduation & Backyard Party Food',
+    foodBlurb:
+      'Agawam is party country: graduations, communions, team banquets. The food that fits is sausage with peppers and onions, kielbasa, ziti and meatballs, and baked beans, all of it built to hold up on a buffet line in a backyard or a hall.',
+    dishes: ['Sausage, peppers & onions', 'Kielbasa', 'Ziti & meatballs', 'Baked beans', 'Potato salad', 'Rolls & butter'],
+    eventsHeading: 'Agawam Events We Cater',
+    eventsBlurb:
+      'Backyard graduations in Feeding Hills, sports banquets, workplace lunches along Main Street, and everything around the Six Flags season.',
+    eventTypes: ['Graduation parties', 'Team banquets', 'Backyard celebrations', 'Workplace lunches', 'Communions & christenings'],
     photo: {
       base: '/towns/agawam-ma',
       alt: 'The historic Captain Charles Leonard House in Agawam, Massachusetts',
@@ -167,7 +228,19 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'City of Westfield', url: 'https://www.cityofwestfield.org' },
           { name: 'East Mountain Country Club', url: 'https://www.eastmountaincc.com' },
       { name: 'Tekoa Country Club', url: 'https://www.tekoacountryclub.com' },
+          { name: 'Amelia Park Children\'s Museum', url: 'https://www.ameliaparkmuseum.org' },
+      { name: 'Westfield Athenaeum', url: 'https://westath.org' },
+      { name: 'Shaker Farms Country Club', url: 'https://www.shakerfarmscc.com' },
     ],
+    variant: 'a',
+    foodHeading: 'Crowd Food for the Whip City',
+    foodBlurb:
+      'Westfield events tend to run bigger: university functions, banquets, and family parties that want roasted chicken, ziti, and salads by the tray. Sandwich platters cover the offices out by the airport corridor.',
+    dishes: ['Roasted chicken', 'Ziti & meatballs', 'Chicken parmesan', 'Sandwich platters', 'Garden salad', 'Desserts'],
+    eventsHeading: 'Westfield Occasions',
+    eventsBlurb:
+      'University functions, club banquets at the golf courses, school events, and family milestones across town.',
+    eventTypes: ['University functions', 'Banquets & fundraisers', 'School events', 'Family parties', 'Office lunches'],
     photo: {
       base: '/towns/westfield-ma',
       alt: 'Park Square green in downtown Westfield, Massachusetts',
@@ -192,7 +265,18 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Town of Ludlow', url: 'https://www.ludlow.ma.us' },
           { name: 'Gremio Lusitano Club', url: 'https://www.gremiolusitano.com' },
+          { name: 'Ludlow Boys & Girls Club', url: 'https://www.ludlowbgc.org' },
+      { name: 'Randall\'s Farm & Greenhouse', url: 'https://www.randallsfarm.net' },
     ],
+    variant: 'b',
+    foodHeading: 'Comfort Food, Club-Hall Portions',
+    foodBlurb:
+      'Ludlow knows how to feed a hall. The spreads that fit here are the hearty ones: sausage with peppers and onions, kielbasa, roasted chicken, and ziti with meatballs, with plenty of rolls and salad alongside.',
+    dishes: ['Sausage, peppers & onions', 'Kielbasa', 'Roasted chicken', 'Ziti & meatballs', 'Garden salad', 'Rolls & butter'],
+    eventsHeading: 'Ludlow Gatherings',
+    eventsBlurb:
+      'Club functions, christenings and communions, team banquets, and family parties, plus workplace lunches around the Mills.',
+    eventTypes: ['Club functions', 'Christenings & communions', 'Team banquets', 'Family parties', 'Workplace lunches'],
     photo: {
       base: '/towns/ludlow-ma',
       alt: 'The town green in Ludlow, Massachusetts',
@@ -218,8 +302,22 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Mount Holyoke College', url: 'https://www.mtholyoke.edu' },
       { name: 'The Orchards Golf Club', url: 'https://www.orchardsgolf.com' },
       { name: 'Town of South Hadley', url: 'https://southhadley.org' },
+          { name: 'The Village Commons', url: 'https://thevillagecommons.com' },
+      { name: 'Brunelle\'s Marina', url: 'https://www.brunelles.com' },
+      { name: 'The Ledges Golf Club', url: 'https://ledgesgc.com' },
+      { name: 'South Hadley Public Library', url: 'https://shadleylib.org' },
+      { name: 'Skinner State Park', url: 'https://www.mass.gov/locations/skinner-state-park' },
     ],
     neighborhoods: ['South Hadley Falls'],
+    variant: 'a',
+    foodHeading: 'Brunch for Showers & Milestones',
+    foodBlurb:
+      'South Hadley leans brunch: banana bread French toast, eggs benedict, and pancake spreads for shower and graduation mornings, with wrap platters and salads when the party runs into the afternoon.',
+    dishes: ['Banana bread French toast', 'Eggs benedict', 'Pancakes & bacon', 'Wrap platters', 'Garden salad', 'Muffins, coffee & juice'],
+    eventsHeading: 'Occasions Around the Commons',
+    eventsBlurb:
+      'Bridal and baby showers, graduation brunches, faculty and staff events near the college, and family gatherings by the river.',
+    eventTypes: ['Bridal & baby showers', 'Graduation brunches', 'Campus department events', 'Family gatherings', 'Memorial receptions'],
     photo: {
       base: '/towns/south-hadley-ma',
       alt: 'The town common in South Hadley, Massachusetts',
@@ -244,7 +342,19 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Town of Granby', url: 'https://www.granby-ma.gov' },
           { name: 'The MacDuffie School', url: 'https://www.macduffie.org' },
+          { name: 'Granby Free Public Library', url: 'https://granbylibrary.com' },
+      { name: 'Red Fire Farm', url: 'https://www.redfirefarm.com' },
+      { name: 'Mount Holyoke Range State Park', url: 'https://www.mass.gov/locations/mount-holyoke-range-state-park' },
     ],
+    variant: 'b',
+    foodHeading: 'Homemade, and Plenty of It',
+    foodBlurb:
+      'Granby keeps it straightforward and generous: roast turkey with gravy, roasted chicken, salads, and dessert trays for church halls, school events, and family reunions along the 202 corridor.',
+    dishes: ['Roast turkey with gravy', 'Roasted chicken', 'Garden salad', 'Macaroni salad', 'Rolls & butter', 'Dessert trays'],
+    eventsHeading: 'Granby Get-Togethers',
+    eventsBlurb:
+      'Church socials, school and town functions, family reunions, and celebrations at the farm or the fields.',
+    eventTypes: ['Church socials', 'Town & school functions', 'Family reunions', 'Birthdays', 'Memorial receptions'],
     photo: {
       base: '/towns/granby-ma',
       alt: 'Kellogg Hall in Granby, Massachusetts',
@@ -271,7 +381,18 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Williston Northampton School', url: 'https://www.williston.com' },
       { name: 'City of Easthampton', url: 'https://easthamptonma.gov' },
           { name: 'Arcadia Wildlife Sanctuary', url: 'https://www.massaudubon.org/places-to-explore/wildlife-sanctuaries/arcadia' },
+          { name: 'Mill 180 Park', url: 'https://mill180park.com' },
+      { name: 'Mount Tom State Reservation', url: 'https://www.mass.gov/locations/mount-tom-state-reservation' },
     ],
+    variant: 'a',
+    foodHeading: 'Lunch for Creative Crews',
+    foodBlurb:
+      'Easthampton\'s mill buildings run on working lunches: individual wraps and grinders, salad bowls, and homemade soup in the cold months. For openings and receptions, the same menu scales up to platters.',
+    dishes: ['Wrap & grinder platters', 'Individual boxed portions', 'Garden salad', 'Homemade soups', 'Cold-cut platters', 'Desserts'],
+    eventsHeading: 'Easthampton Events',
+    eventsBlurb:
+      'Studio and office lunches at the mills, school functions, receptions, and family parties across town.',
+    eventTypes: ['Studio & office lunches', 'Receptions & openings', 'School functions', 'Family parties', 'Fundraisers'],
     photo: {
       base: '/towns/easthampton-ma',
       alt: 'Aerial view of Easthampton, Massachusetts with Mount Tom in the distance',
@@ -298,8 +419,23 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Look Park', url: 'https://lookpark.org' },
       { name: 'Academy of Music Theatre', url: 'https://aomtheatre.com' },
           { name: 'Hotel Northampton', url: 'https://www.hotelnorthampton.com' },
+          { name: 'Cooley Dickinson Hospital', url: 'https://www.cooleydickinson.org' },
+      { name: 'Forbes Library', url: 'https://forbeslibrary.org' },
+      { name: 'Thornes Marketplace', url: 'https://thornesmarketplace.com' },
+      { name: 'Three County Fairgrounds', url: 'https://www.3countyfair.com' },
+      { name: 'City of Northampton', url: 'https://www.northamptonma.gov' },
+      { name: 'Greater Northampton Chamber', url: 'https://explorenorthampton.com' },
     ],
     neighborhoods: ['Florence', 'Leeds'],
+    variant: 'b',
+    foodHeading: 'Meetings, Brunches & Receptions',
+    foodBlurb:
+      'Northampton runs to meetings and receptions: breakfast spreads with eggs benedict and French toast, wrap platters with serious salads, and vegetarian mains like vegetable lasagna always in the mix.',
+    dishes: ['Eggs benedict', 'French toast', 'Wrap platters', 'Vegetable lasagna', 'Garden salad', 'Muffins, coffee & juice'],
+    eventsHeading: 'What We Cater in Noho',
+    eventsBlurb:
+      'Business meetings downtown, campus department events, receptions, and family celebrations out to Florence and Leeds.',
+    eventTypes: ['Business meetings', 'Campus events', 'Receptions', 'Showers & brunches', 'Family celebrations'],
     photo: {
       base: '/towns/northampton-ma',
       alt: 'Aerial view of downtown Northampton, Massachusetts',
@@ -327,7 +463,19 @@ export const SERVICE_AREAS: ServiceArea[] = [
           { name: 'Twin Hills Country Club', url: 'https://www.twinhillscc.com' },
       { name: 'Longmeadow Country Club', url: 'https://www.longmeadowcountryclub.com' },
       { name: 'Storrs Library', url: 'https://www.longmeadowlibrary.org' },
+          { name: 'The Longmeadow Shops', url: 'https://thelongmeadowshops.com' },
+      { name: 'Springfield JCC', url: 'https://springfieldjcc.org' },
+      { name: 'Glenmeadow', url: 'https://glenmeadow.org' },
     ],
+    variant: 'a',
+    foodHeading: 'Shower & Holiday Spreads',
+    foodBlurb:
+      'Longmeadow is shower-and-holiday territory: banana bread French toast and pancake brunches in the morning, cold-cut and wrap platters with macaroni salad for afternoon open houses.',
+    dishes: ['Banana bread French toast', 'Pancakes & bacon', 'Cold-cut platters', 'Wrap platters', 'Macaroni salad', 'Desserts'],
+    eventsHeading: 'Longmeadow Occasions',
+    eventsBlurb:
+      'Bridal and baby showers, holiday parties, club luncheons, and milestone birthdays, plus campus events at Bay Path.',
+    eventTypes: ['Bridal & baby showers', 'Holiday parties', 'Club luncheons', 'Milestone birthdays', 'Campus events'],
     photo: {
       base: '/towns/longmeadow-ma',
       alt: 'Longmeadow Town Hall in Longmeadow, Massachusetts',
@@ -352,7 +500,18 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Town of East Longmeadow', url: 'https://www.eastlongmeadowma.gov' },
           { name: 'East Longmeadow Public Library', url: 'https://www.elpl.org' },
+          { name: 'East Longmeadow Public Schools', url: 'https://www.elps.us' },
+      { name: 'Heritage Park', url: 'https://www.eastlongmeadowma.gov/321/Heritage-Park' },
     ],
+    variant: 'b',
+    foodHeading: 'Office Lunch, Solved',
+    foodBlurb:
+      'The industrial park runs on dependable lunch: grinder and wrap platters, cold cuts with potato salad, and a dessert tray so the 1 pm meeting goes easier. Family parties get the same food, scaled up.',
+    dishes: ['Grinder platters', 'Wrap platters', 'Cold cuts (roast beef, ham, turkey)', 'Potato salad', 'Homemade soups', 'Dessert trays'],
+    eventsHeading: 'East Longmeadow Events',
+    eventsBlurb:
+      'Office lunches and trainings in the industrial park, retirement parties, school functions, and family celebrations around the rotary.',
+    eventTypes: ['Office lunches', 'Trainings', 'Retirement parties', 'School functions', 'Family celebrations'],
     photo: {
       base: '/towns/east-longmeadow-ma',
       alt: 'East Longmeadow Town Hall in East Longmeadow, Massachusetts',
@@ -378,7 +537,19 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Wilbraham & Monson Academy', url: 'https://www.wma.us' },
       { name: 'Town of Wilbraham', url: 'https://www.wilbraham-ma.gov' },
           { name: 'Rice Fruit Farm', url: 'https://www.ricefruitfarm.com' },
+          { name: 'Wilbraham Public Library', url: 'https://www.wilbrahamlibrary.org' },
+      { name: 'Hampden-Wilbraham Regional Schools', url: 'https://www.hwrsd.org' },
+      { name: 'Interskate 91 South', url: 'https://www.interskate91.com' },
     ],
+    variant: 'a',
+    foodHeading: 'Family-Style Favorites',
+    foodBlurb:
+      'Wilbraham parties call for family-style Italian: chicken parmesan, meat lasagna, and ziti with meatballs, with garden salad and rolls alongside. Sports banquets get the same table, just bigger.',
+    dishes: ['Chicken parmesan', 'Meat lasagna', 'Ziti & meatballs', 'Roasted chicken', 'Garden salad', 'Rolls & butter'],
+    eventsHeading: 'Wilbraham Gatherings',
+    eventsBlurb:
+      'School and booster events, sports banquets, family milestones, and workplace lunches along Boston Road.',
+    eventTypes: ['Sports banquets', 'School & booster events', 'Family milestones', 'Workplace lunches', 'Holiday parties'],
     photo: {
       base: '/towns/wilbraham-ma',
       alt: 'Veterans memorial in Wilbraham, Massachusetts',
@@ -403,8 +574,21 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Town of Palmer', url: 'https://www.townofpalmer.com' },
           { name: 'Steaming Tender Restaurant', url: 'https://www.steamingtender.com' },
+          { name: 'Palmer Public Library', url: 'https://www.palmerlibrary.org' },
+      { name: 'Pathfinder Tech', url: 'https://www.pathfindertech.org' },
+      { name: 'Camp Ramah in New England', url: 'https://www.campramahne.org' },
+      { name: 'Baystate Wing Hospital', url: 'https://www.baystatehealth.org' },
     ],
     neighborhoods: ['Three Rivers', 'Thorndike', 'Bondsville'],
+    variant: 'b',
+    foodHeading: 'Hearty Food for Working Crews',
+    foodBlurb:
+      'Out on the Route 20 corridor, hearty is the way to go: baked ham, meatballs, sausage with peppers and onions, and baked beans, the kind of table that keeps a crew or a fire-hall fundraiser going.',
+    dishes: ['Baked ham', 'Meatballs (Italian or Swedish)', 'Sausage, peppers & onions', 'Baked beans', 'Potato salad', 'Rolls & butter'],
+    eventsHeading: 'Palmer & the Villages',
+    eventsBlurb:
+      'Town functions, fundraisers, crew meals, and family parties across Palmer, Three Rivers, Thorndike, and Bondsville.',
+    eventTypes: ['Fundraisers', 'Town functions', 'Crew meals', 'Family parties', 'Memorial receptions'],
     photo: {
       base: '/towns/palmer-ma',
       alt: "St. Paul's Church in Palmer, Massachusetts",
@@ -430,7 +614,19 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Town of Belchertown', url: 'https://www.belchertown.org' },
       { name: 'Quabbin Reservoir', url: 'https://www.mass.gov/locations/quabbin-reservoir' },
           { name: 'Cold Spring Country Club', url: 'https://www.coldspringcc.com' },
+          { name: 'Clapp Memorial Library', url: 'https://www.clapplibrary.org' },
+      { name: 'Belchertown Fair', url: 'https://www.belchertownfair.com' },
+      { name: 'Stone House Museum', url: 'https://stonehousemuseum.org' },
     ],
+    variant: 'a',
+    foodHeading: 'Fair-Town Classics',
+    foodBlurb:
+      'Belchertown likes the classics: roast pork with gravy, roasted chicken, macaroni salad, and dessert trays, the kind of table that fits a town where the fair still anchors the calendar.',
+    dishes: ['Roast pork with gravy', 'Roasted chicken', 'Ziti & meatballs', 'Macaroni salad', 'Garden salad', 'Dessert trays'],
+    eventsHeading: 'Belchertown Events',
+    eventsBlurb:
+      'Town and school functions, scout and club events, family reunions, and graduation parties from the common to Route 9.',
+    eventTypes: ['Town & school functions', 'Club events', 'Family reunions', 'Graduation parties', 'Church socials'],
     photo: {
       base: '/towns/belchertown-ma',
       alt: 'The town common in Belchertown, Massachusetts',
@@ -457,8 +653,22 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Amherst College', url: 'https://www.amherst.edu' },
       { name: 'Mullins Center', url: 'https://www.mullinscenter.com' },
           { name: 'Hampshire College', url: 'https://www.hampshire.edu' },
+          { name: 'Emily Dickinson Museum', url: 'https://www.emilydickinsonmuseum.org' },
+      { name: 'Jones Library', url: 'https://www.joneslibrary.org' },
+      { name: 'Amherst Area Chamber', url: 'https://www.amherstarea.com' },
+      { name: 'The Drake', url: 'https://www.thedrakeamherst.org' },
+      { name: 'Town of Amherst', url: 'https://www.amherstma.gov' },
     ],
     neighborhoods: ['North Amherst', 'South Amherst'],
+    variant: 'b',
+    foodHeading: 'Menus That Respect a Mixed Table',
+    foodBlurb:
+      'Amherst events always seat a few vegetarians, so we build for it: vegetable lasagna and eggplant rollatini next to roasted chicken, veggie wraps beside the cold cuts, and salads that are more than an afterthought.',
+    dishes: ['Vegetable lasagna', 'Eggplant rollatini', 'Veggie wraps', 'Roasted chicken', 'Garden salad', 'Muffins, coffee & juice'],
+    eventsHeading: 'Amherst Occasions',
+    eventsBlurb:
+      'Department meetings, receptions, reunion weekends, graduation parties, and family milestones downtown.',
+    eventTypes: ['Department meetings', 'Receptions', 'Reunion weekends', 'Graduation parties', 'Family milestones'],
     photo: {
       base: '/towns/amherst-ma',
       alt: 'Aerial view of downtown Amherst, Massachusetts',
@@ -484,7 +694,18 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Town of Hampden', url: 'https://www.hampdenma.gov' },
       { name: 'Laughing Brook Wildlife Sanctuary', url: 'https://www.massaudubon.org/places-to-explore/wildlife-sanctuaries/laughing-brook' },
           { name: 'GreatHorse', url: 'https://www.greathorse.com' },
+          { name: 'The Starting Gate at GreatHorse', url: 'https://www.thestartinggate.com' },
+      { name: 'Hampden-Wilbraham Regional Schools', url: 'https://www.hwrsd.org' },
     ],
+    variant: 'a',
+    foodHeading: 'Small-Town Spreads',
+    foodBlurb:
+      'Hampden events are personal: a church social, a golf outing, a family milestone. Roasted chicken, ziti and meatballs, salads, and a dessert tray cover most of them without fuss.',
+    dishes: ['Roasted chicken', 'Ziti & meatballs', 'Cold-cut platters', 'Garden salad', 'Rolls & butter', 'Dessert trays'],
+    eventsHeading: 'Hampden Gatherings',
+    eventsBlurb:
+      'Church socials, town events, golf outings, family reunions, and memorial receptions.',
+    eventTypes: ['Church socials', 'Town events', 'Golf outings', 'Family reunions', 'Memorial receptions'],
     photo: {
       base: '/towns/hampden-ma',
       alt: 'The historic Hampden Town House in Hampden, Massachusetts',
