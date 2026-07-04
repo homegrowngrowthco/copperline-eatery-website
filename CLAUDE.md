@@ -138,6 +138,12 @@ Ian flagged 4 issues from his phone; all fixed + live:
 4. **/menu Catering tab** now carries a "Request a Catering Quote" button + a quote link in the legend, both to `/catering#catering-inquiry`.
 QA: build 27 pages + tsc clean; Playwright 390px (0 overflow, date input inside card) + 1280px; dash lint clean. Revert: `git revert e08e6dd`.
 
+### Session 20 follow-up #2 (same day) — pricing scrapped per owner + self-audit pass (commit `ad872b8`, DEPLOYED)
+Ian: "scrap the catering buffet pricing (irrelevant for a diner/brunch)" + "full audit of both updates... handle everything."
+- **Pricing removed everywhere except the actual menu**: `CateringPackages.astro` deleted; new [CateringMenus.astro](src/components/CateringMenus.astro) "What We Cater" block (breakfast/lunch/dinner highlights, every dish verified against menuData; no prices, "custom menu, request a quote" framing). Stripped $-figures from /catering + all 17 town pages + region page (meta/og/twitter/JSON-LD/FAQPage/facts strip/cta notes), the /faq catering answers, and llms.txt. The /menu Catering tab deliberately keeps the printed menu with prices (it IS the menu). Town facts strip now shows "Google rating 4.5★ 1,100+ reviews" instead of a from-price.
+- **Self-audit findings, all fixed**: (a) nav never highlighted Catering on `/catering/*` subpages (`isActive` exact-match; now prefix-aware); (b) the Service/Cuisine/Meal-Styles card row became redundant with What We Cater → replaced by a numbered 3-step "How It Works"; (c) "Hot Item Buffet (40-person minimum)" jargon removed from booking FAQs on both /catering and /faq; (d) hub/town/region titles trimmed to SERP width (`Catering in {town}, MA | The Copperline Eatery`).
+- **QA**: build 27 pages + tsc clean; zero price strings outside /menu in dist; JSON-LD parses on all changed pages; Playwright at 390px + 1280px across hub, portrait-photo town (Hampden), homepage, thanks page, /menu#catering; local Lighthouse: /catering 98/100/77/100, town page 97/100/77/100 (BP 77 = the documented GA4/Clarity third-party-cookie penalty). Prod curl-verified post-deploy: 0 price mentions on catering pages/faq/llms.txt, menu intact, nav active state live. Revert: `git revert ad872b8`.
+
 ### Session 19 — 2026-07-03
 **Full growth audit (SEO + GEO + local pack + off-site), analysis-only — report at [AUDIT-GROWTH-2026-07-03.md](AUDIT-GROWTH-2026-07-03.md). No code/content changes.**
 
