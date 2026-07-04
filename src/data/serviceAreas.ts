@@ -53,6 +53,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Naismith Basketball Hall of Fame', url: 'https://www.hoophall.com' },
       { name: 'Springfield Museums', url: 'https://springfieldmuseums.org' },
       { name: 'Baystate Medical Center', url: 'https://www.baystatehealth.org' },
+          { name: 'MGM Springfield', url: 'https://mgmspringfield.mgmresorts.com' },
     ],
     neighborhoods: ['Downtown', 'Forest Park', 'East Springfield', 'Sixteen Acres', 'Indian Orchard', 'Pine Point'],
     photo: {
@@ -81,6 +82,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Holyoke Medical Center', url: 'https://www.holyokehealth.com' },
       { name: 'Holyoke Mall', url: 'https://www.holyokemall.com' },
       { name: 'Wistariahurst Museum', url: 'https://wistariahurst.org' },
+          { name: 'The Log Cabin', url: 'https://www.thelogcabin.com' },
     ],
     neighborhoods: ['Downtown', 'Ingleside', 'Highlands', 'Elmwood'],
     photo: {
@@ -106,6 +108,8 @@ export const SERVICE_AREAS: ServiceArea[] = [
       "West Side's event scene centers on the Eastern States Exposition grounds, which host functions year-round beyond the fair itself. We deliver across town, including the neighborhoods around:",
     venues: [
       { name: 'Eastern States Exposition (The Big E)', url: 'https://www.thebige.com' },
+          { name: 'Storrowton Village Museum', url: 'https://www.thebige.com/p/about/storrowton-village' },
+      { name: 'Springfield Country Club', url: 'https://www.springfieldcountryclub.com' },
     ],
     neighborhoods: ['Merrick', 'Riverdale', 'Mittineague'],
     photo: {
@@ -132,6 +136,8 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Six Flags New England', url: 'https://www.sixflags.com/newengland' },
       { name: 'Town of Agawam', url: 'https://www.agawam.ma.us' },
+          { name: 'Crestview Country Club', url: 'https://www.crestviewcc.org' },
+      { name: 'Oak Ridge Golf Club', url: 'https://www.oakridgegc.com' },
     ],
     neighborhoods: ['Feeding Hills'],
     photo: {
@@ -159,6 +165,8 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Westfield State University', url: 'https://www.westfield.ma.edu' },
       { name: 'Stanley Park', url: 'https://www.stanleypark.org' },
       { name: 'City of Westfield', url: 'https://www.cityofwestfield.org' },
+          { name: 'East Mountain Country Club', url: 'https://www.eastmountaincc.com' },
+      { name: 'Tekoa Country Club', url: 'https://www.tekoacountryclub.com' },
     ],
     photo: {
       base: '/towns/westfield-ma',
@@ -183,6 +191,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       'From the Ludlow Mills riverfront redevelopment to the Center Street business strip, the town has steady demand for workplace and family catering. Local anchors include:',
     venues: [
       { name: 'Town of Ludlow', url: 'https://www.ludlow.ma.us' },
+          { name: 'Gremio Lusitano Club', url: 'https://www.gremiolusitano.com' },
     ],
     photo: {
       base: '/towns/ludlow-ma',
@@ -234,6 +243,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       'Town life centers on the common and the schools, and most functions happen in halls, homes, and fields we already know how to find. The town itself is the best starting point:',
     venues: [
       { name: 'Town of Granby', url: 'https://www.granby-ma.gov' },
+          { name: 'The MacDuffie School', url: 'https://www.macduffie.org' },
     ],
     photo: {
       base: '/towns/granby-ma',
@@ -260,6 +270,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Eastworks', url: 'https://www.eastworks.com' },
       { name: 'Williston Northampton School', url: 'https://www.williston.com' },
       { name: 'City of Easthampton', url: 'https://easthamptonma.gov' },
+          { name: 'Arcadia Wildlife Sanctuary', url: 'https://www.massaudubon.org/places-to-explore/wildlife-sanctuaries/arcadia' },
     ],
     photo: {
       base: '/towns/easthampton-ma',
@@ -286,6 +297,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'Smith College', url: 'https://www.smith.edu' },
       { name: 'Look Park', url: 'https://lookpark.org' },
       { name: 'Academy of Music Theatre', url: 'https://aomtheatre.com' },
+          { name: 'Hotel Northampton', url: 'https://www.hotelnorthampton.com' },
     ],
     neighborhoods: ['Florence', 'Leeds'],
     photo: {
@@ -312,6 +324,9 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Bay Path University', url: 'https://www.baypath.edu' },
       { name: 'Town of Longmeadow', url: 'https://www.longmeadow.org' },
+          { name: 'Twin Hills Country Club', url: 'https://www.twinhillscc.com' },
+      { name: 'Longmeadow Country Club', url: 'https://www.longmeadowcountryclub.com' },
+      { name: 'Storrs Library', url: 'https://www.longmeadowlibrary.org' },
     ],
     photo: {
       base: '/towns/longmeadow-ma',
@@ -336,6 +351,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       'Workplace lunches, school functions, and family parties all sit comfortably inside our delivery range here. The town is the best local starting point:',
     venues: [
       { name: 'Town of East Longmeadow', url: 'https://www.eastlongmeadowma.gov' },
+          { name: 'East Longmeadow Public Library', url: 'https://www.elpl.org' },
     ],
     photo: {
       base: '/towns/east-longmeadow-ma',
@@ -361,6 +377,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Wilbraham & Monson Academy', url: 'https://www.wma.us' },
       { name: 'Town of Wilbraham', url: 'https://www.wilbraham-ma.gov' },
+          { name: 'Rice Fruit Farm', url: 'https://www.ricefruitfarm.com' },
     ],
     photo: {
       base: '/towns/wilbraham-ma',
@@ -385,6 +402,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       'Palmer anchors the eastern edge of our delivery range, with Baystate Wing Hospital among the larger employers in town. The town office is the best local starting point:',
     venues: [
       { name: 'Town of Palmer', url: 'https://www.townofpalmer.com' },
+          { name: 'Steaming Tender Restaurant', url: 'https://www.steamingtender.com' },
     ],
     neighborhoods: ['Three Rivers', 'Thorndike', 'Bondsville'],
     photo: {
@@ -411,6 +429,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Town of Belchertown', url: 'https://www.belchertown.org' },
       { name: 'Quabbin Reservoir', url: 'https://www.mass.gov/locations/quabbin-reservoir' },
+          { name: 'Cold Spring Country Club', url: 'https://www.coldspringcc.com' },
     ],
     photo: {
       base: '/towns/belchertown-ma',
@@ -437,6 +456,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
       { name: 'UMass Amherst', url: 'https://www.umass.edu' },
       { name: 'Amherst College', url: 'https://www.amherst.edu' },
       { name: 'Mullins Center', url: 'https://www.mullinscenter.com' },
+          { name: 'Hampshire College', url: 'https://www.hampshire.edu' },
     ],
     neighborhoods: ['North Amherst', 'South Amherst'],
     photo: {
@@ -463,6 +483,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
     venues: [
       { name: 'Town of Hampden', url: 'https://www.hampdenma.gov' },
       { name: 'Laughing Brook Wildlife Sanctuary', url: 'https://www.massaudubon.org/places-to-explore/wildlife-sanctuaries/laughing-brook' },
+          { name: 'GreatHorse', url: 'https://www.greathorse.com' },
     ],
     photo: {
       base: '/towns/hampden-ma',
