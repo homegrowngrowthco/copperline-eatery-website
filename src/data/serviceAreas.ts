@@ -661,9 +661,9 @@ export const SERVICE_AREAS: ServiceArea[] = [
     ],
     neighborhoods: ['North Amherst', 'South Amherst'],
     variant: 'b',
-    foodHeading: 'Menus That Respect a Mixed Table',
+    foodHeading: 'Menus With Real Vegetarian Options',
     foodBlurb:
-      'Amherst events always seat a few vegetarians, so we build for it: vegetable lasagna and eggplant rollatini next to roasted chicken, veggie wraps beside the cold cuts, and salads that are more than an afterthought.',
+      'College-town events always seat a few vegetarians, so we build for it: vegetable lasagna and eggplant rollatini next to roasted chicken, veggie wraps beside the cold cuts, and salads that are more than an afterthought.',
     dishes: ['Vegetable lasagna', 'Eggplant rollatini', 'Veggie wraps', 'Roasted chicken', 'Garden salad', 'Muffins, coffee & juice'],
     eventsHeading: 'Amherst Occasions',
     eventsBlurb:
