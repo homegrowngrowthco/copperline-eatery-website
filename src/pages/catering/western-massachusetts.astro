@@ -74,25 +74,21 @@ const hampshire = SERVICE_AREAS.filter((a) => a.county === 'Hampshire County');
           <h2 class="catering-events-title">Towns We Serve</h2>
           <p class="catering-events-intro">Centrally located in Chicopee, most of the valley is within a 30-minute delivery run. Pick your town for details:</p>
 
-          <div class="service-area-cols">
-            <div>
-              <h3 class="service-area-county">Hampden County</h3>
-              <ul class="service-area-list">
-                <li><a href="/catering">Catering in Chicopee, MA (home base)</a></li>
-                {hampden.map((a) => (
-                  <li><a href={`/catering/${a.slug}`}>Catering in {a.town}, MA</a></li>
-                ))}
-              </ul>
+          <div class="service-area-block">
+            <h3 class="service-area-county">Hampden County</h3>
+            <div class="town-pills">
+              <a class="town-pill town-pill--all" href="/catering">Chicopee (home base)</a>
+              {hampden.map((a) => (
+                <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
+              ))}
             </div>
-            <div>
-              <h3 class="service-area-county">Hampshire County</h3>
-              <ul class="service-area-list">
-                {hampshire.map((a) => (
-                  <li><a href={`/catering/${a.slug}`}>Catering in {a.town}, MA</a></li>
-                ))}
-              </ul>
-              <p class="service-area-more">Somewhere else in the valley, or just over the Connecticut line? <a href="tel:+14135948332">Call us</a>, if we can get it there hot, we'll work with you.</p>
+            <h3 class="service-area-county">Hampshire County</h3>
+            <div class="town-pills">
+              {hampshire.map((a) => (
+                <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
+              ))}
             </div>
+            <p class="service-area-more">Somewhere else in the valley, or just over the Connecticut line? <a href="tel:+14135948332">Call us</a>, if we can get it there hot, we'll work with you.</p>
           </div>
 
           <div class="cta-box">

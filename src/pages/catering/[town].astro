@@ -54,6 +54,13 @@ const nearby = SERVICE_AREAS.filter((a) => a.slug !== area.slug)
   .sort((x, y) => x.d - y.d)
   .slice(0, 4)
   .map((x) => x.a);
+
+const portrait = area.photo.h > area.photo.w;
+
+function andJoin(items: readonly string[]): string {
+  if (items.length <= 1) return items[0] ?? '';
+  return items.slice(0, -1).join(', ') + ' and ' + items[items.length - 1];
+}
 ---
 
 <BaseLayout
@@ -72,24 +79,57 @@ const nearby = SERVICE_AREAS.filter((a) => a.slug !== area.slug)
     <section class="page-header">
       <div class="container">
         <h1>Catering in {area.town}, MA</h1>
-        <p>Breakfast &amp; lunch catering delivered from The Copperline Eatery in Chicopee</p>
+        <p>Breakfast &amp; lunch delivered from The Copperline Eatery in Chicopee</p>
       </div>
     </section>
 
     <section class="content-section">
       <div class="container">
         <div class="catering-content">
-          <p class="lead catering-lead">The Copperline Eatery caters breakfast, lunch, and dinner for events in {area.town}, Massachusetts. Our kitchen at 409 Broadway in Chicopee is roughly a {area.driveMin}-minute drive away, so hot buffets arrive hot. Choose on-site service, drop-off, or pick up your order from the restaurant.</p>
 
-          <p class="catering-town-local">{area.local}</p>
-          {area.neighborhoods && (
-            <p class="catering-town-local">We serve all of {area.town}, including {area.neighborhoods.join(', ')}.</p>
-          )}
-
-          <div class="catering-cta-row">
-            <a href="/catering#catering-inquiry" class="btn btn-primary">Request a Catering Quote</a>
-            <a href="tel:+14135948332" class="btn btn-secondary">Call {PHONE_DISPLAY}</a>
+          <div class="town-hero">
+            <div class="town-hero-text">
+              <p class="town-intro">{area.intro}</p>
+              <div class="town-facts">
+                <div class="town-fact">
+                  <span class="town-fact-label">Drive from our kitchen</span>
+                  <span class="town-fact-value">~{area.driveMin} min</span>
+                </div>
+                <div class="town-fact">
+                  <span class="town-fact-label">Buffets from</span>
+                  <span class="town-fact-value">$13.95<span class="town-fact-unit">/person</span></span>
+                </div>
+                <div class="town-fact">
+                  <span class="town-fact-label">Service</span>
+                  <span class="town-fact-value town-fact-value--small">On-site &middot; Drop-off &middot; Pick-up</span>
+                </div>
+              </div>
+              <div class="catering-cta-row town-cta-row">
+                <a href="/catering#catering-inquiry" class="btn btn-primary">Request a Quote</a>
+                <a href="tel:+14135948332" class="btn btn-secondary">Call {PHONE_DISPLAY}</a>
+              </div>
+            </div>
+            <figure class={`town-photo${portrait ? ' town-photo--portrait' : ''}`}>
+              <picture>
+                <source srcset={`${area.photo.base}.webp`} type="image/webp" />
+                <img src={`${area.photo.base}.jpg`} alt={area.photo.alt} width={area.photo.w} height={area.photo.h} loading="eager" />
+              </picture>
+              <figcaption class="town-photo-credit">
+                Photo: <a href={area.photo.creditUrl} target="_blank" rel="noopener">{area.photo.creditArtist}</a>, {area.photo.creditLicense}, via Wikimedia Commons
+              </figcaption>
+            </figure>
           </div>
+
+          <h2 class="catering-events-title">Around {area.town}</h2>
+          <p class="town-around">{area.aroundTown}</p>
+          <ul class="town-venues">
+            {area.venues.map((v) => (
+              <li><a href={v.url} target="_blank" rel="noopener">{v.name}</a></li>
+            ))}
+          </ul>
+          {area.neighborhoods && (
+            <p class="town-around">We serve all of {area.town}, including {andJoin(area.neighborhoods)}.</p>
+          )}
 
           <h2 class="catering-events-title">Packages &amp; Pricing</h2>
           <CateringPackages />
@@ -131,9 +171,15 @@ const nearby = SERVICE_AREAS.filter((a) => a.slug !== area.slug)
             <p class="cta-box-note">Family-owned in Chicopee since 1993 &middot; Voted Best Breakfast in Western Massachusetts</p>
           </div>
 
-          <p class="catering-nearby">Also catering nearby: {nearby.map((n, i) => (
-            <>{i > 0 && ' · '}<a href={`/catering/${n.slug}`}>{n.town}</a></>
-          ))} &nbsp;&middot;&nbsp; <a href="/catering">All service areas</a></p>
+          <div class="town-nearby">
+            <span class="town-nearby-label">Also catering nearby:</span>
+            <div class="town-pills">
+              {nearby.map((n) => (
+                <a class="town-pill" href={`/catering/${n.slug}`}>{n.town}</a>
+              ))}
+              <a class="town-pill town-pill--all" href="/catering">All service areas</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
