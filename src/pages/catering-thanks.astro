@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PHONE_DISPLAY, SITE_URL } from '../data/restaurant';
+
+// Netlify Forms success page for the catering inquiry. Noindex + excluded
+// from the sitemap (see astro.config.mjs).
+---
+
+<BaseLayout
+  title="Thanks - We Got Your Catering Inquiry | The Copperline Eatery"
+  description="Your catering inquiry was sent to The Copperline Eatery. We'll get back to you within one business day."
+  canonical={`${SITE_URL}/catering-thanks`}
+  noindex={true}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Thanks! We Got Your Inquiry</h1>
+        <p>We'll get back to you within one business day.</p>
+      </div>
+    </section>
+    <section class="content-section">
+      <div class="container">
+        <div class="catering-content">
+          <p class="lead catering-lead">Need an answer sooner? Call us at <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a> during business hours (Mon-Fri 6am-2pm, Sat 6am-1:30pm, Sun 6:30am-1pm) and we'll talk through your event on the spot.</p>
+          <div class="catering-cta-row">
+            <a href="/menu#catering" class="btn btn-secondary">Browse the Catering Menu</a>
+            <a href="/" class="btn btn-secondary">Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

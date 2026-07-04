@@ -8,6 +8,10 @@
 
 ## Recent Updates (2026-07-03)
 
+### Session 20 — Catering growth build (DEPLOYED with this commit)
+
+Executes the Session 19 audit's ship-now items: /catering rebuilt as a real landing page (pricing HTML from menuData, catering FAQPage schema, photo, Netlify inquiry form → /catering-thanks + GA4 event), 17 town catering pages + a Western Massachusetts region hub from a new `serviceAreas.ts` registry, /menu#catering hash-tab bug fixed, homepage brunch title/H1 + lunch section, llms.txt + AI-crawler robots allows, FAQ $13.95 price fix + link underlines, reviewCount 1130 (Google exact 1,106 via Places API). 27 pages build (was 9); sitemap 24 URLs; IndexNow list extended. **Post-deploy actions: Netlify → Forms (verify `catering-inquiry` detected + add email notification) and GSC Request Indexing for the new pages.** Details in CLAUDE.md Session 20; backlink actions staged in [BACKLINK-OUTREACH.md](BACKLINK-OUTREACH.md).
+
 ### Session 19 — Growth audit (SEO + GEO + local pack + off-site), analysis-only
 
 Full report: [AUDIT-GROWTH-2026-07-03.md](AUDIT-GROWTH-2026-07-03.md) — prioritized ship-now / needs-Ian / needs-Dad findings with baseline metrics (Lighthouse + GSC 90d + DataForSEO local-pack positions) for post-fix comparison. Headline: catering is the gap (invisible for "catering chicopee ma" while organic #1 for "breakfast catering near me"; /catering page is a brochure with pricing locked in PDFs), GBP category is the walk-in lever (absent from "breakfast near me" pack despite organic #1), and http→https citation updates remain the branded-consolidation accelerant. No code changed.

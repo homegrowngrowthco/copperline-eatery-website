@@ -73,10 +73,12 @@ export const AWARDS = [
   'Best French Toast Western Massachusetts - WWLP 22News',
 ] as const;
 
+// Google 1,106 (checked 2026-07-03 via Places API) + TripAdvisor ~24, weighted.
+// Re-check quarterly; the count drifts.
 export const AGGREGATE_RATING = {
   '@type': 'AggregateRating',
   ratingValue: '4.5',
   bestRating: '5',
   worstRating: '1',
-  reviewCount: 1119,
+  reviewCount: 1130,
 } as const;

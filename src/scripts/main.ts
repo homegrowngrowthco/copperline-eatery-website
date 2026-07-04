@@ -42,6 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initReviewsCarousel();
   initVideoFacade();
 
+  // GA4 conversion event for the catering inquiry form (fires on submit,
+  // before the POST navigates to /catering-thanks).
+  const cateringForm = document.querySelector<HTMLFormElement>('form[name="catering-inquiry"]');
+  cateringForm?.addEventListener('submit', () => {
+    if (typeof gtag === 'function') {
+      gtag('event', 'catering_inquiry_submit');
+    }
+  });
+
   if (document.querySelector('.menu-tab')) {
     initMenuTabs();
 
@@ -52,9 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    if (window.location.hash === '#specials') {
-      const specialsTab = document.querySelector<HTMLElement>('.menu-tab[data-tab="specials"]');
-      specialsTab?.click();
+    // Activate the tab named by the URL hash on initial load (e.g. /menu#catering
+    // from the Catering page or /menu#lunch from the homepage lunch section).
+    const initialHash = window.location.hash.substring(1);
+    if (initialHash) {
+      const hashTab = document.querySelector<HTMLElement>(`.menu-tab[data-tab="${initialHash}"]`);
+      hashTab?.click();
     }
 
     window.addEventListener('hashchange', () => {

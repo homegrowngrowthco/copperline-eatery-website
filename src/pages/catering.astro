@@ -1,15 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { ADDRESS, AREA_SERVED, EMAIL, PHONE, SITE_URL } from '../data/restaurant';
+import CateringPackages from '../components/CateringPackages.astro';
+import { ADDRESS, AREA_SERVED, EMAIL, PHONE, PHONE_DISPLAY, SITE_URL } from '../data/restaurant';
+import { SERVICE_AREAS } from '../data/serviceAreas';
 
-const title = 'Catering Services - Western MA Breakfast, Lunch & Dinner Catering | The Copperline Eatery';
-const description = 'Professional catering in Chicopee, Springfield, Holyoke & Western MA. Breakfast, lunch, dinner catering for corporate events, weddings, parties. On-site, drop-off, pick-up available. Call (413) 594-8332';
+const title = 'Catering in Chicopee, MA - Breakfast & Lunch Catering for Western Massachusetts | The Copperline Eatery';
+const description = 'Breakfast, lunch & dinner catering from Chicopee, MA serving Springfield, Holyoke & all of Western Massachusetts. Buffet packages from $13.95 per person. Corporate events, weddings, parties. On-site, drop-off, or pick-up. Call (413) 594-8332 or send an inquiry online.';
 
 const cateringSchema = {
   '@context': 'https://schema.org',
   '@type': 'FoodEstablishment',
   name: 'The Copperline Eatery',
-  description: 'Professional catering services for Western Massachusetts - breakfast, lunch, and dinner catering for corporate events, weddings, parties, and special occasions',
+  url: `${SITE_URL}/catering`,
+  image: `${SITE_URL}/catering-breakfast.jpg`,
+  description:
+    'Professional catering services for Western Massachusetts - breakfast, lunch, and dinner catering for corporate events, weddings, parties, and special occasions. Buffet packages from $13.95 per person.',
   servesCuisine: ['American', 'Breakfast', 'Lunch', 'Dinner'],
   address: ADDRESS,
   telephone: PHONE,
@@ -18,12 +23,27 @@ const cateringSchema = {
   areaServed: AREA_SERVED,
   hasMenu: {
     '@type': 'Menu',
+    url: `${SITE_URL}/menu`,
     hasMenuSection: [
-      { '@type': 'MenuSection', name: 'Breakfast Catering' },
-      { '@type': 'MenuSection', name: 'Lunch Catering' },
-      { '@type': 'MenuSection', name: 'Dinner Catering' },
+      { '@type': 'MenuSection', name: 'Buffet Packages', description: 'Five buffet packages served buffet-style, $13.95 to $15.95 per person.' },
+      { '@type': 'MenuSection', name: 'Hot Item Buffet', description: 'Hot buffet from $15.95 per person, 40-person minimum. Includes garden salad, potato, vegetable, rolls and butter, dessert, and paper products.' },
+      { '@type': 'MenuSection', name: 'Specialty Buffets', description: 'Choice Buffet #1 ($14.95/person), Choice Buffet #2 ($17.95/person), and Italian Buffet ($17.95/person). Includes garden salad, rolls and butter, and paper products.' },
     ],
   },
+};
+
+// The catering FAQs, mirrored from /faq so this page carries its own FAQPage
+// rich-result eligibility for catering queries.
+const cateringFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'How much does catering from The Copperline Eatery cost?', acceptedAnswer: { '@type': 'Answer', text: 'Buffet Packages run $13.95 to $15.95 per person. The Hot Item Buffet starts at $15.95 per person with a 40-person minimum. Specialty Buffets include Choice Buffet #1 at $14.95 per person, and Choice Buffet #2 and the Italian Buffet at $17.95 per person. Prices do not include 7% Massachusetts meal tax and 15% service fee.' } },
+    { '@type': 'Question', name: 'What areas does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'We cater across Western Massachusetts from our Chicopee kitchen, including Springfield, Holyoke, West Springfield, Agawam, Westfield, Ludlow, South Hadley, Longmeadow, East Longmeadow, Wilbraham, Northampton, Amherst, and the surrounding Hampden and Hampshire County towns.' } },
+    { '@type': 'Question', name: 'What service options are available?', acceptedAnswer: { '@type': 'Answer', text: 'On-site service, drop-off, or pick-up at our restaurant at 409 Broadway, Chicopee. We serve buffet style, to-go buffet style, or individual portions, and we can build a custom menu for your event.' } },
+    { '@type': 'Question', name: 'How far in advance should I book catering?', acceptedAnswer: { '@type': 'Answer', text: 'For most events we recommend booking at least one to two weeks in advance. Larger events, weekend dates, and Hot Item Buffets (which require a 40-person minimum) should be booked three to four weeks ahead when possible. Call (413) 594-8332 to check availability.' } },
+    { '@type': 'Question', name: 'What types of events does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'Corporate meetings and office lunches, weddings and rehearsal dinners, bridal and baby showers, graduations, birthdays, family reunions, holiday parties, church socials, school functions, banquets, fundraisers, sporting events and tailgates, memorial services, film and photo shoots, and healthcare facilities.' } },
+  ],
 };
 
 const breadcrumb = {
@@ -34,36 +54,50 @@ const breadcrumb = {
     { '@type': 'ListItem', position: 2, name: 'Catering', item: `${SITE_URL}/catering` },
   ],
 };
+
+const hampden = SERVICE_AREAS.filter((a) => a.county === 'Hampden County');
+const hampshire = SERVICE_AREAS.filter((a) => a.county === 'Hampshire County');
 ---
 
 <BaseLayout
   title={title}
   description={description}
   canonical={`${SITE_URL}/catering`}
-  ogTitle="Catering Services - Western MA Breakfast, Lunch & Dinner Catering | The Copperline Eatery"
-  ogDescription="Professional catering in Chicopee, Springfield, Holyoke & Western MA. Breakfast, lunch, dinner catering for corporate events, weddings, and parties. Call (413) 594-8332."
-  ogImageAlt="The Copperline Eatery - Catering Services Western MA"
-  twitterTitle="Catering Services - Western MA | The Copperline Eatery"
-  twitterDescription="Professional catering in Chicopee, Springfield, Holyoke & Western MA. Corporate events, weddings, and parties. Call (413) 594-8332."
-  schema={[cateringSchema, breadcrumb]}
+  ogTitle="Catering in Chicopee, MA - Breakfast & Lunch Catering for Western Massachusetts"
+  ogDescription="Buffet packages from $13.95/person. Corporate events, weddings, parties across Springfield, Holyoke & Western MA. On-site, drop-off, or pick-up. Call (413) 594-8332."
+  ogImage={`${SITE_URL}/catering-breakfast.jpg`}
+  ogImageAlt="Breakfast catering from The Copperline Eatery - eggs, bacon, and toast"
+  twitterTitle="Catering in Chicopee, MA | The Copperline Eatery"
+  twitterDescription="Breakfast & lunch catering across Western MA. Buffet packages from $13.95/person. Call (413) 594-8332."
+  schema={[cateringSchema, cateringFaqSchema, breadcrumb]}
 >
   <main>
     <section class="page-header">
       <div class="container">
-        <h1>Catering Services</h1>
-        <p>Western MA's Premier Catering Service</p>
+        <h1>Catering in Chicopee, MA &amp; Western Massachusetts</h1>
+        <p>Breakfast, lunch &amp; dinner catering from the team voted Best Breakfast in Western Mass</p>
       </div>
     </section>
 
     <section class="content-section">
       <div class="container">
         <div class="catering-content">
-          <p class="lead catering-lead">Whether you're planning a corporate event, family gathering, or special celebration, Copperline Eatery is willing to work with you to create a catering menu that your party will enjoy.</p>
+          <p class="lead catering-lead">The Copperline Eatery caters breakfast, lunch, and dinner across Chicopee, Springfield, Holyoke, and all of Western Massachusetts, with buffet packages starting at $13.95 per person. Whether you're planning a corporate event, family gathering, or special celebration, we'll work with you to create a catering menu your party will enjoy, served on-site, dropped off hot, or ready for pick-up at our Chicopee restaurant.</p>
+
+          <div class="catering-hero-media">
+            <picture>
+              <source srcset="/catering-breakfast.webp" type="image/webp" />
+              <img src="/catering-breakfast.jpg" alt="Sunny-side-up eggs with crispy bacon and toast from The Copperline Eatery" width="1200" height="803" loading="eager" />
+            </picture>
+          </div>
 
           <div class="catering-cta-row">
-            <a href="/catering-menu.pdf" download class="btn btn-primary">Download Catering Menu</a>
-            <a href="/catering-order-form.pdf" download class="btn btn-secondary">Download Catering Order Form</a>
+            <a href="#catering-inquiry" class="btn btn-primary">Request a Catering Quote</a>
+            <a href="/catering-menu.pdf" download class="btn btn-secondary">Download Catering Menu</a>
           </div>
+
+          <h2 class="catering-events-title">Packages &amp; Pricing</h2>
+          <CateringPackages />
 
           <div class="catering-options">
             <div class="catering-option-card">
@@ -136,9 +170,91 @@ const breadcrumb = {
             </div>
           </div>
 
+          <div id="catering-inquiry" class="catering-form-block">
+            <h2>Request a Catering Quote</h2>
+            <p>Tell us about your event and we'll get back to you, usually within one business day. Prefer to talk it through? Call <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a>.</p>
+            <form name="catering-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/catering-thanks" class="catering-form">
+              <input type="hidden" name="form-name" value="catering-inquiry" />
+              <p class="hidden-field" aria-hidden="true">
+                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+              </p>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="ci-name">Your name *</label>
+                  <input id="ci-name" name="name" type="text" required autocomplete="name" />
+                </div>
+                <div class="form-field">
+                  <label for="ci-phone">Phone *</label>
+                  <input id="ci-phone" name="phone" type="tel" required autocomplete="tel" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="ci-email">Email</label>
+                  <input id="ci-email" name="email" type="email" autocomplete="email" />
+                </div>
+                <div class="form-field">
+                  <label for="ci-date">Event date</label>
+                  <input id="ci-date" name="event-date" type="date" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="ci-guests">Approximate guest count</label>
+                  <input id="ci-guests" name="guest-count" type="number" min="1" inputmode="numeric" />
+                </div>
+                <div class="form-field">
+                  <label for="ci-type">Event type</label>
+                  <select id="ci-type" name="event-type">
+                    <option value="">Choose one (optional)</option>
+                    <option>Corporate / office</option>
+                    <option>Wedding / rehearsal</option>
+                    <option>Shower / graduation / birthday</option>
+                    <option>Holiday party</option>
+                    <option>Memorial service</option>
+                    <option>Church / school / community</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="ci-town">Event town/city</label>
+                <input id="ci-town" name="event-town" type="text" placeholder="e.g. Springfield, MA" />
+              </div>
+              <div class="form-field">
+                <label for="ci-notes">Tell us about your event</label>
+                <textarea id="ci-notes" name="notes" rows="4" placeholder="Breakfast or lunch? On-site, drop-off, or pick-up? Anything else we should know?"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary catering-form-submit">Send Inquiry</button>
+            </form>
+          </div>
+
+          <h2 class="catering-events-title">Where We Cater</h2>
+          <p class="catering-events-intro">Based at 409 Broadway in Chicopee, home of Westover Air Reserve Base, we cater throughout the Pioneer Valley. Pick your town for delivery details:</p>
+
+          <div class="service-area-cols">
+            <div>
+              <h3 class="service-area-county">Hampden County</h3>
+              <ul class="service-area-list">
+                {hampden.map((a) => (
+                  <li><a href={`/catering/${a.slug}`}>Catering in {a.town}, MA</a></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 class="service-area-county">Hampshire County</h3>
+              <ul class="service-area-list">
+                {hampshire.map((a) => (
+                  <li><a href={`/catering/${a.slug}`}>Catering in {a.town}, MA</a></li>
+                ))}
+              </ul>
+              <p class="service-area-more"><a href="/catering/western-massachusetts">All of Western Massachusetts &rarr;</a></p>
+            </div>
+          </div>
+
           <div class="cta-box">
             <h3>Ready to Cater Your Event?</h3>
-            <p>Call us at <a href="tel:+14135948332" class="highlight-link">(413) 594-8332</a></p>
+            <p>Call us at <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a></p>
             <p>Email us at <a href={`mailto:${EMAIL}`} class="highlight-link">{EMAIL}</a></p>
             <p class="cta-box-note">Serving Chicopee, Springfield, Holyoke, and all of Western Massachusetts</p>
           </div>

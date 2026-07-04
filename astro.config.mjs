@@ -17,7 +17,9 @@ export default defineConfig({
         !page.endsWith('/404') &&
         !page.endsWith('/404/') &&
         !page.endsWith('/submit-specials') &&
-        !page.endsWith('/submit-specials/'),
+        !page.endsWith('/submit-specials/') &&
+        !page.endsWith('/catering-thanks') &&
+        !page.endsWith('/catering-thanks/'),
     }),
   ],
 });

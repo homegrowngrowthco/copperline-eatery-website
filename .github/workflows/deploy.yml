@@ -47,7 +47,25 @@ jobs:
                 "https://copperlineeatery.com/catering",
                 "https://copperlineeatery.com/contact",
                 "https://copperlineeatery.com/about",
-                "https://copperlineeatery.com/faq"
+                "https://copperlineeatery.com/faq",
+                "https://copperlineeatery.com/catering/western-massachusetts",
+                "https://copperlineeatery.com/catering/springfield-ma",
+                "https://copperlineeatery.com/catering/holyoke-ma",
+                "https://copperlineeatery.com/catering/west-springfield-ma",
+                "https://copperlineeatery.com/catering/agawam-ma",
+                "https://copperlineeatery.com/catering/westfield-ma",
+                "https://copperlineeatery.com/catering/ludlow-ma",
+                "https://copperlineeatery.com/catering/south-hadley-ma",
+                "https://copperlineeatery.com/catering/granby-ma",
+                "https://copperlineeatery.com/catering/easthampton-ma",
+                "https://copperlineeatery.com/catering/northampton-ma",
+                "https://copperlineeatery.com/catering/longmeadow-ma",
+                "https://copperlineeatery.com/catering/east-longmeadow-ma",
+                "https://copperlineeatery.com/catering/wilbraham-ma",
+                "https://copperlineeatery.com/catering/palmer-ma",
+                "https://copperlineeatery.com/catering/belchertown-ma",
+                "https://copperlineeatery.com/catering/amherst-ma",
+                "https://copperlineeatery.com/catering/hampden-ma"
               ]
             }')
           echo "IndexNow response: $STATUS"

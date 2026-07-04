@@ -110,6 +110,26 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 20 — 2026-07-03 (same day as the Session 19 audit; executes its ship-now items per Ian's answers)
+**Catering growth build: /catering rebuilt as a real landing page + 18 service-area pages + Netlify inquiry form + brunch/lunch tuning + GEO hardening. 27 pages now build (was 9).**
+
+**Ian's scope answers:** no reservations (audit item I1 dropped); maximize geo coverage; no ezCater; use review images where possible (see photo note below); add backlinks where possible.
+
+- **/menu#catering tab bug fixed ([main.ts](src/scripts/main.ts)):** initial-load hash handling only recognized `#specials`, so anyone landing on `/menu#catering` (or `#lunch`) saw the Breakfast tab. Generalized to activate any tab named by the hash. Playwright-verified: `/menu#catering` activates the Catering tab with all 3 sections rendered.
+- **/catering rebuilt ([catering.astro](src/pages/catering.astro)):** packages + per-person pricing as HTML via new [CateringPackages.astro](src/components/CateringPackages.astro) (renders from `menuData.json` so prices can't drift from /menu or the PDFs); catering-specific FAQPage JSON-LD (incl. a pricing Q&A); photo (`public/catering-breakfast.{jpg,webp}` — the one owner-authored photo on the Google listing, fetched via Places API, resized via sharp); **Netlify Forms inquiry form** (`catering-inquiry`: name/phone/email/date/guests/type/town/notes, honeypot, posts to new noindex [catering-thanks.astro](src/pages/catering-thanks.astro), GA4 `catering_inquiry_submit` event in main.ts). CSP already had `form-action 'self'`. **Post-deploy: verify the form appears under Netlify → Forms and add an email notification** (forms without notifications silently pool in the dashboard).
+- **18 service-area pages:** new [serviceAreas.ts](src/data/serviceAreas.ts) registry (17 towns: Springfield, Holyoke, West Springfield, Agawam, Westfield, Ludlow, South Hadley, Granby, Easthampton, Northampton, Longmeadow, East Longmeadow, Wilbraham, Palmer, Belchertown, Amherst, Hampden — each with reviewed drive-time + true local context + neighborhoods) → dynamic [catering/[town].astro](src/pages/catering/[town].astro) + a [western-massachusetts](src/pages/catering/western-massachusetts.astro) region hub. Each page: unique intro/local copy, shared packages block, FoodEstablishment schema with per-town `areaServed`, breadcrumbs, closest-4 nearby cross-links. Hub links on /catering. Facts kept to offer-framing + geography; no invented past-event claims. Chicopee itself deliberately has no town page (/catering is the Chicopee page).
+- **Brunch/lunch tuning ([index.astro](src/pages/index.astro)):** title/H1 now "Best Breakfast, Brunch & Lunch…" + "Walk-ins welcome" (targets the zero-CTR pos-6.7 "best brunch spots near me" from the audit); new lunch section (Reuben/grinders/soups, all menu-verified) linking /menu#lunch.
+- **GEO:** [public/llms.txt](public/llms.txt) (facts + catering pricing + page index) + explicit AI-crawler allows in [robots.txt](public/robots.txt) (GPTBot/ClaudeBot/PerplexityBot/OAI-SearchBot/Google-Extended/Applebot-Extended/CCBot).
+- **Data fixes:** FAQ buffet price corrected $12.95→$13.95 (menuData is source of truth); `AGGREGATE_RATING.reviewCount` 1119→1130 (Google exact 1,106 via Places API 2026-07-03 + TA ~24; re-check quarterly); FAQ in-text links underlined (closes the Session-19 a11y 96 on /faq).
+- **Infra:** sitemap auto-includes the 18 new pages (24 URLs; catering-thanks excluded in astro.config); deploy.yml IndexNow list extended to all 24.
+- **Photo rights note:** Ian asked for review photos; customer Google-review photos are the reviewers' copyright, so only the owner-authored listing photo was used. FB page photos are login-walled at usable resolution. The unblock is Dad exporting from FB Page admin / GBP dashboard (TODO @high).
+- **GBP finding:** Places API shows `primaryTypeDisplayName: "Breakfast Restaurant"` — the long-standing (DAD) category task was already done; checked off in ../TODO.md. The "breakfast near me" pack absence is therefore proximity/engagement, not category — remaining GBP levers are photos, catering services section, posts, reviews.
+- **[BACKLINK-OUTREACH.md](BACKLINK-OUTREACH.md):** staged Tier 1-3 citation/backlink actions (Macaroni KID pitch, Nextdoor claim, Bing Places, Apple Business Connect, venue preferred-caterer email template) — all need a human sender.
+
+**QA:** `npm run build` clean (27 pages), `npx tsc --noEmit` clean, JSON-LD parses on all new pages, sitemap 24 URLs, no new em/en dashes, form attrs verified in dist, Playwright at 390px + 1280px (no overflow; form, packages, service-area lists, lunch section all render), /menu#catering tab activation verified.
+
+**Revert:** `git revert <this commit>` (single commit). New pages/data/CSS are additive; the catering.astro rewrite is the only replaced surface, restored by the revert.
+
 ### Session 19 — 2026-07-03
 **Full growth audit (SEO + GEO + local pack + off-site), analysis-only — report at [AUDIT-GROWTH-2026-07-03.md](AUDIT-GROWTH-2026-07-03.md). No code/content changes.**
 

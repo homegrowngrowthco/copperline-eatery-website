@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CateringPackages from '../../components/CateringPackages.astro';
+import { ADDRESS, AREA_SERVED, EMAIL, PHONE, PHONE_DISPLAY, SITE_URL } from '../../data/restaurant';
+import { SERVICE_AREAS } from '../../data/serviceAreas';
+
+const pageUrl = `${SITE_URL}/catering/western-massachusetts`;
+const title = 'Western Massachusetts Catering - Breakfast & Lunch for the Pioneer Valley | The Copperline Eatery';
+const description = 'Catering across Western Massachusetts: Hampden County, Hampshire County & the Pioneer Valley. Breakfast, lunch & dinner buffets from $13.95 per person, delivered from Chicopee. Corporate events, weddings, parties. Call (413) 594-8332.';
+
+const cateringSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FoodEstablishment',
+  name: 'The Copperline Eatery',
+  url: pageUrl,
+  image: `${SITE_URL}/catering-breakfast.jpg`,
+  description:
+    'Breakfast, lunch, and dinner catering across Western Massachusetts, including Hampden County, Hampshire County, and the Pioneer Valley. Buffet packages from $13.95 per person, delivered from Chicopee.',
+  servesCuisine: ['American', 'Breakfast', 'Lunch', 'Dinner'],
+  address: ADDRESS,
+  telephone: PHONE,
+  email: EMAIL,
+  priceRange: '$$',
+  areaServed: AREA_SERVED,
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}` },
+    { '@type': 'ListItem', position: 2, name: 'Catering', item: `${SITE_URL}/catering` },
+    { '@type': 'ListItem', position: 3, name: 'Western Massachusetts', item: pageUrl },
+  ],
+};
+
+const hampden = SERVICE_AREAS.filter((a) => a.county === 'Hampden County');
+const hampshire = SERVICE_AREAS.filter((a) => a.county === 'Hampshire County');
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={pageUrl}
+  ogTitle="Western Massachusetts Catering | The Copperline Eatery"
+  ogDescription="Breakfast, lunch & dinner catering across the Pioneer Valley from $13.95/person, delivered from Chicopee. Call (413) 594-8332."
+  ogImage={`${SITE_URL}/catering-breakfast.jpg`}
+  ogImageAlt="Breakfast catering from The Copperline Eatery - eggs, bacon, and toast"
+  twitterTitle="Western Massachusetts Catering | The Copperline Eatery"
+  twitterDescription="Breakfast & lunch catering across the Pioneer Valley from $13.95/person. Call (413) 594-8332."
+  schema={[cateringSchema, breadcrumb]}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Western Massachusetts Catering</h1>
+        <p>Serving Hampden County, Hampshire County &amp; the Pioneer Valley from Chicopee</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="catering-content">
+          <p class="lead catering-lead">From our kitchen at 409 Broadway in Chicopee, The Copperline Eatery caters breakfast, lunch, and dinner across Western Massachusetts. We've been family-owned since 1993, were voted Best Breakfast in Western Massachusetts by MassLive readers, and bring that same scratch-made cooking to corporate events, weddings, showers, fundraisers, and family celebrations throughout Hampden County, Hampshire County, and the Pioneer Valley.</p>
+
+          <div class="catering-cta-row">
+            <a href="/catering#catering-inquiry" class="btn btn-primary">Request a Catering Quote</a>
+            <a href="tel:+14135948332" class="btn btn-secondary">Call {PHONE_DISPLAY}</a>
+          </div>
+
+          <h2 class="catering-events-title">Packages &amp; Pricing</h2>
+          <CateringPackages />
+
+          <h2 class="catering-events-title">Towns We Serve</h2>
+          <p class="catering-events-intro">Centrally located in Chicopee, most of the valley is within a 30-minute delivery run. Pick your town for details:</p>
+
+          <div class="service-area-cols">
+            <div>
+              <h3 class="service-area-county">Hampden County</h3>
+              <ul class="service-area-list">
+                <li><a href="/catering">Catering in Chicopee, MA (home base)</a></li>
+                {hampden.map((a) => (
+                  <li><a href={`/catering/${a.slug}`}>Catering in {a.town}, MA</a></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 class="service-area-county">Hampshire County</h3>
+              <ul class="service-area-list">
+                {hampshire.map((a) => (
+                  <li><a href={`/catering/${a.slug}`}>Catering in {a.town}, MA</a></li>
+                ))}
+              </ul>
+              <p class="service-area-more">Somewhere else in the valley, or just over the Connecticut line? <a href="tel:+14135948332">Call us</a>, if we can get it there hot, we'll work with you.</p>
+            </div>
+          </div>
+
+          <div class="cta-box">
+            <h3>Ready to Cater Your Event?</h3>
+            <p>Call us at <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a> or <a href="/catering#catering-inquiry" class="highlight-link">send a catering inquiry</a>.</p>
+            <p class="cta-box-note">Buffet packages from $13.95 per person &middot; On-site, drop-off, or pick-up</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
