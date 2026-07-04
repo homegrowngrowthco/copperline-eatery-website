@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import CateringPackages from '../../components/CateringPackages.astro';
+import CateringMenus from '../../components/CateringMenus.astro';
 import { ADDRESS, EMAIL, PHONE, PHONE_DISPLAY, SITE_URL } from '../../data/restaurant';
 import { SERVICE_AREAS, type ServiceArea } from '../../data/serviceAreas';
 
@@ -15,8 +15,8 @@ interface Props {
 const { area } = Astro.props;
 const pageUrl = `${SITE_URL}/catering/${area.slug}`;
 
-const title = `Catering in ${area.town}, MA - Breakfast & Lunch Delivered | The Copperline Eatery`;
-const description = `Breakfast, lunch & dinner catering delivered to ${area.town}, MA from The Copperline Eatery in Chicopee, about ${area.driveMin} minutes away. Buffet packages from $13.95 per person. Corporate events, showers, graduations, parties. Call (413) 594-8332.`;
+const title = `Catering in ${area.town}, MA | The Copperline Eatery`;
+const description = `Breakfast, lunch & dinner catering delivered to ${area.town}, MA from The Copperline Eatery in Chicopee, about ${area.driveMin} minutes away. Custom menus for corporate events, showers, graduations, and parties. Call (413) 594-8332.`;
 
 const areaServed = [
   { '@type': 'City', name: area.town },
@@ -29,7 +29,7 @@ const cateringSchema = {
   name: 'The Copperline Eatery',
   url: pageUrl,
   image: `${SITE_URL}/catering-breakfast.jpg`,
-  description: `Breakfast, lunch, and dinner catering delivered to ${area.town}, Massachusetts from The Copperline Eatery in Chicopee. Buffet packages from $13.95 per person.`,
+  description: `Breakfast, lunch, and dinner catering delivered to ${area.town}, Massachusetts from The Copperline Eatery in Chicopee, with a custom menu built for every event.`,
   servesCuisine: ['American', 'Breakfast', 'Lunch', 'Dinner'],
   address: ADDRESS,
   telephone: PHONE,
@@ -68,11 +68,11 @@ function andJoin(items: readonly string[]): string {
   description={description}
   canonical={pageUrl}
   ogTitle={`Catering in ${area.town}, MA | The Copperline Eatery`}
-  ogDescription={`Breakfast & lunch catering delivered to ${area.town} from Chicopee, about ${area.driveMin} minutes away. Buffet packages from $13.95/person. Call (413) 594-8332.`}
+  ogDescription={`Breakfast & lunch catering delivered to ${area.town} from Chicopee, about ${area.driveMin} minutes away. Custom menus for every event. Call (413) 594-8332.`}
   ogImage={`${SITE_URL}/catering-breakfast.jpg`}
   ogImageAlt="Breakfast catering from The Copperline Eatery - eggs, bacon, and toast"
   twitterTitle={`Catering in ${area.town}, MA | The Copperline Eatery`}
-  twitterDescription={`Breakfast & lunch catering delivered to ${area.town}, MA. Buffet packages from $13.95/person. Call (413) 594-8332.`}
+  twitterDescription={`Breakfast & lunch catering delivered to ${area.town}, MA. Custom menus for every event. Call (413) 594-8332.`}
   schema={[cateringSchema, breadcrumb]}
 >
   <main>
@@ -96,8 +96,8 @@ function andJoin(items: readonly string[]): string {
                   <span class="town-fact-value">~{area.driveMin} min</span>
                 </div>
                 <div class="town-fact">
-                  <span class="town-fact-label">Buffets from</span>
-                  <span class="town-fact-value">$13.95<span class="town-fact-unit">/person</span></span>
+                  <span class="town-fact-label">Google rating</span>
+                  <span class="town-fact-value">4.5&#9733;<span class="town-fact-unit"> 1,100+ reviews</span></span>
                 </div>
                 <div class="town-fact">
                   <span class="town-fact-label">Service</span>
@@ -131,8 +131,8 @@ function andJoin(items: readonly string[]): string {
             <p class="town-around">We serve all of {area.town}, including {andJoin(area.neighborhoods)}.</p>
           )}
 
-          <h2 class="catering-events-title">Packages &amp; Pricing</h2>
-          <CateringPackages />
+          <h2 class="catering-events-title">What We Cater</h2>
+          <CateringMenus />
 
           <h2 class="catering-events-title">Events We Cater in {area.town}</h2>
           <div class="catering-options">

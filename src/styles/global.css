@@ -1254,6 +1254,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Menu page: catering quote CTA */
 .menu-quote-cta { margin: 0 0 22px; }
 
+/* Catering: menus note + how-it-works steps */
+.catering-menus-note { max-width: 800px; margin: 18px auto 10px; color: var(--gray); }
+.catering-menus-note a { text-decoration: underline; }
+.how-it-works { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 25px 0 10px; align-items: start; }
+.how-step { background: var(--white); padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); border-top: 4px solid var(--red); }
+.how-step-num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: var(--green-dark); color: var(--white); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; }
+.how-step h3 { font-size: 1.1rem; color: var(--green-dark); margin-bottom: 8px; }
+.how-step p { font-size: 0.95rem; color: var(--gray); }
+.how-step p a { text-decoration: underline; }
+
+@media (max-width: 760px) {
+    .how-it-works { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 760px) {
     .town-hero { grid-template-columns: 1fr; gap: 20px; }
     .town-photo { order: -1; }

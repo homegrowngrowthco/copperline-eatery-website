@@ -3,7 +3,7 @@ import { DOORDASH_URL, MAPS_DIRECTIONS_URL, PHONE, EMAIL } from '../data/restaur
 
 // Strip .html (build-time URL) and trailing slash so /menu.html, /menu/, /menu all match.
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
-const isActive = (href: string) => href === path;
+const isActive = (href: string) => href === path || (href !== '/' && path.startsWith(href + '/'));
 ---
 
 <header class="main-header">
