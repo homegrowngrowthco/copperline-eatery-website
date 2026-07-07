@@ -590,7 +590,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     margin: 0;
     line-height: 1.7;
 }
-.faq-item a { color: var(--red); font-weight: 700; }
+.faq-item a { color: var(--red); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 .faq-see-all {
     text-align: center;
     margin-top: 24px;
@@ -1082,7 +1082,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .faq-a ul { margin: 8px 0 10px 22px; padding: 0; }
 .faq-a ul li { padding: 2px 0; line-height: 1.55; }
 .faq-a strong { color: var(--green-dark); }
-.faq-a a { color: var(--red); font-weight: 600; }
+.faq-a a { color: var(--red); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .faq-a a:hover { color: var(--red-dark); }
 
 .faq-cta {

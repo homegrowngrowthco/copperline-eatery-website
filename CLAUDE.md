@@ -110,6 +110,17 @@ This project survived the **2026-05-04** complete machine wipe.
 - Verify GA4 firing on the live site.
 
 ## Session Log
+### Session 25 — 2026-07-07 — SEO audit + fix wave (meta trims, webp re-encode, FAQ a11y, footer link, /seo-audit command)
+Ian asked for an SEO audit ("I thought there was a skill but I can't find it" — there wasn't; one now exists) then "do all of this now."
+
+- **Audit first** (report at [AUDIT-SEO-2026-07-07.md](AUDIT-SEO-2026-07-07.md), delta vs the 7/03 growth audit): 29/32 indexed — all 5 CT pages indexed within 24h of the S24 deploy; the 3 new MA pages (hadley/monson/southwick) are "URL is unknown to Google" → **Ian: re-run Request Indexing on those 3**. Technical stack all green; Lighthouse mobile /catering 96 + enfield-ct 97, a11y 100, SEO 100. GSC 28d: 441c/9,003i (dip vs prior 533c reads seasonal; position stable); http homepage row still carries 320 of 441 clicks (citation task unchanged as #1 lever).
+- **F1/F2 meta trims:** titles + descriptions on the 6 core pages ([index](src/pages/index.astro), [menu](src/pages/menu.astro), [catering](src/pages/catering.astro), [about](src/pages/about.astro), [contact](src/pages/contact.astro), [faq](src/pages/faq.astro)) trimmed to ≤65-char titles / ≤170-char descriptions (menu title was 117 chars, home desc 265). [western-massachusetts](src/pages/catering/western-massachusetts.astro) title now "Western Mass & Northern CT Catering" (page has listed CT since S24). The [[town].astro](src/pages/catering/[town].astro) description template tightened (was emitting 216-226, now ≤170 for the longest town names). Keywords kept: brunch stays in the home title (7/03 S3 win), eggs benedict/corned beef hash stay in the menu description.
+- **F3 image re-encode:** 8 oversized `public/towns/*.webp` re-encoded via sharp (scratchpad, not a repo dep) so every webp is now smaller than its jpg fallback (the 5 S24 CT webp were LARGER than their jpgs, e.g. suffield 207KB→145KB); east-longmeadow-ma.jpg 348KB→311KB (portrait outlier). Quality q62-72, eyeballed OK.
+- **F4 + a11y:** Footer "Explore" gains a **Where We Cater** link → /catering/western-massachusetts (town cluster now linked sitewide, was only reachable via /catering). The 7/03 audit's S6 item finally fixed: `.faq-item a` + `.faq-a a` in [global.css](src/styles/global.css) get underlines (link-in-text-block, color-only links).
+- **`/seo-audit` slash command** ([.claude/commands/seo-audit.md](.claude/commands/seo-audit.md)) + two repo scripts: [scripts/gsc-analytics.py](scripts/gsc-analytics.py) (28d-vs-prior GSC pull: totals, branded split, catering queries, town pages, http-vs-https check; shared ~/.gsc OAuth, gsc venv) and [scripts/seo-crawl.mjs](scripts/seo-crawl.mjs) (zero-dep live crawl lint of every sitemap URL). Index-status reuses HGC's `scripts/gsc-index-status.py` with the copperline host arg.
+
+**QA:** build clean (35 pages); dist-wide lint: all titles ≤65 + descriptions ≤170, 0 em/en dashes, footer link on all 32 pages, both underline rules in the CSS bundle. **Revert:** `git revert <this commit>`. Shipped via PR (direct master push is classifier-gated for docs+code sessions now; PR #2 carried the audit doc).
+
 ### Session 24 — 2026-07-07 — /catering restructure + 8 new service-area towns incl. northern Connecticut (single commit, DEPLOYED)
 Ian's asks: (1) remove the massive photo on /catering, (2) make "Where We Cater" more visible when clicking Catering, (3) add more cities/towns, with CT explicitly fair game within 30-45 min of Chicopee.
 
