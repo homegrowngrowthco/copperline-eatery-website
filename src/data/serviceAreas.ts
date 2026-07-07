@@ -21,8 +21,8 @@ export interface TownPhoto {
 export interface ServiceArea {
   slug: string;
   town: string;
-  state: 'MA';
-  county: 'Hampden County' | 'Hampshire County';
+  state: 'MA' | 'CT';
+  county: 'Hampden County' | 'Hampshire County' | 'Hartford County' | 'Tolland County';
   lat: number;
   lng: number;
   driveMin: number;
@@ -713,6 +713,298 @@ export const SERVICE_AREAS: ServiceArea[] = [
       creditArtist: 'John Phelan',
       creditLicense: 'CC BY 3.0',
       creditUrl: 'https://commons.wikimedia.org/wiki/File:Hampden_Town_House%2C_MA.jpg',
+    },
+  },
+  {
+    slug: 'southwick-ma',
+    town: 'Southwick',
+    state: 'MA',
+    county: 'Hampden County',
+    lat: 42.0548,
+    lng: -72.7704,
+    driveMin: 30,
+    intro:
+      'Southwick sits out past Westfield on Routes 10 and 202, about half an hour from our kitchen. Between the Congamond Lakes, the golf courses, and the rail trail, it is a town built for warm-weather gatherings, and we bring the food that fits them.',
+    aroundTown:
+      'Life here revolves around the lakes, the links, and the town center along College Highway. Local anchors include:',
+    venues: [
+      { name: 'Town of Southwick', url: 'https://www.southwickma.gov' },
+      { name: 'The Ranch Golf Club', url: 'https://www.theranchgolfclub.com' },
+      { name: 'Southwick-Tolland-Granville Regional Schools', url: 'https://www.stgrsd.org' },
+    ],
+    variant: 'b',
+    foodHeading: 'Lake-Season Party Trays',
+    foodBlurb:
+      'Southwick summers mean lake-house cookouts and golf outings, and the food that travels for them: grinder and wrap platters, sausage with peppers and onions, potato salad, and a dessert tray to close out the afternoon.',
+    dishes: ['Grinder & wrap platters', 'Sausage, peppers & onions', 'Kielbasa', 'Potato salad', 'Macaroni salad', 'Dessert trays'],
+    eventsHeading: 'Southwick Get-Togethers',
+    eventsBlurb:
+      'Lake-house parties, golf outings, graduations, and school and town functions along College Highway.',
+    eventTypes: ['Lake-house parties', 'Golf outings', 'Graduations', 'School functions', 'Family reunions'],
+    photo: {
+      base: '/towns/southwick-ma',
+      alt: 'Southwick Congregational Church in Southwick, Massachusetts',
+      w: 1000, h: 1334,
+      creditArtist: 'John Phelan',
+      creditLicense: 'CC BY 3.0',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Southwick_Congregational_Church%2C_Southwick_MA.jpg',
+    },
+  },
+  {
+    slug: 'monson-ma',
+    town: 'Monson',
+    state: 'MA',
+    county: 'Hampden County',
+    lat: 42.1043,
+    lng: -72.319,
+    driveMin: 30,
+    intro:
+      'Monson is about thirty minutes east, through Palmer on Route 32 or out the Pike. The granite Memorial Hall on Main Street anchors a classic small-town center, and drop-off catering for halls, churches, and family homes is a natural fit here.',
+    aroundTown:
+      'Town life runs through Main Street, the schools, and the hills around the Quaboag valley. Local anchors include:',
+    venues: [
+      { name: 'Town of Monson', url: 'https://www.monson-ma.gov' },
+      { name: 'Keep Homestead Museum', url: 'https://www.keephomesteadmuseum.org' },
+      { name: 'Quaboag Country Club', url: 'https://www.quaboagcountryclub.com' },
+    ],
+    variant: 'a',
+    foodHeading: 'Hall-Sized Comfort Food',
+    foodBlurb:
+      'Monson gatherings fill a hall or a backyard, and the table to match is roast turkey with gravy, roasted chicken, and ziti with meatballs, with salads, rolls, and a dessert tray alongside.',
+    dishes: ['Roast turkey with gravy', 'Roasted chicken', 'Ziti & meatballs', 'Garden salad', 'Rolls & butter', 'Dessert trays'],
+    eventsHeading: 'Monson Occasions',
+    eventsBlurb:
+      'Church socials, town and school functions, golf outings at Quaboag, family reunions, and memorial receptions.',
+    eventTypes: ['Church socials', 'Town & school functions', 'Golf outings', 'Family reunions', 'Memorial receptions'],
+    photo: {
+      base: '/towns/monson-ma',
+      alt: 'Memorial Hall on Main Street in Monson, Massachusetts',
+      w: 1000, h: 748,
+      creditArtist: 'John Phelan',
+      creditLicense: 'CC BY-SA 3.0',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Memorial_Hall%2C_June_2012%2C_Monson_MA.jpg',
+    },
+  },
+  {
+    slug: 'hadley-ma',
+    town: 'Hadley',
+    state: 'MA',
+    county: 'Hampshire County',
+    lat: 42.3418,
+    lng: -72.5883,
+    driveMin: 28,
+    intro:
+      'Hadley sits between Northampton and Amherst, just under half an hour up Route 116 or I-91. The Route 9 corridor is one of the busiest commercial strips in Hampshire County, and the farms and function halls around it host events all year.',
+    aroundTown:
+      'From the retail corridor to the town common and the farms along the river, Hadley keeps a full calendar. We deliver across town, including the areas around:',
+    venues: [
+      { name: 'Town of Hadley', url: 'https://www.hadleyma.org' },
+      { name: 'Hampshire Mall', url: 'https://www.hampshiremall.com' },
+      { name: 'Hadley Farms Meeting House', url: 'https://www.hadleyfarmsmeetinghouse.com' },
+      { name: 'Porter-Phelps-Huntington Museum', url: 'https://www.pphmuseum.org' },
+      { name: "Barstow's Longview Farm", url: 'https://www.barstowslongviewfarm.com' },
+    ],
+    neighborhoods: ['North Hadley'],
+    variant: 'b',
+    foodHeading: 'Breakfast for the Route 9 Corridor',
+    foodBlurb:
+      'The businesses along Route 9 run on morning meetings: trays of scrambled eggs and bacon, home fries, muffins and coffee, set up before the doors open. For midday, wrap platters and individual boxed portions keep a training or a store crew moving.',
+    dishes: ['Scrambled eggs & bacon', 'Home fries', 'Muffins, coffee & juice', 'Wrap platters', 'Individual boxed portions', 'Garden salad'],
+    eventsHeading: 'Hadley Events',
+    eventsBlurb:
+      'Workplace breakfasts and lunches along Route 9, showers and receptions at the function halls, and family milestones from the common to North Hadley.',
+    eventTypes: ['Workplace breakfasts', 'Trainings & store meetings', 'Showers & receptions', 'Graduation parties', 'Family milestones'],
+    photo: {
+      base: '/towns/hadley-ma',
+      alt: 'Town Hall and First Congregational Church in Hadley, Massachusetts',
+      w: 1000, h: 666,
+      creditArtist: 'John Phelan',
+      creditLicense: 'CC BY-SA 4.0',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Town_Hall_and_First_Congregational_Church%2C_Hadley_MA.jpg',
+    },
+  },
+  {
+    slug: 'enfield-ct',
+    town: 'Enfield',
+    state: 'CT',
+    county: 'Hartford County',
+    lat: 41.9762,
+    lng: -72.5918,
+    driveMin: 20,
+    intro:
+      'Enfield is the first town over the Connecticut line, a straight twenty-minute run down I-91 from our Chicopee kitchen. Crossing the border does not slow us down: hot breakfast and lunch spreads arrive in Thompsonville, Hazardville, and the Route 190 corridor ready to serve.',
+    aroundTown:
+      'One of the biggest towns north of Hartford, Enfield has a steady calendar of workplace, school, and community events. Local anchors include:',
+    venues: [
+      { name: 'Town of Enfield', url: 'https://www.enfield-ct.gov' },
+      { name: 'CT State Asnuntuck', url: 'https://ctstate.edu/asnuntuck' },
+      { name: 'Enfield Public Library', url: 'https://www.enfieldpubliclibrary.org' },
+      { name: 'Enfield Public Schools', url: 'https://www.enfieldschools.org' },
+      { name: 'Enfield Historical Society', url: 'https://enfieldhistoricalsociety.org' },
+    ],
+    neighborhoods: ['Thompsonville', 'Hazardville', 'Scitico'],
+    variant: 'a',
+    foodHeading: 'Office Breakfasts, Connecticut-Side',
+    foodBlurb:
+      'Enfield leans workplace: trays of scrambled eggs and bacon, French toast, and hot coffee for morning meetings, cold-cut and grinder platters with garden salad when the meeting runs through lunch.',
+    dishes: ['Scrambled eggs & bacon', 'French toast', 'Home fries', 'Cold-cut platters', 'Grinder platters', 'Garden salad'],
+    eventsHeading: 'Enfield Events We Cater',
+    eventsBlurb:
+      'Office breakfasts and lunches, campus and school functions, trainings, and family parties from Thompsonville to Scitico.',
+    eventTypes: ['Office breakfasts & lunches', 'Trainings', 'Campus & school functions', 'Family parties', 'Holiday parties'],
+    photo: {
+      base: '/towns/enfield-ct',
+      alt: 'The Old Town Hall in Enfield, Connecticut',
+      w: 1000, h: 750,
+      creditArtist: 'John Phelan',
+      creditLicense: 'CC BY 4.0',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Old_Town_Hall%2C_Enfield_CT.jpg',
+    },
+  },
+  {
+    slug: 'suffield-ct',
+    town: 'Suffield',
+    state: 'CT',
+    county: 'Hartford County',
+    lat: 41.9817,
+    lng: -72.6509,
+    driveMin: 25,
+    intro:
+      'Suffield is about twenty-five minutes south along Route 159, down the west side of the Connecticut River. Its historic Main Street, the academy, and the country club give the town a full calendar of receptions, meetings, and milestone parties.',
+    aroundTown:
+      'The town center runs on the academy, the library, and a classic New England green. Local anchors include:',
+    venues: [
+      { name: 'Town of Suffield', url: 'https://www.suffieldct.gov' },
+      { name: 'Suffield Academy', url: 'https://www.suffieldacademy.org' },
+      { name: 'Kent Memorial Library', url: 'https://suffield-library.org' },
+      { name: 'Suffield Country Club', url: 'https://www.suffieldcc.com' },
+      { name: 'Hilltop Farm', url: 'https://hilltopfarmsuffield.org' },
+    ],
+    neighborhoods: ['West Suffield'],
+    variant: 'b',
+    foodHeading: 'Brunch for Main Street Milestones',
+    foodBlurb:
+      'Suffield celebrations lean brunch: eggs benedict, banana bread French toast, and pancake spreads for shower and graduation mornings, with wrap platters and desserts when the party runs long.',
+    dishes: ['Eggs benedict', 'Banana bread French toast', 'Pancakes & bacon', 'Wrap platters', 'Garden salad', 'Desserts'],
+    eventsHeading: 'Suffield Occasions',
+    eventsBlurb:
+      'Bridal and baby showers, graduation brunches, campus and club events, and family gatherings from the green to West Suffield.',
+    eventTypes: ['Bridal & baby showers', 'Graduation brunches', 'Campus events', 'Club luncheons', 'Family gatherings'],
+    photo: {
+      base: '/towns/suffield-ct',
+      alt: 'Kent Memorial Library in Suffield, Connecticut',
+      w: 1000, h: 750,
+      creditArtist: 'John Phelan',
+      creditLicense: 'CC BY 4.0',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Kent_Memorial_Library%2C_Suffield_CT.jpg',
+    },
+  },
+  {
+    slug: 'windsor-locks-ct',
+    town: 'Windsor Locks',
+    state: 'CT',
+    county: 'Hartford County',
+    lat: 41.9293,
+    lng: -72.6273,
+    driveMin: 26,
+    intro:
+      'Windsor Locks is about twenty-five minutes down I-91, home of Bradley International Airport and the hotels and offices around it. Early flights mean early meetings, and a 6 am kitchen like ours is built for them.',
+    aroundTown:
+      'Between the airport corridor, Main Street, and the canal, the town hosts more meetings than its size suggests. Local anchors include:',
+    venues: [
+      { name: 'Bradley International Airport', url: 'https://www.bradleyairport.com' },
+      { name: 'New England Air Museum', url: 'https://neam.org' },
+      { name: 'Town of Windsor Locks', url: 'https://www.windsorlocksct.org' },
+      { name: 'Windsor Locks Public Library', url: 'https://www.windsorlockslibrary.org' },
+    ],
+    variant: 'a',
+    foodHeading: 'Meeting Food Near Bradley',
+    foodBlurb:
+      'The airport corridor runs on tight schedules: continental spreads with muffins, coffee, and juice for early sessions, sandwich platters and individual boxed portions for working lunches and crews on the move.',
+    dishes: ['Muffins, coffee & juice', 'Scrambled eggs & bacon', 'Sandwich platters', 'Individual boxed portions', 'Homemade soups', 'Desserts'],
+    eventsHeading: 'Windsor Locks Events',
+    eventsBlurb:
+      'Hotel and office meetings along the airport corridor, trainings, crew meals, and family parties across town.',
+    eventTypes: ['Hotel & office meetings', 'Trainings', 'Crew meals', 'Family parties', 'Retirement parties'],
+    photo: {
+      base: '/towns/windsor-locks-ct',
+      alt: 'Main Street mill buildings in Windsor Locks, Connecticut',
+      w: 1000, h: 750,
+      creditArtist: 'John Phelan',
+      creditLicense: 'CC BY 4.0',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Main_Street%2C_Windsor_Locks_CT.jpg',
+    },
+  },
+  {
+    slug: 'east-windsor-ct',
+    town: 'East Windsor',
+    state: 'CT',
+    county: 'Hartford County',
+    lat: 41.9042,
+    lng: -72.5545,
+    driveMin: 30,
+    intro:
+      'East Windsor is about half an hour down Route 5 or I-91, taking in the villages of Broad Brook and Warehouse Point. The trolley museum and the old opera house give the town more event space than most of its neighbors.',
+    aroundTown:
+      'From the museums on Route 140 to the halls of Broad Brook, the town has real gathering places. Local anchors include:',
+    venues: [
+      { name: 'Town of East Windsor', url: 'https://www.eastwindsor-ct.gov' },
+      { name: 'Connecticut Trolley Museum', url: 'https://www.ct-trolley.org' },
+      { name: 'Opera House Players (Broad Brook Opera House)', url: 'https://www.operahouseplayers.org' },
+    ],
+    neighborhoods: ['Broad Brook', 'Warehouse Point'],
+    variant: 'b',
+    foodHeading: 'Hot Buffets for Broad Brook',
+    foodBlurb:
+      'East Windsor events fill halls, and hall food is our specialty: ziti and meatballs, chicken parmesan, and sausage with peppers and onions in chafing dishes, with salad and rolls rounding out the line.',
+    dishes: ['Ziti & meatballs', 'Chicken parmesan', 'Sausage, peppers & onions', 'Roasted chicken', 'Garden salad', 'Rolls & butter'],
+    eventsHeading: 'East Windsor Gatherings',
+    eventsBlurb:
+      'Community and museum events, fundraisers, cast parties, family celebrations, and workplace lunches along Route 5.',
+    eventTypes: ['Community events', 'Fundraisers & banquets', 'Family celebrations', 'Workplace lunches', 'Holiday parties'],
+    photo: {
+      base: '/towns/east-windsor-ct',
+      alt: 'The Broad Brook Opera House in East Windsor, Connecticut',
+      w: 1000, h: 750,
+      creditArtist: 'John Phelan',
+      creditLicense: 'CC BY 4.0',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Broad_Brook_Opera_House%2C_Broad_Brook_CT.jpg',
+    },
+  },
+  {
+    slug: 'somers-ct',
+    town: 'Somers',
+    state: 'CT',
+    county: 'Tolland County',
+    lat: 41.9851,
+    lng: -72.4462,
+    driveMin: 28,
+    intro:
+      'Somers sits just below the state line, a little under thirty minutes from our door through Hampden or down Route 83. It is horse-farm and family-party country, with a town center gathered around the Congregational church on Main Street.',
+    aroundTown:
+      'Town life centers on Main Street, the schools, and the farms and fields around Somersville. Local anchors include:',
+    venues: [
+      { name: 'Town of Somers', url: 'https://www.somersct.gov' },
+      { name: "Sonny's Place", url: 'https://www.sonnysplace.com' },
+      { name: 'Somers Public Library', url: 'https://www.somerspubliclibrary.org' },
+    ],
+    neighborhoods: ['Somersville'],
+    variant: 'a',
+    foodHeading: 'Family-Party Staples',
+    foodBlurb:
+      'Somers parties want food that holds up outdoors and in the barn: roasted chicken, meat lasagna, and kielbasa with the salads and rolls to match, plus a dessert tray for the finish.',
+    dishes: ['Roasted chicken', 'Meat lasagna', 'Kielbasa', 'Garden salad', 'Rolls & butter', 'Dessert trays'],
+    eventsHeading: 'Somers Get-Togethers',
+    eventsBlurb:
+      'Backyard and barn parties, birthdays and graduations, town and school functions, and memorial receptions.',
+    eventTypes: ['Backyard & barn parties', 'Birthdays & graduations', 'Town & school functions', 'Church socials', 'Memorial receptions'],
+    photo: {
+      base: '/towns/somers-ct',
+      alt: 'The Congregational church on Main Street in Somers, Connecticut',
+      w: 1000, h: 750,
+      creditArtist: 'John Phelan',
+      creditLicense: 'CC BY 4.0',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Congregational_Church_in_2025%2C_Somers_CT.jpg',
     },
   },
 ];

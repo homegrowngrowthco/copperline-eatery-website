@@ -13,13 +13,14 @@ interface Props {
 
 const { area } = Astro.props;
 const pageUrl = `${SITE_URL}/catering/${area.slug}`;
+const stateName = area.state === 'MA' ? 'Massachusetts' : 'Connecticut';
 
-const title = `Catering in ${area.town}, MA | The Copperline Eatery`;
-const description = `Breakfast, lunch & dinner catering delivered to ${area.town}, MA from The Copperline Eatery in Chicopee, about ${area.driveMin} minutes away. Custom menus for corporate events, showers, graduations, and parties. Call (413) 594-8332.`;
+const title = `Catering in ${area.town}, ${area.state} | The Copperline Eatery`;
+const description = `Breakfast, lunch & dinner catering delivered to ${area.town}, ${area.state} from The Copperline Eatery in Chicopee, about ${area.driveMin} minutes away. Custom menus for corporate events, showers, graduations, and parties. Call (413) 594-8332.`;
 
 const areaServed = [
   { '@type': 'City', name: area.town },
-  ...(area.neighborhoods || []).map((n) => ({ '@type': 'Place', name: `${n}, ${area.town} MA` })),
+  ...(area.neighborhoods || []).map((n) => ({ '@type': 'Place', name: `${n}, ${area.town} ${area.state}` })),
 ];
 
 const cateringSchema = {
@@ -28,7 +29,7 @@ const cateringSchema = {
   name: 'The Copperline Eatery',
   url: pageUrl,
   image: `${SITE_URL}/catering-breakfast.jpg`,
-  description: `Breakfast, lunch, and dinner catering delivered to ${area.town}, Massachusetts from The Copperline Eatery in Chicopee, with a custom menu built for every event.`,
+  description: `Breakfast, lunch, and dinner catering delivered to ${area.town}, ${stateName} from The Copperline Eatery in Chicopee, with a custom menu built for every event.`,
   servesCuisine: ['American', 'Breakfast', 'Lunch', 'Dinner'],
   address: ADDRESS,
   telephone: PHONE,
@@ -43,7 +44,7 @@ const breadcrumb = {
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}` },
     { '@type': 'ListItem', position: 2, name: 'Catering', item: `${SITE_URL}/catering` },
-    { '@type': 'ListItem', position: 3, name: `${area.town}, MA`, item: pageUrl },
+    { '@type': 'ListItem', position: 3, name: `${area.town}, ${area.state}`, item: pageUrl },
   ],
 };
 
@@ -71,18 +72,18 @@ const sections: Array<'around' | 'food' | 'events'> =
   title={title}
   description={description}
   canonical={pageUrl}
-  ogTitle={`Catering in ${area.town}, MA | The Copperline Eatery`}
+  ogTitle={`Catering in ${area.town}, ${area.state} | The Copperline Eatery`}
   ogDescription={`Breakfast & lunch catering delivered to ${area.town} from Chicopee, about ${area.driveMin} minutes away. Custom menus for every event. Call (413) 594-8332.`}
   ogImage={`${SITE_URL}/catering-breakfast.jpg`}
   ogImageAlt="Breakfast catering from The Copperline Eatery - eggs, bacon, and toast"
-  twitterTitle={`Catering in ${area.town}, MA | The Copperline Eatery`}
-  twitterDescription={`Breakfast & lunch catering delivered to ${area.town}, MA. Custom menus for every event. Call (413) 594-8332.`}
+  twitterTitle={`Catering in ${area.town}, ${area.state} | The Copperline Eatery`}
+  twitterDescription={`Breakfast & lunch catering delivered to ${area.town}, ${area.state}. Custom menus for every event. Call (413) 594-8332.`}
   schema={[cateringSchema, breadcrumb]}
 >
   <main>
     <section class="page-header">
       <div class="container">
-        <h1>Catering in {area.town}, MA</h1>
+        <h1>Catering in {area.town}, {area.state}</h1>
         <p>Breakfast &amp; lunch delivered from The Copperline Eatery in Chicopee</p>
       </div>
     </section>

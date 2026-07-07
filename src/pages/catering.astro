@@ -5,7 +5,7 @@ import { ADDRESS, AREA_SERVED, EMAIL, PHONE, PHONE_DISPLAY, SITE_URL } from '../
 import { SERVICE_AREAS } from '../data/serviceAreas';
 
 const title = 'Catering in Chicopee, MA & Western Massachusetts | The Copperline Eatery';
-const description = 'Breakfast, lunch & dinner catering from Chicopee, MA serving Springfield, Holyoke & all of Western Massachusetts. Custom menus for corporate events, weddings, showers, and parties. On-site, drop-off, or pick-up. Call (413) 594-8332 or request a quote online.';
+const description = 'Breakfast, lunch & dinner catering from Chicopee, MA serving Springfield, Holyoke, all of Western Massachusetts & northern Connecticut. Custom menus for corporate events, weddings, showers, and parties. On-site, drop-off, or pick-up. Call (413) 594-8332 or request a quote online.';
 
 const cateringSchema = {
   '@context': 'https://schema.org',
@@ -14,7 +14,7 @@ const cateringSchema = {
   url: `${SITE_URL}/catering`,
   image: `${SITE_URL}/catering-breakfast.jpg`,
   description:
-    'Professional catering services for Western Massachusetts - breakfast, lunch, and dinner catering for corporate events, weddings, parties, and special occasions, with a custom menu built for every event.',
+    'Professional catering services for Western Massachusetts and northern Connecticut - breakfast, lunch, and dinner catering for corporate events, weddings, parties, and special occasions, with a custom menu built for every event.',
   servesCuisine: ['American', 'Breakfast', 'Lunch', 'Dinner'],
   address: ADDRESS,
   telephone: PHONE,
@@ -31,7 +31,7 @@ const cateringFaqSchema = {
   '@type': 'FAQPage',
   mainEntity: [
     { '@type': 'Question', name: 'What kind of food does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'Breakfast and brunch spreads (eggs, bacon and sausage, home fries, French toast, pancakes), lunch platters (cold cuts, sandwiches, wraps, salads), and hot dinner buffets (roasted chicken in 15+ preparations, ziti and meatballs, lasagna, roast turkey, baked scrod). Every menu is customized to your event; contact us for a quote.' } },
-    { '@type': 'Question', name: 'What areas does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'We cater across Western Massachusetts from our Chicopee kitchen, including Springfield, Holyoke, West Springfield, Agawam, Westfield, Ludlow, South Hadley, Longmeadow, East Longmeadow, Wilbraham, Northampton, Amherst, and the surrounding Hampden and Hampshire County towns.' } },
+    { '@type': 'Question', name: 'What areas does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'We cater across Western Massachusetts and northern Connecticut from our Chicopee kitchen, including Springfield, Holyoke, West Springfield, Agawam, Westfield, Ludlow, South Hadley, Longmeadow, East Longmeadow, Wilbraham, Northampton, Amherst, Enfield, Suffield, Windsor Locks, Somers, and the surrounding Hampden, Hampshire, Hartford, and Tolland County towns.' } },
     { '@type': 'Question', name: 'What service options are available?', acceptedAnswer: { '@type': 'Answer', text: 'On-site service, drop-off, or pick-up at our restaurant at 409 Broadway, Chicopee. We serve buffet style, to-go buffet style, or individual portions, and we can build a custom menu for your event.' } },
     { '@type': 'Question', name: 'How far in advance should I book catering?', acceptedAnswer: { '@type': 'Answer', text: 'For most events we recommend booking at least one to two weeks in advance. Larger events and weekend dates should be booked three to four weeks ahead when possible. Call (413) 594-8332 to check availability.' } },
     { '@type': 'Question', name: 'What types of events does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'Corporate meetings and office lunches, weddings and rehearsal dinners, bridal and baby showers, graduations, birthdays, family reunions, holiday parties, church socials, school functions, banquets, fundraisers, sporting events and tailgates, memorial services, film and photo shoots, and healthcare facilities.' } },
@@ -49,6 +49,7 @@ const breadcrumb = {
 
 const hampden = SERVICE_AREAS.filter((a) => a.county === 'Hampden County');
 const hampshire = SERVICE_AREAS.filter((a) => a.county === 'Hampshire County');
+const connecticut = SERVICE_AREAS.filter((a) => a.state === 'CT');
 ---
 
 <BaseLayout
@@ -74,18 +75,36 @@ const hampshire = SERVICE_AREAS.filter((a) => a.county === 'Hampshire County');
     <section class="content-section">
       <div class="container">
         <div class="catering-content">
-          <p class="lead catering-lead">The Copperline Eatery caters breakfast, lunch, and dinner across Chicopee, Springfield, Holyoke, and all of Western Massachusetts. Whether you're planning a corporate event, family gathering, or special celebration, we'll build a menu around your party, served on-site, dropped off hot, or ready for pick-up at our Chicopee restaurant.</p>
-
-          <div class="catering-hero-media">
-            <picture>
-              <source srcset="/catering-breakfast.webp" type="image/webp" />
-              <img src="/catering-breakfast.jpg" alt="Sunny-side-up eggs with crispy bacon and toast from The Copperline Eatery" width="1200" height="803" loading="eager" />
-            </picture>
-          </div>
+          <p class="lead catering-lead">The Copperline Eatery caters breakfast, lunch, and dinner across Chicopee, Springfield, Holyoke, all of Western Massachusetts, and northern Connecticut. Whether you're planning a corporate event, family gathering, or special celebration, we'll build a menu around your party, served on-site, dropped off hot, or ready for pick-up at our Chicopee restaurant.</p>
 
           <div class="catering-cta-row">
             <a href="#catering-inquiry" class="btn btn-primary">Request a Catering Quote</a>
             <a href="/catering-menu.pdf" download class="btn btn-secondary">Download Catering Menu</a>
+          </div>
+
+          <h2 class="catering-events-title">Where We Cater</h2>
+          <p class="catering-events-intro">Based at 409 Broadway in Chicopee, home of Westover Air Reserve Base, we cater throughout the Pioneer Valley and into northern Connecticut. Pick your town for delivery details:</p>
+
+          <div class="service-area-block">
+            <h3 class="service-area-county">Hampden County</h3>
+            <div class="town-pills">
+              {hampden.map((a) => (
+                <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
+              ))}
+            </div>
+            <h3 class="service-area-county">Hampshire County</h3>
+            <div class="town-pills">
+              {hampshire.map((a) => (
+                <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
+              ))}
+              <a class="town-pill town-pill--all" href="/catering/western-massachusetts">All of Western Massachusetts</a>
+            </div>
+            <h3 class="service-area-county">Northern Connecticut</h3>
+            <div class="town-pills">
+              {connecticut.map((a) => (
+                <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
+              ))}
+            </div>
           </div>
 
           <h2 class="catering-events-title">What We Cater</h2>
@@ -210,30 +229,11 @@ const hampshire = SERVICE_AREAS.filter((a) => a.county === 'Hampshire County');
             </form>
           </div>
 
-          <h2 class="catering-events-title">Where We Cater</h2>
-          <p class="catering-events-intro">Based at 409 Broadway in Chicopee, home of Westover Air Reserve Base, we cater throughout the Pioneer Valley. Pick your town for delivery details:</p>
-
-          <div class="service-area-block">
-            <h3 class="service-area-county">Hampden County</h3>
-            <div class="town-pills">
-              {hampden.map((a) => (
-                <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
-              ))}
-            </div>
-            <h3 class="service-area-county">Hampshire County</h3>
-            <div class="town-pills">
-              {hampshire.map((a) => (
-                <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
-              ))}
-              <a class="town-pill town-pill--all" href="/catering/western-massachusetts">All of Western Massachusetts</a>
-            </div>
-          </div>
-
           <div class="cta-box">
             <h3>Ready to Cater Your Event?</h3>
             <p>Call us at <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a></p>
             <p>Email us at <a href={`mailto:${EMAIL}`} class="highlight-link">{EMAIL}</a></p>
-            <p class="cta-box-note">Serving Chicopee, Springfield, Holyoke, and all of Western Massachusetts</p>
+            <p class="cta-box-note">Serving Chicopee, Springfield, Holyoke, all of Western Massachusetts, and northern Connecticut</p>
           </div>
         </div>
       </div>

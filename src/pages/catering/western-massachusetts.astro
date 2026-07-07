@@ -36,6 +36,7 @@ const breadcrumb = {
 
 const hampden = SERVICE_AREAS.filter((a) => a.county === 'Hampden County');
 const hampshire = SERVICE_AREAS.filter((a) => a.county === 'Hampshire County');
+const connecticut = SERVICE_AREAS.filter((a) => a.state === 'CT');
 ---
 
 <BaseLayout
@@ -88,7 +89,13 @@ const hampshire = SERVICE_AREAS.filter((a) => a.county === 'Hampshire County');
                 <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
               ))}
             </div>
-            <p class="service-area-more">Somewhere else in the valley, or just over the Connecticut line? <a href="tel:+14135948332">Call us</a>, if we can get it there hot, we'll work with you.</p>
+            <h3 class="service-area-county">Northern Connecticut</h3>
+            <div class="town-pills">
+              {connecticut.map((a) => (
+                <a class="town-pill" href={`/catering/${a.slug}`}>{a.town}</a>
+              ))}
+            </div>
+            <p class="service-area-more">Somewhere else in the valley or just over the line? <a href="tel:+14135948332">Call us</a>, if we can get it there hot, we'll work with you.</p>
           </div>
 
           <div class="cta-box">

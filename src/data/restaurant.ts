@@ -63,6 +63,8 @@ export const AREA_SERVED = [
   { '@type': 'AdministrativeArea', name: 'Hampden County' },
   { '@type': 'AdministrativeArea', name: 'Pioneer Valley' },
   { '@type': 'AdministrativeArea', name: 'Western Massachusetts' },
+  { '@type': 'AdministrativeArea', name: 'Enfield' },
+  { '@type': 'AdministrativeArea', name: 'Northern Connecticut' },
 ] as const;
 
 export const PAYMENT_ACCEPTED = 'Cash, Credit Card, Visa, Mastercard, American Express, Discover';

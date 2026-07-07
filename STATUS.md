@@ -2,7 +2,15 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-07-04
+**Last updated:** 2026-07-07
+
+---
+
+## Recent Updates (2026-07-07)
+
+### Session 24 — /catering restructure + 8 new towns incl. northern Connecticut (DEPLOYED with this commit)
+
+Per Ian: removed the full-width hero photo from /catering, moved "Where We Cater" from below the inquiry form to directly under the top CTA buttons (now visible on the first screen at 390px and 1280px), and extended the service area into Connecticut (anything within ~30-45 min of Chicopee). 8 new town pages: Southwick, Monson, Hadley (MA) + Enfield, Suffield, Windsor Locks, East Windsor, Somers (CT) — each with a license-verified Wikimedia photo (all John Phelan, CC BY/BY-SA), URL-verified venues, distinct copy, and state-aware titles/schema (`[town].astro` no longer hardcodes MA). New "Northern Connecticut" pill group on /catering + the region hub. FAQ/llms.txt/AREA_SERVED updated for northern CT; IndexNow list now 32 URLs; 35 pages build. Details in CLAUDE.md Session 24.
 
 ---
 
