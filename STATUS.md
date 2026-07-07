@@ -8,6 +8,10 @@
 
 ## Recent Updates (2026-07-07)
 
+### Session 25 — SEO audit + fix wave (via PR)
+
+Full SEO audit ([AUDIT-SEO-2026-07-07.md](AUDIT-SEO-2026-07-07.md)): 29/32 indexed (all 5 CT pages within 24h; the 3 new MA towns need a Request-Indexing re-run — Ian), technical stack all green, Lighthouse mobile 96-97/100/77/100. Fix wave shipped: titles + meta descriptions trimmed to SERP limits on the 6 core pages, the region hub, and the `[town]` template (menu title was 117 chars); 8 oversized town webp re-encoded so webp < jpg everywhere; footer gains a sitewide "Where We Cater" link; FAQ in-text links underlined (the 7/03 audit's last open a11y item); new `/seo-audit` slash command + `scripts/gsc-analytics.py` + `scripts/seo-crawl.mjs` make the audit one call next time. Details in CLAUDE.md Session 25.
+
 ### Session 24 — /catering restructure + 8 new towns incl. northern Connecticut (DEPLOYED with this commit)
 
 Per Ian: removed the full-width hero photo from /catering, moved "Where We Cater" from below the inquiry form to directly under the top CTA buttons (now visible on the first screen at 390px and 1280px), and extended the service area into Connecticut (anything within ~30-45 min of Chicopee). 8 new town pages: Southwick, Monson, Hadley (MA) + Enfield, Suffield, Windsor Locks, East Windsor, Somers (CT) — each with a license-verified Wikimedia photo (all John Phelan, CC BY/BY-SA), URL-verified venues, distinct copy, and state-aware titles/schema (`[town].astro` no longer hardcodes MA). New "Northern Connecticut" pill group on /catering + the region hub. FAQ/llms.txt/AREA_SERVED updated for northern CT; IndexNow list now 32 URLs; 35 pages build. Details in CLAUDE.md Session 24.
