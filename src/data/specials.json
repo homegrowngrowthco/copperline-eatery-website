@@ -1,25 +1,45 @@
 {
-  "updatedAt": "2026-07-05T10:57:56.054Z",
+  "updatedAt": "2026-07-11T11:02:10.300Z",
   "specials": [
     {
-      "name": "Apple Sausage Hash",
-      "description": "w/ 2 eggs n toast",
-      "price": null
+      "name": "Sausage Apple Hash",
+      "description": "w/ 2 eggs + toast",
+      "price": "$12.50"
     },
     {
-      "name": "Peach French Toast",
+      "name": "Cornbread French Toast",
       "description": null,
-      "price": null
+      "price": "$9.25"
     },
     {
-      "name": "Raspberry Pancakes",
+      "name": "Steak Benedict",
       "description": null,
-      "price": null
+      "price": "$17.95"
     },
     {
-      "name": "Ham Benedict",
+      "name": "Heathbar Pancakes",
       "description": null,
-      "price": null
+      "price": "$10.00"
+    },
+    {
+      "name": "Steak-N-Cheese Omelette",
+      "description": null,
+      "price": "$14.50"
+    },
+    {
+      "name": "Biscuits -N- Gravy",
+      "description": "w/ 2 eggs",
+      "price": "$12.95"
+    },
+    {
+      "name": "Jalapeno Homefries",
+      "description": null,
+      "price": "$4.25"
+    },
+    {
+      "name": "Fresh Fruit Cup",
+      "description": null,
+      "price": "$3.50"
     }
   ]
 }
