@@ -95,11 +95,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* Catering Page text sections. Long paragraphs read left-aligned; only short
    headings stay centered (centered multi-line body text reads ragged). */
-.catering-lead { text-align: left; max-width: 800px; margin: 0 auto 30px; }
-.catering-cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 50px; }
+/* The catering intros are short enough to centre without becoming a wall of
+   ragged lines; the long-form copy on the town pages stays left-aligned. */
+.catering-lead { text-align: center; max-width: 720px; margin: 0 auto 10px; }
+.catering-cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 28px; }
 .catering-cta-row .btn { min-width: 250px; text-align: center; }
 .catering-events-title { text-align: center; margin-top: 50px; color: var(--green-dark); }
-.catering-events-intro { text-align: left; color: var(--gray); max-width: 800px; margin: 20px auto 30px; }
+.catering-events-intro { text-align: center; color: var(--gray); max-width: 720px; margin: 14px auto 26px; }
 .cta-box-note { margin-top: 15px; font-size: 0.95rem; }
 
 /* Catering Options */
@@ -1364,13 +1366,15 @@ body.quote-bar-on { padding-bottom: 72px; }
 .menu-quote-cta { margin: 0 0 22px; }
 
 /* Catering: menus note + how-it-works steps */
-.catering-menus-note { max-width: 800px; margin: 18px auto 10px; color: var(--gray); }
+.catering-menus-note { text-align: center; max-width: 720px; margin: 18px auto 0; color: var(--gray); }
 .catering-menus-note a { text-decoration: underline; }
-.how-it-works { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 25px 0 10px; align-items: start; }
-.how-step { background: var(--white); padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); border-top: 4px solid var(--red); }
-.how-step-num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: var(--green-dark); color: var(--white); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; }
-.how-step h3 { font-size: 1.1rem; color: var(--green-dark); margin-bottom: 8px; }
-.how-step p { font-size: 0.95rem; color: var(--gray); }
+.how-it-works { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 22px 0 0; align-items: start; }
+.how-step { background: var(--white); padding: 20px 20px 18px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); border-top: 4px solid var(--red); }
+/* Number sits on the same line as the step title rather than eating a row. */
+.how-step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.how-step-num { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: var(--green-dark); color: var(--white); font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+.how-step h3 { font-size: 1.05rem; line-height: 1.25; color: var(--green-dark); margin: 0; }
+.how-step p { font-size: 0.95rem; color: var(--gray); margin: 0; }
 .how-step p a { text-decoration: underline; }
 
 @media (max-width: 760px) {
