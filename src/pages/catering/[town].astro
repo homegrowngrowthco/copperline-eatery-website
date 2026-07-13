@@ -110,7 +110,7 @@ const sections: Array<'around' | 'food' | 'events'> =
                 </div>
               </div>
               <div class="town-cta-row">
-                <a href="/catering#catering-inquiry" class="btn btn-primary">Catering Quote</a>
+                <a href="/catering/quote" class="btn btn-primary">Catering Quote</a>
                 <a href="tel:+14135948332" class="btn btn-secondary">Call Us</a>
                 <a href={MAPS_DIRECTIONS_URL} target="_blank" rel="noopener" class="btn btn-secondary">Get Directions</a>
               </div>
@@ -144,7 +144,7 @@ const sections: Array<'around' | 'food' | 'events'> =
                 <ul class="dish-chips">
                   {area.dishes.map((d) => <li>{d}</li>)}
                 </ul>
-                <p class="town-around town-food-links">Just a starting point. <a href="/menu#catering">Browse the full catering menu</a> or <a href="/catering#catering-inquiry">tell us what your event needs</a>.</p>
+                <p class="town-around town-food-links">Just a starting point. <a href="/menu#catering">Browse the full catering menu</a> or <a href="/catering/quote">build a quote for your event</a>.</p>
               </>
             ) : (
               <>
@@ -159,7 +159,7 @@ const sections: Array<'around' | 'food' | 'events'> =
 
           <div class="cta-box">
             <h3>Planning an Event in {area.town}?</h3>
-            <p>Call us at <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a> or <a href="/catering#catering-inquiry" class="highlight-link">send a catering inquiry</a>.</p>
+            <p>Call us at <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a> or <a href="/catering/quote" class="highlight-link">build a quote online</a>.</p>
             <p class="cta-box-note">Family-owned in Chicopee since 1993 &middot; Voted Best Breakfast in Western Massachusetts</p>
           </div>
 

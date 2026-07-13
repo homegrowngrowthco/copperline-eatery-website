@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CateringQuoteBuilder from '../../components/CateringQuoteBuilder.astro';
+import { LOWEST_BASE_PRICE, formatPrice } from '../../data/cateringPackages';
+import { EMAIL, PHONE_DISPLAY, SITE_URL } from '../../data/restaurant';
+
+// The quote builder is the one catering page that shows pricing. /catering and
+// the town pages stay price-free by owner decision (2026-07-03); anyone who
+// lands here clicked "Request a Catering Quote" or searched for prices, so they
+// are asking for the numbers. The per-person figures are the same ones printed
+// on the catering menu at /menu.
+
+const title = 'Catering Prices & Quote Builder | The Copperline Eatery';
+const description = `Build your catering menu, see per-person pricing as you pick, and send it to us for a full quote. Buffets from ${formatPrice(LOWEST_BASE_PRICE)} per person across Western Mass.`;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}` },
+    { '@type': 'ListItem', position: 2, name: 'Catering', item: `${SITE_URL}/catering` },
+    { '@type': 'ListItem', position: 3, name: 'Catering Quote', item: `${SITE_URL}/catering/quote` },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={`${SITE_URL}/catering/quote`}
+  ogTitle="Build Your Catering Quote | The Copperline Eatery"
+  ogDescription={`Pick your buffet, pick your entrees, see the per-person price, and send it over. Buffets from ${formatPrice(LOWEST_BASE_PRICE)} per person.`}
+  ogImage={`${SITE_URL}/catering-breakfast.jpg`}
+  ogImageAlt="Catering from The Copperline Eatery in Chicopee, MA"
+  twitterTitle="Build Your Catering Quote | The Copperline Eatery"
+  twitterDescription={`Pick your buffet and entrees, see per-person pricing, send it over. From ${formatPrice(LOWEST_BASE_PRICE)} per person.`}
+  schema={[breadcrumb]}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Build Your Catering Quote</h1>
+        <p>Pick your buffet, see the per-person price, and send it to us for a full quote</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="quote-content">
+          <p class="lead quote-lead">
+            Tell us who you are and what you're feeding, then build the buffet. You'll see a running
+            per-person price and a food-total estimate as you go. Send it over and we'll come back
+            with a real quote, usually within one business day. Nothing here is a booking, and every
+            menu is still customized with you. Prefer to talk it through? Call
+            <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a>.
+          </p>
+
+          <CateringQuoteBuilder />
+
+          <p class="quote-footnote">
+            Want to see everything first? <a href="/menu#catering">Browse the full catering menu</a>,
+            <a href="/catering-menu.pdf" download>download the PDF</a>, or email us at
+            <a href={`mailto:${EMAIL}`} class="highlight-link">{EMAIL}</a>. Breakfast and brunch
+            catering is quoted per event: pick any buffet below to start, and put your breakfast
+            details in the notes.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

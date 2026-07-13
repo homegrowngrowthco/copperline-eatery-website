@@ -1211,6 +1211,107 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .catering-form-submit { font-size: 1.05rem; padding: 12px 30px; }
 .hidden-field { display: none; }
 
+/* Catering: /catering/quote builder.
+   Steps, the progress rail, the estimate card, and the sticky bar are all
+   inert without JavaScript, so they are only hidden/shown once main.ts adds
+   .js-on. With JS off the whole form renders as one long page that still
+   submits (see the <noscript> note in CateringQuoteBuilder.astro). */
+.quote-content { max-width: 900px; margin: 0 auto; }
+.quote-lead { margin-bottom: 30px; }
+.quote-footnote { margin-top: 30px; font-size: 0.95rem; color: var(--gray); }
+.quote-footnote a { text-decoration: underline; }
+
+.quote-form { background: var(--white); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid var(--green); padding: 30px; scroll-margin-top: 90px; }
+.quote-form fieldset { border: 0; padding: 0; margin: 0; }
+.quote-legend { display: block; width: 100%; font-family: var(--font-display); font-size: 1.4rem; color: var(--green-dark); margin-bottom: 8px; }
+.quote-legend:focus { outline: 2px solid var(--green); outline-offset: 4px; }
+.quote-help { color: var(--gray); font-size: 0.95rem; margin-bottom: 18px; }
+.quote-noscript { background: var(--cream); border-left: 3px solid var(--tan); padding: 12px 16px; margin-bottom: 20px; font-size: 0.95rem; }
+.quote-noscript a { text-decoration: underline; }
+
+.quote-form .quote-step { display: block; padding-bottom: 10px; }
+.quote-form.js-on .quote-step { display: none; }
+.quote-form.js-on .quote-step.active { display: block; }
+.quote-form .quote-nav button[type="button"] { display: none; }
+.quote-form.js-on .quote-nav button[type="button"] { display: inline-block; }
+.quote-form .estimate-card { display: none; }
+.quote-form.js-on .estimate-card { display: block; }
+.quote-progress { display: none; }
+.quote-form.js-on .quote-progress { display: flex; }
+
+.quote-progress { list-style: none; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; padding: 0; }
+.quote-progress li { display: flex; align-items: center; gap: 8px; flex: 1 1 auto; font-family: var(--font-display); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); border-bottom: 3px solid #e5e5e5; padding-bottom: 8px; }
+.quote-progress li span { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #e5e5e5; color: var(--gray); font-size: 0.85rem; flex-shrink: 0; }
+.quote-progress li.active { color: var(--green-dark); border-bottom-color: var(--green); }
+.quote-progress li.active span { background: var(--green); color: var(--white); }
+.quote-progress li.done { color: var(--green-dark); border-bottom-color: var(--green); }
+.quote-progress li.done span { background: var(--green-dark); color: var(--white); }
+
+.quote-nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.quote-error { color: var(--red); font-size: 0.95rem; margin-top: 16px; font-weight: 700; }
+.quote-group-title { font-size: 1.1rem; color: var(--green-dark); text-transform: uppercase; margin: 28px 0 4px; }
+
+/* Package cards: the radio itself is the control, the whole card is the label. */
+.pkg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 10px; }
+.pkg-card { position: relative; display: block; cursor: pointer; }
+.pkg-input { position: absolute; top: 14px; left: 14px; width: 20px; height: 20px; accent-color: var(--green); }
+.pkg-card-body { display: block; height: 100%; border: 2px solid #ddd; border-radius: 8px; padding: 14px 14px 14px 44px; background: var(--white); transition: border-color 0.2s, box-shadow 0.2s; }
+.pkg-card:hover .pkg-card-body { border-color: var(--green); }
+.pkg-input:focus-visible + .pkg-card-body { outline: 2px solid var(--green); outline-offset: 2px; }
+.pkg-input:checked + .pkg-card-body { border-color: var(--green); box-shadow: 0 2px 10px rgba(31,122,110,0.18); background: #f6fbfa; }
+.pkg-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.pkg-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--green-dark); }
+.pkg-flag { font-family: var(--font-display); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; background: var(--red); color: var(--white); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.pkg-price { display: block; font-family: var(--font-display); font-size: 1.5rem; color: var(--red); margin: 4px 0 8px; }
+.pkg-price small { font-family: var(--font-body); font-size: 0.8rem; color: var(--gray); }
+.pkg-includes { display: block; font-size: 0.85rem; color: var(--gray); line-height: 1.5; }
+.pkg-min { display: block; margin-top: 8px; font-size: 0.8rem; color: var(--tan); font-weight: 700; }
+
+/* Choice panel for the selected package. */
+.pkg-panel { margin-top: 28px; padding: 22px; background: var(--cream); border-radius: 8px; }
+.pkg-panel-title { font-size: 1.2rem; color: var(--green-dark); margin-bottom: 8px; }
+.pkg-panel-includes { font-size: 0.9rem; color: var(--gray); margin-bottom: 20px; }
+.choice-group { margin-bottom: 26px; }
+.choice-legend { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; font-family: var(--font-display); font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--green-dark); }
+.choice-hint { font-family: var(--font-body); font-size: 0.8rem; text-transform: none; letter-spacing: 0; color: var(--white); background: var(--green); padding: 2px 10px; border-radius: 999px; }
+.choice-status { font-size: 0.82rem; color: var(--gray); margin: 4px 0 12px; }
+.choice-status.complete { color: var(--green); font-weight: 700; }
+.choice-section { font-family: var(--font-display); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--tan); margin: 14px 0 8px; }
+.choice-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+.choice-option { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--white); border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 0.92rem; min-height: 44px; }
+.choice-option:hover { border-color: var(--green); }
+.choice-option.disabled { opacity: 0.45; cursor: not-allowed; }
+.choice-input { width: 18px; height: 18px; margin-top: 3px; flex-shrink: 0; accent-color: var(--green); }
+.choice-input:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.choice-option:has(.choice-input:checked) { border-color: var(--green); background: #f6fbfa; }
+.choice-text { display: block; line-height: 1.4; }
+.choice-note { display: block; font-size: 0.75rem; color: var(--gray); font-style: italic; }
+.choice-upcharge { display: inline-block; margin-top: 3px; font-size: 0.75rem; font-weight: 700; color: var(--red); }
+
+/* Estimate card. */
+.estimate-card { background: var(--cream); border-radius: 8px; padding: 22px; margin-bottom: 24px; }
+.estimate-title { font-size: 1.15rem; color: var(--green-dark); margin-bottom: 14px; }
+.estimate-lines { list-style: none; padding: 0; margin: 0 0 18px; }
+.estimate-lines li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed #d8d4bf; font-size: 0.9rem; }
+.estimate-lines li span { color: var(--gray); font-family: var(--font-display); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
+.estimate-lines li strong { color: var(--black); text-align: right; font-weight: 400; }
+.estimate-lines .estimate-warning { display: block; color: var(--red); font-weight: 700; border-bottom: 0; }
+.estimate-totals { border-top: 2px solid var(--green-dark); padding-top: 12px; }
+.estimate-row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; font-size: 0.95rem; }
+.estimate-row--total { font-family: var(--font-display); font-size: 1.25rem; color: var(--green-dark); border-top: 1px solid #d8d4bf; margin-top: 8px; padding-top: 12px; }
+.estimate-row--total strong { color: var(--red); }
+.estimate-note { margin-top: 16px; font-size: 0.82rem; color: var(--gray); line-height: 1.6; }
+
+/* Running total, pinned so the number stays visible while they scroll a long
+   list of entrees. position:fixed, not sticky: body has overflow-x:hidden,
+   which makes body a scroll container and silently breaks sticky children. */
+.quote-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--green-dark); color: var(--cream); box-shadow: 0 -2px 12px rgba(0,0,0,0.25); }
+.quote-bar-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; max-width: 900px; padding: 12px 20px; }
+.quote-bar-label { font-size: 0.88rem; }
+.quote-bar-total { font-family: var(--font-display); font-size: 1.3rem; color: var(--white); }
+/* Keeps the bar from covering the last field once it appears. */
+body.quote-bar-on { padding-bottom: 72px; }
+
 /* Catering: service-area pills + town pages */
 .service-area-block { margin: 25px 0 10px; }
 .service-area-county { font-size: 1.05rem; color: var(--green-dark); text-transform: uppercase; margin: 22px 0 12px; }
@@ -1283,6 +1384,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 @media (max-width: 640px) {
     .form-row { grid-template-columns: 1fr; gap: 0; }
+    .quote-form { padding: 22px 16px; }
+    .quote-progress li { flex: 1 1 40%; font-size: 0.72rem; }
+    .quote-progress li span { width: 22px; height: 22px; font-size: 0.78rem; }
+    .pkg-grid { grid-template-columns: 1fr; }
+    .pkg-panel { padding: 16px 14px; margin-left: -4px; margin-right: -4px; }
+    .choice-options { grid-template-columns: 1fr; }
+    .quote-nav button { flex: 1 1 100%; }
+    .quote-bar-inner { padding: 10px 16px; }
+    .quote-bar-total { font-size: 1.15rem; }
     .catering-form-block { padding: 22px 16px; }
     .lunch-section { padding: 36px 0; }
     .lunch-section h2 { font-size: 1.5rem; }

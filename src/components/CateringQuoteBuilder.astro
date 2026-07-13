@@ -1,0 +1,333 @@
+---
+// The /catering/quote builder: a single Netlify Form rendered as four steps.
+//
+// Every input is present in the static HTML at build time, because Netlify
+// detects a form's fields by parsing the deployed HTML. Anything JavaScript
+// creates at runtime is silently dropped from the submission, so the script
+// only shows, hides, limits, and totals what is already here.
+//
+// Prices and options come from cateringPackages.ts (derived from menuData.json),
+// never from copy typed into this file.
+import { CHOICE_PACKAGES, SET_PACKAGES, formatPrice } from '../data/cateringPackages';
+import type { CateringPackage, ChoiceGroup } from '../data/cateringPackages';
+import { PHONE_DISPLAY } from '../data/restaurant';
+
+const ALL_PACKAGES: CateringPackage[] = [...SET_PACKAGES, ...CHOICE_PACKAGES];
+
+// Options inside a group can carry a sub-heading (chicken vs beef & seafood).
+function sectionsOf(group: ChoiceGroup): { name: string; options: typeof group.options }[] {
+  const order: string[] = [];
+  const bySection = new Map<string, typeof group.options>();
+  for (const option of group.options) {
+    const key = option.section ?? '';
+    if (!bySection.has(key)) {
+      bySection.set(key, []);
+      order.push(key);
+    }
+    bySection.get(key)!.push(option);
+  }
+  return order.map((name) => ({ name, options: bySection.get(name)! }));
+}
+
+function chooseHint(group: ChoiceGroup): string {
+  return group.min === group.max ? `Choose ${group.min}` : `Choose ${group.min} to ${group.max}`;
+}
+---
+
+<form
+  name="catering-quote"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  action="/catering-thanks"
+  class="quote-form"
+  id="quoteForm"
+>
+  <input type="hidden" name="form-name" value="catering-quote" />
+  <input type="hidden" name="source" value="quote-builder" />
+  <p class="hidden-field" aria-hidden="true">
+    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+  </p>
+
+  <ol class="quote-progress" id="quoteProgress" aria-label="Quote steps">
+    <li data-step="1" class="active"><span>1</span> Your info</li>
+    <li data-step="2"><span>2</span> Your event</li>
+    <li data-step="3"><span>3</span> Your menu</li>
+    <li data-step="4"><span>4</span> Your estimate</li>
+  </ol>
+
+  <noscript>
+    <p class="quote-noscript">
+      The live estimate needs JavaScript. With it off you can still send the form below, or call us
+      at <a href="tel:+14135948332">{PHONE_DISPLAY}</a> and we'll build the menu with you over the phone.
+    </p>
+  </noscript>
+
+  <!-- Step 1: contact -->
+  <section class="quote-step active" data-step="1">
+    <fieldset>
+      <legend class="quote-legend">Who should we get back to?</legend>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="q-name">Your name *</label>
+          <input id="q-name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div class="form-field">
+          <label for="q-phone">Phone *</label>
+          <input id="q-phone" name="phone" type="tel" required autocomplete="tel" />
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="q-email">Email</label>
+        <input id="q-email" name="email" type="email" autocomplete="email" />
+      </div>
+    </fieldset>
+    <div class="quote-nav">
+      <button type="button" class="btn btn-primary quote-next" data-next="2">Next: your event</button>
+    </div>
+  </section>
+
+  <!-- Step 2: event -->
+  <section class="quote-step" data-step="2">
+    <fieldset>
+      <legend class="quote-legend">Tell us about the event</legend>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="q-date">Event date</label>
+          <input id="q-date" name="event-date" type="date" />
+        </div>
+        <div class="form-field">
+          <label for="q-guests">Guest count *</label>
+          <input id="q-guests" name="guest-count" type="number" min="1" step="1" inputmode="numeric" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="q-town">Event town/city</label>
+          <input id="q-town" name="event-town" type="text" placeholder="e.g. Springfield, MA" />
+        </div>
+        <div class="form-field">
+          <label for="q-type">Event type</label>
+          <select id="q-type" name="event-type">
+            <option value="">Choose one (optional)</option>
+            <option>Corporate / office</option>
+            <option>Wedding / rehearsal</option>
+            <option>Shower / graduation / birthday</option>
+            <option>Holiday party</option>
+            <option>Memorial service</option>
+            <option>Church / school / community</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="q-service">How should we serve it?</label>
+        <select id="q-service" name="service-style">
+          <option value="">Choose one (optional)</option>
+          <option>On-site service at my venue</option>
+          <option>Drop-off, hot and ready</option>
+          <option>Pick-up at 409 Broadway, Chicopee</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+    </fieldset>
+    <div class="quote-nav">
+      <button type="button" class="btn btn-secondary quote-back" data-back="1">Back</button>
+      <button type="button" class="btn btn-primary quote-next" data-next="3">Next: build your menu</button>
+    </div>
+  </section>
+
+  <!-- Step 3: menu -->
+  <section class="quote-step" data-step="3">
+    <fieldset>
+      <legend class="quote-legend">Pick a buffet</legend>
+      <p class="quote-help">
+        Every price below is per person. Pick the closest fit: we build the final menu with you, so
+        nothing here is locked in.
+      </p>
+
+      <h3 class="quote-group-title">Set buffets</h3>
+      <p class="quote-help">Everything is chosen for you. Nothing to pick.</p>
+      <div class="pkg-grid">
+        {
+          SET_PACKAGES.map((pkg) => (
+            <label class="pkg-card">
+              <input
+                type="radio"
+                name="package"
+                value={pkg.name}
+                class="pkg-input"
+                data-pkg={pkg.id}
+                data-price={pkg.basePrice}
+                data-min-guests={pkg.minGuests}
+              />
+              <span class="pkg-card-body">
+                <span class="pkg-card-head">
+                  <span class="pkg-name">{pkg.name}</span>
+                  {pkg.popular && <span class="pkg-flag">Most popular</span>}
+                </span>
+                <span class="pkg-price">
+                  {formatPrice(pkg.basePrice)} <small>per person</small>
+                </span>
+                <span class="pkg-includes">{pkg.includes.join(', ')}</span>
+              </span>
+            </label>
+          ))
+        }
+      </div>
+
+      <h3 class="quote-group-title">Choose your entrees</h3>
+      <p class="quote-help">Pick the buffet, then pick what goes on it.</p>
+      <div class="pkg-grid">
+        {
+          CHOICE_PACKAGES.map((pkg) => (
+            <label class="pkg-card">
+              <input
+                type="radio"
+                name="package"
+                value={pkg.name}
+                class="pkg-input"
+                data-pkg={pkg.id}
+                data-price={pkg.basePrice}
+                data-min-guests={pkg.minGuests}
+              />
+              <span class="pkg-card-body">
+                <span class="pkg-card-head">
+                  <span class="pkg-name">{pkg.name}</span>
+                  {pkg.popular && <span class="pkg-flag">Most popular</span>}
+                </span>
+                <span class="pkg-price">
+                  {formatPrice(pkg.basePrice)} <small>per person</small>
+                </span>
+                <span class="pkg-includes">
+                  {pkg.groups.map((g) => `${chooseHint(g).toLowerCase()} ${g.label.toLowerCase()}`).join(', ')}
+                  {pkg.includes.length > 0 && `. Includes ${pkg.includes.join(', ').toLowerCase()}`}
+                </span>
+                {pkg.minGuests > 1 && <span class="pkg-min">Minimum {pkg.minGuests} guests</span>}
+              </span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    {
+      ALL_PACKAGES.map((pkg) => (
+        <div class="pkg-panel" data-panel={pkg.id} hidden>
+          <h3 class="pkg-panel-title">{pkg.name}</h3>
+          {pkg.includes.length > 0 && (
+            <p class="pkg-panel-includes">
+              <strong>Comes with:</strong> {pkg.includes.join(', ')}
+            </p>
+          )}
+          {pkg.groups.length === 0 && (
+            <p class="quote-help">This buffet is set. Nothing to choose, so head straight to your estimate.</p>
+          )}
+          {pkg.groups.map((group) => (
+            <fieldset
+              class="choice-group"
+              data-group={group.id}
+              data-min={group.min}
+              data-max={group.max}
+              data-multi={group.multi ? 'true' : 'false'}
+            >
+              <legend class="choice-legend">
+                {group.label}
+                <span class="choice-hint">{chooseHint(group)}</span>
+              </legend>
+              <p class="choice-status" data-status aria-live="polite">0 of {group.max} selected</p>
+              {sectionsOf(group).map((sec) => (
+                <>
+                  {sec.name && <p class="choice-section">{sec.name}</p>}
+                  <div class="choice-options">
+                    {sec.options.map((option) => (
+                      <label class="choice-option">
+                        <input
+                          type={group.multi ? 'checkbox' : 'radio'}
+                          name={group.multi ? undefined : `${pkg.id}-${group.id}`}
+                          value={option.name}
+                          class="choice-input"
+                          data-upcharge={option.upcharge}
+                          data-label={option.name}
+                          data-group-label={group.label}
+                        />
+                        <span class="choice-text">
+                          {option.name}
+                          {option.note && <span class="choice-note">{option.note}</span>}
+                          {option.upcharge > 0 && (
+                            <span class="choice-upcharge">+{formatPrice(option.upcharge)}/person</span>
+                          )}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </>
+              ))}
+            </fieldset>
+          ))}
+        </div>
+      ))
+    }
+
+    <p class="quote-error" id="quoteMenuError" role="alert" hidden></p>
+    <div class="quote-nav">
+      <button type="button" class="btn btn-secondary quote-back" data-back="2">Back</button>
+      <button type="button" class="btn btn-primary quote-next" data-next="4">Next: see your estimate</button>
+    </div>
+  </section>
+
+  <!-- Step 4: estimate + submit -->
+  <section class="quote-step" data-step="4">
+    <fieldset>
+      <legend class="quote-legend">Your estimate</legend>
+      <div class="estimate-card" aria-live="polite">
+        <h3 class="estimate-title" id="estimatePackage">No buffet picked yet</h3>
+        <ul class="estimate-lines" id="estimateLines"></ul>
+        <div class="estimate-totals">
+          <div class="estimate-row">
+            <span>Per person</span>
+            <strong id="estimatePerPerson">$0.00</strong>
+          </div>
+          <div class="estimate-row">
+            <span id="estimateGuestsLabel">Guests</span>
+            <strong id="estimateGuests">0</strong>
+          </div>
+          <div class="estimate-row estimate-row--total">
+            <span>Estimated food total</span>
+            <strong id="estimateTotal">$0.00</strong>
+          </div>
+        </div>
+        <p class="estimate-note">
+          This estimate covers food only. Delivery, on-site staffing, and tax are quoted separately,
+          and the final menu is confirmed with you before anything is booked.
+        </p>
+      </div>
+
+      <div class="form-field">
+        <label for="q-notes">Anything else we should know?</label>
+        <textarea
+          id="q-notes"
+          name="notes"
+          rows="4"
+          placeholder="Allergies or dietary needs, venue details, timing, or a dish you don't see here."
+        ></textarea>
+      </div>
+    </fieldset>
+
+    <textarea name="menu-selection" id="quoteSelection" hidden readonly></textarea>
+    <input type="hidden" name="per-person" id="quotePerPerson" />
+    <input type="hidden" name="estimated-food-total" id="quoteTotal" />
+
+    <div class="quote-nav">
+      <button type="button" class="btn btn-secondary quote-back" data-back="3">Back</button>
+      <button type="submit" class="btn btn-primary catering-form-submit">Send My Quote Request</button>
+    </div>
+  </section>
+
+  <div class="quote-bar" id="quoteBar" hidden>
+    <div class="quote-bar-inner container">
+      <span class="quote-bar-label" id="quoteBarLabel">Pick a buffet</span>
+      <span class="quote-bar-total" id="quoteBarTotal"></span>
+    </div>
+  </div>
+</form>

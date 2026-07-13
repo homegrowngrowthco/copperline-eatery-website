@@ -78,7 +78,7 @@ const connecticut = SERVICE_AREAS.filter((a) => a.state === 'CT');
           <p class="lead catering-lead">The Copperline Eatery caters breakfast, lunch, and dinner across Chicopee, Springfield, Holyoke, all of Western Massachusetts, and northern Connecticut. Whether you're planning a corporate event, family gathering, or special celebration, we'll build a menu around your party, served on-site, dropped off hot, or ready for pick-up at our Chicopee restaurant.</p>
 
           <div class="catering-cta-row">
-            <a href="#catering-inquiry" class="btn btn-primary">Request a Catering Quote</a>
+            <a href="/catering/quote" class="btn btn-primary">Build Your Catering Quote</a>
             <a href="/catering-menu.pdf" download class="btn btn-secondary">Download Catering Menu</a>
           </div>
 
@@ -115,7 +115,7 @@ const connecticut = SERVICE_AREAS.filter((a) => a.state === 'CT');
             <div class="how-step">
               <span class="how-step-num">1</span>
               <h3>Tell us about your event</h3>
-              <p><a href="#catering-inquiry">Send a quote request</a> or call <a href="tel:+14135948332">(413) 594-8332</a> with your date, headcount, and the occasion.</p>
+              <p><a href="/catering/quote">Build a quote online</a> or call <a href="tel:+14135948332">(413) 594-8332</a> with your date, headcount, and the occasion.</p>
             </div>
             <div class="how-step">
               <span class="how-step-num">2</span>
@@ -171,8 +171,8 @@ const connecticut = SERVICE_AREAS.filter((a) => a.state === 'CT');
           </div>
 
           <div id="catering-inquiry" class="catering-form-block">
-            <h2>Request a Catering Quote</h2>
-            <p>Tell us about your event and we'll get back to you, usually within one business day. Prefer to talk it through? Call <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a>.</p>
+            <h2>Or Just Send Us a Note</h2>
+            <p>Not sure what you want yet? Tell us about your event and we'll take it from there, usually within one business day. If you'd rather pick a buffet and see pricing as you go, <a href="/catering/quote" class="highlight-link">build a quote online</a>. Prefer to talk it through? Call <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a>.</p>
             <form name="catering-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/catering-thanks" class="catering-form">
               <input type="hidden" name="form-name" value="catering-inquiry" />
               <p class="hidden-field" aria-hidden="true">

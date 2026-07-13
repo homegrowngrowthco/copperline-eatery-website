@@ -2,11 +2,21 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-07-07
+**Last updated:** 2026-07-13
 
 ---
 
-## Recent Updates (2026-07-07)
+## Recent Updates (2026-07-13)
+
+### Session 26 — /catering/quote interactive quote builder (NOT YET DEPLOYED)
+
+New page at `/catering/quote`: a four-step Netlify Form (contact, event, menu, estimate) where the guest picks one of the 9 real buffets, picks their entrees/starch/vegetable/dessert with the correct choose-2 and choose-3 limits enforced, and sees a live per-person price and food-total estimate that includes the premium upcharges (Beef Tenderloin +$5/pp, seafood +$2/pp, and so on). The lead email arrives with the fully itemized menu instead of a paragraph of free text.
+
+Pricing stays off /catering and the 25 town pages exactly as before: the builder is the only catering page with dollar figures, and it is reached by clicking "Build Your Catering Quote". Per Ian's call this session, the page **is indexed** (targets "catering prices" and "catering quote" queries), so the same per-person prices already public on /menu are now also on a page Google can rank.
+
+Packages, options, and every price are derived at build time from the catering sections of `menuData.json` via the new `src/data/cateringPackages.ts`, so prices cannot drift from /menu or the PDF. The parser throws at build time on any upcharge it cannot read. Details in CLAUDE.md Session 26.
+
+**Ian's one required follow-up before this earns anything: add an email notification for the new `catering-quote` form** in the Netlify dashboard (Forms → catering-quote → notifications). It is a separate form from `catering-inquiry`, and form notifications are dashboard-only (no API), so without it the leads pool unseen, exactly as they did in Session 23.
 
 ### Session 25 — SEO audit + fix wave (via PR)
 
