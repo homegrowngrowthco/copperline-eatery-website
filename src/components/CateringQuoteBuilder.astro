@@ -6,6 +6,11 @@
 // creates at runtime is silently dropped from the submission, so the script
 // only shows, hides, limits, and totals what is already here.
 //
+// Menu choices are <select> elements (one per pick, so "choose 3 entrees" is
+// Entree 1/2/3) rather than a wall of checkboxes: it reads like a normal form,
+// it makes each pick required so the browser's own validation fires, and the
+// running "Your menu so far" panel gives the guest something to check against.
+//
 // Prices and options come from cateringPackages.ts (derived from menuData.json),
 // never from copy typed into this file.
 import { CHOICE_PACKAGES, SET_PACKAGES, formatPrice } from '../data/cateringPackages';
@@ -14,7 +19,8 @@ import { PHONE_DISPLAY } from '../data/restaurant';
 
 const ALL_PACKAGES: CateringPackage[] = [...SET_PACKAGES, ...CHOICE_PACKAGES];
 
-// Options inside a group can carry a sub-heading (chicken vs beef & seafood).
+// Options inside a group can carry a sub-heading (chicken vs beef & seafood),
+// which becomes an <optgroup>.
 function sectionsOf(group: ChoiceGroup): { name: string; options: typeof group.options }[] {
   const order: string[] = [];
   const bySection = new Map<string, typeof group.options>();
@@ -29,8 +35,20 @@ function sectionsOf(group: ChoiceGroup): { name: string; options: typeof group.o
   return order.map((name) => ({ name, options: bySection.get(name)! }));
 }
 
+/** "Entrees" -> "Entree", so the three selects read Entree 1 / 2 / 3. */
+function singular(label: string): string {
+  return label.replace(/s$/, '');
+}
+
 function chooseHint(group: ChoiceGroup): string {
-  return group.min === group.max ? `Choose ${group.min}` : `Choose ${group.min} to ${group.max}`;
+  return `Choose ${group.min} ${group.min === 1 ? singular(group.label).toLowerCase() : group.label.toLowerCase()}`;
+}
+
+function optionLabel(name: string, upcharge: number, note?: string): string {
+  const parts = [name];
+  if (note) parts.push(`(${note})`);
+  if (upcharge > 0) parts.push(`+${formatPrice(upcharge)}/person`);
+  return parts.join(' ');
 }
 ---
 
@@ -141,13 +159,10 @@ function chooseHint(group: ChoiceGroup): string {
   <section class="quote-step" data-step="3">
     <fieldset>
       <legend class="quote-legend">Pick a buffet</legend>
-      <p class="quote-help">
-        Every price below is per person. Pick the closest fit: we build the final menu with you, so
-        nothing here is locked in.
-      </p>
+      <p class="quote-help">All prices are per person, and every menu is finalized with you.</p>
 
       <h3 class="quote-group-title">Set buffets</h3>
-      <p class="quote-help">Everything is chosen for you. Nothing to pick.</p>
+      <p class="quote-help">Everything is chosen for you.</p>
       <div class="pkg-grid">
         {
           SET_PACKAGES.map((pkg) => (
@@ -169,7 +184,11 @@ function chooseHint(group: ChoiceGroup): string {
                 <span class="pkg-price">
                   {formatPrice(pkg.basePrice)} <small>per person</small>
                 </span>
-                <span class="pkg-includes">{pkg.includes.join(', ')}</span>
+                <span class="pkg-items">
+                  {pkg.includes.map((item) => (
+                    <span class="pkg-item">{item}</span>
+                  ))}
+                </span>
               </span>
             </label>
           ))
@@ -199,10 +218,14 @@ function chooseHint(group: ChoiceGroup): string {
                 <span class="pkg-price">
                   {formatPrice(pkg.basePrice)} <small>per person</small>
                 </span>
-                <span class="pkg-includes">
-                  {pkg.groups.map((g) => `${chooseHint(g).toLowerCase()} ${g.label.toLowerCase()}`).join(', ')}
-                  {pkg.includes.length > 0 && `. Includes ${pkg.includes.join(', ').toLowerCase()}`}
+                <span class="pkg-items">
+                  {pkg.groups.map((group) => (
+                    <span class="pkg-item">{chooseHint(group)}</span>
+                  ))}
                 </span>
+                {pkg.includes.length > 0 && (
+                  <span class="pkg-included">Includes {pkg.includes.join(', ').toLowerCase()}</span>
+                )}
                 {pkg.minGuests > 1 && <span class="pkg-min">Minimum {pkg.minGuests} guests</span>}
               </span>
             </label>
@@ -221,53 +244,67 @@ function chooseHint(group: ChoiceGroup): string {
             </p>
           )}
           {pkg.groups.length === 0 && (
-            <p class="quote-help">This buffet is set. Nothing to choose, so head straight to your estimate.</p>
+            <p class="quote-help">
+              This buffet is set, so there is nothing to choose. Head straight to your estimate.
+            </p>
           )}
           {pkg.groups.map((group) => (
-            <fieldset
-              class="choice-group"
-              data-group={group.id}
-              data-min={group.min}
-              data-max={group.max}
-              data-multi={group.multi ? 'true' : 'false'}
-            >
+            <fieldset class="choice-group" data-group={group.id} data-min={group.min}>
               <legend class="choice-legend">
                 {group.label}
                 <span class="choice-hint">{chooseHint(group)}</span>
               </legend>
-              <p class="choice-status" data-status aria-live="polite">0 of {group.max} selected</p>
-              {sectionsOf(group).map((sec) => (
-                <>
-                  {sec.name && <p class="choice-section">{sec.name}</p>}
-                  <div class="choice-options">
-                    {sec.options.map((option) => (
-                      <label class="choice-option">
-                        <input
-                          type={group.multi ? 'checkbox' : 'radio'}
-                          name={group.multi ? undefined : `${pkg.id}-${group.id}`}
-                          value={option.name}
-                          class="choice-input"
-                          data-upcharge={option.upcharge}
-                          data-label={option.name}
-                          data-group-label={group.label}
-                        />
-                        <span class="choice-text">
-                          {option.name}
-                          {option.note && <span class="choice-note">{option.note}</span>}
-                          {option.upcharge > 0 && (
-                            <span class="choice-upcharge">+{formatPrice(option.upcharge)}/person</span>
-                          )}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </>
-              ))}
+              <div class="choice-selects">
+                {Array.from({ length: group.max }, (_, i) => {
+                  const id = `sel-${pkg.id}-${group.id}-${i + 1}`;
+                  const label =
+                    group.max > 1 ? `${singular(group.label)} ${i + 1}` : group.label;
+                  return (
+                    <div class="form-field choice-field">
+                      <label for={id}>{label} *</label>
+                      <select
+                        id={id}
+                        name={group.max > 1 ? `${pkg.id}-${group.id}-${i + 1}` : `${pkg.id}-${group.id}`}
+                        class="choice-select"
+                        data-group-label={group.label}
+                        data-slot={i + 1}
+                        required
+                      >
+                        <option value="">Choose {singular(group.label).toLowerCase()}...</option>
+                        {sectionsOf(group).map((sec) =>
+                          sec.name ? (
+                            <optgroup label={sec.name}>
+                              {sec.options.map((option) => (
+                                <option value={option.name} data-upcharge={option.upcharge}>
+                                  {optionLabel(option.name, option.upcharge, option.note)}
+                                </option>
+                              ))}
+                            </optgroup>
+                          ) : (
+                            sec.options.map((option) => (
+                              <option value={option.name} data-upcharge={option.upcharge}>
+                                {optionLabel(option.name, option.upcharge, option.note)}
+                              </option>
+                            ))
+                          )
+                        )}
+                      </select>
+                    </div>
+                  );
+                })}
+              </div>
             </fieldset>
           ))}
         </div>
       ))
     }
+
+    <!-- Live "here is what you've built" panel, so the menu is visible while they pick. -->
+    <aside class="menu-preview" id="menuPreview" aria-live="polite" hidden>
+      <h3 class="menu-preview-title">Your menu so far</h3>
+      <ul class="menu-preview-list" id="menuPreviewList"></ul>
+      <p class="menu-preview-todo" id="menuPreviewTodo"></p>
+    </aside>
 
     <p class="quote-error" id="quoteMenuError" role="alert" hidden></p>
     <div class="quote-nav">
@@ -276,12 +313,33 @@ function chooseHint(group: ChoiceGroup): string {
     </div>
   </section>
 
-  <!-- Step 4: estimate + submit -->
+  <!-- Step 4: review + estimate + submit -->
   <section class="quote-step" data-step="4">
     <fieldset>
-      <legend class="quote-legend">Your estimate</legend>
+      <legend class="quote-legend">Review and send</legend>
+
+      <div class="review-grid">
+        <div class="review-block">
+          <div class="review-head">
+            <h3>Your info</h3>
+            <button type="button" class="review-edit" data-goto="1">Edit</button>
+          </div>
+          <dl class="review-list" id="reviewContact"></dl>
+        </div>
+        <div class="review-block">
+          <div class="review-head">
+            <h3>Your event</h3>
+            <button type="button" class="review-edit" data-goto="2">Edit</button>
+          </div>
+          <dl class="review-list" id="reviewEvent"></dl>
+        </div>
+      </div>
+
       <div class="estimate-card" aria-live="polite">
-        <h3 class="estimate-title" id="estimatePackage">No buffet picked yet</h3>
+        <div class="review-head">
+          <h3 class="estimate-title" id="estimatePackage">No buffet picked yet</h3>
+          <button type="button" class="review-edit" data-goto="3">Edit</button>
+        </div>
         <ul class="estimate-lines" id="estimateLines"></ul>
         <div class="estimate-totals">
           <div class="estimate-row">
@@ -289,7 +347,7 @@ function chooseHint(group: ChoiceGroup): string {
             <strong id="estimatePerPerson">$0.00</strong>
           </div>
           <div class="estimate-row">
-            <span id="estimateGuestsLabel">Guests</span>
+            <span>Guests</span>
             <strong id="estimateGuests">0</strong>
           </div>
           <div class="estimate-row estimate-row--total">
@@ -298,8 +356,8 @@ function chooseHint(group: ChoiceGroup): string {
           </div>
         </div>
         <p class="estimate-note">
-          This estimate covers food only. Delivery, on-site staffing, and tax are quoted separately,
-          and the final menu is confirmed with you before anything is booked.
+          All prices are estimates. This covers food only: delivery, on-site staffing, and tax are
+          quoted separately, and the final menu is confirmed with you before anything is booked.
         </p>
       </div>
 
@@ -318,6 +376,7 @@ function chooseHint(group: ChoiceGroup): string {
     <input type="hidden" name="per-person" id="quotePerPerson" />
     <input type="hidden" name="estimated-food-total" id="quoteTotal" />
 
+    <p class="quote-error" id="quoteSubmitError" role="alert" hidden></p>
     <div class="quote-nav">
       <button type="button" class="btn btn-secondary quote-back" data-back="3">Back</button>
       <button type="submit" class="btn btn-primary catering-form-submit">Send My Quote Request</button>

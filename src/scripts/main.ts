@@ -87,9 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // The /catering/quote builder. Every input already exists in the static HTML
 // (Netlify parses the deployed page to register the form's fields), so this
-// only steps through the sections, enforces each group's choose-N limit,
-// totals the estimate, and serializes the picks into the hidden fields that
-// make the lead email readable.
+// only steps through the sections, keeps the menu selects honest, totals the
+// estimate, and serializes the picks into the hidden fields that make the lead
+// email readable.
 function initQuoteBuilder() {
   const found = document.querySelector<HTMLFormElement>('#quoteForm');
   if (!found) return;
@@ -106,6 +106,10 @@ function initQuoteBuilder() {
   const panels = form.querySelectorAll<HTMLElement>('.pkg-panel');
   const guestsInput = form.querySelector<HTMLInputElement>('#q-guests');
   const menuError = form.querySelector<HTMLElement>('#quoteMenuError');
+  const submitError = form.querySelector<HTMLElement>('#quoteSubmitError');
+  const preview = form.querySelector<HTMLElement>('#menuPreview');
+  const previewList = form.querySelector<HTMLElement>('#menuPreviewList');
+  const previewTodo = form.querySelector<HTMLElement>('#menuPreviewTodo');
   const bar = form.querySelector<HTMLElement>('#quoteBar');
   const barLabel = form.querySelector<HTMLElement>('#quoteBarLabel');
   const barTotal = form.querySelector<HTMLElement>('#quoteBarTotal');
@@ -113,17 +117,32 @@ function initQuoteBuilder() {
   const perPersonField = form.querySelector<HTMLInputElement>('#quotePerPerson');
   const totalField = form.querySelector<HTMLInputElement>('#quoteTotal');
 
-  const money = (n: number) =>
-    n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  const money = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
-  const selectedPackage = () =>
-    form.querySelector<HTMLInputElement>('input[name="package"]:checked');
+  const selectedPackage = () => form.querySelector<HTMLInputElement>('input[name="package"]:checked');
 
   const activePanel = () => {
     const pkg = selectedPackage();
     if (!pkg) return null;
     return form.querySelector<HTMLElement>(`.pkg-panel[data-panel="${pkg.dataset.pkg}"]`);
   };
+
+  const activeSelects = () =>
+    Array.from(activePanel()?.querySelectorAll<HTMLSelectElement>('.choice-select') ?? []);
+
+  const fieldName = (select: HTMLSelectElement) =>
+    (form.querySelector(`label[for="${select.id}"]`)?.textContent ?? 'a menu choice')
+      .replace('*', '')
+      .trim();
+
+  const value = (selector: string) =>
+    form.querySelector<HTMLInputElement | HTMLSelectElement>(selector)?.value.trim() ?? '';
+
+  function showError(el: HTMLElement | null, message: string) {
+    if (!el) return;
+    el.textContent = message;
+    el.hidden = message === '';
+  }
 
   function showStep(n: number) {
     steps.forEach((step) => step.classList.toggle('active', step.dataset.step === String(n)));
@@ -138,91 +157,83 @@ function initQuoteBuilder() {
     heading?.focus();
   }
 
-  // Native validation for the required fields on the step we're leaving.
-  function stepIsValid(n: number): boolean {
-    const step = form.querySelector<HTMLElement>(`.quote-step[data-step="${n}"]`);
-    if (!step) return true;
-    const required = step.querySelectorAll<HTMLInputElement>('input[required], select[required]');
-    for (const field of required) {
-      if (!field.checkValidity()) {
-        field.reportValidity();
-        return false;
-      }
-    }
-    if (n === 3) return menuIsValid();
-    return true;
+  // A dish taken in one slot can't be taken again in a sibling slot.
+  function syncDuplicates() {
+    activePanel()
+      ?.querySelectorAll<HTMLElement>('.choice-group')
+      .forEach((group) => {
+        const selects = Array.from(group.querySelectorAll<HTMLSelectElement>('.choice-select'));
+        if (selects.length < 2) return;
+        const taken = new Set(selects.map((s) => s.value).filter(Boolean));
+        selects.forEach((select) => {
+          Array.from(select.options).forEach((option) => {
+            if (!option.value) return;
+            option.disabled = option.value !== select.value && taken.has(option.value);
+          });
+        });
+      });
   }
 
-  // Every group in the chosen package has to have its full complement picked.
-  function menuIsValid(): boolean {
-    const pkg = selectedPackage();
-    if (!pkg) {
-      showMenuError('Pick a buffet to build your estimate.');
-      return false;
-    }
-    const panel = activePanel();
-    const groups = panel?.querySelectorAll<HTMLElement>('.choice-group') ?? [];
-    for (const group of groups) {
-      const min = Number(group.dataset.min ?? 0);
-      const checked = group.querySelectorAll('.choice-input:checked').length;
-      if (checked < min) {
-        const label = group.querySelector('.choice-legend')?.firstChild?.textContent?.trim() ?? 'an option';
-        showMenuError(`Choose ${min} ${label.toLowerCase()} to finish this buffet.`);
-        group.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return false;
-      }
-    }
-    showMenuError('');
-    return true;
-  }
-
-  function showMenuError(message: string) {
-    if (!menuError) return;
-    menuError.textContent = message;
-    menuError.hidden = message === '';
-  }
-
-  // Only the chosen package's inputs stay enabled, so a buffet the guest looked
-  // at and moved on from can never ride along in the submission.
+  // Only the chosen package's selects stay enabled, so a buffet the guest looked
+  // at and moved on from can never ride along in the submission (and a disabled
+  // required select doesn't block the form's own validation).
   function syncPanels() {
     const current = selectedPackage()?.dataset.pkg;
     panels.forEach((panel) => {
       const isActive = panel.dataset.panel === current;
       panel.hidden = !isActive;
-      panel.querySelectorAll<HTMLInputElement>('.choice-input').forEach((input) => {
-        input.disabled = !isActive;
-      });
+      panel
+        .querySelectorAll<HTMLSelectElement>('.choice-select')
+        .forEach((select) => (select.disabled = !isActive));
     });
-    const panel = activePanel();
-    panel?.querySelectorAll<HTMLElement>('.choice-group').forEach(enforceGroupLimit);
+    syncDuplicates();
   }
 
-  function enforceGroupLimit(group: HTMLElement) {
-    const max = Number(group.dataset.max ?? 1);
-    const multi = group.dataset.multi === 'true';
-    const inputs = group.querySelectorAll<HTMLInputElement>('.choice-input');
-    const checked = group.querySelectorAll<HTMLInputElement>('.choice-input:checked').length;
-
-    if (multi) {
-      // At the limit, the unchosen options grey out rather than silently
-      // letting someone pick a third entree we won't honor.
-      inputs.forEach((input) => {
-        input.disabled = !input.checked && checked >= max;
-        input.closest('.choice-option')?.classList.toggle('disabled', input.disabled);
-      });
+  function menuIsValid(report: boolean): boolean {
+    const pkg = selectedPackage();
+    if (!pkg) {
+      if (report) {
+        showError(menuError, 'Pick a buffet first, then choose what goes on it.');
+        form.querySelector('.pkg-grid')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return false;
     }
-
-    const status = group.querySelector<HTMLElement>('[data-status]');
-    if (status) {
-      status.textContent = `${checked} of ${max} selected`;
-      status.classList.toggle('complete', checked >= Number(group.dataset.min ?? 1));
+    const missing = activeSelects().filter((select) => !select.value);
+    if (missing.length > 0) {
+      if (report) {
+        // Name exactly what is missing, mark the fields, and let the browser's
+        // own bubble point at the first one.
+        showError(
+          menuError,
+          `Your menu isn't finished. Still to choose: ${missing.map(fieldName).join(', ')}.`
+        );
+        missing.forEach((select) => select.closest('.choice-field')?.classList.add('missing'));
+        missing[0].reportValidity();
+        missing[0].closest('.choice-field')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return false;
     }
+    showError(menuError, '');
+    return true;
+  }
+
+  function stepIsValid(n: number, report: boolean): boolean {
+    if (n === 3) return menuIsValid(report);
+    const step = form.querySelector<HTMLElement>(`.quote-step[data-step="${n}"]`);
+    if (!step) return true;
+    const required = step.querySelectorAll<HTMLInputElement>('input[required], select[required]');
+    for (const field of required) {
+      if (!field.checkValidity()) {
+        if (report) field.reportValidity();
+        return false;
+      }
+    }
+    return true;
   }
 
   interface Line {
     label: string;
     value: string;
-    upcharge: number;
   }
 
   function collect(): { lines: Line[]; perPerson: number; guests: number; total: number } {
@@ -231,28 +242,104 @@ function initQuoteBuilder() {
     const lines: Line[] = [];
     let upcharges = 0;
 
-    const panel = activePanel();
-    panel?.querySelectorAll<HTMLElement>('.choice-group').forEach((group) => {
-      const picked = Array.from(
-        group.querySelectorAll<HTMLInputElement>('.choice-input:checked')
-      );
-      if (picked.length === 0) return;
-      const groupLabel = picked[0].dataset.groupLabel ?? 'Choices';
-      const values = picked.map((input) => {
-        const up = Number(input.dataset.upcharge ?? 0);
-        upcharges += up;
-        return up > 0 ? `${input.dataset.label} (+${money(up)}/person)` : `${input.dataset.label}`;
+    activePanel()
+      ?.querySelectorAll<HTMLElement>('.choice-group')
+      .forEach((group) => {
+        const selects = Array.from(group.querySelectorAll<HTMLSelectElement>('.choice-select'));
+        const picks = selects
+          .filter((select) => select.value)
+          .map((select) => {
+            const option = select.selectedOptions[0];
+            const up = Number(option?.dataset.upcharge ?? 0);
+            upcharges += up;
+            // The Hot Item Buffet's chicken dishes are named by preparation
+            // ("Marsala", "Lemon"), so carry the optgroup through or the lead
+            // email reads "Entrees: Marsala, Shrimp Scampi".
+            const parent = option?.parentElement;
+            const section = parent instanceof HTMLOptGroupElement ? ` (${parent.label})` : '';
+            const premium = up > 0 ? ` (+${money(up)}/person)` : '';
+            return `${select.value}${section}${premium}`;
+          });
+        if (picks.length > 0) {
+          lines.push({
+            label: selects[0]?.dataset.groupLabel ?? 'Choices',
+            value: picks.join(', '),
+          });
+        }
       });
-      lines.push({
-        label: groupLabel,
-        value: values.join(', '),
-        upcharge: picked.reduce((sum, i) => sum + Number(i.dataset.upcharge ?? 0), 0),
-      });
-    });
 
     const perPerson = base + upcharges;
     const guests = Number(guestsInput?.value ?? 0) || 0;
     return { lines, perPerson, guests, total: perPerson * guests };
+  }
+
+  function row(list: HTMLElement, label: string, text: string) {
+    const li = document.createElement('li');
+    const key = document.createElement('span');
+    key.textContent = label;
+    const val = document.createElement('strong');
+    val.textContent = text;
+    li.append(key, val);
+    list.appendChild(li);
+  }
+
+  function renderPreview() {
+    if (!preview || !previewList || !previewTodo) return;
+    const pkg = selectedPackage();
+    preview.hidden = !pkg;
+    if (!pkg) return;
+
+    const { lines, perPerson } = collect();
+    previewList.textContent = '';
+    row(previewList, pkg.value, `${money(Number(pkg.dataset.price ?? 0))} per person`);
+    lines.forEach((line) => row(previewList, line.label, line.value));
+
+    const missing = activeSelects().filter((select) => !select.value);
+    previewTodo.textContent =
+      missing.length > 0
+        ? `Still to choose: ${missing.map(fieldName).join(', ')}.`
+        : `Menu complete. ${money(perPerson)} per person.`;
+    previewTodo.classList.toggle('complete', missing.length === 0);
+  }
+
+  function renderReview() {
+    const fill = (el: HTMLElement | null, rows: [string, string][]) => {
+      if (!el) return;
+      el.textContent = '';
+      rows.forEach(([label, text]) => {
+        const wrap = document.createElement('div');
+        const dt = document.createElement('dt');
+        dt.textContent = label;
+        const dd = document.createElement('dd');
+        dd.textContent = text || 'Not given';
+        if (!text) dd.classList.add('empty');
+        wrap.append(dt, dd);
+        el.appendChild(wrap);
+      });
+    };
+
+    const raw = value('#q-date');
+    const date = raw
+      ? new Date(`${raw}T00:00:00`).toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        })
+      : '';
+
+    fill(form.querySelector('#reviewContact'), [
+      ['Name', value('#q-name')],
+      ['Phone', value('#q-phone')],
+      ['Email', value('#q-email')],
+    ]);
+    fill(form.querySelector('#reviewEvent'), [
+      ['Date', date],
+      ['Guests', value('#q-guests')],
+      ['Town', value('#q-town')],
+      ['Event type', value('#q-type')],
+      ['Service', value('#q-service')],
+    ]);
   }
 
   function render() {
@@ -273,15 +360,7 @@ function initQuoteBuilder() {
 
     if (linesEl) {
       linesEl.textContent = '';
-      lines.forEach((line) => {
-        const li = document.createElement('li');
-        const label = document.createElement('span');
-        label.textContent = line.label;
-        const value = document.createElement('strong');
-        value.textContent = line.value;
-        li.append(label, value);
-        linesEl.appendChild(li);
-      });
+      lines.forEach((line) => row(linesEl, line.label, line.value));
 
       // The minimum is a real kitchen constraint, so say it plainly rather than
       // blocking the send: an under-count guest can still be quoted by phone.
@@ -296,7 +375,7 @@ function initQuoteBuilder() {
 
     if (perPersonEl) perPersonEl.textContent = money(perPerson);
     if (guestsEl) guestsEl.textContent = guests > 0 ? String(guests) : 'Add a guest count';
-    if (totalEl) totalEl.textContent = guests > 0 ? money(total) : money(0);
+    if (totalEl) totalEl.textContent = money(guests > 0 ? total : 0);
 
     if (bar && barLabel && barTotal) {
       bar.hidden = !pkg;
@@ -330,12 +409,15 @@ function initQuoteBuilder() {
     }
     if (perPersonField) perPersonField.value = perPerson > 0 ? money(perPerson) : '';
     if (totalField) totalField.value = guests > 0 && total > 0 ? money(total) : '';
+
+    renderPreview();
+    renderReview();
   }
 
   form.querySelectorAll<HTMLElement>('.quote-next').forEach((button) => {
     button.addEventListener('click', () => {
       const from = Number(button.closest<HTMLElement>('.quote-step')?.dataset.step ?? 1);
-      if (!stepIsValid(from)) return;
+      if (!stepIsValid(from, true)) return;
       showStep(Number(button.dataset.next ?? from + 1));
     });
   });
@@ -344,27 +426,41 @@ function initQuoteBuilder() {
     button.addEventListener('click', () => showStep(Number(button.dataset.back ?? 1)));
   });
 
+  // "Edit" on the review step jumps back to the section it summarises.
+  form.querySelectorAll<HTMLElement>('.review-edit').forEach((button) => {
+    button.addEventListener('click', () => showStep(Number(button.dataset.goto ?? 1)));
+  });
+
   form.addEventListener('change', (event) => {
     const target = event.target as HTMLElement;
     if (target.matches('input[name="package"]')) {
       syncPanels();
-      showMenuError('');
-    } else if (target.matches('.choice-input')) {
-      const group = target.closest<HTMLElement>('.choice-group');
-      if (group) enforceGroupLimit(group);
-      showMenuError('');
+      showError(menuError, '');
+    } else if (target.matches('.choice-select')) {
+      syncDuplicates();
+      target.closest('.choice-field')?.classList.remove('missing');
+      if (activeSelects().every((select) => select.value)) showError(menuError, '');
     }
     render();
   });
 
-  guestsInput?.addEventListener('input', render);
+  form.addEventListener('input', render);
 
   form.addEventListener('submit', (event) => {
-    if (!menuIsValid()) {
+    const firstBad = [1, 2, 3].find((n) => !stepIsValid(n, false));
+    if (firstBad) {
       event.preventDefault();
-      showStep(3);
+      showError(
+        submitError,
+        'Some details are still missing, so we sent you back to finish them.'
+      );
+      showStep(firstBad);
+      // Report only once the step is visible: the browser cannot show a
+      // validation bubble on a field inside a display:none section.
+      window.setTimeout(() => stepIsValid(firstBad, true), 0);
       return;
     }
+    showError(submitError, '');
     render();
     if (typeof gtag === 'function') {
       gtag('event', 'catering_quote_submit');
@@ -374,6 +470,7 @@ function initQuoteBuilder() {
   syncPanels();
   render();
 }
+
 
 function initReviewsCarousel() {
   const carousel = document.getElementById('reviewsCarousel');

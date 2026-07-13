@@ -1,9 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { PHONE_DISPLAY, SITE_URL } from '../data/restaurant';
+import { OPENING_HOURS, PHONE_DISPLAY, SITE_URL } from '../data/restaurant';
 
 // Netlify Forms success page for the catering inquiry. Noindex + excluded
 // from the sitemap (see astro.config.mjs).
+
+// Hours are rendered from OPENING_HOURS (the same constant the Restaurant
+// schema and the footer use) so this page can never drift from the real NAP.
+function clock(time: string): string {
+  const [h, m] = time.split(':').map(Number);
+  const suffix = h >= 12 ? 'PM' : 'AM';
+  const hour = h % 12 === 0 ? 12 : h % 12;
+  return `${hour}:${String(m).padStart(2, '0')} ${suffix}`;
+}
+
+const HOURS_LINES = OPENING_HOURS.map((slot) => {
+  const days = Array.isArray(slot.dayOfWeek)
+    ? `${slot.dayOfWeek[0]} - ${slot.dayOfWeek[slot.dayOfWeek.length - 1]}`
+    : slot.dayOfWeek;
+  return `${days}: ${clock(slot.opens)} - ${clock(slot.closes)}`;
+});
 ---
 
 <BaseLayout
@@ -22,7 +38,10 @@ import { PHONE_DISPLAY, SITE_URL } from '../data/restaurant';
     <section class="content-section">
       <div class="container">
         <div class="catering-content">
-          <p class="lead catering-lead">Need an answer sooner? Call us at <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a> during business hours (Mon-Fri 6am-2pm, Sat 6am-1:30pm, Sun 6:30am-1pm) and we'll talk through your event on the spot.</p>
+          <p class="lead catering-lead">Need an answer sooner? Call us at <a href="tel:+14135948332" class="highlight-link">{PHONE_DISPLAY}</a> during business hours and we'll talk through your event on the spot.</p>
+          <ul class="thanks-hours">
+            {HOURS_LINES.map((line) => <li>{line}</li>)}
+          </ul>
           <div class="catering-cta-row">
             <a href="/menu#catering" class="btn btn-secondary">Browse the Catering Menu</a>
             <a href="/" class="btn btn-secondary">Back to Home</a>
