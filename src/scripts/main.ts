@@ -87,9 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // The /catering/quote builder. Every input already exists in the static HTML
 // (Netlify parses the deployed page to register the form's fields), so this
-// only steps through the sections, keeps the menu selects honest, totals the
-// estimate, and serializes the picks into the hidden fields that make the lead
-// email readable.
+// only steps through the sections, holds each course to its choose-N limit,
+// keeps the order summary in sync, and serializes the picks into the hidden
+// fields that make the lead email readable.
 function initQuoteBuilder() {
   const found = document.querySelector<HTMLFormElement>('#quoteForm');
   if (!found) return;
@@ -97,8 +97,8 @@ function initQuoteBuilder() {
   // declarations, and TS won't carry the null-guard's narrowing into them.
   const form: HTMLFormElement = found;
 
-  // Steps, the progress rail, and the estimate card are inert without JS, so
-  // they only start hiding/showing once we're here.
+  // Steps, the progress rail, the summary, and the estimate card are inert
+  // without JS, so they only start hiding/showing once we're here.
   form.classList.add('js-on');
 
   const steps = form.querySelectorAll<HTMLElement>('.quote-step');
@@ -107,9 +107,7 @@ function initQuoteBuilder() {
   const guestsInput = form.querySelector<HTMLInputElement>('#q-guests');
   const menuError = form.querySelector<HTMLElement>('#quoteMenuError');
   const submitError = form.querySelector<HTMLElement>('#quoteSubmitError');
-  const preview = form.querySelector<HTMLElement>('#menuPreview');
-  const previewList = form.querySelector<HTMLElement>('#menuPreviewList');
-  const previewTodo = form.querySelector<HTMLElement>('#menuPreviewTodo');
+  const summary = form.querySelector<HTMLElement>('#menuSummary');
   const bar = form.querySelector<HTMLElement>('#quoteBar');
   const barLabel = form.querySelector<HTMLElement>('#quoteBarLabel');
   const barTotal = form.querySelector<HTMLElement>('#quoteBarTotal');
@@ -127,13 +125,11 @@ function initQuoteBuilder() {
     return form.querySelector<HTMLElement>(`.pkg-panel[data-panel="${pkg.dataset.pkg}"]`);
   };
 
-  const activeSelects = () =>
-    Array.from(activePanel()?.querySelectorAll<HTMLSelectElement>('.choice-select') ?? []);
+  const groupsOf = (panel: HTMLElement | null) =>
+    Array.from(panel?.querySelectorAll<HTMLElement>('.dish-group') ?? []);
 
-  const fieldName = (select: HTMLSelectElement) =>
-    (form.querySelector(`label[for="${select.id}"]`)?.textContent ?? 'a menu choice')
-      .replace('*', '')
-      .trim();
+  const picksIn = (group: HTMLElement) =>
+    Array.from(group.querySelectorAll<HTMLInputElement>('.dish-input:checked'));
 
   const value = (selector: string) =>
     form.querySelector<HTMLInputElement | HTMLSelectElement>(selector)?.value.trim() ?? '';
@@ -157,59 +153,70 @@ function initQuoteBuilder() {
     heading?.focus();
   }
 
-  // A dish taken in one slot can't be taken again in a sibling slot.
-  function syncDuplicates() {
-    activePanel()
-      ?.querySelectorAll<HTMLElement>('.choice-group')
-      .forEach((group) => {
-        const selects = Array.from(group.querySelectorAll<HTMLSelectElement>('.choice-select'));
-        if (selects.length < 2) return;
-        const taken = new Set(selects.map((s) => s.value).filter(Boolean));
-        selects.forEach((select) => {
-          Array.from(select.options).forEach((option) => {
-            if (!option.value) return;
-            option.disabled = option.value !== select.value && taken.has(option.value);
-          });
-        });
+  // At the limit, the dishes not picked go quiet rather than letting someone
+  // choose a third entree we won't honour.
+  function enforceLimit(group: HTMLElement) {
+    const max = Number(group.dataset.max ?? 1);
+    const multi = group.dataset.multi === 'true';
+    const picked = picksIn(group).length;
+
+    if (multi) {
+      group.querySelectorAll<HTMLInputElement>('.dish-input').forEach((input) => {
+        input.disabled = !input.checked && picked >= max;
+        input.closest('.dish')?.classList.toggle('is-full', input.disabled);
       });
+    }
+
+    const count = group.querySelector<HTMLElement>('[data-count]');
+    if (count) {
+      count.textContent = `${picked} of ${max} picked`;
+      count.classList.toggle('complete', picked >= Number(group.dataset.min ?? 1));
+    }
+    const swap = group.querySelector<HTMLElement>('[data-swap]');
+    if (swap) swap.hidden = !multi || picked < max;
+    group.classList.toggle('is-missing', false);
   }
 
-  // Only the chosen package's selects stay enabled, so a buffet the guest looked
-  // at and moved on from can never ride along in the submission (and a disabled
-  // required select doesn't block the form's own validation).
+  // Only the chosen package's inputs stay enabled, so a buffet the guest looked
+  // at and moved on from can never ride along in the submission.
   function syncPanels() {
     const current = selectedPackage()?.dataset.pkg;
     panels.forEach((panel) => {
       const isActive = panel.dataset.panel === current;
       panel.hidden = !isActive;
-      panel
-        .querySelectorAll<HTMLSelectElement>('.choice-select')
-        .forEach((select) => (select.disabled = !isActive));
+      panel.querySelectorAll<HTMLInputElement>('.dish-input').forEach((input) => {
+        input.disabled = !isActive;
+      });
     });
-    syncDuplicates();
+    groupsOf(activePanel()).forEach(enforceLimit);
+  }
+
+  function incompleteGroups(): HTMLElement[] {
+    return groupsOf(activePanel()).filter(
+      (group) => picksIn(group).length < Number(group.dataset.min ?? 0)
+    );
   }
 
   function menuIsValid(report: boolean): boolean {
-    const pkg = selectedPackage();
-    if (!pkg) {
+    if (!selectedPackage()) {
       if (report) {
         showError(menuError, 'Pick a buffet first, then choose what goes on it.');
         form.querySelector('.pkg-grid')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       return false;
     }
-    const missing = activeSelects().filter((select) => !select.value);
-    if (missing.length > 0) {
+    const incomplete = incompleteGroups();
+    if (incomplete.length > 0) {
       if (report) {
-        // Name exactly what is missing, mark the fields, and let the browser's
-        // own bubble point at the first one.
-        showError(
-          menuError,
-          `Your menu isn't finished. Still to choose: ${missing.map(fieldName).join(', ')}.`
-        );
-        missing.forEach((select) => select.closest('.choice-field')?.classList.add('missing'));
-        missing[0].reportValidity();
-        missing[0].closest('.choice-field')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Name exactly what is short, and mark the courses themselves.
+        const parts = incomplete.map((group) => {
+          const need = Number(group.dataset.min ?? 0) - picksIn(group).length;
+          const label = (group.dataset.label ?? 'dish').toLowerCase();
+          return `${need} more ${label.replace(/s$/, '')}${need > 1 ? 's' : ''}`;
+        });
+        showError(menuError, `Your menu isn't finished. Still to pick: ${parts.join(', ')}.`);
+        incomplete.forEach((group) => group.classList.add('is-missing'));
+        incomplete[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       return false;
     }
@@ -231,50 +238,44 @@ function initQuoteBuilder() {
     return true;
   }
 
-  interface Line {
+  interface Course {
     label: string;
-    value: string;
+    picks: string[];
+    need: number;
   }
 
-  function collect(): { lines: Line[]; perPerson: number; guests: number; total: number } {
+  function collect(): { courses: Course[]; perPerson: number; guests: number; total: number } {
     const pkg = selectedPackage();
     const base = pkg ? Number(pkg.dataset.price ?? 0) : 0;
-    const lines: Line[] = [];
+    const courses: Course[] = [];
     let upcharges = 0;
 
-    activePanel()
-      ?.querySelectorAll<HTMLElement>('.choice-group')
-      .forEach((group) => {
-        const selects = Array.from(group.querySelectorAll<HTMLSelectElement>('.choice-select'));
-        const picks = selects
-          .filter((select) => select.value)
-          .map((select) => {
-            const option = select.selectedOptions[0];
-            const up = Number(option?.dataset.upcharge ?? 0);
-            upcharges += up;
-            // The Hot Item Buffet's chicken dishes are named by preparation
-            // ("Marsala", "Lemon"), so carry the optgroup through or the lead
-            // email reads "Entrees: Marsala, Shrimp Scampi".
-            const parent = option?.parentElement;
-            const section = parent instanceof HTMLOptGroupElement ? ` (${parent.label})` : '';
-            const premium = up > 0 ? ` (+${money(up)}/person)` : '';
-            return `${select.value}${section}${premium}`;
-          });
-        if (picks.length > 0) {
-          lines.push({
-            label: selects[0]?.dataset.groupLabel ?? 'Choices',
-            value: picks.join(', '),
-          });
-        }
+    groupsOf(activePanel()).forEach((group) => {
+      const picks = picksIn(group).map((input) => {
+        const up = Number(input.dataset.upcharge ?? 0);
+        upcharges += up;
+        // The Hot Item Buffet's chicken dishes are named by preparation
+        // ("Marsala", "Lemon"), so carry the sub-heading through or the lead
+        // email reads "Entrees: Marsala, Shrimp Scampi".
+        const section = input.dataset.section ? ` (${input.dataset.section})` : '';
+        const premium = up > 0 ? ` (+${money(up)}/person)` : '';
+        return `${input.dataset.label}${section}${premium}`;
       });
+      courses.push({
+        label: group.dataset.label ?? 'Choices',
+        picks,
+        need: Math.max(0, Number(group.dataset.min ?? 0) - picks.length),
+      });
+    });
 
     const perPerson = base + upcharges;
     const guests = Number(guestsInput?.value ?? 0) || 0;
-    return { lines, perPerson, guests, total: perPerson * guests };
+    return { courses, perPerson, guests, total: perPerson * guests };
   }
 
-  function row(list: HTMLElement, label: string, text: string) {
+  function row(list: HTMLElement, label: string, text: string, cls?: string) {
     const li = document.createElement('li');
+    if (cls) li.className = cls;
     const key = document.createElement('span');
     key.textContent = label;
     const val = document.createElement('strong');
@@ -283,23 +284,47 @@ function initQuoteBuilder() {
     list.appendChild(li);
   }
 
-  function renderPreview() {
-    if (!preview || !previewList || !previewTodo) return;
+  function renderSummary() {
+    if (!summary) return;
     const pkg = selectedPackage();
-    preview.hidden = !pkg;
+    summary.hidden = !pkg;
     if (!pkg) return;
 
-    const { lines, perPerson } = collect();
-    previewList.textContent = '';
-    row(previewList, pkg.value, `${money(Number(pkg.dataset.price ?? 0))} per person`);
-    lines.forEach((line) => row(previewList, line.label, line.value));
+    const { courses, perPerson, guests, total } = collect();
+    const pkgEl = summary.querySelector<HTMLElement>('#summaryPackage');
+    const list = summary.querySelector<HTMLElement>('#summaryList');
+    const todo = summary.querySelector<HTMLElement>('#summaryTodo');
 
-    const missing = activeSelects().filter((select) => !select.value);
-    previewTodo.textContent =
-      missing.length > 0
-        ? `Still to choose: ${missing.map(fieldName).join(', ')}.`
-        : `Menu complete. ${money(perPerson)} per person.`;
-    previewTodo.classList.toggle('complete', missing.length === 0);
+    if (pkgEl) {
+      pkgEl.textContent = `${pkg.value} at ${money(Number(pkg.dataset.price ?? 0))} per person`;
+    }
+
+    if (list) {
+      list.textContent = '';
+      courses.forEach((course) => {
+        if (course.picks.length > 0) {
+          row(list, course.label, course.picks.join(', '));
+        } else {
+          row(list, course.label, `Choose ${course.need}`, 'todo');
+        }
+      });
+    }
+
+    const outstanding = courses.filter((course) => course.need > 0);
+    if (todo) {
+      todo.textContent =
+        outstanding.length > 0
+          ? `Still to pick: ${outstanding.map((c) => `${c.need} ${c.label.toLowerCase()}`).join(', ')}.`
+          : 'Menu complete.';
+      todo.classList.toggle('complete', outstanding.length === 0);
+    }
+
+    const perPersonEl = summary.querySelector<HTMLElement>('#summaryPerPerson');
+    const guestsEl = summary.querySelector<HTMLElement>('#summaryGuests');
+    const totalEl = summary.querySelector<HTMLElement>('#summaryTotal');
+    if (perPersonEl) perPersonEl.textContent = money(perPerson);
+    if (guestsEl) guestsEl.textContent = guests > 0 ? String(guests) : 'Not given';
+    if (totalEl) totalEl.textContent = money(guests > 0 ? total : 0);
   }
 
   function renderReview() {
@@ -344,7 +369,8 @@ function initQuoteBuilder() {
 
   function render() {
     const pkg = selectedPackage();
-    const { lines, perPerson, guests, total } = collect();
+    const { courses, perPerson, guests, total } = collect();
+    const picked = courses.filter((course) => course.picks.length > 0);
 
     const titleEl = form.querySelector<HTMLElement>('#estimatePackage');
     const linesEl = form.querySelector<HTMLElement>('#estimateLines');
@@ -360,7 +386,7 @@ function initQuoteBuilder() {
 
     if (linesEl) {
       linesEl.textContent = '';
-      lines.forEach((line) => row(linesEl, line.label, line.value));
+      picked.forEach((course) => row(linesEl, course.label, course.picks.join(', ')));
 
       // The minimum is a real kitchen constraint, so say it plainly rather than
       // blocking the send: an under-count guest can still be quoted by phone.
@@ -393,9 +419,9 @@ function initQuoteBuilder() {
       const parts: string[] = [];
       if (pkg) {
         parts.push(`${pkg.value} at ${money(Number(pkg.dataset.price ?? 0))} per person`);
-        lines.forEach((line) => parts.push(`${line.label}: ${line.value}`));
+        picked.forEach((course) => parts.push(`${course.label}: ${course.picks.join(', ')}`));
         const includes = activePanel()?.querySelector('.pkg-panel-includes')?.textContent?.trim();
-        if (includes) parts.push(includes);
+        if (includes) parts.push(includes.replace(/\s+/g, ' '));
         const minGuests = Number(pkg.dataset.minGuests ?? 1);
         if (guests > 0 && guests < minGuests) {
           parts.push(`NOTE: below the usual ${minGuests}-guest minimum for this buffet.`);
@@ -410,7 +436,7 @@ function initQuoteBuilder() {
     if (perPersonField) perPersonField.value = perPerson > 0 ? money(perPerson) : '';
     if (totalField) totalField.value = guests > 0 && total > 0 ? money(total) : '';
 
-    renderPreview();
+    renderSummary();
     renderReview();
   }
 
@@ -436,10 +462,10 @@ function initQuoteBuilder() {
     if (target.matches('input[name="package"]')) {
       syncPanels();
       showError(menuError, '');
-    } else if (target.matches('.choice-select')) {
-      syncDuplicates();
-      target.closest('.choice-field')?.classList.remove('missing');
-      if (activeSelects().every((select) => select.value)) showError(menuError, '');
+    } else if (target.matches('.dish-input')) {
+      const group = target.closest<HTMLElement>('.dish-group');
+      if (group) enforceLimit(group);
+      if (incompleteGroups().length === 0) showError(menuError, '');
     }
     render();
   });
@@ -450,10 +476,7 @@ function initQuoteBuilder() {
     const firstBad = [1, 2, 3].find((n) => !stepIsValid(n, false));
     if (firstBad) {
       event.preventDefault();
-      showError(
-        submitError,
-        'Some details are still missing, so we sent you back to finish them.'
-      );
+      showError(submitError, 'Some details are still missing, so we sent you back to finish them.');
       showStep(firstBad);
       // Report only once the step is visible: the browser cannot show a
       // validation bubble on a field inside a display:none section.
@@ -470,7 +493,6 @@ function initQuoteBuilder() {
   syncPanels();
   render();
 }
-
 
 function initReviewsCarousel() {
   const carousel = document.getElementById('reviewsCarousel');

@@ -22,6 +22,32 @@ export interface ChoiceOption {
   section?: string;
 }
 
+/** An always-included item, with its parenthetical split off onto its own line. */
+export interface IncludeItem {
+  name: string;
+  /** "Roast Beef / Ham / Turkey" under a "Cold Cuts" bullet. */
+  detail?: string;
+}
+
+/** Menu prose is long; "with" costs a whole line in a narrow card. */
+function shorten(name: string): string {
+  return name.replace(/\bwith\b/g, 'w/');
+}
+
+function toInclude(raw: string): IncludeItem {
+  const match = raw.match(/^(.*?)\s*\(([^)]+)\)$/);
+  if (match && match[2].includes(',')) {
+    return {
+      name: shorten(match[1].trim()),
+      detail: match[2]
+        .split(',')
+        .map((part) => part.trim())
+        .join(' / '),
+    };
+  }
+  return { name: shorten(raw) };
+}
+
 export interface ChoiceGroup {
   id: string;
   label: string;
@@ -40,7 +66,7 @@ export interface CateringPackage {
   basePrice: number;
   minGuests: number;
   /** Always included, nothing to choose. */
-  includes: string[];
+  includes: IncludeItem[];
   groups: ChoiceGroup[];
   popular: boolean;
   category: PackageCategory;
@@ -85,11 +111,12 @@ function toOption(raw: string, section?: string): ChoiceOption {
           'Expected the form "Name (+$2/pp)" or "Name (Carving +$3/pp)".'
       );
     }
-    return section ? { name: raw, upcharge: 0, section } : { name: raw, upcharge: 0 };
+    const plain = shorten(raw);
+    return section ? { name: plain, upcharge: 0, section } : { name: plain, upcharge: 0 };
   }
   const note = match[1].trim();
   const option: ChoiceOption = {
-    name: raw.replace(UPCHARGE_RE, '').trim(),
+    name: shorten(raw.replace(UPCHARGE_RE, '').trim()),
     upcharge: Number.parseFloat(match[2]),
   };
   if (note) option.note = note;
@@ -130,7 +157,7 @@ const setPackages: CateringPackage[] = buffets.items.map((item) => ({
   name: item.name,
   basePrice: price(item),
   minGuests: minGuests(buffets.note),
-  includes: (item.includes as string[]) ?? [],
+  includes: ((item.includes as string[]) ?? []).map(toInclude),
   groups: [],
   popular: item.popular === true,
   category: 'set',
@@ -155,7 +182,7 @@ const hotItemPackage: CateringPackage = {
   name: hotItemEntry.name,
   basePrice: price(hotItemEntry),
   minGuests: minGuests(hotItem.note),
-  includes: hotItem.included ?? [],
+  includes: (hotItem.included ?? []).map(toInclude),
   groups: [
     {
       id: 'entrees',
@@ -198,7 +225,7 @@ const specialtyPackages: CateringPackage[] = specialty.items.map((item) => ({
   name: item.name,
   basePrice: price(item),
   minGuests: minGuests(specialty.note),
-  includes: specialty.included ?? [],
+  includes: (specialty.included ?? []).map(toInclude),
   groups: [
     {
       id: 'entrees',
