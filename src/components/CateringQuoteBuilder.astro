@@ -220,9 +220,16 @@ function chooseHint(group: ChoiceGroup): string {
               />
               <span class="pkg-card-body">
                 <span class="pkg-card-head">
-                  <span class="pkg-name">
-                    {pkg.name}
-                    {pkg.popular && <span class="pkg-flag">Most popular</span>}
+                  <span class="pkg-headline">
+                    <span class="pkg-name">
+                      {pkg.name}
+                      {pkg.popular && <span class="pkg-flag">Most popular</span>}
+                    </span>
+                    {pkg.includes.length > 0 && (
+                      <span class="pkg-included">
+                        Includes {pkg.includes.map((i) => i.name).join(', ').toLowerCase()}
+                      </span>
+                    )}
                   </span>
                   <span class="pkg-price">
                     {formatPrice(pkg.basePrice)} <small>per person</small>
@@ -233,11 +240,6 @@ function chooseHint(group: ChoiceGroup): string {
                     <span class="pkg-item">{chooseHint(group)}</span>
                   ))}
                 </span>
-                {pkg.includes.length > 0 && (
-                  <span class="pkg-included">
-                    Includes {pkg.includes.map((i) => i.name).join(', ').toLowerCase()}
-                  </span>
-                )}
                 {pkg.minGuests > 1 && <span class="pkg-min">Minimum {pkg.minGuests} guests</span>}
               </span>
             </label>
@@ -442,12 +444,22 @@ function chooseHint(group: ChoiceGroup): string {
       </div>
 
       <div class="form-field">
+        <label for="q-allergies">Allergies or dietary needs</label>
+        <textarea
+          id="q-allergies"
+          name="allergies"
+          rows="3"
+          placeholder="Nut allergy, gluten free, vegetarian guests, anything the kitchen needs to know."
+        ></textarea>
+      </div>
+
+      <div class="form-field">
         <label for="q-notes">Anything else we should know?</label>
         <textarea
           id="q-notes"
           name="notes"
           rows="4"
-          placeholder="Allergies or dietary needs, venue details, timing, or a dish you don't see here."
+          placeholder="Venue details, timing, a dish you don't see here, or anything else."
         ></textarea>
       </div>
     </fieldset>
@@ -477,12 +489,12 @@ function chooseHint(group: ChoiceGroup): string {
 <!-- Print-only quote sheet. Hidden on screen; the only thing that prints. -->
 <section class="print-sheet" id="printSheet" aria-hidden="true">
   <header class="print-head">
-    <h2>The Copperline Eatery</h2>
-    <p>
+    <img class="print-logo" src="/logo.jpg" alt="The Copperline Eatery" width="150" height="150" />
+    <p class="print-nap">
       {ADDRESS.streetAddress}, {ADDRESS.addressLocality}, {ADDRESS.addressRegion}{' '}
       {ADDRESS.postalCode} &middot; {PHONE_DISPLAY} &middot; {EMAIL}
     </p>
-    <h3>Catering Quote Estimate</h3>
+    <h2 class="print-title">Catering Estimate</h2>
     <p id="printDate"></p>
   </header>
   <div class="print-cols">
@@ -497,11 +509,18 @@ function chooseHint(group: ChoiceGroup): string {
   </div>
   <h4 id="printPackage"></h4>
   <dl id="printMenu"></dl>
+  <div id="printAllergiesBlock" hidden>
+    <h4>Allergies &amp; dietary needs</h4>
+    <p id="printAllergies"></p>
+  </div>
+  <div id="printNotesBlock" hidden>
+    <h4>Notes</h4>
+    <p id="printNotes"></p>
+  </div>
   <h4>Estimate</h4>
   <dl id="printTotals"></dl>
   <p class="print-note">
-    <strong>All prices are estimates.</strong> This covers food, a {percent(SERVICE_CHARGE_RATE)}{' '}
-    service charge, and {percent(TAX_RATE)} tax. Delivery and on-site staffing are quoted separately,
-    and the final menu is confirmed with you before anything is booked. Not a booking or an invoice.
+    <strong>All prices are estimates.</strong> This catering quote does not represent a confirmed
+    booking or invoice. Final menu and pricing will be confirmed with you before booking.
   </p>
 </section>

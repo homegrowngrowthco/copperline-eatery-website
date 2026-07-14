@@ -1273,7 +1273,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .pkg-card:hover .pkg-card-body { border-color: var(--green); }
 .pkg-input:focus-visible + .pkg-card-body { outline: 2px solid var(--green); outline-offset: 2px; }
 .pkg-input:checked + .pkg-card-body { border-color: var(--green); box-shadow: 0 2px 12px rgba(31,122,110,0.18); background: #f6fbfa; }
-.pkg-card-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 14px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+.pkg-card-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 4px 14px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+.pkg-headline { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .pkg-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--green-dark); }
 .pkg-flag { font-family: var(--font-display); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.5px; background: var(--red); color: var(--white); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
 .pkg-price { font-family: var(--font-display); font-size: 1.3rem; color: var(--red); white-space: nowrap; }
@@ -1284,7 +1285,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .pkg-items { display: block; column-width: 240px; column-gap: 26px; }
 .pkg-item { display: list-item; list-style: disc outside; margin-left: 16px; break-inside: avoid; font-size: 0.84rem; color: var(--gray); line-height: 1.5; }
 .pkg-item-detail { display: block; font-size: 0.75rem; color: var(--gray); opacity: 0.8; }
-.pkg-included { display: block; margin-top: 10px; font-size: 0.8rem; color: var(--gray); font-style: italic; }
+.pkg-included { display: block; font-size: 0.75rem; line-height: 1.4; color: var(--gray); font-style: italic; }
 .pkg-min { display: block; margin-top: 6px; font-size: 0.8rem; color: var(--tan); font-weight: 700; }
 
 /* Step 4 layout: dishes on the left, order summary alongside. */
@@ -1370,7 +1371,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .review-list > div { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; padding: 7px 0; border-bottom: 1px dashed #e8e6dc; }
 .review-list > div:last-child { border-bottom: 0; }
 .review-list dt { font-family: var(--font-display); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); }
-.review-list dd { margin: 0; font-size: 0.92rem; font-weight: 700; color: var(--black); text-align: right; }
+.review-list dd { margin: 0; font-size: 0.85rem; font-weight: 700; color: var(--black); text-align: right; overflow-wrap: anywhere; }
 .review-list > div.empty dd { font-weight: 400; font-style: italic; color: var(--gray); }
 .estimate-menu > div { border-bottom: 1px dashed #d8d4bf; }
 .estimate-menu dd { max-width: 70%; }
@@ -1508,24 +1509,50 @@ body { max-width: 100%; }
 
 /* Print-only quote sheet (the "Save as PDF" button just opens the print
    dialog: no PDF library, no extra bundle weight, and the guest gets a real
-   file they can forward). Hidden on screen; the only thing that prints. */
+   file they can forward). Hidden on screen; the only thing that prints.
+   print-color-adjust:exact is what keeps the brand colours and the logo from
+   being stripped by the browser's ink-saving default. */
 .print-sheet { display: none; }
 @media print {
-  body { background: var(--white); padding: 0; }
+  body { background: #fff; padding: 0; }
   .main-header, .main-footer, .page-header, .quote-form, .quote-lead, .quote-lead-call,
   .quote-footnote, .quote-bar, .content-section > .container > .quote-content > *:not(.print-sheet) { display: none !important; }
-  .print-sheet { display: block; color: #000; font-size: 11pt; }
-  .print-head { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 16px; }
-  .print-head h2 { font-size: 18pt; margin-bottom: 2px; }
-  .print-head h3 { font-size: 13pt; margin-top: 10px; }
-  .print-head p { font-size: 9pt; }
-  .print-sheet h4 { font-size: 11pt; text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 6px; border-bottom: 1px solid #999; padding-bottom: 3px; }
-  .print-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .print-sheet {
+    display: block;
+    color: var(--black);
+    font-family: var(--font-body);
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .print-head { text-align: center; border-bottom: 3px solid var(--red); padding-bottom: 12px; margin-bottom: 18px; }
+  .print-logo { display: block; width: 90px; height: auto; margin: 0 auto 8px; }
+  .print-nap { font-size: 8.5pt; color: var(--gray); }
+  /* .content-section h2 (0,1,1) outranks a bare .print-title (0,1,0), which is
+     how the title kept coming out in the dark blue-green. Scope it to the sheet. */
+  .print-sheet .print-title { font-family: var(--font-display); font-size: 20pt; text-transform: uppercase; letter-spacing: 1px; color: var(--red); margin: 10px 0 0; }
+  .print-head #printDate { font-size: 9pt; color: var(--gray); margin-top: 2px; }
+
+  .print-sheet h4, .content-section .print-sheet h4 {
+    font-family: var(--font-display);
+    font-size: 10.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--green);
+    margin: 16px 0 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--tan);
+  }
+  .print-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
   .print-sheet dl { margin: 0; }
   .print-sheet dl > div { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; border-bottom: 1px dotted #ccc; }
-  .print-sheet dt { font-weight: 700; }
-  .print-sheet dd { margin: 0; text-align: right; }
-  .print-sheet dl > div:last-child { border-bottom: 2px solid #000; font-size: 12pt; }
-  .print-note { margin-top: 18px; font-size: 8.5pt; line-height: 1.5; }
-  .print-note strong { display: block; }
+  .print-sheet dt { font-family: var(--font-display); font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); }
+  .print-sheet dd { margin: 0; text-align: right; font-weight: 700; }
+  #printTotals > div:last-child { border-bottom: 0; border-top: 2px solid var(--red); margin-top: 4px; padding-top: 6px; font-size: 12pt; }
+  #printTotals > div:last-child dt { font-size: 10pt; color: var(--black); }
+  #printTotals > div:last-child dd { color: var(--red); }
+  #printAllergies, #printNotes { font-size: 10pt; white-space: pre-wrap; }
+  .print-note { margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--tan); font-size: 8.5pt; line-height: 1.5; color: var(--gray); }
+  .print-note strong { display: block; color: var(--black); }
 }

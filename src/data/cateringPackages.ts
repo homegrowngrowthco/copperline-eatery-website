@@ -241,11 +241,21 @@ const specialtyPackages: CateringPackage[] = specialty.items.map((item) => ({
   category: 'choice',
 }));
 
+// Which buffets carry a "Most popular" flag on the quote builder. This is an
+// owner call about what to push, not a menu fact, so it lives here rather than
+// in menuData.json (whose own `popular` markers drive the printed menu page).
+const POPULAR_IDS = new Set([
+  'buffet-package-3',
+  'buffet-package-5',
+  'choice-buffet-2',
+  'italian-buffet',
+]);
+
 export const CATERING_PACKAGES: CateringPackage[] = [
   ...setPackages,
   hotItemPackage,
   ...specialtyPackages,
-];
+].map((pkg) => ({ ...pkg, popular: POPULAR_IDS.has(pkg.id) }));
 
 export const SET_PACKAGES = CATERING_PACKAGES.filter((p) => p.category === 'set');
 export const CHOICE_PACKAGES = CATERING_PACKAGES.filter((p) => p.category === 'choice');

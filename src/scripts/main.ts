@@ -418,6 +418,18 @@ function initQuoteBuilder() {
         .map((course): [string, string] => [course.label, course.picks.join(', ')])
     );
     fillList(printSheet.querySelector('#printTotals'), totalRows(quote));
+
+    // Free-text blocks only appear on the sheet when the guest wrote something.
+    const freeText: [string, string, string][] = [
+      ['#printAllergiesBlock', '#printAllergies', value('#q-allergies')],
+      ['#printNotesBlock', '#printNotes', value('#q-notes')],
+    ];
+    freeText.forEach(([blockSel, textSel, text]) => {
+      const block = printSheet.querySelector<HTMLElement>(blockSel);
+      const target = printSheet.querySelector<HTMLElement>(textSel);
+      if (block) block.hidden = text === '';
+      if (target) target.textContent = text;
+    });
   }
 
   function totalRows(quote: Quote): [string, string][] {
@@ -530,7 +542,12 @@ function initQuoteBuilder() {
 
   form.querySelector<HTMLElement>('#quotePrint')?.addEventListener('click', () => {
     render();
+    // Browsers name the saved PDF after document.title, so the guest gets
+    // "Copperline Eatery Catering Estimate.pdf" rather than the page's SEO title.
+    const pageTitle = document.title;
+    document.title = 'Copperline Eatery Catering Estimate';
     window.print();
+    document.title = pageTitle;
   });
 
   form.addEventListener('change', (event) => {
