@@ -1,20 +1,28 @@
 ---
-// The /catering/quote builder: a single Netlify Form rendered as four steps.
+// The /catering/quote builder: a single Netlify Form rendered as five steps.
 //
 // Every input is present in the static HTML at build time, because Netlify
 // detects a form's fields by parsing the deployed HTML. Anything JavaScript
 // creates at runtime is silently dropped from the submission, so the script
 // only shows, hides, limits, and totals what is already here.
 //
-// Step 3 is an ordering UI, not a form: dishes are selectable cards (a real
-// checkbox/radio, visually hidden inside the label) and an order-summary rail
-// fills in beside them as the guest picks, sticky on desktop.
+// Picking a buffet (step 3) advances straight into that buffet's own build
+// screen (step 4), so nobody has to scroll past nine packages to reach their
+// dishes. Dishes are selectable cards, not form controls, with an order
+// summary that fills in beside them.
 //
-// Prices and options come from cateringPackages.ts (derived from menuData.json),
-// never from copy typed into this file.
-import { CHOICE_PACKAGES, SET_PACKAGES, formatPrice } from '../data/cateringPackages';
+// Prices, options, and the service/tax rates come from cateringPackages.ts
+// (derived from menuData.json), never from copy typed into this file.
+import {
+  CHOICE_PACKAGES,
+  SERVICE_CHARGE_RATE,
+  SET_PACKAGES,
+  TAX_RATE,
+  formatPrice,
+  percent,
+} from '../data/cateringPackages';
 import type { CateringPackage, ChoiceGroup } from '../data/cateringPackages';
-import { PHONE_DISPLAY } from '../data/restaurant';
+import { ADDRESS, EMAIL, PHONE_DISPLAY } from '../data/restaurant';
 
 const ALL_PACKAGES: CateringPackage[] = [...SET_PACKAGES, ...CHOICE_PACKAGES];
 
@@ -50,6 +58,8 @@ function chooseHint(group: ChoiceGroup): string {
   action="/catering-thanks"
   class="quote-form"
   id="quoteForm"
+  data-service-rate={SERVICE_CHARGE_RATE}
+  data-tax-rate={TAX_RATE}
 >
   <input type="hidden" name="form-name" value="catering-quote" />
   <input type="hidden" name="source" value="quote-builder" />
@@ -60,8 +70,9 @@ function chooseHint(group: ChoiceGroup): string {
   <ol class="quote-progress" id="quoteProgress" aria-label="Quote steps">
     <li data-step="1" class="active"><span>1</span> Your info</li>
     <li data-step="2"><span>2</span> Your event</li>
-    <li data-step="3"><span>3</span> Your menu</li>
-    <li data-step="4"><span>4</span> Your estimate</li>
+    <li data-step="3"><span>3</span> Pick a buffet</li>
+    <li data-step="4"><span>4</span> Your menu</li>
+    <li data-step="5"><span>5</span> Your estimate</li>
   </ol>
 
   <noscript>
@@ -86,8 +97,8 @@ function chooseHint(group: ChoiceGroup): string {
         </div>
       </div>
       <div class="form-field">
-        <label for="q-email">Email</label>
-        <input id="q-email" name="email" type="email" autocomplete="email" />
+        <label for="q-email">Email *</label>
+        <input id="q-email" name="email" type="email" required autocomplete="email" />
       </div>
     </fieldset>
     <div class="quote-nav">
@@ -141,15 +152,17 @@ function chooseHint(group: ChoiceGroup): string {
     </fieldset>
     <div class="quote-nav">
       <button type="button" class="btn btn-secondary quote-back" data-back="1">Back</button>
-      <button type="button" class="btn btn-primary quote-next" data-next="3">Next: build your menu</button>
+      <button type="button" class="btn btn-primary quote-next" data-next="3">Next: pick a buffet</button>
     </div>
   </section>
 
-  <!-- Step 3: menu -->
+  <!-- Step 3: pick a buffet. Choosing one jumps straight to its build screen. -->
   <section class="quote-step" data-step="3">
     <fieldset>
       <legend class="quote-legend">Pick a buffet</legend>
-      <p class="quote-help">All prices are per person, and every menu is finalized with you.</p>
+      <p class="quote-help">
+        All prices are per person. Choose one and we'll open it up so you can build it.
+      </p>
 
       <h3 class="quote-group-title">Set buffets</h3>
       <p class="quote-help">Everything is chosen for you.</p>
@@ -168,11 +181,13 @@ function chooseHint(group: ChoiceGroup): string {
               />
               <span class="pkg-card-body">
                 <span class="pkg-card-head">
-                  <span class="pkg-name">{pkg.name}</span>
-                  {pkg.popular && <span class="pkg-flag">Most popular</span>}
-                </span>
-                <span class="pkg-price">
-                  {formatPrice(pkg.basePrice)} <small>per person</small>
+                  <span class="pkg-name">
+                    {pkg.name}
+                    {pkg.popular && <span class="pkg-flag">Most popular</span>}
+                  </span>
+                  <span class="pkg-price">
+                    {formatPrice(pkg.basePrice)} <small>per person</small>
+                  </span>
                 </span>
                 <span class="pkg-items">
                   {pkg.includes.map((item) => (
@@ -189,7 +204,7 @@ function chooseHint(group: ChoiceGroup): string {
       </div>
 
       <h3 class="quote-group-title">Choose your entrees</h3>
-      <p class="quote-help">Pick the buffet, then pick what goes on it.</p>
+      <p class="quote-help">You pick the dishes on these.</p>
       <div class="pkg-grid">
         {
           CHOICE_PACKAGES.map((pkg) => (
@@ -205,11 +220,13 @@ function chooseHint(group: ChoiceGroup): string {
               />
               <span class="pkg-card-body">
                 <span class="pkg-card-head">
-                  <span class="pkg-name">{pkg.name}</span>
-                  {pkg.popular && <span class="pkg-flag">Most popular</span>}
-                </span>
-                <span class="pkg-price">
-                  {formatPrice(pkg.basePrice)} <small>per person</small>
+                  <span class="pkg-name">
+                    {pkg.name}
+                    {pkg.popular && <span class="pkg-flag">Most popular</span>}
+                  </span>
+                  <span class="pkg-price">
+                    {formatPrice(pkg.basePrice)} <small>per person</small>
+                  </span>
                 </span>
                 <span class="pkg-items">
                   {pkg.groups.map((group) => (
@@ -227,86 +244,101 @@ function chooseHint(group: ChoiceGroup): string {
           ))
         }
       </div>
+      <p class="quote-error" id="quotePackageError" role="alert" hidden></p>
     </fieldset>
+    <div class="quote-nav">
+      <button type="button" class="btn btn-secondary quote-back" data-back="2">Back</button>
+      <button type="button" class="btn btn-primary quote-next" data-next="4">Next: your menu</button>
+    </div>
+  </section>
 
+  <!-- Step 4: build the chosen buffet -->
+  <section class="quote-step" data-step="4">
     <div class="menu-layout">
       <div class="menu-choices">
-        {
-          ALL_PACKAGES.map((pkg) => (
-            <div class="pkg-panel" data-panel={pkg.id} hidden>
-              <div class="pkg-panel-head">
-                <h3 class="pkg-panel-title">{pkg.name}</h3>
-                <span class="pkg-panel-price">{formatPrice(pkg.basePrice)} per person</span>
-              </div>
-              {pkg.includes.length > 0 && (
-                <p class="pkg-panel-includes">
-                  <strong>Comes with:</strong>{' '}
-                  {pkg.includes.map((i) => (i.detail ? `${i.name} (${i.detail})` : i.name)).join(', ')}
-                </p>
-              )}
-              {pkg.groups.length === 0 && (
-                <p class="quote-help">
-                  This buffet is set, so there is nothing to choose. Head straight to your estimate.
-                </p>
-              )}
-              {pkg.groups.map((group) => (
-                <fieldset
-                  class="dish-group"
-                  data-group={group.id}
-                  data-label={group.label}
-                  data-min={group.min}
-                  data-max={group.max}
-                  data-multi={group.multi ? 'true' : 'false'}
-                >
-                  <legend class="dish-legend">
-                    <span class="dish-legend-name">{group.label}</span>
-                    <span class="dish-count" data-count>
-                      0 of {group.max} picked
-                    </span>
-                  </legend>
-                  <p class="dish-swap" data-swap hidden>
-                    That's all {group.max}. Tap a picked dish to swap it out.
+        <fieldset>
+          <legend class="quote-legend">Build your menu</legend>
+          {
+            ALL_PACKAGES.map((pkg) => (
+              <div class="pkg-panel" data-panel={pkg.id} hidden>
+                <div class="pkg-panel-head">
+                  <h3 class="pkg-panel-title">{pkg.name}</h3>
+                  <span class="pkg-panel-price">{formatPrice(pkg.basePrice)} per person</span>
+                </div>
+                {pkg.includes.length > 0 && (
+                  <p class="pkg-panel-includes">
+                    <strong>Comes with:</strong>{' '}
+                    {pkg.includes
+                      .map((i) => (i.detail ? `${i.name} (${i.detail})` : i.name))
+                      .join(', ')}
                   </p>
-                  {sectionsOf(group).map((sec) => (
-                    <>
-                      {sec.name && <p class="dish-section">{sec.name}</p>}
-                      <div class="dish-grid">
-                        {sec.options.map((option) => (
-                          <label class="dish">
-                            <input
-                              type={group.multi ? 'checkbox' : 'radio'}
-                              name={group.multi ? undefined : `${pkg.id}-${group.id}`}
-                              value={option.name}
-                              class="dish-input"
-                              data-upcharge={option.upcharge}
-                              data-label={option.name}
-                              data-section={option.section ?? ''}
-                            />
-                            <span class="dish-body">
-                              <span class="dish-check" aria-hidden="true" />
-                              <span class="dish-text">
-                                <span class="dish-name">{option.name}</span>
-                                {option.note && <span class="dish-note">{option.note}</span>}
+                )}
+                {pkg.groups.length === 0 && (
+                  <p class="pkg-panel-set">
+                    This buffet is set, so there is nothing to choose. Head straight to your estimate.
+                  </p>
+                )}
+                {pkg.groups.map((group) => (
+                  <fieldset
+                    class="dish-group"
+                    data-group={group.id}
+                    data-label={group.label}
+                    data-min={group.min}
+                    data-max={group.max}
+                    data-multi={group.multi ? 'true' : 'false'}
+                  >
+                    <legend class="dish-legend">
+                      <span class="dish-legend-name">{group.label}</span>
+                      <span class="dish-count" data-count>
+                        0 of {group.max} picked
+                      </span>
+                    </legend>
+                    <p class="dish-swap" data-swap hidden>
+                      That's all {group.max}. Tap a picked dish to swap it out.
+                    </p>
+                    {sectionsOf(group).map((sec) => (
+                      <>
+                        {sec.name && <p class="dish-section">{sec.name}</p>}
+                        <div class="dish-grid">
+                          {sec.options.map((option) => (
+                            <label class="dish">
+                              <input
+                                type={group.multi ? 'checkbox' : 'radio'}
+                                name={group.multi ? undefined : `${pkg.id}-${group.id}`}
+                                value={option.name}
+                                class="dish-input"
+                                data-upcharge={option.upcharge}
+                                data-label={option.name}
+                                data-section={option.section ?? ''}
+                              />
+                              <span class="dish-body">
+                                <span class="dish-check" aria-hidden="true" />
+                                <span class="dish-text">
+                                  <span class="dish-name">{option.name}</span>
+                                  {option.note && <span class="dish-note">{option.note}</span>}
+                                </span>
+                                {option.upcharge > 0 && (
+                                  <span class="dish-badge">+{formatPrice(option.upcharge)}/person</span>
+                                )}
                               </span>
-                              {option.upcharge > 0 && (
-                                <span class="dish-badge">+{formatPrice(option.upcharge)}/person</span>
-                              )}
-                            </span>
-                          </label>
-                        ))}
-                      </div>
-                    </>
-                  ))}
-                </fieldset>
-              ))}
-            </div>
-          ))
-        }
+                            </label>
+                          ))}
+                        </div>
+                      </>
+                    ))}
+                  </fieldset>
+                ))}
+              </div>
+            ))
+          }
+        </fieldset>
 
         <p class="quote-error" id="quoteMenuError" role="alert" hidden></p>
         <div class="quote-nav">
-          <button type="button" class="btn btn-secondary quote-back" data-back="2">Back</button>
-          <button type="button" class="btn btn-primary quote-next" data-next="4">
+          <button type="button" class="btn btn-secondary quote-back" data-back="3">
+            Back to buffets
+          </button>
+          <button type="button" class="btn btn-primary quote-next" data-next="5">
             Next: see your estimate
           </button>
         </div>
@@ -328,7 +360,7 @@ function chooseHint(group: ChoiceGroup): string {
               <strong id="summaryGuests">0</strong>
             </div>
             <div class="menu-summary-row menu-summary-row--total">
-              <span>Estimated food total</span>
+              <span>Estimated total</span>
               <strong id="summaryTotal">$0.00</strong>
             </div>
           </div>
@@ -338,8 +370,8 @@ function chooseHint(group: ChoiceGroup): string {
     </div>
   </section>
 
-  <!-- Step 4: review + estimate + submit -->
-  <section class="quote-step" data-step="4">
+  <!-- Step 5: review + estimate + submit -->
+  <section class="quote-step" data-step="5">
     <fieldset>
       <legend class="quote-legend">Review and send</legend>
 
@@ -363,9 +395,10 @@ function chooseHint(group: ChoiceGroup): string {
       <div class="estimate-card" aria-live="polite">
         <div class="review-head">
           <h3 class="estimate-title" id="estimatePackage">No buffet picked yet</h3>
-          <button type="button" class="review-edit" data-goto="3">Edit</button>
+          <button type="button" class="review-edit" data-goto="4">Edit</button>
         </div>
-        <ul class="estimate-lines" id="estimateLines"></ul>
+        <dl class="review-list estimate-menu" id="estimateLines"></dl>
+
         <div class="estimate-totals">
           <div class="estimate-row">
             <span>Per person</span>
@@ -375,15 +408,37 @@ function chooseHint(group: ChoiceGroup): string {
             <span>Guests</span>
             <strong id="estimateGuests">0</strong>
           </div>
+          <div class="estimate-row">
+            <span>Food subtotal</span>
+            <strong id="estimateFood">$0.00</strong>
+          </div>
+          <div class="estimate-row">
+            <span>Service charge ({percent(SERVICE_CHARGE_RATE)})</span>
+            <strong id="estimateService">$0.00</strong>
+          </div>
+          <div class="estimate-row">
+            <span>Tax ({percent(TAX_RATE)})</span>
+            <strong id="estimateTax">$0.00</strong>
+          </div>
           <div class="estimate-row estimate-row--total">
-            <span>Estimated food total</span>
+            <span>Estimated total</span>
             <strong id="estimateTotal">$0.00</strong>
           </div>
         </div>
+
         <p class="estimate-note">
-          All prices are estimates. This covers food only: delivery, on-site staffing, and tax are
-          quoted separately, and the final menu is confirmed with you before anything is booked.
+          <strong>All prices are estimates.</strong>
+          <span>
+            This covers food, a {percent(SERVICE_CHARGE_RATE)} service charge, and{' '}
+            {percent(TAX_RATE)} tax. Delivery and on-site staffing are quoted separately, and the
+            final menu is confirmed with you before anything is booked.
+          </span>
         </p>
+
+        <div class="estimate-actions">
+          <button type="button" class="btn btn-secondary" id="quotePrint">Save as PDF</button>
+          <span class="estimate-actions-note">Opens your browser's print dialog, then choose "Save as PDF".</span>
+        </div>
       </div>
 
       <div class="form-field">
@@ -399,11 +454,14 @@ function chooseHint(group: ChoiceGroup): string {
 
     <textarea name="menu-selection" id="quoteSelection" hidden readonly></textarea>
     <input type="hidden" name="per-person" id="quotePerPerson" />
-    <input type="hidden" name="estimated-food-total" id="quoteTotal" />
+    <input type="hidden" name="food-subtotal" id="quoteFood" />
+    <input type="hidden" name="service-charge" id="quoteService" />
+    <input type="hidden" name="tax" id="quoteTax" />
+    <input type="hidden" name="estimated-total" id="quoteTotal" />
 
     <p class="quote-error" id="quoteSubmitError" role="alert" hidden></p>
     <div class="quote-nav">
-      <button type="button" class="btn btn-secondary quote-back" data-back="3">Back</button>
+      <button type="button" class="btn btn-secondary quote-back" data-back="4">Back</button>
       <button type="submit" class="btn btn-primary catering-form-submit">Send My Quote Request</button>
     </div>
   </section>
@@ -415,3 +473,35 @@ function chooseHint(group: ChoiceGroup): string {
     </div>
   </div>
 </form>
+
+<!-- Print-only quote sheet. Hidden on screen; the only thing that prints. -->
+<section class="print-sheet" id="printSheet" aria-hidden="true">
+  <header class="print-head">
+    <h2>The Copperline Eatery</h2>
+    <p>
+      {ADDRESS.streetAddress}, {ADDRESS.addressLocality}, {ADDRESS.addressRegion}{' '}
+      {ADDRESS.postalCode} &middot; {PHONE_DISPLAY} &middot; {EMAIL}
+    </p>
+    <h3>Catering Quote Estimate</h3>
+    <p id="printDate"></p>
+  </header>
+  <div class="print-cols">
+    <div>
+      <h4>Your info</h4>
+      <dl id="printContact"></dl>
+    </div>
+    <div>
+      <h4>Your event</h4>
+      <dl id="printEvent"></dl>
+    </div>
+  </div>
+  <h4 id="printPackage"></h4>
+  <dl id="printMenu"></dl>
+  <h4>Estimate</h4>
+  <dl id="printTotals"></dl>
+  <p class="print-note">
+    <strong>All prices are estimates.</strong> This covers food, a {percent(SERVICE_CHARGE_RATE)}{' '}
+    service charge, and {percent(TAX_RATE)} tax. Delivery and on-site staffing are quoted separately,
+    and the final menu is confirmed with you before anything is booked. Not a booking or an invoice.
+  </p>
+</section>

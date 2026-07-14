@@ -88,8 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // The /catering/quote builder. Every input already exists in the static HTML
 // (Netlify parses the deployed page to register the form's fields), so this
 // only steps through the sections, holds each course to its choose-N limit,
-// keeps the order summary in sync, and serializes the picks into the hidden
-// fields that make the lead email readable.
+// prices the quote, and serializes the picks into the hidden fields that make
+// the lead email readable.
 function initQuoteBuilder() {
   const found = document.querySelector<HTMLFormElement>('#quoteForm');
   if (!found) return;
@@ -101,19 +101,27 @@ function initQuoteBuilder() {
   // without JS, so they only start hiding/showing once we're here.
   form.classList.add('js-on');
 
+  const PACKAGE_STEP = 3;
+  const MENU_STEP = 4;
+  const LAST_STEP = 5;
+
+  // Rates come from cateringPackages.ts via data attributes: importing that
+  // module here would pull the whole menu JSON into the client bundle.
+  const SERVICE_RATE = Number(form.dataset.serviceRate ?? 0);
+  const TAX_RATE = Number(form.dataset.taxRate ?? 0);
+
   const steps = form.querySelectorAll<HTMLElement>('.quote-step');
   const progressItems = form.querySelectorAll<HTMLElement>('.quote-progress li');
   const panels = form.querySelectorAll<HTMLElement>('.pkg-panel');
   const guestsInput = form.querySelector<HTMLInputElement>('#q-guests');
+  const packageError = form.querySelector<HTMLElement>('#quotePackageError');
   const menuError = form.querySelector<HTMLElement>('#quoteMenuError');
   const submitError = form.querySelector<HTMLElement>('#quoteSubmitError');
   const summary = form.querySelector<HTMLElement>('#menuSummary');
   const bar = form.querySelector<HTMLElement>('#quoteBar');
   const barLabel = form.querySelector<HTMLElement>('#quoteBarLabel');
   const barTotal = form.querySelector<HTMLElement>('#quoteBarTotal');
-  const selectionField = form.querySelector<HTMLTextAreaElement>('#quoteSelection');
-  const perPersonField = form.querySelector<HTMLInputElement>('#quotePerPerson');
-  const totalField = form.querySelector<HTMLInputElement>('#quoteTotal');
+  const printSheet = document.querySelector<HTMLElement>('#printSheet');
 
   const money = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
@@ -133,6 +141,11 @@ function initQuoteBuilder() {
 
   const value = (selector: string) =>
     form.querySelector<HTMLInputElement | HTMLSelectElement>(selector)?.value.trim() ?? '';
+
+  const setHidden = (selector: string, text: string) => {
+    const field = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector);
+    if (field) field.value = text;
+  };
 
   function showError(el: HTMLElement | null, message: string) {
     if (!el) return;
@@ -174,7 +187,7 @@ function initQuoteBuilder() {
     }
     const swap = group.querySelector<HTMLElement>('[data-swap]');
     if (swap) swap.hidden = !multi || picked < max;
-    group.classList.toggle('is-missing', false);
+    group.classList.remove('is-missing');
   }
 
   // Only the chosen package's inputs stay enabled, so a buffet the guest looked
@@ -197,22 +210,28 @@ function initQuoteBuilder() {
     );
   }
 
-  function menuIsValid(report: boolean): boolean {
-    if (!selectedPackage()) {
-      if (report) {
-        showError(menuError, 'Pick a buffet first, then choose what goes on it.');
-        form.querySelector('.pkg-grid')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  function stepIsValid(n: number, report: boolean): boolean {
+    if (n === PACKAGE_STEP) {
+      if (selectedPackage()) {
+        showError(packageError, '');
+        return true;
       }
+      if (report) showError(packageError, 'Pick a buffet to keep going.');
       return false;
     }
-    const incomplete = incompleteGroups();
-    if (incomplete.length > 0) {
+
+    if (n === MENU_STEP) {
+      const incomplete = incompleteGroups();
+      if (incomplete.length === 0) {
+        showError(menuError, '');
+        return true;
+      }
       if (report) {
         // Name exactly what is short, and mark the courses themselves.
         const parts = incomplete.map((group) => {
           const need = Number(group.dataset.min ?? 0) - picksIn(group).length;
-          const label = (group.dataset.label ?? 'dish').toLowerCase();
-          return `${need} more ${label.replace(/s$/, '')}${need > 1 ? 's' : ''}`;
+          const label = (group.dataset.label ?? 'dish').toLowerCase().replace(/s$/, '');
+          return `${need} more ${label}${need > 1 ? 's' : ''}`;
         });
         showError(menuError, `Your menu isn't finished. Still to pick: ${parts.join(', ')}.`);
         incomplete.forEach((group) => group.classList.add('is-missing'));
@@ -220,12 +239,7 @@ function initQuoteBuilder() {
       }
       return false;
     }
-    showError(menuError, '');
-    return true;
-  }
 
-  function stepIsValid(n: number, report: boolean): boolean {
-    if (n === 3) return menuIsValid(report);
     const step = form.querySelector<HTMLElement>(`.quote-step[data-step="${n}"]`);
     if (!step) return true;
     const required = step.querySelectorAll<HTMLInputElement>('input[required], select[required]');
@@ -244,7 +258,17 @@ function initQuoteBuilder() {
     need: number;
   }
 
-  function collect(): { courses: Course[]; perPerson: number; guests: number; total: number } {
+  interface Quote {
+    courses: Course[];
+    perPerson: number;
+    guests: number;
+    food: number;
+    service: number;
+    tax: number;
+    total: number;
+  }
+
+  function collect(): Quote {
     const pkg = selectedPackage();
     const base = pkg ? Number(pkg.dataset.price ?? 0) : 0;
     const courses: Course[] = [];
@@ -270,27 +294,63 @@ function initQuoteBuilder() {
 
     const perPerson = base + upcharges;
     const guests = Number(guestsInput?.value ?? 0) || 0;
-    return { courses, perPerson, guests, total: perPerson * guests };
+    const food = perPerson * guests;
+    const service = food * SERVICE_RATE;
+    // Massachusetts meals tax applies to the service charge too.
+    const tax = (food + service) * TAX_RATE;
+    return { courses, perPerson, guests, food, service, tax, total: food + service + tax };
   }
 
-  function row(list: HTMLElement, label: string, text: string, cls?: string) {
-    const li = document.createElement('li');
-    if (cls) li.className = cls;
-    const key = document.createElement('span');
-    key.textContent = label;
-    const val = document.createElement('strong');
-    val.textContent = text;
-    li.append(key, val);
-    list.appendChild(li);
+  function defRow(list: HTMLElement, label: string, text: string, cls?: string) {
+    const wrap = document.createElement('div');
+    if (cls) wrap.className = cls;
+    const dt = document.createElement('dt');
+    dt.textContent = label;
+    const dd = document.createElement('dd');
+    dd.textContent = text;
+    wrap.append(dt, dd);
+    list.appendChild(wrap);
   }
 
-  function renderSummary() {
+  function contactRows(): [string, string][] {
+    return [
+      ['Name', value('#q-name')],
+      ['Phone', value('#q-phone')],
+      ['Email', value('#q-email')],
+    ];
+  }
+
+  function eventRows(): [string, string][] {
+    const raw = value('#q-date');
+    const date = raw
+      ? new Date(`${raw}T00:00:00`).toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        })
+      : '';
+    return [
+      ['Date', date],
+      ['Guests', value('#q-guests')],
+      ['Town', value('#q-town')],
+      ['Event type', value('#q-type')],
+      ['Service', value('#q-service')],
+    ];
+  }
+
+  function fillList(el: HTMLElement | null, rows: [string, string][]) {
+    if (!el) return;
+    el.textContent = '';
+    rows.forEach(([label, text]) => defRow(el, label, text || 'Not given', text ? '' : 'empty'));
+  }
+
+  function renderSummary(quote: Quote) {
     if (!summary) return;
     const pkg = selectedPackage();
     summary.hidden = !pkg;
     if (!pkg) return;
 
-    const { courses, perPerson, guests, total } = collect();
     const pkgEl = summary.querySelector<HTMLElement>('#summaryPackage');
     const list = summary.querySelector<HTMLElement>('#summaryList');
     const todo = summary.querySelector<HTMLElement>('#summaryTodo');
@@ -301,16 +361,20 @@ function initQuoteBuilder() {
 
     if (list) {
       list.textContent = '';
-      courses.forEach((course) => {
-        if (course.picks.length > 0) {
-          row(list, course.label, course.picks.join(', '));
-        } else {
-          row(list, course.label, `Choose ${course.need}`, 'todo');
-        }
+      quote.courses.forEach((course) => {
+        const li = document.createElement('li');
+        if (course.picks.length === 0) li.className = 'todo';
+        const key = document.createElement('span');
+        key.textContent = course.label;
+        const val = document.createElement('strong');
+        val.textContent =
+          course.picks.length > 0 ? course.picks.join(', ') : `Choose ${course.need}`;
+        li.append(key, val);
+        list.appendChild(li);
       });
     }
 
-    const outstanding = courses.filter((course) => course.need > 0);
+    const outstanding = quote.courses.filter((course) => course.need > 0);
     if (todo) {
       todo.textContent =
         outstanding.length > 0
@@ -322,61 +386,58 @@ function initQuoteBuilder() {
     const perPersonEl = summary.querySelector<HTMLElement>('#summaryPerPerson');
     const guestsEl = summary.querySelector<HTMLElement>('#summaryGuests');
     const totalEl = summary.querySelector<HTMLElement>('#summaryTotal');
-    if (perPersonEl) perPersonEl.textContent = money(perPerson);
-    if (guestsEl) guestsEl.textContent = guests > 0 ? String(guests) : 'Not given';
-    if (totalEl) totalEl.textContent = money(guests > 0 ? total : 0);
+    if (perPersonEl) perPersonEl.textContent = money(quote.perPerson);
+    if (guestsEl) guestsEl.textContent = quote.guests > 0 ? String(quote.guests) : 'Not given';
+    if (totalEl) totalEl.textContent = money(quote.guests > 0 ? quote.total : 0);
   }
 
-  function renderReview() {
-    const fill = (el: HTMLElement | null, rows: [string, string][]) => {
-      if (!el) return;
-      el.textContent = '';
-      rows.forEach(([label, text]) => {
-        const wrap = document.createElement('div');
-        const dt = document.createElement('dt');
-        dt.textContent = label;
-        const dd = document.createElement('dd');
-        dd.textContent = text || 'Not given';
-        if (!text) dd.classList.add('empty');
-        wrap.append(dt, dd);
-        el.appendChild(wrap);
-      });
-    };
+  function renderPrintSheet(quote: Quote) {
+    if (!printSheet) return;
+    const pkg = selectedPackage();
+    const dateEl = printSheet.querySelector<HTMLElement>('#printDate');
+    if (dateEl) {
+      dateEl.textContent = `Prepared ${new Date().toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })}`;
+    }
+    fillList(printSheet.querySelector('#printContact'), contactRows());
+    fillList(printSheet.querySelector('#printEvent'), eventRows());
 
-    const raw = value('#q-date');
-    const date = raw
-      ? new Date(`${raw}T00:00:00`).toLocaleDateString('en-US', {
-          weekday: 'short',
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-        })
-      : '';
+    const pkgEl = printSheet.querySelector<HTMLElement>('#printPackage');
+    if (pkgEl) {
+      pkgEl.textContent = pkg
+        ? `${pkg.value} at ${money(Number(pkg.dataset.price ?? 0))} per person`
+        : 'No buffet picked';
+    }
+    fillList(
+      printSheet.querySelector('#printMenu'),
+      quote.courses
+        .filter((course) => course.picks.length > 0)
+        .map((course): [string, string] => [course.label, course.picks.join(', ')])
+    );
+    fillList(printSheet.querySelector('#printTotals'), totalRows(quote));
+  }
 
-    fill(form.querySelector('#reviewContact'), [
-      ['Name', value('#q-name')],
-      ['Phone', value('#q-phone')],
-      ['Email', value('#q-email')],
-    ]);
-    fill(form.querySelector('#reviewEvent'), [
-      ['Date', date],
-      ['Guests', value('#q-guests')],
-      ['Town', value('#q-town')],
-      ['Event type', value('#q-type')],
-      ['Service', value('#q-service')],
-    ]);
+  function totalRows(quote: Quote): [string, string][] {
+    return [
+      ['Per person', money(quote.perPerson)],
+      ['Guests', quote.guests > 0 ? String(quote.guests) : 'Not given'],
+      ['Food subtotal', money(quote.food)],
+      [`Service charge (${Math.round(SERVICE_RATE * 100)}%)`, money(quote.service)],
+      [`Tax (${Math.round(TAX_RATE * 100)}%)`, money(quote.tax)],
+      ['Estimated total', money(quote.total)],
+    ];
   }
 
   function render() {
     const pkg = selectedPackage();
-    const { courses, perPerson, guests, total } = collect();
-    const picked = courses.filter((course) => course.picks.length > 0);
+    const quote = collect();
+    const picked = quote.courses.filter((course) => course.picks.length > 0);
 
     const titleEl = form.querySelector<HTMLElement>('#estimatePackage');
     const linesEl = form.querySelector<HTMLElement>('#estimateLines');
-    const perPersonEl = form.querySelector<HTMLElement>('#estimatePerPerson');
-    const guestsEl = form.querySelector<HTMLElement>('#estimateGuests');
-    const totalEl = form.querySelector<HTMLElement>('#estimateTotal');
 
     if (titleEl) {
       titleEl.textContent = pkg
@@ -386,58 +447,68 @@ function initQuoteBuilder() {
 
     if (linesEl) {
       linesEl.textContent = '';
-      picked.forEach((course) => row(linesEl, course.label, course.picks.join(', ')));
+      picked.forEach((course) => defRow(linesEl, course.label, course.picks.join(', ')));
 
       // The minimum is a real kitchen constraint, so say it plainly rather than
       // blocking the send: an under-count guest can still be quoted by phone.
       const minGuests = Number(pkg?.dataset.minGuests ?? 1);
-      if (pkg && guests > 0 && guests < minGuests) {
-        const li = document.createElement('li');
-        li.className = 'estimate-warning';
-        li.textContent = `${pkg.value} normally needs at least ${minGuests} guests. Send this anyway and we'll work it out with you, or pick another buffet.`;
-        linesEl.appendChild(li);
+      if (pkg && quote.guests > 0 && quote.guests < minGuests) {
+        const warn = document.createElement('div');
+        warn.className = 'estimate-warning';
+        warn.textContent = `${pkg.value} normally needs at least ${minGuests} guests. Send this anyway and we'll work it out with you, or pick another buffet.`;
+        linesEl.appendChild(warn);
       }
     }
 
-    if (perPersonEl) perPersonEl.textContent = money(perPerson);
-    if (guestsEl) guestsEl.textContent = guests > 0 ? String(guests) : 'Add a guest count';
-    if (totalEl) totalEl.textContent = money(guests > 0 ? total : 0);
+    const cells: [string, string][] = [
+      ['#estimatePerPerson', money(quote.perPerson)],
+      ['#estimateGuests', quote.guests > 0 ? String(quote.guests) : 'Add a guest count'],
+      ['#estimateFood', money(quote.food)],
+      ['#estimateService', money(quote.service)],
+      ['#estimateTax', money(quote.tax)],
+      ['#estimateTotal', money(quote.total)],
+    ];
+    cells.forEach(([selector, text]) => {
+      const el = form.querySelector<HTMLElement>(selector);
+      if (el) el.textContent = text;
+    });
 
     if (bar && barLabel && barTotal) {
       bar.hidden = !pkg;
       document.body.classList.toggle('quote-bar-on', Boolean(pkg));
       if (pkg) {
         barLabel.textContent =
-          guests > 0
-            ? `${money(perPerson)} per person x ${guests} guests`
-            : `${money(perPerson)} per person`;
-        barTotal.textContent = guests > 0 ? money(total) : 'Add a guest count';
+          quote.guests > 0
+            ? `${money(quote.perPerson)} per person x ${quote.guests} guests`
+            : `${money(quote.perPerson)} per person`;
+        barTotal.textContent = quote.guests > 0 ? money(quote.total) : 'Add a guest count';
       }
     }
 
-    if (selectionField) {
-      const parts: string[] = [];
-      if (pkg) {
-        parts.push(`${pkg.value} at ${money(Number(pkg.dataset.price ?? 0))} per person`);
-        picked.forEach((course) => parts.push(`${course.label}: ${course.picks.join(', ')}`));
-        const includes = activePanel()?.querySelector('.pkg-panel-includes')?.textContent?.trim();
-        if (includes) parts.push(includes.replace(/\s+/g, ' '));
-        const minGuests = Number(pkg.dataset.minGuests ?? 1);
-        if (guests > 0 && guests < minGuests) {
-          parts.push(`NOTE: below the usual ${minGuests}-guest minimum for this buffet.`);
-        }
-        parts.push('');
-        parts.push(`Per person: ${money(perPerson)}`);
-        parts.push(`Guests: ${guests > 0 ? guests : 'not given'}`);
-        parts.push(`Estimated food total: ${guests > 0 ? money(total) : 'not calculated'}`);
+    const parts: string[] = [];
+    if (pkg) {
+      parts.push(`${pkg.value} at ${money(Number(pkg.dataset.price ?? 0))} per person`);
+      picked.forEach((course) => parts.push(`${course.label}: ${course.picks.join(', ')}`));
+      const includes = activePanel()?.querySelector('.pkg-panel-includes')?.textContent?.trim();
+      if (includes) parts.push(includes.replace(/\s+/g, ' '));
+      const minGuests = Number(pkg.dataset.minGuests ?? 1);
+      if (quote.guests > 0 && quote.guests < minGuests) {
+        parts.push(`NOTE: below the usual ${minGuests}-guest minimum for this buffet.`);
       }
-      selectionField.value = parts.join('\n');
+      parts.push('');
+      totalRows(quote).forEach(([label, text]) => parts.push(`${label}: ${text}`));
     }
-    if (perPersonField) perPersonField.value = perPerson > 0 ? money(perPerson) : '';
-    if (totalField) totalField.value = guests > 0 && total > 0 ? money(total) : '';
+    setHidden('#quoteSelection', parts.join('\n'));
+    setHidden('#quotePerPerson', quote.perPerson > 0 ? money(quote.perPerson) : '');
+    setHidden('#quoteFood', quote.food > 0 ? money(quote.food) : '');
+    setHidden('#quoteService', quote.service > 0 ? money(quote.service) : '');
+    setHidden('#quoteTax', quote.tax > 0 ? money(quote.tax) : '');
+    setHidden('#quoteTotal', quote.total > 0 ? money(quote.total) : '');
 
-    renderSummary();
-    renderReview();
+    fillList(form.querySelector('#reviewContact'), contactRows());
+    fillList(form.querySelector('#reviewEvent'), eventRows());
+    renderSummary(quote);
+    renderPrintSheet(quote);
   }
 
   form.querySelectorAll<HTMLElement>('.quote-next').forEach((button) => {
@@ -457,12 +528,23 @@ function initQuoteBuilder() {
     button.addEventListener('click', () => showStep(Number(button.dataset.goto ?? 1)));
   });
 
+  form.querySelector<HTMLElement>('#quotePrint')?.addEventListener('click', () => {
+    render();
+    window.print();
+  });
+
   form.addEventListener('change', (event) => {
     const target = event.target as HTMLElement;
     if (target.matches('input[name="package"]')) {
       syncPanels();
-      showError(menuError, '');
-    } else if (target.matches('.dish-input')) {
+      showError(packageError, '');
+      render();
+      // Picking a buffet opens that buffet, rather than making someone scroll
+      // past the other eight to find their dishes.
+      showStep(MENU_STEP);
+      return;
+    }
+    if (target.matches('.dish-input')) {
       const group = target.closest<HTMLElement>('.dish-group');
       if (group) enforceLimit(group);
       if (incompleteGroups().length === 0) showError(menuError, '');
@@ -473,7 +555,7 @@ function initQuoteBuilder() {
   form.addEventListener('input', render);
 
   form.addEventListener('submit', (event) => {
-    const firstBad = [1, 2, 3].find((n) => !stepIsValid(n, false));
+    const firstBad = [1, 2, PACKAGE_STEP, MENU_STEP].find((n) => !stepIsValid(n, false));
     if (firstBad) {
       event.preventDefault();
       showError(submitError, 'Some details are still missing, so we sent you back to finish them.');
@@ -489,6 +571,11 @@ function initQuoteBuilder() {
       gtag('event', 'catering_quote_submit');
     }
   });
+
+  // Guard against a stale step index if the markup and script ever drift.
+  if (steps.length !== LAST_STEP) {
+    console.warn(`Quote builder expected ${LAST_STEP} steps, found ${steps.length}`);
+  }
 
   syncPanels();
   render();

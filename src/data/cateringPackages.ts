@@ -256,3 +256,13 @@ export const LOWEST_BASE_PRICE = Math.min(...CATERING_PACKAGES.map((p) => p.base
 export function formatPrice(dollars: number): string {
   return `$${dollars.toFixed(2)}`;
 }
+
+/** Service charge on the food subtotal. */
+export const SERVICE_CHARGE_RATE = 0.15;
+
+/** Massachusetts meals tax (6.25% state + 0.75% local), on food plus service. */
+export const TAX_RATE = 0.07;
+
+export function percent(rate: number): string {
+  return `${Math.round(rate * 100)}%`;
+}
