@@ -1510,10 +1510,13 @@ body { max-width: 100%; }
 /* Print-only quote sheet (the "Save as PDF" button just opens the print
    dialog: no PDF library, no extra bundle weight, and the guest gets a real
    file they can forward). Hidden on screen; the only thing that prints.
-   print-color-adjust:exact is what keeps the brand colours and the logo from
-   being stripped by the browser's ink-saving default. */
+   Sized to land on ONE page: the browser adds its own header/footer band and
+   ~0.5in margins on top of whatever we do, so the sheet has to stay well
+   inside a letter page. print-color-adjust:exact is what keeps the brand
+   colours and the logo from being stripped by the ink-saving default. */
 .print-sheet { display: none; }
 @media print {
+  @page { size: letter; margin: 0.45in; }
   body { background: #fff; padding: 0; }
   .main-header, .main-footer, .page-header, .quote-form, .quote-lead, .quote-lead-call,
   .quote-footnote, .quote-bar, .content-section > .container > .quote-content > *:not(.print-sheet) { display: none !important; }
@@ -1522,37 +1525,38 @@ body { max-width: 100%; }
     display: block;
     color: var(--black);
     font-family: var(--font-body);
-    font-size: 10.5pt;
+    font-size: 9.5pt;
+    line-height: 1.35;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .print-head { text-align: center; border-bottom: 3px solid var(--red); padding-bottom: 12px; margin-bottom: 18px; }
-  .print-logo { display: block; width: 90px; height: auto; margin: 0 auto 8px; }
-  .print-nap { font-size: 8.5pt; color: var(--gray); }
-  /* .content-section h2 (0,1,1) outranks a bare .print-title (0,1,0), which is
-     how the title kept coming out in the dark blue-green. Scope it to the sheet. */
-  .print-sheet .print-title { font-family: var(--font-display); font-size: 20pt; text-transform: uppercase; letter-spacing: 1px; color: var(--red); margin: 10px 0 0; }
-  .print-head #printDate { font-size: 9pt; color: var(--gray); margin-top: 2px; }
+  .print-head { text-align: center; border-bottom: 2.5px solid var(--red); padding-bottom: 6px; margin-bottom: 10px; }
+  .print-logo { display: block; width: 190px; height: auto; margin: 0 auto 2px; }
+  .print-nap { font-size: 7pt; color: var(--gray); }
+  .print-nap a { color: var(--gray); text-decoration: none; }
+  .print-sheet .print-title { font-family: var(--font-display); font-size: 16pt; text-transform: uppercase; letter-spacing: 1px; color: var(--red); margin: 4px 0 0; }
+  .print-head #printDate { font-size: 8pt; color: var(--gray); }
 
   .print-sheet h4, .content-section .print-sheet h4 {
     font-family: var(--font-display);
-    font-size: 10.5pt;
+    font-size: 9.5pt;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--green);
-    margin: 16px 0 6px;
-    padding-bottom: 3px;
+    margin: 8px 0 3px;
+    padding-bottom: 2px;
     border-bottom: 1px solid var(--tan);
   }
-  .print-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .print-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .print-sheet dl { margin: 0; }
-  .print-sheet dl > div { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; border-bottom: 1px dotted #ccc; }
-  .print-sheet dt { font-family: var(--font-display); font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); }
+  .print-sheet dl > div { display: flex; justify-content: space-between; gap: 14px; padding: 1.5px 0; border-bottom: 1px dotted #ccc; }
+  .print-sheet dt { font-family: var(--font-display); font-size: 8pt; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); }
   .print-sheet dd { margin: 0; text-align: right; font-weight: 700; }
-  #printTotals > div:last-child { border-bottom: 0; border-top: 2px solid var(--red); margin-top: 4px; padding-top: 6px; font-size: 12pt; }
-  #printTotals > div:last-child dt { font-size: 10pt; color: var(--black); }
+  #printTotals > div:last-child { border-bottom: 0; border-top: 2px solid var(--red); margin-top: 3px; padding-top: 4px; font-size: 11pt; }
+  #printTotals > div:last-child dt { font-size: 9.5pt; color: var(--black); }
   #printTotals > div:last-child dd { color: var(--red); }
-  #printAllergies, #printNotes { font-size: 10pt; white-space: pre-wrap; }
-  .print-note { margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--tan); font-size: 8.5pt; line-height: 1.5; color: var(--gray); }
-  .print-note strong { display: block; color: var(--black); }
+  #printAllergies, #printNotes { font-size: 9pt; white-space: pre-wrap; }
+  .print-note { margin-top: 8px; padding-top: 5px; border-top: 1px solid var(--tan); font-size: 7.5pt; line-height: 1.4; color: var(--gray); }
+  /* Inline, not a block: the bold lead-in runs straight into the sentence. */
+  .print-note strong { color: var(--black); }
 }

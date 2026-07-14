@@ -22,7 +22,12 @@ import {
   percent,
 } from '../data/cateringPackages';
 import type { CateringPackage, ChoiceGroup } from '../data/cateringPackages';
-import { ADDRESS, EMAIL, PHONE_DISPLAY } from '../data/restaurant';
+import { ADDRESS, EMAIL, PHONE, PHONE_DISPLAY } from '../data/restaurant';
+
+// The NAP line on the print sheet is clickable in the saved PDF.
+const MAPS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  `${ADDRESS.streetAddress}, ${ADDRESS.addressLocality}, ${ADDRESS.addressRegion} ${ADDRESS.postalCode}`
+)}`;
 
 const ALL_PACKAGES: CateringPackage[] = [...SET_PACKAGES, ...CHOICE_PACKAGES];
 
@@ -489,10 +494,16 @@ function chooseHint(group: ChoiceGroup): string {
 <!-- Print-only quote sheet. Hidden on screen; the only thing that prints. -->
 <section class="print-sheet" id="printSheet" aria-hidden="true">
   <header class="print-head">
-    <img class="print-logo" src="/logo.jpg" alt="The Copperline Eatery" width="150" height="150" />
+    <img class="print-logo" src="/logo.jpg" alt="The Copperline Eatery" width="300" height="300" />
     <p class="print-nap">
-      {ADDRESS.streetAddress}, {ADDRESS.addressLocality}, {ADDRESS.addressRegion}{' '}
-      {ADDRESS.postalCode} &middot; {PHONE_DISPLAY} &middot; {EMAIL}
+      <a href={MAPS_URL}>
+        {ADDRESS.streetAddress}, {ADDRESS.addressLocality}, {ADDRESS.addressRegion}{' '}
+        {ADDRESS.postalCode}
+      </a>
+      <span aria-hidden="true"> &middot; </span>
+      <a href={`tel:${PHONE.replace(/[^+\d]/g, '')}`}>{PHONE_DISPLAY}</a>
+      <span aria-hidden="true"> &middot; </span>
+      <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
     </p>
     <h2 class="print-title">Catering Estimate</h2>
     <p id="printDate"></p>
@@ -509,18 +520,21 @@ function chooseHint(group: ChoiceGroup): string {
   </div>
   <h4 id="printPackage"></h4>
   <dl id="printMenu"></dl>
-  <div id="printAllergiesBlock" hidden>
-    <h4>Allergies &amp; dietary needs</h4>
-    <p id="printAllergies"></p>
-  </div>
-  <div id="printNotesBlock" hidden>
-    <h4>Notes</h4>
-    <p id="printNotes"></p>
+  <!-- Side by side, not stacked: two stacked free-text blocks push the sheet
+       onto a second page. -->
+  <div class="print-cols">
+    <div id="printAllergiesBlock" hidden>
+      <h4>Allergies &amp; dietary needs</h4>
+      <p id="printAllergies"></p>
+    </div>
+    <div id="printNotesBlock" hidden>
+      <h4>Notes</h4>
+      <p id="printNotes"></p>
+    </div>
   </div>
   <h4>Estimate</h4>
   <dl id="printTotals"></dl>
   <p class="print-note">
-    <strong>All prices are estimates.</strong> This catering quote does not represent a confirmed
-    booking or invoice. Final menu and pricing will be confirmed with you before booking.
+    <strong>All prices are estimates.</strong> This catering quote does not represent a confirmed booking or invoice. Final menu and pricing will be confirmed with you before booking.
   </p>
 </section>
