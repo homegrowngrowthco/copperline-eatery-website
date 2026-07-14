@@ -2,21 +2,23 @@
 
 **Site:** https://copperlineeatery.com  
 **Stack:** Astro 5 + TypeScript · Vanilla CSS · Hosted on Netlify · Deployed via GitHub Actions  
-**Last updated:** 2026-07-13
+**Last updated:** 2026-07-14
 
 ---
 
-## Recent Updates (2026-07-13)
+## Recent Updates (2026-07-14)
 
-### Session 26 — /catering/quote interactive quote builder (NOT YET DEPLOYED)
+### Session 26 — /catering/quote interactive quote builder (PR #4 OPEN, NOT DEPLOYED)
 
-New page at `/catering/quote`: a four-step Netlify Form (contact, event, menu, estimate) where the guest picks one of the 9 real buffets, picks their entrees/starch/vegetable/dessert with the correct choose-2 and choose-3 limits enforced, and sees a live per-person price and food-total estimate that includes the premium upcharges (Beef Tenderloin +$5/pp, seafood +$2/pp, and so on). The lead email arrives with the fully itemized menu instead of a paragraph of free text.
+New page at `/catering/quote`: a five-step Netlify Form (info, event, pick a buffet, build your menu, estimate). Picking a buffet opens that buffet's own build screen, where the dishes are selectable cards (not form controls) with the real choose-2 and choose-3 limits enforced, a live per-course progress pill, and an order-summary rail that fills in as they pick. The estimate prices the job: food subtotal, 15% service charge, 7% MA meals tax on food-plus-service, and a total. A "Save as PDF" button prints a one-page branded quote sheet the guest can forward. The lead email arrives fully itemized instead of as a paragraph of free text.
 
-Pricing stays off /catering and the 25 town pages exactly as before: the builder is the only catering page with dollar figures, and it is reached by clicking "Build Your Catering Quote". Per Ian's call this session, the page **is indexed** (targets "catering prices" and "catering quote" queries), so the same per-person prices already public on /menu are now also on a page Google can rank.
+Pricing stays off /catering and the 25 town pages exactly as before: the builder is the only catering page with dollar figures, and it is reached by clicking through a "Build Your Catering Quote" CTA. Per Ian's call this session the page **is indexed** (targets "catering prices" and "catering quote" queries), so the same per-person prices already public on /menu are now also on a page Google can rank.
 
-Packages, options, and every price are derived at build time from the catering sections of `menuData.json` via the new `src/data/cateringPackages.ts`, so prices cannot drift from /menu or the PDF. The parser throws at build time on any upcharge it cannot read. Details in CLAUDE.md Session 26.
+Packages, options, upcharges, and the service/tax rates are derived at build time from the catering sections of `menuData.json` via the new `src/data/cateringPackages.ts`, so prices cannot drift from /menu or the printed PDF. The parser throws at build time on any upcharge it cannot read. The same PR also carries the /catering polish pass (CTAs above the fold, centred intros, inline How-It-Works step numbers) and a 5-column footer. Details in CLAUDE.md Session 26.
 
 **Ian's one required follow-up before this earns anything: add an email notification for the new `catering-quote` form** in the Netlify dashboard (Forms → catering-quote → notifications). It is a separate form from `catering-inquiry`, and form notifications are dashboard-only (no API), so without it the leads pool unseen, exactly as they did in Session 23.
+
+**Open question:** the thanks-page hours Ian dictated (Sat 6:30am, Sun 7:00am) disagree with `restaurant.ts` (Sat 6:00am, Sun 6:30am), which drives the Restaurant schema, footer, and contact page. The page renders the real hours; Ian is confirming whether Sunday actually opens at 7am.
 
 ### Session 25 — SEO audit + fix wave (via PR)
 
