@@ -1,40 +1,35 @@
 {
-  "updatedAt": "2026-07-11T11:02:10.300Z",
+  "updatedAt": "2026-07-18T10:20:38.828Z",
   "specials": [
     {
-      "name": "Sausage Apple Hash",
-      "description": "w/ 2 eggs + toast",
+      "name": "Sweet Potato Ham Hash",
+      "description": "w/ 2 eggs & toast",
       "price": "$12.50"
     },
     {
-      "name": "Cornbread French Toast",
+      "name": "Blueberry French Toast",
       "description": null,
-      "price": "$9.25"
+      "price": "$8.25"
     },
     {
-      "name": "Steak Benedict",
+      "name": "Eggs Florentine",
       "description": null,
-      "price": "$17.95"
+      "price": "$13.00"
     },
     {
-      "name": "Heathbar Pancakes",
+      "name": "Boston Cream Pancakes",
       "description": null,
       "price": "$10.00"
     },
     {
-      "name": "Steak-N-Cheese Omelette",
-      "description": null,
-      "price": "$14.50"
+      "name": "Homemade Turkey Sausage",
+      "description": "w/ 2 eggs, toast & home fries",
+      "price": "$11.00"
     },
     {
-      "name": "Biscuits -N- Gravy",
-      "description": "w/ 2 eggs",
-      "price": "$12.95"
-    },
-    {
-      "name": "Jalapeno Homefries",
+      "name": "Sweet Potato Home Fries",
       "description": null,
-      "price": "$4.25"
+      "price": "$3.50"
     },
     {
       "name": "Fresh Fruit Cup",
