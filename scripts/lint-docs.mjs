@@ -3,9 +3,12 @@
 // FAILS (exit 1) when:
 //   - CLAUDE.md exceeds 400 lines (session history is creeping back in; it belongs in docs/SESSION_LOG.md)
 //   - ../TODO.md (one level above the repo, if present) contains completed `- [x]` items (purge them; history lives in docs/SESSION_LOG.md)
-// WARNS (exit 0) when an open TODO item exceeds 400 characters (trim it; detail belongs in the linked doc).
+//   - CLAUDE.md's dated "current state" heading is >14 days behind the latest non-docs commit
+// WARNS (exit 0) when an open TODO item exceeds 400 characters (trim it; detail belongs in the linked doc),
+// or when the dated current-state heading is missing entirely.
 
 import { readFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -14,7 +17,8 @@ let failed = false;
 
 // 1. CLAUDE.md line count
 const claudePath = resolve(repoRoot, 'CLAUDE.md');
-const claudeLines = readFileSync(claudePath, 'utf8').split('\n').length;
+const claudeText = readFileSync(claudePath, 'utf8');
+const claudeLines = claudeText.split('\n').length;
 if (claudeLines > 400) {
   console.error(`FAIL: CLAUDE.md is ${claudeLines} lines (limit 400). Move session history to docs/SESSION_LOG.md.`);
   failed = true;
@@ -44,6 +48,36 @@ if (!existsSync(todoPath)) {
     console.warn(`warn: ../TODO.md line ${line} is ${len} chars (>400). Trim it; put detail in the linked doc.`);
   }
   if (longOpenItems.length === 0) console.log('ok: no open TODO item exceeds 400 chars.');
+}
+
+// 3. Stale current-state check: the dated "current state" heading in CLAUDE.md must not
+//    lag the newest non-docs commit by more than 14 days.
+const stateMatch = claudeText
+  .split(/\r?\n/)
+  .filter((l) => /^#{1,6}\s/.test(l))
+  .map((l) => l.match(/current.*state.*\((\d{4}-\d{2}-\d{2})\)/i))
+  .find(Boolean);
+const stateDate = stateMatch ? stateMatch[1] : null;
+let codeDate = '';
+try {
+  codeDate = execFileSync(
+    'git',
+    ['log', '-1', '--format=%cs', '--', '.', ':(exclude)*.md', ':(exclude)docs/', ':(exclude)audits/'],
+    { cwd: repoRoot, encoding: 'utf8' },
+  ).trim();
+} catch {
+  // git unavailable or not a repo; skip the staleness comparison
+}
+if (!stateDate) {
+  console.warn('warn: CLAUDE.md has no dated current-state heading (expected e.g. "## Live site / current state (YYYY-MM-DD)").');
+} else if (codeDate) {
+  const lagDays = (Date.parse(codeDate) - Date.parse(stateDate)) / 86400000;
+  if (lagDays > 14) {
+    console.error(`FAIL: CLAUDE.md current-state header (${stateDate}) is >14 days behind the latest code change (${codeDate}). Update the section and its date.`);
+    failed = true;
+  } else {
+    console.log(`ok: CLAUDE.md current-state date ${stateDate} is within 14 days of the latest code change (${codeDate}).`);
+  }
 }
 
 process.exit(failed ? 1 : 0);
