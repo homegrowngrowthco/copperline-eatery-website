@@ -1,10 +1,10 @@
 # /seo-audit — full SEO audit of copperlineeatery.com
 
-Run a current-state SEO audit of the live site and report findings as a delta against the most recent `AUDIT-*.md` in the repo root (read it first so you don't repeat known/accepted items). Do not change code or content as part of the audit; findings only.
+Run a current-state SEO audit of the live site and report findings as a delta against the most recent `audits/AUDIT-*.md` (read it first so you don't repeat known/accepted items). Do not change code or content as part of the audit; findings only.
 
 ## Steps
 
-1. **Read the latest audit doc** (`AUDIT-SEO-*.md` / `AUDIT-GROWTH-*.md`, newest date) for the baseline numbers and the list of accepted/known items (e.g. Lighthouse BP 77 = GA4/Clarity third-party cookies).
+1. **Read the latest audit doc** (`audits/AUDIT-SEO-*.md` / `audits/AUDIT-GROWTH-*.md`, newest date) for the baseline numbers and the list of accepted/known items (e.g. Lighthouse BP 77 = GA4/Clarity third-party cookies).
 
 2. **Indexation** — every sitemap URL through the GSC URL Inspection API (shared OAuth token at `~/.gsc/`, venv at `C:\Users\Ian\.venvs\gsc`):
    ```
@@ -33,4 +33,4 @@ Run a current-state SEO audit of the live site and report findings as a delta ag
 
 ## Report
 
-Write the findings as a dated `AUDIT-SEO-YYYY-MM-DD.md` in the repo root, matching the structure of the previous one: verdict up front, indexation table, technical-checks table, Lighthouse table, GSC delta table, new findings (numbered, with effort estimates), and re-ranked standing items. Separate what Claude can fix from what needs Ian vs his dad (account owner). Then summarize in chat, leading with the headline and the single most valuable action.
+Write the findings as a dated `audits/AUDIT-SEO-YYYY-MM-DD.md`, matching the structure of the previous one: verdict up front, indexation table, technical-checks table, Lighthouse table, GSC delta table, new findings (numbered, with effort estimates), and re-ranked standing items. Separate what Claude can fix from what needs Ian vs his dad (account owner). Then summarize in chat, leading with the headline and the single most valuable action.
