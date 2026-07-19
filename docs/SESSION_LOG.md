@@ -6,6 +6,12 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 27 — 2026-07-18 — docs consolidation + guardrails (portfolio cleanup arc)
+
+`f268b1c` (this branch, rides PR #4): CLAUDE.md 487->133 lines (brief + credentials table), STATUS.md 521->23 lines (live-state pointer), the duplicated CLAUDE/STATUS session logs merged into THIS file (~18 dupes de-duped, ordering unscrambled, the two "Session 3" entries disambiguated, the Session-9 "PENDING DEPLOY" claim corrected to DEPLOYED `7579c2d`), audits -> `audits/`. `f2dfcdb`: stale-current-state check in scripts/lint-docs.mjs. `../TODO.md` purged of 12 done items and force-tracked in the claude-projects-ops repo (was under NO version control); the 3-MA-pages Request Indexing item tagged @ian (feeds the Mon+Thu Slack queue digest). Verify: `npm run qa:docs` green; todo-sync drift clean. Revert: `git revert f268b1c` / `f2dfcdb`. Note: all of this lands on master when PR #4 merges.
+
+---
+
 ### Session 26 — 2026-07-13/14 — /catering/quote interactive quote builder (7 commits, PR #4 OPEN, NOT deployed)
 Ian: "what would it take to rework the catering form to make it more interactive? i.e. they enter the specific package / options they want, optional upgrades / upcharges." Answer: the catering sections of `menuData.json` were ALREADY a configurator spec (5 fixed Buffet Packages, a choose-2-entrees Hot Item Buffet, 3 choose-3-entrees Specialty Buffets, upcharges written inline as "(+$2/pp)"), so this was a restructure, not a content job. The real question was the 2026-07-03 owner decision to strip pricing from /catering. **Ian's calls this session:** the builder lives on its own page behind the "Request a Quote" click (so anyone landing there is explicitly asking for prices); **index it** (targets "catering prices / quote" queries); show a **priced** estimate; and the choice-buffet UI must not "look like janky HTML." The lead email arrives fully itemized instead of as a paragraph of free text.
 
