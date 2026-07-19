@@ -1,9 +1,14 @@
 {
-  "updatedAt": "2026-07-18T10:20:38.828Z",
+  "updatedAt": "2026-07-19T11:12:41.757Z",
   "specials": [
     {
+      "name": "Croissant Sandwich",
+      "description": "Choice of Kielbasa, Ham, Bacon, or Sausage",
+      "price": null
+    },
+    {
       "name": "Sweet Potato Ham Hash",
-      "description": "w/ 2 eggs & toast",
+      "description": "With 2 eggs and toast",
       "price": "$12.50"
     },
     {
@@ -22,8 +27,13 @@
       "price": "$10.00"
     },
     {
+      "name": "Ham & Broccoli Omelet",
+      "description": null,
+      "price": null
+    },
+    {
       "name": "Homemade Turkey Sausage",
-      "description": "w/ 2 eggs, toast & home fries",
+      "description": "With 2 eggs, toast, and home fries",
       "price": "$11.00"
     },
     {
