@@ -1,50 +1,45 @@
 {
-  "updatedAt": "2026-07-19T11:12:41.757Z",
+  "updatedAt": "2026-07-25T13:24:48.392Z",
   "specials": [
     {
-      "name": "Croissant Sandwich",
-      "description": "Choice of Kielbasa, Ham, Bacon, or Sausage",
+      "name": "Veggie Hash",
+      "description": "w/ 2 eggs (partial text obscured by reflection)",
       "price": null
     },
     {
-      "name": "Sweet Potato Ham Hash",
-      "description": "With 2 eggs and toast",
-      "price": "$12.50"
-    },
-    {
-      "name": "Blueberry French Toast",
-      "description": null,
-      "price": "$8.25"
-    },
-    {
-      "name": "Eggs Florentine",
-      "description": null,
-      "price": "$13.00"
-    },
-    {
-      "name": "Boston Cream Pancakes",
-      "description": null,
-      "price": "$10.00"
-    },
-    {
-      "name": "Ham & Broccoli Omelet",
+      "name": "Cider Donut French Toast",
       "description": null,
       "price": null
     },
     {
-      "name": "Homemade Turkey Sausage",
-      "description": "With 2 eggs, toast, and home fries",
-      "price": "$11.00"
+      "name": "Sausage Benedict",
+      "description": null,
+      "price": null
     },
     {
-      "name": "Sweet Potato Home Fries",
+      "name": "Reese Pancakes",
       "description": null,
-      "price": "$3.50"
+      "price": null
+    },
+    {
+      "name": "Southwest Chicken Omelet",
+      "description": null,
+      "price": null
+    },
+    {
+      "name": "Sweet Potato Homefries",
+      "description": null,
+      "price": null
+    },
+    {
+      "name": "Thick Cut Bacon",
+      "description": null,
+      "price": null
     },
     {
       "name": "Fresh Fruit Cup",
       "description": null,
-      "price": "$3.50"
+      "price": null
     }
   ]
 }
