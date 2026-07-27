@@ -3,7 +3,7 @@
 **Site:** https://copperlineeatery.com (Astro 7 + TypeScript, vanilla CSS, Netlify via GitHub Actions, default branch `master`)
 **Last updated:** 2026-07-27
 
-## What is live on prod (through Session 29: Astro 7 + Sunday-hours fix; Session 28 PR #4 merged as `33b10e1`)
+## What is live on prod (through Session 30: dep upgrades postmark 5 / netlify-functions 5 / blobs 10 / anthropic 0.115, audit down to 3 upstream moderates; Session 29 Astro 7 + Sunday-hours fix)
 - 36 pages: 7 core routes + 25 town catering pages (22 MA + 5 CT incl. region hub) + `/catering/quote` + catering-thanks + submit-specials.
 - **`/catering/quote` interactive quote builder LIVE** (indexed): pick a buffet, build the menu with real choose-N limits, live priced estimate (15% service + 7% MA meals tax), Save-as-PDF. Lead arrives itemized via the `catering-quote` Netlify form. `/catering` + all 25 town pages stay price-free.
 - /catering is a full landing page (no pricing, per owner call) with the `catering-inquiry` Netlify form; email notification configured, leads arrive by email.

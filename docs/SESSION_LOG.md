@@ -6,6 +6,14 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 30 — 2026-07-27 — dependency follow-ups: postmark 5 / @netlify/functions 5 / @netlify/blobs 10 / @anthropic-ai/sdk 0.115 + `qa:functions` harness
+All four function-side deps upgraded in one commit, each proven ONE AT A TIME in a fresh C:\tmp\copperline-deps-test sandbox before touching this tree: `postmark` 4.0.7→5.1.0 (v5 has ZERO runtime deps — the axios advisory chain is gone), `@netlify/functions` 4.3.0→5.3.0 (v5 dropped the bundled zip-it-and-ship-it toolchain, -370 packages, kills the tar/svgo/brace-expansion advisories; we only import `type Context`), `@netlify/blobs` 9.1.6→10.7.10 (v10 was already what functions 4.3 bundled internally, so runtime-proven), `@anthropic-ai/sdk` 0.39.0→0.115.0. Then `npm audit fix` bumped astro's bundled `sharp`→0.35.3 (clears the libvips CVE batch) and `svgo`→4.0.2. **Audit: 7 → 3 moderate**, all three = `@opentelemetry/core@2.7.1` pinned inside Netlify's own `@netlify/otel` (dep of blobs 10) — upstream's pin, clears when Netlify bumps, nothing for us to do.
+**New QA asset:** `scripts/fn-check.mjs` (`npm run qa:functions`) — bundles both Netlify functions with esbuild (mirrors Netlify's pipeline, proves import resolution against installed deps) then invokes the handlers on side-effect-free paths (GET→405 both; unauthed POST→401 on inbound-email). Run it after ANY dependency or function change.
+**Verified:** per-dep in sandbox (tsc strict on both functions + fn-check + astro build) at every step; in this tree `astro check` 0 errors, 36-page build, **dist byte-identical** to the pre-upgrade build (`diff -r` clean), qa:functions + qa:docs green. Runtime email/vision/blobs paths are unexercised locally by design (they spend/send) — watch the function log on the next real specials email.
+**Revert:** `git revert <this sha>` (package.json + package-lock + scripts/fn-check.mjs in one commit).
+
+---
+
 ### Session 29 — 2026-07-27 — Astro 5→7 upgrade + Sunday hours fix (7:00am, per Google) + llms.txt refresh
 Astro `5.18.2`→`7.1.4` + `@astrojs/sitemap`→`3.7.3` in one commit. Clears the 3 Astro-attributable npm advisory groups (astro XSS/SSRF batch, bundled esbuild, js-yaml/postcss); audit drops 10→7 findings, remainder is postmark→axios + the `@netlify/functions` toolchain (tar/brace-expansion/svgo) + astro's own bundled sharp 0.34 (needs 0.35 upstream) — separate follow-ups, tracked in ../TODO.md.
 **Key decision:** `compressHTML: true` added to astro.config.mjs. Astro 7 defaults to `'jsx'` whitespace stripping, which glued "Call(413) 594-8332." on /catering/quote (text and link on separate source lines). With `true`, a scripted per-element text diff of all 36 pages vs the v5 build showed zero inline-text changes.
