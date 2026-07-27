@@ -30,7 +30,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - `src/components/DailySpecials.astro` — renders today's specials at build time from `src/data/specials.json`. Empty state inline.
 - `src/data/specials.json` — current live specials. Written by `netlify/functions/inbound-email.ts` via the GitHub Contents API after a YES confirmation. Edit by hand only as a fallback (not the normal path).
 - `netlify/functions/inbound-email.ts` — Postmark inbound webhook. Validates Basic auth, allowlists sender, calls Claude vision, stores pending batch in Netlify Blobs, sends YES-gated confirmation reply, commits confirmed specials to the repo on YES.
-- `netlify/functions/submission-created.ts` — Netlify form-submission event function (filename is the trigger). Sends `catering-quote` submissions as a short email + generated PDF quote sheet (`lib/quote-pdf.ts`, pdf-lib) via Postmark from `QUOTE_FROM_ADDRESS` (Reply-To = customer); ignores all other forms.
+- `netlify/functions/submission-created.ts` — Netlify form-submission event function (filename is the trigger). Sends `catering-quote` submissions as a short email + attached PDF that replicates the on-site print sheet (`lib/quote-pdf.ts`, pdf-lib + fontkit, brand fonts/logo from `lib/assets.ts`) via Postmark from `QUOTE_FROM_ADDRESS` (Reply-To = customer); ignores all other forms.
 - `public/` — served at site root as-is: favicons, `site.webmanifest`, `robots.txt`, logo.jpg, breakfast/lunch/catering menu images (jpg + webp), catering PDFs, IndexNow verification file.
 - `_baseline/lighthouse-2026-05-16/*.json` — pre-migration Lighthouse reports (12 JSONs: 6 routes × desktop+mobile) kept as the performance budget reference. Astro doesn't process this folder (only `src/`).
 - `netlify.toml` — build (NODE_VERSION="24"), security headers (CSP with `frame-ancestors 'none'`, HSTS, Permissions-Policy, X-Frame-Options DENY), cache rules, legacy `.html` → clean URL 301s, www → non-www redirect, trailing 404 fallback.
@@ -42,7 +42,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - `.claude/commands/` — slash commands (`/preview`, `/build-check`, `/add-page`, `/audit-seo`, `/seo-audit`).
 - `audits/` — archived audit reports (`copperline_audit_report.md` 2026-06-22, `AUDIT-GROWTH-2026-07-03.md`, `AUDIT-SEO-2026-07-07.md`).
 - `docs/SESSION_LOG.md` — the single append-only session history (see Documentation Conventions below).
-- `scripts/` — `gsc-analytics.py`, `seo-crawl.mjs`, `lint-docs.mjs` (docs guardrail, `npm run qa:docs`), `fn-check.mjs` (Netlify-function bundle + handler smoke, `npm run qa:functions` — run after any dependency or function change).
+- `scripts/` — `gsc-analytics.py`, `seo-crawl.mjs`, `lint-docs.mjs` (docs guardrail, `npm run qa:docs`), `fn-check.mjs` (Netlify-function bundle + handler smoke, `npm run qa:functions` — run after any dependency or function change), `embed-fn-assets.mjs` (regenerates `netlify/functions/lib/assets.ts` — base64 brand fonts + logo for the quote PDF; rerun after @fontsource bumps or logo changes).
 - `SECURITY.md`, `LICENSE` — vulnerability reporting policy + proprietary license.
 - `STATUS.md` — short live-state snapshot (deployed URL, what is live vs in flight); NOT a history file.
 

@@ -49,7 +49,7 @@ const quoteData = {
   'service-style': 'Drop-off, hot and ready',
   'package': 'Deluxe Buffet',
   'menu-selection':
-    'Deluxe Buffet at $24.99 per person\nEntrees: Chicken Marsala, Baked Haddock\n\nPer person: $24.99\nEstimated total: $1,592.63',
+    'Deluxe Buffet at $24.99 per person\nEntrees: Chicken Marsala, Baked Haddock\nComes with: garden salad, rolls\n\nPer person: $24.99\nGuests: 50\nFood subtotal: $1,249.50\nService charge (15%): $187.43\nTax (7%): $100.58\nEstimated total: $1,537.51',
   'per-person': '$24.99',
   'food-subtotal': '$1,249.50',
   'service-charge': '$187.43',
@@ -85,19 +85,23 @@ checks.push(['submission-created email render', emailOk ? 'ok' : 'bad', 'ok']);
 // The parsed model feeds every line the PDF draws, so assert content there
 // (compressed PDF streams are not raw-searchable), then prove the generated
 // bytes are a loadable one-page PDF via a pdf-lib round trip.
-const model = submission.buildQuoteModel(quoteData, 'July 27, 2026, 3:00 PM');
+const model = submission.buildQuoteModel(quoteData, 'July 27, 2026');
 const modelOk =
   model.packageLine === 'Deluxe Buffet at $24.99 per person' &&
-  model.courseLines.some((l) => l.includes('Chicken Marsala')) &&
-  model.estimate.some(([label, v]) => label === 'Estimated total' && v === '$1,537.51') &&
-  model.extras.some(([, v]) => v.includes('Nut allergy'));
+  model.courseRows.some(([label, v]) => label === 'Entrees' && v.includes('Chicken Marsala')) &&
+  model.contact.length === 3 &&
+  model.event.length === 5 &&
+  model.totals.some(([label, v]) => label === 'Estimated total' && v === '$1,537.51') &&
+  model.allergies.includes('Nut allergy');
 checks.push(['submission-created quote model', modelOk ? 'ok' : 'bad', 'ok']);
+// The print-sheet replica embeds 4 brand fonts + the logo, so a healthy PDF
+// is well into six figures of bytes and reloads as a parseable document.
 const pdfBytes = await submission.buildQuotePdf(model);
 const { PDFDocument } = await import('pdf-lib');
 const reloaded = await PDFDocument.load(pdfBytes);
 const pdfOk =
   Buffer.from(pdfBytes).toString('latin1', 0, 5) === '%PDF-' &&
-  pdfBytes.length > 1000 &&
+  pdfBytes.length > 50_000 &&
   reloaded.getPageCount() >= 1;
 checks.push(['submission-created PDF render', pdfOk ? 'ok' : 'bad', 'ok']);
 

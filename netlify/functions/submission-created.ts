@@ -40,56 +40,75 @@ function formatDate(value: string): string {
 
 type Row = [string, string];
 
-function pushIf(rows: Row[], label: string, value: string | undefined): void {
-  if (value && value.trim() !== '') rows.push([label, value.trim()]);
-}
-
 // Pure parser, exported so scripts/fn-check.mjs can assert on it without
-// sending anything.
-export function buildQuoteModel(data: Record<string, string>, submittedAt: string): QuoteModel {
-  const contact: Row[] = [];
-  pushIf(contact, 'Name', data['name']);
-  pushIf(contact, 'Phone', data['phone']);
-  pushIf(contact, 'Email', data['email']);
+// sending anything. Mirrors the print sheet's fill logic in main.ts:
+// contact/event rows always present (the sheet renders empties as
+// "Not given"), menu rows only for picked courses, totals straight from the
+// builder's own summary text so labels like "Service charge (15%)" match.
+export function buildQuoteModel(data: Record<string, string>, preparedOn: string): QuoteModel {
+  const field = (key: string) => (data[key] || '').trim();
+  const eventDate = field('event-date');
 
-  const eventDate = data['event-date']?.trim() || '';
-  const event: Row[] = [];
-  pushIf(event, 'Date', eventDate ? formatDate(eventDate) : '');
-  pushIf(event, 'Guests', data['guest-count']);
-  pushIf(event, 'Town/City', data['event-town']);
-  pushIf(event, 'Event type', data['event-type']);
-  pushIf(event, 'Service', data['service-style']);
+  const contact: Row[] = [
+    ['Name', field('name')],
+    ['Phone', field('phone')],
+    ['Email', field('email')],
+  ];
+  const event: Row[] = [
+    ['Date', eventDate ? formatDate(eventDate) : ''],
+    ['Guests', field('guest-count')],
+    ['Town', field('event-town')],
+    ['Event type', field('event-type')],
+    ['Service', field('service-style')],
+  ];
 
-  // menu-selection is the builder's own summary text: a package headline,
-  // then "Course: picks" lines, then a blank line, then totals. The totals
-  // half duplicates the hidden money fields, so only the menu half is used.
+  // menu-selection is the builder's summary text: a package headline, then
+  // "Course: picks" lines (plus "Comes with:" / "NOTE:" lines the print sheet
+  // does not show), then a blank line, then the totals block with the exact
+  // labels the sheet prints ("Service charge (15%)", ...).
   const selection = (data['menu-selection'] || '').replace(/\r\n/g, '\n');
-  const menuLines = selection
-    .split('\n\n')[0]
+  const [menuBlock = '', totalsBlock = ''] = selection.split('\n\n');
+  const menuLines = menuBlock
     .split('\n')
     .map((line) => line.trim())
     .filter((line) => line !== '');
+  const courseRows: Row[] = menuLines
+    .slice(1)
+    .filter((line) => !/^(comes with|note):/i.test(line))
+    .map((line) => {
+      const split = line.indexOf(':');
+      return split > 0 ? [line.slice(0, split).trim(), line.slice(split + 1).trim()] : ['', line];
+    });
 
-  const estimate: Row[] = [];
-  pushIf(estimate, 'Per person', data['per-person']);
-  pushIf(estimate, 'Food subtotal', data['food-subtotal']);
-  pushIf(estimate, 'Service charge', data['service-charge']);
-  pushIf(estimate, 'Tax', data['tax']);
-  pushIf(estimate, 'Estimated total', data['estimated-total']);
-
-  const extras: Row[] = [];
-  pushIf(extras, 'Allergies and dietary needs', data['allergies']);
-  pushIf(extras, 'Notes', data['notes']);
+  let totals: Row[] = totalsBlock
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.includes(':'))
+    .map((line) => {
+      const split = line.lastIndexOf(':');
+      return [line.slice(0, split).trim(), line.slice(split + 1).trim()] as Row;
+    });
+  if (totals.length === 0) {
+    totals = [
+      ['Per person', field('per-person')],
+      ['Guests', field('guest-count')],
+      ['Food subtotal', field('food-subtotal')],
+      ['Service charge', field('service-charge')],
+      ['Tax', field('tax')],
+      ['Estimated total', field('estimated-total')],
+    ].filter(([, v]) => v !== '') as Row[];
+  }
 
   return {
-    name: data['name']?.trim() || 'Unknown name',
+    name: field('name') || 'Unknown name',
+    preparedOn,
     contact,
     event,
-    packageLine: menuLines[0] || data['package']?.trim() || '',
-    courseLines: menuLines.slice(1),
-    estimate,
-    extras,
-    submittedAt,
+    packageLine: menuLines[0] || field('package'),
+    courseRows,
+    totals,
+    allergies: field('allergies'),
+    notes: field('notes'),
   };
 }
 
@@ -147,16 +166,15 @@ export default async (req: Request, _context: Context): Promise<Response> => {
       return new Response('Missing email configuration', { status: 200 });
     }
 
-    const submittedAt = new Date().toLocaleString('en-US', {
+    // Same "Prepared <date>" line the on-site print sheet stamps.
+    const preparedOn = new Date().toLocaleDateString('en-US', {
       timeZone: 'America/New_York',
       month: 'long',
       day: 'numeric',
       year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
     });
     const email = renderQuoteEmail(data);
-    const pdf = await buildQuotePdf(buildQuoteModel(data, submittedAt));
+    const pdf = await buildQuotePdf(buildQuoteModel(data, preparedOn));
 
     const client = new ServerClient(token);
     const replyTo = (data['email'] || '').trim();

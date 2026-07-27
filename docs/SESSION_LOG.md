@@ -6,6 +6,14 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 31c — 2026-07-27 — quote PDF v3: faithful replica of the on-site print sheet
+Ian's feedback on v2: the emailed PDF "doesn't look anything like" the visitor's Save-as-PDF sheet. v3 rebuilds `lib/quote-pdf.ts` as a true replica of `#printSheet` + the `@media print` CSS: real logo (public/logo.jpg, 190px centered), REAL BRAND FONTS — the same @fontsource Oswald 400/700 + Merriweather 400/700 woffs the site serves, embedded via `@pdf-lib/fontkit` (subset) — red 16pt CATERING ESTIMATE title, "Prepared <date>", 2.5px red head rule, two-column Your info / Your event, dotted row rules with Oswald-uppercase dt + Merriweather-bold right-aligned dd ("Not given" for empties, like the sheet), package-line h4 + picked-course rows (Comes with/NOTE lines excluded, as on the sheet), allergies/notes print-cols, totals with the exact builder labels ("Service charge (15%)") parsed from `menu-selection`'s totals block, red-ruled 11pt red estimated total, and the sheet's own disclaimer with bold lead-in. All CSS px -> pt at 0.75.
+**Assets:** `scripts/embed-fn-assets.mjs` generates `netlify/functions/lib/assets.ts` (base64 fonts + logo, ~300KB source) so the function bundles them with zero runtime fs/netlify.toml plumbing; rerun after @fontsource bumps or a logo swap. PDF ~86KB.
+**Verified:** tsc strict clean; qa:functions (model assertions vs a full realistic payload + PDF round-trip load, >50KB floor) all PASS; rendered sample visually compared against the print sheet's markup/CSS — layout, fonts, colors, rules all match; live e2e submission checked in Gmail; test lead deleted.
+**Revert:** `git revert <this sha>`.
+
+---
+
 ### Session 31b — 2026-07-27 — quote email v2 per Ian: PDF attachment + separate catering sender
 Ian's feedback on v1: the HTML body was still hard to read ("just attach the PDF"), and the email came from the specials bot address. v2: `submission-created.ts` now sends a SHORT plain-text summary (name, phone, email, guests, date, est. total) with a generated **PDF quote sheet attached** — `netlify/functions/lib/quote-pdf.ts`, built with `pdf-lib` (pure JS, +0 npm advisories), mirroring the on-site print sheet: header + NAP (imported from `src/data/restaurant.ts`, single source), Contact/Event/Menu/Estimate/notes, disclaimer. The visitor-facing "Save as PDF" is the browser print dialog, so the emailed copy must be server-generated; it cannot be captured from the client.
 **Sender separation:** new `QUOTE_FROM_ADDRESS` env (set: `catering@parse.copperlineeatery.com`, functions scope; falls back to `SPECIALS_FROM_ADDRESS`), display name `Copperline Catering`. Works because Postmark verifies the parse subdomain at the DOMAIN level. Note: if a customer emails that address directly it lands in the specials inbound webhook (same MX) and is safely ignored there; replies to Ian's own replies go to the customer (Reply-To).
