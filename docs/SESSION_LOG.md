@@ -6,6 +6,17 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 28 — 2026-07-27 — PR #4 merged (quote builder live) + full security audit
+Audited the quote builder and the whole site, then merged PR #4 as a merge commit (`33b10e1`; the 7 feature commits stay independently revertable). `npm run build` (36 pages) + `tsc --noEmit` clean; verified in `dist` that no `$` figure leaks onto `/catering` or the 25 town pages, `/catering/quote` is canonical + in the sitemap + not noindex, and the `catering-quote` Netlify form registered with all 29 fields (id `6a554f01121b750009f6cd80`, already picked up from PR deploy-previews).
+
+**Quote-builder findings (all low-impact, none blocked merge):** estimate totals are client-computed and submitted in spoofable hidden fields — nil impact, it is a quote *request* not a transaction, staff re-quote before booking; no-JS submissions drop the entree checkboxes (they are intentionally name-less, serialized into `menu-selection` by JS only) — mitigated by the `<noscript>` "call us" copy; tax-on-service-charge math **confirmed correct by owner**.
+
+**Site-wide security (all PRE-EXISTING, not introduced by PR #4):** HIGH — `netlify/functions/inbound-email.ts:263` auto-publishes specials to the live repo when `trusted && confidence>=85`, and `trusted` keys on the forgeable `From` header (`:82`,`:134`) with no SPF/DKIM check → a spoofed email can deface the homepage specials (bounded: output is escaped, so defacement/spam not code-exec). MEDIUM — no rate-limit/spend-cap on the inbound Claude-vision path; deploy secrets exposed to PR-triggered builds (`deploy.yml:6`, low real risk on a private solo repo, and it is what enables preview deploys). LOW — Basic-auth uses `===` not `timingSafeEqual`; Actions pinned to tags not SHAs. `npm audit` 10 advisories but **zero exploitable** against a static site (build-time toolchain / trusted-host runtime); astro 5→7 (TODO) clears the runtime-looking ones. JsonLd `</script>`+`<!--` escaping correct; no committed secrets; forms honeypotted.
+
+**Follow-up:** (1) add the `catering-quote` form email notification — dashboard-only, still the one open item on the merge (see STATUS.md). (2) SPF/DKIM hardening of `inbound-email.ts` queued as its own task. Verify: `npm run qa:docs` green. Revert: `git revert 33b10e1` (or any single feature commit).
+
+---
+
 ### Session 27 — 2026-07-18 — docs consolidation + guardrails (portfolio cleanup arc)
 
 `f268b1c` (this branch, rides PR #4): CLAUDE.md 487->133 lines (brief + credentials table), STATUS.md 521->23 lines (live-state pointer), the duplicated CLAUDE/STATUS session logs merged into THIS file (~18 dupes de-duped, ordering unscrambled, the two "Session 3" entries disambiguated, the Session-9 "PENDING DEPLOY" claim corrected to DEPLOYED `7579c2d`), audits -> `audits/`. `f2dfcdb`: stale-current-state check in scripts/lint-docs.mjs. `../TODO.md` purged of 12 done items and force-tracked in the claude-projects-ops repo (was under NO version control); the 3-MA-pages Request Indexing item tagged @ian (feeds the Mon+Thu Slack queue digest). Verify: `npm run qa:docs` green; todo-sync drift clean. Revert: `git revert f268b1c` / `f2dfcdb`. Note: all of this lands on master when PR #4 merges.
