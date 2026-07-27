@@ -7,7 +7,7 @@
 - Address: 409 Broadway, Chicopee, MA 01020 (Hampden County, Pioneer Valley)
 - Phone: (413) 594-8332
 - Email: copperlineeatery@yahoo.com
-- Hours: Mon-Fri 6:00am-2:00pm, Sat 6:00am-1:30pm, Sun 6:30am-1:00pm (open 7 days)
+- Hours: Mon-Fri 6:00am-2:00pm, Sat 6:00am-1:30pm, Sun 7:00am-1:00pm (open 7 days)
 - Rating: 4.5 stars on Google (1,100+ reviews)
 - Seating: first-come, first-serve; call ahead for groups of 8+
 - Takeout: call (413) 594-8332, ready in under 30 minutes. Delivery via DoorDash.
@@ -27,6 +27,7 @@
 - [Home](https://copperlineeatery.com): overview, hours, reviews
 - [Menu](https://copperlineeatery.com/menu): full breakfast, lunch, and catering menus with prices, plus today's specials
 - [Catering](https://copperlineeatery.com/catering): packages, pricing, service areas, and inquiry form
+- [Catering quote builder](https://copperlineeatery.com/catering/quote): pick a buffet and see per-person pricing live
 - [FAQ](https://copperlineeatery.com/faq): 23 common questions (hours, parking, dietary options, gift cards, catering)
 - [About](https://copperlineeatery.com/about): family story, awards, and press
 - [Contact](https://copperlineeatery.com/contact): directions, hours, map

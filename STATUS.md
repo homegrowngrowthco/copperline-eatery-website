@@ -1,9 +1,9 @@
 # Copperline Eatery — Website Status (live state)
 
-**Site:** https://copperlineeatery.com (Astro 5 + TypeScript, vanilla CSS, Netlify via GitHub Actions, default branch `master`)
+**Site:** https://copperlineeatery.com (Astro 7 + TypeScript, vanilla CSS, Netlify via GitHub Actions, default branch `master`)
 **Last updated:** 2026-07-27
 
-## What is live on prod (through Session 28, PR #4 merged as `33b10e1`)
+## What is live on prod (through Session 29: Astro 7 + Sunday-hours fix; Session 28 PR #4 merged as `33b10e1`)
 - 36 pages: 7 core routes + 25 town catering pages (22 MA + 5 CT incl. region hub) + `/catering/quote` + catering-thanks + submit-specials.
 - **`/catering/quote` interactive quote builder LIVE** (indexed): pick a buffet, build the menu with real choose-N limits, live priced estimate (15% service + 7% MA meals tax), Save-as-PDF. Lead arrives itemized via the `catering-quote` Netlify form. `/catering` + all 25 town pages stay price-free.
 - /catering is a full landing page (no pricing, per owner call) with the `catering-inquiry` Netlify form; email notification configured, leads arrive by email.
@@ -12,7 +12,7 @@
 - GA4 + Clarity live (idle-loaded); IndexNow pings on every prod deploy.
 
 ## Known open questions
-- Sat/Sun opening hours discrepancy (Ian dictated Sat 6:30/Sun 7:00; `restaurant.ts` says Sat 6:00/Sun 6:30 and drives the site). Awaiting Ian's confirmation.
+- ~~Sat/Sun opening hours discrepancy~~ resolved 2026-07-27 (Session 29): Google Business Profile is authoritative — Sat 6:00am-1:30pm, Sun 7:00am-1:00pm. Site now matches everywhere (schema + visible + llms.txt).
 - ~~3 MA town pages unindexed~~ resolved 2026-07-27: Request Indexing re-run confirmed, all 3 now indexed.
 - Quote-builder tax treatment (7% MA meals tax applied on food + 15% service charge) confirmed correct by owner 2026-07-27.
 

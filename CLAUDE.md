@@ -4,7 +4,7 @@
 Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chicopee, MA. Engineered for SEO/local-search performance, structured data (Restaurant + Menu schemas), and Google Business Profile signals. Live state in `STATUS.md`; full history in `docs/SESSION_LOG.md`; open tasks in `../TODO.md`.
 
 ## Tech Stack
-- **Astro 5** + **TypeScript strict** + **vanilla CSS** (no Tailwind; the existing design system in `src/styles/global.css` is the canonical source)
+- **Astro 7** + **TypeScript strict** + **vanilla CSS** (no Tailwind; the existing design system in `src/styles/global.css` is the canonical source). `compressHTML: true` is load-bearing: Astro 7's default `'jsx'` whitespace mode glues text to inline elements written on separate source lines (Session 29); don't remove it.
 - `output: 'static'` + `build.format: 'file'` (produces flat `dist/<slug>.html`, served at `/<slug>` natively by Netlify without trailing-slash 301s)
 - `@astrojs/sitemap` integration autogenerates sitemap at build time (filters out `/404`)
 - Google Fonts (Oswald + Merriweather) via `<link>` in BaseLayout

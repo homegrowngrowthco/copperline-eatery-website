@@ -3,24 +3,29 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Static marketing site for The Copperline Eatery — built with Astro 5.",
+  "description": "Static marketing site for The Copperline Eatery — built with Astro 7.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "typecheck": "astro check",
     "qa:docs": "node scripts/lint-docs.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
-    "@astrojs/sitemap": "^3.0.0",
+    "@astrojs/sitemap": "^3.7.3",
     "@fontsource/merriweather": "^5.2.11",
     "@fontsource/oswald": "^5.2.8",
     "@netlify/blobs": "^9.0.0",
     "@netlify/functions": "^4.0.0",
     "@octokit/rest": "^22.0.0",
-    "astro": "^5.0.0",
+    "astro": "^7.1.4",
     "postmark": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }

@@ -5,6 +5,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://copperlineeatery.com',
   output: 'static',
+  // Astro 7 defaults to compressHTML: 'jsx', which strips whitespace at
+  // newline boundaries between text and inline elements (glued "Call" to the
+  // phone link on /catering/quote). true = the Astro 5 behavior.
+  compressHTML: true,
   trailingSlash: 'never',
   build: {
     // 'file' produces dist/<slug>.html so Netlify serves /<slug> without a

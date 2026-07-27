@@ -38,7 +38,7 @@ export const OPENING_HOURS = [
   {
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: 'Sunday',
-    opens: '06:30',
+    opens: '07:00',
     closes: '13:00',
   },
 ] as const;

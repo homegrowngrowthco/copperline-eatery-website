@@ -6,6 +6,17 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 29 — 2026-07-27 — Astro 5→7 upgrade + Sunday hours fix (7:00am, per Google) + llms.txt refresh
+Astro `5.18.2`→`7.1.4` + `@astrojs/sitemap`→`3.7.3` in one commit. Clears the 3 Astro-attributable npm advisory groups (astro XSS/SSRF batch, bundled esbuild, js-yaml/postcss); audit drops 10→7 findings, remainder is postmark→axios + the `@netlify/functions` toolchain (tar/brace-expansion/svgo) + astro's own bundled sharp 0.34 (needs 0.35 upstream) — separate follow-ups, tracked in ../TODO.md.
+**Key decision:** `compressHTML: true` added to astro.config.mjs. Astro 7 defaults to `'jsx'` whitespace stripping, which glued "Call(413) 594-8332." on /catering/quote (text and link on separate source lines). With `true`, a scripted per-element text diff of all 36 pages vs the v5 build showed zero inline-text changes.
+**Sunday hours 6:30→7:00am** (open question in STATUS resolved): read the live GBP listing via Google Maps — Mon-Fri 6-2, Sat 6-1:30, Sun **7**-1. Ian's earlier dictated "Sat 6:30" was wrong; Sat 6:00 stands. Fixed in `restaurant.ts` (drives all Restaurant schema) + hard-coded copies in Footer, contact (incl. meta/OG), faq (visible + FAQPage schema), index x2, menu x2, and `public/llms.txt` (already existed; also added the /catering/quote link to it). Grep confirms zero `6:30` left in src.
+Also: `typecheck` npm script (`astro check`, new devDeps `@astrojs/check` + `typescript`).
+**Verified:** `astro check` 0 errors; build 36 pages; sitemap URL list byte-identical to v5; all JSON-LD parses (FAQ schema now says Sunday 7:00 AM); scripted glue-check across all 36 pages shows the ONLY text diffs are the intended hour strings; Playwright QA desktop 1280 + mobile 375 on /, /contact, /catering/quote — spacing correct, 0 console errors. Dry-run rehearsed first in C:\tmp\copperline-astro-upgrade-test.
+**Revert:** `git revert <this sha>` (single commit; package-lock included).
+**Gotcha for future sessions:** any new multi-line "text then inline element" markup is safe under `compressHTML: true`, but do NOT remove that config line without re-running the glue check.
+
+---
+
 ### Session 28 — 2026-07-27 — PR #4 merged (quote builder live) + full security audit
 Audited the quote builder and the whole site, then merged PR #4 as a merge commit (`33b10e1`; the 7 feature commits stay independently revertable). `npm run build` (36 pages) + `tsc --noEmit` clean; verified in `dist` that no `$` figure leaks onto `/catering` or the 25 town pages, `/catering/quote` is canonical + in the sitemap + not noindex, and the `catering-quote` Netlify form registered with all 29 fields (id `6a554f01121b750009f6cd80`, already picked up from PR deploy-previews).
 
