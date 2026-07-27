@@ -8,7 +8,7 @@
 - **`/catering/quote` interactive quote builder LIVE** (indexed): pick a buffet, build the menu with real choose-N limits, live priced estimate (15% service + 7% MA meals tax), Save-as-PDF. Lead arrives itemized via the `catering-quote` Netlify form. `/catering` + all 25 town pages stay price-free.
 - /catering is a full landing page (no pricing, per owner call) with the `catering-inquiry` Netlify form; email notification configured, leads arrive by email.
 - Specials pipeline live: email/web photo upload, Claude vision, YES-gated publish to /menu. Inbound webhook (`inbound-email.ts`) hardened `841cf09`: auto-publish requires aligned-DKIM auth (spoof-proof, fail-safe to the YES-gate), timing-safe Basic auth, public path throttled 20/hr.
-- Quote leads arrive as a formatted Postmark email (`submission-created.ts`: Contact/Event/Menu/Estimate sections, Reply-To = customer, recipients in `QUOTE_NOTIFY_EMAILS`). The raw Netlify dashboard notification still fires in parallel until Ian deletes it (Forms -> catering-quote -> Notifications).
+- Quote leads arrive as a short Postmark email + generated PDF quote sheet (`submission-created.ts` + `lib/quote-pdf.ts`), From `Copperline Catering <catering@parse...>` (separate from the specials bot), Reply-To = customer, recipients in `QUOTE_NOTIFY_EMAILS`. The raw Netlify dashboard notification still fires in parallel until Ian deletes it (Forms -> catering-quote -> Notifications).
 - GA4 + Clarity live (idle-loaded); IndexNow pings on every prod deploy.
 
 ## Known open questions

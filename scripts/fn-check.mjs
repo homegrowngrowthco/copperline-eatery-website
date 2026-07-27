@@ -77,12 +77,29 @@ const email = submission.renderQuoteEmail(quoteData);
 const emailOk =
   email.subject.includes('Test Person') &&
   email.subject.includes('50 guests') &&
-  email.html.includes('Chicken Marsala') &&
-  email.html.includes('$1,537.51') &&
-  email.html.includes('Nut allergy') &&
-  email.text.includes('Deluxe Buffet at $24.99 per person') &&
-  !email.text.includes('menu-selection');
+  email.text.includes('$1,537.51') &&
+  email.text.includes('attached as a PDF') &&
+  email.attachmentName === 'catering-quote-test-person.pdf';
 checks.push(['submission-created email render', emailOk ? 'ok' : 'bad', 'ok']);
+
+// The parsed model feeds every line the PDF draws, so assert content there
+// (compressed PDF streams are not raw-searchable), then prove the generated
+// bytes are a loadable one-page PDF via a pdf-lib round trip.
+const model = submission.buildQuoteModel(quoteData, 'July 27, 2026, 3:00 PM');
+const modelOk =
+  model.packageLine === 'Deluxe Buffet at $24.99 per person' &&
+  model.courseLines.some((l) => l.includes('Chicken Marsala')) &&
+  model.estimate.some(([label, v]) => label === 'Estimated total' && v === '$1,537.51') &&
+  model.extras.some(([, v]) => v.includes('Nut allergy'));
+checks.push(['submission-created quote model', modelOk ? 'ok' : 'bad', 'ok']);
+const pdfBytes = await submission.buildQuotePdf(model);
+const { PDFDocument } = await import('pdf-lib');
+const reloaded = await PDFDocument.load(pdfBytes);
+const pdfOk =
+  Buffer.from(pdfBytes).toString('latin1', 0, 5) === '%PDF-' &&
+  pdfBytes.length > 1000 &&
+  reloaded.getPageCount() >= 1;
+checks.push(['submission-created PDF render', pdfOk ? 'ok' : 'bad', 'ok']);
 
 // inbound-email: POST without auth env vars set must 401 before any I/O.
 delete process.env.POSTMARK_WEBHOOK_USER;

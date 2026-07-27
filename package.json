@@ -23,6 +23,7 @@
     "@netlify/functions": "^5.3.0",
     "@octokit/rest": "^22.0.0",
     "astro": "^7.1.4",
+    "pdf-lib": "^1.17.1",
     "postmark": "^5.1.0"
   },
   "devDependencies": {

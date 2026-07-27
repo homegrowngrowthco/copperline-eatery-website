@@ -30,7 +30,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - `src/components/DailySpecials.astro` — renders today's specials at build time from `src/data/specials.json`. Empty state inline.
 - `src/data/specials.json` — current live specials. Written by `netlify/functions/inbound-email.ts` via the GitHub Contents API after a YES confirmation. Edit by hand only as a fallback (not the normal path).
 - `netlify/functions/inbound-email.ts` — Postmark inbound webhook. Validates Basic auth, allowlists sender, calls Claude vision, stores pending batch in Netlify Blobs, sends YES-gated confirmation reply, commits confirmed specials to the repo on YES.
-- `netlify/functions/submission-created.ts` — Netlify form-submission event function (filename is the trigger). Formats `catering-quote` submissions into a clean sectioned email and sends it via Postmark (Reply-To = customer); ignores all other forms.
+- `netlify/functions/submission-created.ts` — Netlify form-submission event function (filename is the trigger). Sends `catering-quote` submissions as a short email + generated PDF quote sheet (`lib/quote-pdf.ts`, pdf-lib) via Postmark from `QUOTE_FROM_ADDRESS` (Reply-To = customer); ignores all other forms.
 - `public/` — served at site root as-is: favicons, `site.webmanifest`, `robots.txt`, logo.jpg, breakfast/lunch/catering menu images (jpg + webp), catering PDFs, IndexNow verification file.
 - `_baseline/lighthouse-2026-05-16/*.json` — pre-migration Lighthouse reports (12 JSONs: 6 routes × desktop+mobile) kept as the performance budget reference. Astro doesn't process this folder (only `src/`).
 - `netlify.toml` — build (NODE_VERSION="24"), security headers (CSP with `frame-ancestors 'none'`, HSTS, Permissions-Policy, X-Frame-Options DENY), cache rules, legacy `.html` → clean URL 301s, www → non-www redirect, trailing 404 fallback.
@@ -60,7 +60,7 @@ None for build. Deploy uses two GitHub Actions secrets:
 - `NETLIFY_AUTH_TOKEN`
 - `NETLIFY_SITE_ID`
 
-The Netlify Functions read runtime env vars from Netlify Site Settings (not from GitHub). See `.env.example` for the full list: `ANTHROPIC_API_KEY`, `POSTMARK_SERVER_TOKEN`, `POSTMARK_WEBHOOK_USER`, `POSTMARK_WEBHOOK_PASS`, `SPECIALS_FROM_ADDRESS`, `ALLOWED_SENDER_EMAILS`, `REVIEWER_EMAILS`, `QUOTE_NOTIFY_EMAILS`, `GITHUB_TOKEN`, `GITHUB_REPO`, `GITHUB_BRANCH`.
+The Netlify Functions read runtime env vars from Netlify Site Settings (not from GitHub). See `.env.example` for the full list: `ANTHROPIC_API_KEY`, `POSTMARK_SERVER_TOKEN`, `POSTMARK_WEBHOOK_USER`, `POSTMARK_WEBHOOK_PASS`, `SPECIALS_FROM_ADDRESS`, `ALLOWED_SENDER_EMAILS`, `REVIEWER_EMAILS`, `QUOTE_NOTIFY_EMAILS`, `QUOTE_FROM_ADDRESS`, `GITHUB_TOKEN`, `GITHUB_REPO`, `GITHUB_BRANCH`.
 
 ## Deployment
 Push to `master` → GitHub Actions runs `npm ci && npm run build && netlify deploy --dir=dist --prod` then pings IndexNow with the canonical URL list. End-to-end ~1 minute.

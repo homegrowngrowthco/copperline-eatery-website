@@ -1,7 +1,9 @@
 // Netlify event-triggered function: fires on every verified form submission
 // (the filename `submission-created` is the trigger; Netlify only invokes it
 // internally, it is not publicly routable). Replaces the unreadable built-in
-// form notification for the quote builder with a formatted email via Postmark.
+// form notification for the quote builder: catering-quote leads arrive as a
+// short email with a generated quote-sheet PDF attached, sent via Postmark
+// from the catering address (QUOTE_FROM_ADDRESS), not the specials bot.
 //
 // Only `catering-quote` submissions are handled; every other form falls
 // through to whatever notifications are configured in the Netlify dashboard.
@@ -10,19 +12,16 @@
 // submission as failed. Errors are logged for the function log instead.
 import type { Context } from '@netlify/functions';
 import { ServerClient } from 'postmark';
+import { buildQuotePdf } from './lib/quote-pdf';
+import type { QuoteModel } from './lib/quote-pdf';
+
+// Re-exported so scripts/fn-check.mjs can exercise the PDF from the bundle.
+export { buildQuotePdf };
 
 interface SubmissionPayload {
   form_name?: string;
   number?: number;
   data?: Record<string, string>;
-}
-
-function esc(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
 }
 
 // Event dates arrive as YYYY-MM-DD from the <input type="date">. Format by
@@ -45,34 +44,18 @@ function pushIf(rows: Row[], label: string, value: string | undefined): void {
   if (value && value.trim() !== '') rows.push([label, value.trim()]);
 }
 
-export interface QuoteEmail {
-  subject: string;
-  html: string;
-  text: string;
-}
-
-// Pure formatter, exported so scripts/fn-check.mjs can assert on the output
-// without sending anything.
-export function renderQuoteEmail(data: Record<string, string>): QuoteEmail {
-  const name = data['name']?.trim() || 'Unknown name';
-  const guests = data['guest-count']?.trim() || '';
-  const total = data['estimated-total']?.trim() || '';
-  const eventDate = data['event-date']?.trim() || '';
-
-  const subjectBits = [name];
-  if (guests) subjectBits.push(`${guests} guests`);
-  if (eventDate) subjectBits.push(formatDate(eventDate));
-  if (total) subjectBits.push(`est. ${total}`);
-  const subject = `New catering quote: ${subjectBits.join(', ')}`;
-
+// Pure parser, exported so scripts/fn-check.mjs can assert on it without
+// sending anything.
+export function buildQuoteModel(data: Record<string, string>, submittedAt: string): QuoteModel {
   const contact: Row[] = [];
   pushIf(contact, 'Name', data['name']);
   pushIf(contact, 'Phone', data['phone']);
   pushIf(contact, 'Email', data['email']);
 
+  const eventDate = data['event-date']?.trim() || '';
   const event: Row[] = [];
   pushIf(event, 'Date', eventDate ? formatDate(eventDate) : '');
-  pushIf(event, 'Guests', guests);
+  pushIf(event, 'Guests', data['guest-count']);
   pushIf(event, 'Town/City', data['event-town']);
   pushIf(event, 'Event type', data['event-type']);
   pushIf(event, 'Service', data['service-style']);
@@ -86,8 +69,6 @@ export function renderQuoteEmail(data: Record<string, string>): QuoteEmail {
     .split('\n')
     .map((line) => line.trim())
     .filter((line) => line !== '');
-  const packageLine = menuLines[0] || data['package'] || '';
-  const courseLines = menuLines.slice(1);
 
   const estimate: Row[] = [];
   pushIf(estimate, 'Per person', data['per-person']);
@@ -97,79 +78,54 @@ export function renderQuoteEmail(data: Record<string, string>): QuoteEmail {
   pushIf(estimate, 'Estimated total', data['estimated-total']);
 
   const extras: Row[] = [];
-  pushIf(extras, 'Allergies / dietary', data['allergies']);
+  pushIf(extras, 'Allergies and dietary needs', data['allergies']);
   pushIf(extras, 'Notes', data['notes']);
 
-  // ---- plain text ----
-  const textParts: string[] = [`New catering quote request from ${name}`, ''];
-  const textSection = (title: string, rows: Row[]) => {
-    if (rows.length === 0) return;
-    textParts.push(title.toUpperCase());
-    rows.forEach(([label, value]) => textParts.push(`  ${label}: ${value}`));
-    textParts.push('');
+  return {
+    name: data['name']?.trim() || 'Unknown name',
+    contact,
+    event,
+    packageLine: menuLines[0] || data['package']?.trim() || '',
+    courseLines: menuLines.slice(1),
+    estimate,
+    extras,
+    submittedAt,
   };
-  textSection('Contact', contact);
-  textSection('Event', event);
-  if (packageLine) {
-    textParts.push('MENU');
-    textParts.push(`  ${packageLine}`);
-    courseLines.forEach((line) => textParts.push(`  ${line}`));
-    textParts.push('');
-  }
-  textSection('Estimate', estimate);
-  textSection('Kitchen notes', extras);
-  textParts.push('All prices are estimates. Reply to this email to answer the customer directly.');
-  const text = textParts.join('\n');
+}
 
-  // ---- HTML (single column, inline styles, safe in every mail client) ----
-  const rowsHtml = (rows: Row[]) =>
-    rows
-      .map(
-        ([label, value]) =>
-          `<tr><td style="padding:4px 16px 4px 0;color:#6b6b6b;white-space:nowrap;vertical-align:top;">${esc(label)}</td>` +
-          `<td style="padding:4px 0;color:#1f1f1f;">${esc(value).replace(/\n/g, '<br>')}</td></tr>`
-      )
-      .join('');
-  const section = (title: string, body: string) =>
-    `<h2 style="margin:24px 0 6px;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;color:#a35c2a;">${esc(title)}</h2>` +
-    `<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px;line-height:1.5;border-collapse:collapse;">${body}</table>`;
+export interface QuoteEmail {
+  subject: string;
+  text: string;
+  attachmentName: string;
+}
 
-  let html =
-    `<div style="font-family:Georgia,'Times New Roman',serif;max-width:560px;margin:0 auto;padding:8px 4px;color:#1f1f1f;">` +
-    `<h1 style="font-size:20px;margin:0 0 4px;">New catering quote request</h1>` +
-    `<p style="margin:0;color:#6b6b6b;font-size:14px;">Sent from the quote builder on copperlineeatery.com. Reply to this email to answer the customer directly.</p>`;
-  if (contact.length) html += section('Contact', rowsHtml(contact));
-  if (event.length) html += section('Event', rowsHtml(event));
-  if (packageLine) {
-    const courseRows = courseLines
-      .map((line) => {
-        const split = line.indexOf(':');
-        return split > 0
-          ? ([line.slice(0, split).trim(), line.slice(split + 1).trim()] as Row)
-          : (['', line] as Row);
-      })
-      .filter(([, value]) => value !== '');
-    html += section(
-      'Menu',
-      `<tr><td colspan="2" style="padding:4px 0 8px;font-weight:bold;">${esc(packageLine)}</td></tr>` +
-        rowsHtml(courseRows)
-    );
-  }
-  if (estimate.length) {
-    const money = rowsHtml(estimate.slice(0, -1));
-    const [totalLabel, totalValue] = estimate[estimate.length - 1];
-    html += section(
-      'Estimate',
-      money +
-        `<tr><td style="padding:8px 16px 4px 0;font-weight:bold;border-top:1px solid #ddd;">${esc(totalLabel)}</td>` +
-        `<td style="padding:8px 0 4px;font-weight:bold;border-top:1px solid #ddd;">${esc(totalValue)}</td></tr>`
-    );
-  }
-  if (extras.length) html += section('Kitchen notes', rowsHtml(extras));
-  html +=
-    `<p style="margin:24px 0 0;color:#6b6b6b;font-size:13px;">All prices are estimates; nothing is booked yet. The full submission is also stored under Forms in the Netlify dashboard.</p></div>`;
+export function renderQuoteEmail(data: Record<string, string>): QuoteEmail {
+  const name = data['name']?.trim() || 'Unknown name';
+  const guests = data['guest-count']?.trim() || '';
+  const total = data['estimated-total']?.trim() || '';
+  const eventDate = data['event-date']?.trim() || '';
 
-  return { subject, html, text };
+  const subjectBits = [name];
+  if (guests) subjectBits.push(`${guests} guests`);
+  if (eventDate) subjectBits.push(formatDate(eventDate));
+  if (total) subjectBits.push(`est. ${total}`);
+
+  const lines = [`New catering quote request from ${name}.`, ''];
+  if (data['phone']?.trim()) lines.push(`Phone: ${data['phone'].trim()}`);
+  if (data['email']?.trim()) lines.push(`Email: ${data['email'].trim()}`);
+  if (guests) lines.push(`Guests: ${guests}`);
+  if (eventDate) lines.push(`Date: ${formatDate(eventDate)}`);
+  if (total) lines.push(`Estimated total: ${total}`);
+  lines.push('');
+  lines.push('The full quote sheet is attached as a PDF.');
+  lines.push('Reply to this email to answer the customer directly.');
+
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'quote';
+  return {
+    subject: `New catering quote: ${subjectBits.join(', ')}`,
+    text: lines.join('\n'),
+    attachmentName: `catering-quote-${slug}.pdf`,
+  };
 }
 
 export default async (req: Request, _context: Context): Promise<Response> => {
@@ -184,26 +140,43 @@ export default async (req: Request, _context: Context): Promise<Response> => {
 
     const data = payload.data ?? {};
     const token = process.env.POSTMARK_SERVER_TOKEN;
-    const from = process.env.SPECIALS_FROM_ADDRESS;
+    const from = process.env.QUOTE_FROM_ADDRESS || process.env.SPECIALS_FROM_ADDRESS;
     const to = (process.env.QUOTE_NOTIFY_EMAILS || process.env.REVIEWER_EMAILS || '').trim();
     if (!token || !from || !to) {
-      console.error('quote email skipped: POSTMARK_SERVER_TOKEN, SPECIALS_FROM_ADDRESS, or recipients missing');
+      console.error('quote email skipped: POSTMARK_SERVER_TOKEN, from address, or recipients missing');
       return new Response('Missing email configuration', { status: 200 });
     }
 
+    const submittedAt = new Date().toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
     const email = renderQuoteEmail(data);
+    const pdf = await buildQuotePdf(buildQuoteModel(data, submittedAt));
+
     const client = new ServerClient(token);
     const replyTo = (data['email'] || '').trim();
     await client.sendEmail({
-      From: from,
+      From: `Copperline Catering <${from}>`,
       To: to,
       ...(replyTo ? { ReplyTo: replyTo } : {}),
       Subject: email.subject,
-      HtmlBody: email.html,
       TextBody: email.text,
+      Attachments: [
+        {
+          Name: email.attachmentName,
+          Content: Buffer.from(pdf).toString('base64'),
+          ContentType: 'application/pdf',
+          ContentID: '',
+        },
+      ],
       MessageStream: 'outbound',
     });
-    console.log(`quote email sent for submission #${payload.number ?? '?'} to ${to}`);
+    console.log(`quote email sent for submission #${payload.number ?? '?'} to ${to} from ${from}`);
     return new Response('Quote email sent', { status: 200 });
   } catch (err) {
     console.error('quote email failed:', err);
