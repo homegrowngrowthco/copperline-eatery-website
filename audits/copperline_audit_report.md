@@ -1,4 +1,7 @@
 # Copperline Eatery — Full Site Audit (a11y · security · code · SEO)
+
+> RESOLVED — all 8 fixes deployed Session 13; superseded by the July audits (`AUDIT-GROWTH-2026-07-03.md`, `AUDIT-SEO-2026-07-07.md`). Archived 2026-07-18.
+
 **Site:** https://copperlineeatery.com
 **Date:** 2026-06-22 (Session 13)
 **Scope:** Accessibility (WCAG / axe), Security (deps, CSP, specials Netlify function), Code quality, and an SEO/content/schema delta re-check. Builds on the 2026-06-14 technical-SEO/perf audit (Session 10).

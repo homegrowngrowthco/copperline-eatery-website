@@ -82,7 +82,7 @@
     Cache-Control = "public, max-age=86400"
 
 # Permanent redirects from the legacy *.html URLs to the clean Astro routes.
-# Kept indefinitely — GSC previously indexed both forms (see STATUS.md 2026-05-07).
+# Kept indefinitely — GSC previously indexed both forms (see docs/SESSION_LOG.md, 2026-05-07 entry).
 [[redirects]]
   from = "/index.html"
   to = "/"
