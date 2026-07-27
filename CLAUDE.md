@@ -41,7 +41,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - `.claude/commands/` — slash commands (`/preview`, `/build-check`, `/add-page`, `/audit-seo`, `/seo-audit`).
 - `audits/` — archived audit reports (`copperline_audit_report.md` 2026-06-22, `AUDIT-GROWTH-2026-07-03.md`, `AUDIT-SEO-2026-07-07.md`).
 - `docs/SESSION_LOG.md` — the single append-only session history (see Documentation Conventions below).
-- `scripts/` — `gsc-analytics.py`, `seo-crawl.mjs`, `lint-docs.mjs` (docs guardrail, `npm run qa:docs`).
+- `scripts/` — `gsc-analytics.py`, `seo-crawl.mjs`, `lint-docs.mjs` (docs guardrail, `npm run qa:docs`), `fn-check.mjs` (Netlify-function bundle + handler smoke, `npm run qa:functions` — run after any dependency or function change).
 - `SECURITY.md`, `LICENSE` — vulnerability reporting policy + proprietary license.
 - `STATUS.md` — short live-state snapshot (deployed URL, what is live vs in flight); NOT a history file.
 
