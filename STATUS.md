@@ -7,11 +7,9 @@
 - 36 pages: 7 core routes + 25 town catering pages (22 MA + 5 CT incl. region hub) + `/catering/quote` + catering-thanks + submit-specials.
 - **`/catering/quote` interactive quote builder LIVE** (indexed): pick a buffet, build the menu with real choose-N limits, live priced estimate (15% service + 7% MA meals tax), Save-as-PDF. Lead arrives itemized via the `catering-quote` Netlify form. `/catering` + all 25 town pages stay price-free.
 - /catering is a full landing page (no pricing, per owner call) with the `catering-inquiry` Netlify form; email notification configured, leads arrive by email.
-- Specials pipeline live: email/web photo upload, Claude vision, YES-gated publish to /menu.
+- Specials pipeline live: email/web photo upload, Claude vision, YES-gated publish to /menu. Inbound webhook (`inbound-email.ts`) hardened `841cf09`: auto-publish requires aligned-DKIM auth (spoof-proof, fail-safe to the YES-gate), timing-safe Basic auth, public path throttled 20/hr.
+- `catering-quote` form email notification configured (Ian, dashboard) — quote leads now arrive by email.
 - GA4 + Clarity live (idle-loaded); IndexNow pings on every prod deploy.
-
-## Action needed (dashboard-only, no API)
-- **Add the email notification for the `catering-quote` form** (form id `6a554f01121b750009f6cd80`). Netlify → copperlineeatery → Forms → catering-quote → Add notification → Email, matching whatever `catering-inquiry` sends to. Until then, quote leads pool in the dashboard unseen (1 QA submission already sitting there).
 
 ## Known open questions
 - Sat/Sun opening hours discrepancy (Ian dictated Sat 6:30/Sun 7:00; `restaurant.ts` says Sat 6:00/Sun 6:30 and drives the site). Awaiting Ian's confirmation.
