@@ -3,6 +3,7 @@ import { getStore } from '@netlify/blobs';
 import Anthropic from '@anthropic-ai/sdk';
 import { ServerClient } from 'postmark';
 import { Octokit } from '@octokit/rest';
+import { timingSafeEqual } from 'node:crypto';
 import {
   extractSpecialsFromImage,
   parseExtractionResult,
@@ -20,6 +21,10 @@ const PENDING_TTL_MS = 24 * 60 * 60 * 1000;
 // Auto-publish trusted-sender photos that score at or above this confidence threshold.
 // Set AUTO_PUBLISH_THRESHOLD env var to override (0 = always manual, 100 = always manual).
 const AUTO_PUBLISH_THRESHOLD = parseInt(process.env.AUTO_PUBLISH_THRESHOLD || '85', 10);
+
+const RATE_STORE = 'inbound-ratelimit';
+const MAX_PUBLIC_PER_HOUR = 20;
+const ONE_HOUR_MS = 60 * 60 * 1000;
 
 function getReviewerEmails(): string[] {
   return (process.env.REVIEWER_EMAILS || '')
@@ -93,6 +98,15 @@ export default async (req: Request, _context: Context): Promise<Response> => {
   // Unknown senders with no batch reply are treated as public photo submissions
   // (confirmation goes to reviewers, not back to the submitter).
   if (!batchMatch && !trusted) {
+    // Throttle the public path before it spends: a full run is one Claude vision
+    // call plus a reviewer email, so bulk mail to the parse address would run up
+    // cost and flood reviewers. Trusted senders and UUID confirmations are exempt.
+    if (!(await checkPublicRateLimit())) {
+      console.warn(
+        `Public submission dropped: ${MAX_PUBLIC_PER_HOUR}/hr rate limit exceeded (sender=${sender})`,
+      );
+      return new Response('OK', { status: 200 });
+    }
     await handleNewPhoto(inbound, false).catch((e) =>
       console.error('Public photo handler error:', e),
     );
@@ -125,10 +139,22 @@ function checkBasicAuth(req: Request): boolean {
     const decoded = Buffer.from(header.slice(6), 'base64').toString('utf8');
     const idx = decoded.indexOf(':');
     if (idx === -1) return false;
-    return decoded.slice(0, idx) === expectedUser && decoded.slice(idx + 1) === expectedPass;
+    return (
+      safeEqual(decoded.slice(0, idx), expectedUser) &&
+      safeEqual(decoded.slice(idx + 1), expectedPass)
+    );
   } catch {
     return false;
   }
+}
+
+// Constant-time string compare so credential checks can't be teased apart by
+// timing. timingSafeEqual throws on length mismatch, so guard the length first
+// (the length itself is not the secret).
+function safeEqual(a: string, b: string): boolean {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return ab.length === bb.length && timingSafeEqual(ab, bb);
 }
 
 function isTrustedSender(sender: string): boolean {
@@ -137,6 +163,48 @@ function isTrustedSender(sender: string): boolean {
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
   return allowed.includes(sender);
+}
+
+// Global throttle for the PUBLIC (unknown-sender) path. One shared counter, not
+// per-sender: the From address is forgeable, so a per-sender key is trivially
+// evaded by varying it. Fail-open — a Blobs hiccup allows the request rather than
+// dropping a real customer's photo. The read-modify-write is not atomic, so a
+// concurrent burst can slightly overshoot the cap; that is fine for a spend
+// ceiling. Trusted senders and UUID confirmations never reach here.
+async function checkPublicRateLimit(): Promise<boolean> {
+  const store = getStore(RATE_STORE);
+  const key = 'public-global';
+  const data = (await store
+    .get(key, { type: 'json' })
+    .catch(() => null)) as { count: number; windowStart: number } | null;
+
+  const now = Date.now();
+  if (!data || now - data.windowStart > ONE_HOUR_MS) {
+    await store.setJSON(key, { count: 1, windowStart: now }).catch(() => {});
+    return true;
+  }
+  if (data.count >= MAX_PUBLIC_PER_HOUR) return false;
+  await store
+    .setJSON(key, { count: data.count + 1, windowStart: data.windowStart })
+    .catch(() => {});
+  return true;
+}
+
+// Anti-spoofing gate for unattended auto-publish. The sender allowlist keys on
+// the From header, which is trivially forgeable, so matching the allowlist alone
+// must never trigger a publish. Postmark runs inbound mail through SpamAssassin
+// and returns the results in X-Spam-Tests; DKIM_VALID_AU means the message
+// carries a valid DKIM signature ALIGNED to the From (author) domain, which a
+// spoofer cannot produce without that domain's private key. We require aligned
+// DKIM specifically: SPF_PASS alone authenticates the envelope sender, not the
+// header From, so it does not prove the claimed identity. A missing or
+// unreadable header yields false, and the caller then falls back to the manual
+// YES-gate rather than auto-publishing.
+function senderPassedAuth(inbound: PostmarkInbound): boolean {
+  const tests = (headerValue(inbound, 'X-Spam-Tests') || '')
+    .split(',')
+    .map((t) => t.trim().toUpperCase());
+  return tests.includes('DKIM_VALID_AU');
 }
 
 function headerValue(inbound: PostmarkInbound, name: string): string | null {
@@ -239,8 +307,9 @@ async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
     apiKey,
   });
 
+  const authed = senderPassedAuth(inbound);
   console.log(
-    `Vision result: confidence=${result.confidence}%, specials=${result.specials.length}, trusted=${trusted}`,
+    `Vision result: confidence=${result.confidence}%, specials=${result.specials.length}, trusted=${trusted}, authed=${authed} (X-Spam-Tests=${headerValue(inbound, 'X-Spam-Tests') ?? 'none'})`,
   );
 
   if (result.specials.length === 0) {
@@ -259,10 +328,14 @@ async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
     name: image.Name || 'specials-photo',
   };
 
-  // Auto-publish for trusted senders above the confidence threshold.
-  if (trusted && result.confidence >= AUTO_PUBLISH_THRESHOLD) {
+  // Auto-publish only when the sender is on the allowlist AND the message passed
+  // aligned-DKIM auth AND vision is confident. A spoofed From that matches the
+  // allowlist fails senderPassedAuth and falls through to the manual YES-gate
+  // below (whose confirmation email, with the batch UUID, goes to the real From
+  // address, so a spoofer never receives it and cannot confirm).
+  if (trusted && authed && result.confidence >= AUTO_PUBLISH_THRESHOLD) {
     console.log(
-      `Auto-publishing ${result.specials.length} specials (confidence ${result.confidence}% >= ${AUTO_PUBLISH_THRESHOLD}%)`,
+      `Auto-publishing ${result.specials.length} specials (confidence ${result.confidence}% >= ${AUTO_PUBLISH_THRESHOLD}%, aligned-DKIM verified)`,
     );
     await commitSpecialsToRepo(result.specials);
     await safeReply(
@@ -283,7 +356,8 @@ async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
     return;
   }
 
-  // Below threshold or public sender: create a pending batch for manual review.
+  // Below threshold, unauthenticated trusted sender, or public sender: create a
+  // pending batch for manual review (trusted -> YES-gate reply; public -> reviewers).
   const sender = (inbound.FromFull?.Email || inbound.From || '').toLowerCase();
   const reviewerMode = !trusted;
   const batchId = crypto.randomUUID();
