@@ -6,6 +6,12 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 31d — 2026-07-27 — catering-quote form accidentally deleted in dashboard; recovered
+Ian deleted the `catering-quote` FORM (meaning to delete its stale email notification). Netlify registers forms by parsing deployed HTML, so recovery = one empty-commit redeploy (`d72369d`): form re-registered with all 29 fields + honeypot under a NEW form id `6a67c077908fb60008923d11` (old id in earlier log entries is dead; scripts/notifications keyed by form NAME are unaffected — `submission-created.ts` filters on `form_name`, so the PDF email pipeline needed no changes). Prior submissions on the deleted form are gone (all were tests; zero real leads). `catering-inquiry` untouched. Side effect: the stale raw notification died with the form — nothing left for Ian to delete.
+**Verified:** full browser walk of the builder on prod (Buffet Package #3, 35 guests) — submission registered on the new form, PDF email From Copperline Catering arrived 4s later, test lead deleted.
+
+---
+
 ### Session 31c — 2026-07-27 — quote PDF v3: faithful replica of the on-site print sheet
 Ian's feedback on v2: the emailed PDF "doesn't look anything like" the visitor's Save-as-PDF sheet. v3 rebuilds `lib/quote-pdf.ts` as a true replica of `#printSheet` + the `@media print` CSS: real logo (public/logo.jpg, 190px centered), REAL BRAND FONTS — the same @fontsource Oswald 400/700 + Merriweather 400/700 woffs the site serves, embedded via `@pdf-lib/fontkit` (subset) — red 16pt CATERING ESTIMATE title, "Prepared <date>", 2.5px red head rule, two-column Your info / Your event, dotted row rules with Oswald-uppercase dt + Merriweather-bold right-aligned dd ("Not given" for empties, like the sheet), package-line h4 + picked-course rows (Comes with/NOTE lines excluded, as on the sheet), allergies/notes print-cols, totals with the exact builder labels ("Service charge (15%)") parsed from `menu-selection`'s totals block, red-ruled 11pt red estimated total, and the sheet's own disclaimer with bold lead-in. All CSS px -> pt at 0.75.
 **Assets:** `scripts/embed-fn-assets.mjs` generates `netlify/functions/lib/assets.ts` (base64 fonts + logo, ~300KB source) so the function bundles them with zero runtime fs/netlify.toml plumbing; rerun after @fontsource bumps or a logo swap. PDF ~86KB.
