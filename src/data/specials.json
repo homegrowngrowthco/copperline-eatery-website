@@ -1,45 +1,45 @@
 {
-  "updatedAt": "2026-07-25T13:24:48.392Z",
+  "updatedAt": "2026-08-01T12:02:18.202Z",
   "specials": [
     {
-      "name": "Veggie Hash",
-      "description": "w/ 2 eggs (partial text obscured by reflection)",
-      "price": null
+      "name": "Roast Beef Hash",
+      "description": "w/ 2 eggs & toast",
+      "price": "$12.25"
     },
     {
-      "name": "Cider Donut French Toast",
+      "name": "Bread Pudding French Toast",
       "description": null,
-      "price": null
+      "price": "$9.00"
     },
     {
-      "name": "Sausage Benedict",
+      "name": "Smoked Salmon Beni",
       "description": null,
-      "price": null
+      "price": "$14.00"
     },
     {
-      "name": "Reese Pancakes",
+      "name": "Cran-Orange Pancakes",
       "description": null,
-      "price": null
+      "price": "$9.25"
     },
     {
-      "name": "Southwest Chicken Omelet",
+      "name": "Greek Omelet",
       "description": null,
-      "price": null
+      "price": "$13.00"
     },
     {
-      "name": "Sweet Potato Homefries",
-      "description": null,
-      "price": null
+      "name": "Potato Pancakes",
+      "description": "w/ 2 eggs",
+      "price": "$10.25"
     },
     {
-      "name": "Thick Cut Bacon",
+      "name": "Cheesy Grits",
       "description": null,
-      "price": null
+      "price": "$3.50"
     },
     {
       "name": "Fresh Fruit Cup",
       "description": null,
-      "price": null
+      "price": "$3.50"
     }
   ]
 }
