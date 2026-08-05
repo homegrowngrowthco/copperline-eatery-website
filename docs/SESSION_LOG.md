@@ -6,6 +6,15 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 32 — 2026-08-04 — forms health check + http-vs-https audit + /catering/quote discovery gap
+Q from Ian: anything left for the forms to go live, and why is the http page still "most popular"? **Forms: nothing left.** Netlify API confirms `catering-quote` registered (id `6a67c077908fb60008923d11`, 29 fields, honeypot) and `catering-inquiry` healthy; zero real quote leads since the 7/27 e2e test is a demand signal, not breakage. Reminder logged: check Forms -> Spam occasionally (Netlify silently bins suspicious posts).
+**http mystery solved, config NOT at fault:** curl-verified http->https 301 + www->non-www + HSTS preload; URL Inspection shows Google canonical = https for BOTH variants and http = "Page with redirect". Yet 81% of homepage GSC clicks (338/418, stable 12w) attribute to http:// — that pattern can only come from the local-pack/GBP Website button, which GSC reports under the exact URL in the GBP website field. Fix is in GBP (DAD item in ../TODO.md), zero code changes.
+**Real finding: /catering/quote is "URL unknown to Google"** (never crawled, 0 impressions 28d) — STATUS's "(indexed)" claim was wrong, corrected. On-site SEO verified live (sitemap, canonical, index/follow, links from /catering + /menu + town pages). Shipped: homepage Catering info-card now links to /catering/quote ("Get an instant catering quote"). Ian to Request Indexing in GSC (new top TODO item).
+**Verified:** build 36 pages + grep dist homepage for the new link; qa:docs green. **Revert:** `git revert <this sha>`.
+**Gotcha:** GSC page reports on a domain property can attribute clicks to a non-indexed URL variant when the GBP website field carries that variant; check GBP before suspecting redirects.
+
+---
+
 ### Session 31d — 2026-07-27 — catering-quote form accidentally deleted in dashboard; recovered
 Ian deleted the `catering-quote` FORM (meaning to delete its stale email notification). Netlify registers forms by parsing deployed HTML, so recovery = one empty-commit redeploy (`d72369d`): form re-registered with all 29 fields + honeypot under a NEW form id `6a67c077908fb60008923d11` (old id in earlier log entries is dead; scripts/notifications keyed by form NAME are unaffected — `submission-created.ts` filters on `form_name`, so the PDF email pipeline needed no changes). Prior submissions on the deleted form are gone (all were tests; zero real leads). `catering-inquiry` untouched. Side effect: the stale raw notification died with the form — nothing left for Ian to delete.
 **Verified:** full browser walk of the builder on prod (Buffet Package #3, 35 guests) — submission registered on the new form, PDF email From Copperline Catering arrived 4s later, test lead deleted.
