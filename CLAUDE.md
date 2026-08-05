@@ -14,7 +14,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - GA4 analytics (Measurement ID `G-DXYNCF0G79`) + Microsoft Clarity (project `x7y38jzmw3`, heatmaps + session recordings); both deferred to browser idle for CWV
 - IndexNow auto-ping on every prod deploy
 
-## Live site / current state (2026-07-17)
+## Live site / current state (2026-08-04)
 - Production: https://copperlineeatery.com
 - GitHub: https://github.com/homegrowngrowthco/copperline-eatery-website
 - Default branch: `master`

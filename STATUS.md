@@ -12,7 +12,7 @@
 - GA4 + Clarity live (idle-loaded); IndexNow pings on every prod deploy.
 
 ## Known open questions
-- **/catering/quote is "URL unknown to Google"** (URL Inspection 2026-08-04): never crawled, 0 impressions, 0 real leads. On-site SEO verified correct (sitemap + canonical + index,follow + internal links). Ian to Request Indexing in GSC; homepage link added Session 32.
+- **/catering/quote indexing: requested, pending crawl.** Was "URL unknown to Google" (URL Inspection 2026-08-04, 0 impressions, 0 real leads); Ian submitted Request Indexing 2026-08-05. Re-checked via URL Inspection API same day: still shows "URL is unknown to Google" (Google's crawl queue lags the request, typically hours-days) — re-check in a few days before treating this as unresolved. On-site SEO verified correct (sitemap + canonical + index,follow + internal links); homepage link added Session 32.
 - **81% of homepage GSC clicks attribute to http://** (338 of 418, stable 12 weeks) even though the 301s + HSTS are correct and Google's canonical is https for both variants. Diagnosis: local-pack/GBP "Website" button reports the exact URL in the GBP website field. Fix = flip GBP field to https (DAD, already in ../TODO.md). Zero user impact (301 lands them on https).
 - Quote-builder tax treatment (7% MA meals tax applied on food + 15% service charge) confirmed correct by owner 2026-07-27.
 
