@@ -1,40 +1,40 @@
 {
-  "updatedAt": "2026-08-08T11:35:42.447Z",
+  "updatedAt": "2026-08-15T16:22:16.066Z",
   "specials": [
     {
-      "name": "Southwest Chicken Hash",
-      "description": null,
+      "name": "Sausage Apple Hash",
+      "description": "w/ 2 eggs + toast",
       "price": "$12.50"
     },
     {
-      "name": "Strawberry Poundcake French Toast",
+      "name": "Pineapple French Toast",
       "description": null,
-      "price": "$11.50"
+      "price": "$9.50"
     },
     {
-      "name": "Avacado & Tomato Beni",
+      "name": "Ham Benedict",
       "description": null,
-      "price": "$14.00"
+      "price": "$14.50"
     },
     {
-      "name": "Pineapple Upside Down Pancakes",
+      "name": "White Chocolate Raspberry Pancakes",
       "description": null,
-      "price": "$9.25"
+      "price": "$9.75"
     },
     {
-      "name": "Pizza Omelet",
+      "name": "Reuben Omelet",
       "description": null,
       "price": "$13.00"
     },
     {
-      "name": "Sausage, Onions & Peppers",
-      "description": "w/ 2 eggs, toast & homefries",
-      "price": "$13.50"
+      "name": "Sweet Potato Homefries",
+      "description": null,
+      "price": "$3.50"
     },
     {
-      "name": "Jalapino Homefries",
+      "name": "Fresh Fruit Cup",
       "description": null,
-      "price": null
+      "price": "$3.50"
     }
   ]
 }
