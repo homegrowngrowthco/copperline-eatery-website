@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DailySpecials from '../components/DailySpecials.astro';
+import { SITE_URL } from '../data/restaurant';
+import specialsData from '../data/specials.json';
+
+interface Board {
+  key: string;
+}
+interface SpecialsFile {
+  updatedAt?: string | null;
+  board?: Board;
+}
+
+const data = specialsData as SpecialsFile;
+const updatedLabel = data.updatedAt
+  ? new Date(data.updatedAt).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  : null;
+
+const title = "Today's Specials in Chicopee, MA | The Copperline Eatery";
+const description = updatedLabel
+  ? `The Copperline Eatery's specials board for ${updatedLabel}: today's breakfast and lunch specials in Chicopee, MA, straight from the board.`
+  : "Today's breakfast and lunch specials at The Copperline Eatery in Chicopee, MA, straight from the board.";
+
+const ogImage = data.board ? `${SITE_URL}/specials-board/${data.board.key}` : undefined;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}` },
+    { '@type': 'ListItem', position: 2, name: 'Specials', item: `${SITE_URL}/specials` },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={`${SITE_URL}/specials`}
+  ogTitle="Today's Specials - The Copperline Eatery"
+  ogDescription={description}
+  ogImage={ogImage}
+  ogImageAlt="Today's specials board at The Copperline Eatery"
+  schema={breadcrumb}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Today's Specials</h1>
+        <p>Straight from the board in the dining room. Updated most weeks, subject to change, call us to confirm.</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container specials-page-container">
+        <DailySpecials />
+        <p class="specials-page-footer">
+          See the specials board before we do? <a href="/submit-specials">Share a photo</a> and help keep this page fresh.
+        </p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .specials-page-container {
+    max-width: 900px;
+  }
+  .specials-page-footer {
+    margin-top: 24px;
+    text-align: center;
+    color: var(--gray);
+  }
+</style>

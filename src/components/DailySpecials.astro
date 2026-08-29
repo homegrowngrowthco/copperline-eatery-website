@@ -7,8 +7,20 @@ interface Special {
   price: string | null;
 }
 
+interface Board {
+  key: string;
+  contentType?: string;
+}
+
+interface Credit {
+  name: string;
+  from?: string;
+}
+
 interface SpecialsFile {
   updatedAt?: string | null;
+  board?: Board;
+  credit?: Credit | null;
   specials?: Special[];
 }
 
@@ -16,6 +28,8 @@ const data = specialsData as SpecialsFile;
 const specials = data.specials ?? [];
 const updatedAt = data.updatedAt ?? null;
 const hasAny = specials.length > 0;
+const board = data.board ?? null;
+const credit = data.credit ?? null;
 
 const updatedLabel = updatedAt
   ? new Date(updatedAt).toLocaleDateString('en-US', {
@@ -24,25 +38,42 @@ const updatedLabel = updatedAt
       day: 'numeric',
     })
   : null;
+
+const boardSrc = board ? `/specials-board/${board.key}` : null;
+const boardAlt = updatedLabel
+  ? `Today's specials board at The Copperline Eatery, photographed ${updatedLabel}`
+  : "Today's specials board at The Copperline Eatery";
+
+const creditLine = credit?.name ? (credit.from ? `${credit.name} from ${credit.from}` : credit.name) : null;
 ---
 
-<div class="specials-content">
+<div class="specials-content" class:list={[{ 'has-board-photo': hasAny && boardSrc }]}>
   {hasAny ? (
     <>
-      {specials.map((s) => (
-        <div class="special-item">
-          <h4>
-            <span>{s.name}</span>
-            {s.price && (
-              <span class="special-price">
-                {s.price.startsWith('$') ? s.price : `$${s.price}`}
-              </span>
-            )}
-          </h4>
-          {s.description && <p>{s.description}</p>}
+      {boardSrc && (
+        <div class="specials-photo-wrap">
+          <img src={boardSrc} alt={boardAlt} loading="lazy" />
         </div>
-      ))}
-      {updatedLabel && <p class="specials-updated">Updated {updatedLabel}</p>}
+      )}
+      <div class="specials-list">
+        {specials.map((s) => (
+          <div class="special-item">
+            <h4>
+              <span>{s.name}</span>
+              {s.price && (
+                <span class="special-price">
+                  {s.price.startsWith('$') ? s.price : `$${s.price}`}
+                </span>
+              )}
+            </h4>
+            {s.description && <p>{s.description}</p>}
+          </div>
+        ))}
+        {updatedLabel && <p class="specials-updated">Updated {updatedLabel}</p>}
+        {creditLine && (
+          <p class="specials-credit">Thank you, {creditLine}, for helping keep our specials board updated!</p>
+        )}
+      </div>
     </>
   ) : (
     <div class="no-specials">

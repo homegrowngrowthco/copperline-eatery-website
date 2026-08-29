@@ -3,10 +3,13 @@ import { getStore } from '@netlify/blobs';
 import { ServerClient } from 'postmark';
 import {
   extractSpecialsFromImage,
+  sanitizeCredit,
+  formatCredit,
   ALLOWED_IMAGE_TYPES,
   MAX_IMAGE_BYTES,
   PENDING_STORE,
   type Special,
+  type Credit,
 } from './lib/specials';
 
 const REPLY_TO_ADDRESS = 'specials-bot@parse.copperlineeatery.com';
@@ -45,7 +48,7 @@ async function checkRateLimit(ip: string): Promise<boolean> {
   return true;
 }
 
-function buildReviewerBody(specials: Special[], note: string | null): string {
+function buildReviewerBody(specials: Special[], note: string | null, credit: Credit | null): string {
   const lines = specials.map((s, i) => {
     const parts = [`${i + 1}. ${s.name}`];
     if (s.price) parts.push(`   Price: ${s.price.startsWith('$') ? s.price : '$' + s.price}`);
@@ -54,6 +57,7 @@ function buildReviewerBody(specials: Special[], note: string | null): string {
   });
 
   const noteSection = note ? `\nSubmitter's note: "${note}"\n` : '';
+  const creditLine = formatCredit(credit);
 
   return [
     `A customer submitted a photo of the specials board via the website.${noteSection}`,
@@ -61,9 +65,13 @@ function buildReviewerBody(specials: Special[], note: string | null): string {
     '',
     ...lines,
     '',
+    `Shoutout: ${creditLine || 'none'}`,
+    'Replying YES publishes this photo, and the shoutout above (if any), publicly on the specials page.',
+    '',
     'Reply YES to publish on the website.',
     'Reply NO to discard.',
-    "Or reply with corrections (e.g. \"Change item 2 to $14, remove item 4\") and I'll revise the list.",
+    'Reply with corrections (e.g. "Change item 2 to $14, remove item 4") and I\'ll revise the list.',
+    'Reply with a credit (e.g. "credit Sarah from Chicopee" or "no credit") to add or remove the shoutout.',
   ].join('\n');
 }
 
@@ -118,6 +126,10 @@ export default async (req: Request, context: Context): Promise<Response> => {
   }
 
   const note = ((formData.get('note') as string | null) || '').trim().slice(0, 500) || null;
+  const credit = sanitizeCredit(
+    formData.get('name') as string | null,
+    formData.get('from') as string | null,
+  );
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return json({ error: 'Server configuration error.' }, 500);
@@ -164,6 +176,7 @@ export default async (req: Request, context: Context): Promise<Response> => {
     reviewerMode: true,
     submissionSource: 'web',
     confidence: result.confidence,
+    credit,
   });
 
   // Send reviewer confirmation email with inline photo.
@@ -175,7 +188,7 @@ export default async (req: Request, context: Context): Promise<Response> => {
   }
 
   const messageId = `<batch-${batchId}@copperlineeatery.com>`;
-  const body = buildReviewerBody(result.specials, note);
+  const body = buildReviewerBody(result.specials, note, credit);
   const cid = `specials-source-${batchId.replace(/-/g, '')}`;
   const htmlBody = buildHtmlBody(body, cid);
 

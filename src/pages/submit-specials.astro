@@ -65,6 +65,20 @@ import { SITE_URL } from '../data/restaurant';
             </div>
           </div>
 
+          <div class="shoutout-fields">
+            <p class="shoutout-hint">Want a shoutout on the specials page? <span class="optional">(totally optional)</span></p>
+            <div class="shoutout-row">
+              <div class="shoutout-field">
+                <label for="credit-name">Your name</label>
+                <input type="text" id="credit-name" name="name" placeholder="Sarah" maxlength="40" autocomplete="off" />
+              </div>
+              <div class="shoutout-field">
+                <label for="credit-from">From <span class="optional">(town, team, workplace)</span></label>
+                <input type="text" id="credit-from" name="from" placeholder="Chicopee" maxlength="60" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
           <div class="note-field">
             <label for="note">Anything to add? <span class="optional">(optional)</span></label>
             <input
@@ -235,6 +249,51 @@ import { SITE_URL } from '../data/restaurant';
   .change-photo-btn:hover {
     color: var(--red);
     border-color: var(--red);
+  }
+
+  /* Shoutout fields */
+  .shoutout-fields {
+    margin-bottom: 20px;
+  }
+  .shoutout-hint {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 10px;
+  }
+  .shoutout-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .shoutout-field label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+  .shoutout-field input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--black);
+    background: var(--white);
+    transition: border-color 0.2s;
+  }
+  .shoutout-field input:focus {
+    outline: none;
+    border-color: var(--green-dark);
+  }
+  @media (max-width: 480px) {
+    .shoutout-row {
+      grid-template-columns: 1fr;
+    }
   }
 
   /* Note field */
@@ -451,6 +510,10 @@ import { SITE_URL } from '../data/restaurant';
     data.append('photo', file);
     const note = (document.getElementById('note') as HTMLInputElement).value.trim();
     if (note) data.append('note', note);
+    const creditName = (document.getElementById('credit-name') as HTMLInputElement).value.trim();
+    const creditFrom = (document.getElementById('credit-from') as HTMLInputElement).value.trim();
+    if (creditName) data.append('name', creditName);
+    if (creditFrom) data.append('from', creditFrom);
 
     try {
       const res = await fetch('/.netlify/functions/submit-specials', {

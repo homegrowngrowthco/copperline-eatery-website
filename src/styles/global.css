@@ -177,6 +177,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .no-specials { text-align: center; padding: 30px; }
 .no-specials h4 { color: var(--green-dark); margin-bottom: 12px; }
 
+.specials-content.has-board-photo { display: grid; grid-template-columns: minmax(260px, 380px) 1fr; gap: 24px; align-items: start; }
+.specials-photo-wrap img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: block; }
+.specials-credit { margin-top: 15px; font-style: italic; color: var(--green-dark); font-weight: 600; }
+@media (max-width: 899px) {
+  .specials-content.has-board-photo { grid-template-columns: 1fr; }
+  .specials-photo-wrap { max-width: 420px; margin: 0 auto 20px; }
+}
+
 /* Contact Page */
 .contact-section { padding: 50px 0; }
 
