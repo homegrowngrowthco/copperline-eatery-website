@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_URL } from '../../data/restaurant';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const title = 'Blog | The Copperline Eatery';
+const description = 'Catering guides, seasonal picks, and stories from The Copperline Eatery, a family-owned breakfast and lunch spot in Chicopee, MA.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} canonical={`${SITE_URL}/blog`} schema={breadcrumb}>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>From the Copperline Kitchen</h1>
+        <p>Catering guides, seasonal picks, and stories from our diner in Chicopee, MA.</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container blog-index-container">
+        {posts.length === 0 ? (
+          <p>New posts are on the way. Check back soon.</p>
+        ) : (
+          <ul class="blog-post-list">
+            {posts.map((post) => (
+              <li class="blog-post-card">
+                <a href={`/blog/${post.id}`}>
+                  <img src={post.data.image} alt={post.data.imageAlt} loading="lazy" width="400" height="300" />
+                  <div class="blog-post-card-body">
+                    <h2>{post.data.title}</h2>
+                    <p>{post.data.description}</p>
+                    <span class="blog-post-date">
+                      {post.data.pubDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}
+                    </span>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .blog-index-container {
+    max-width: 1100px;
+  }
+  .blog-post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .blog-post-card a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    height: 100%;
+  }
+  .blog-post-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .blog-post-card-body {
+    padding: 16px;
+  }
+  .blog-post-card-body h2 {
+    font-size: 1.15rem;
+    margin: 0 0 8px;
+  }
+  .blog-post-card-body p {
+    margin: 0 0 12px;
+    color: var(--gray);
+    font-size: 0.95rem;
+  }
+  .blog-post-date {
+    font-size: 0.85rem;
+    color: var(--gray);
+  }
+</style>

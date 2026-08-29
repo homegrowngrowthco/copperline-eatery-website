@@ -1,0 +1,58 @@
+[
+  {
+    "id": "breakfast-catering-quantities",
+    "title": "How Much Breakfast Catering to Order for 25, 50, or 100 People",
+    "angle": "catering-guide",
+    "status": "proposed",
+    "notes": "Matches GSC intent for breakfast caterers near me with prices (AUDIT-GROWTH-2026-08-29.md section 2.2). Ground per-person quantities in the catering-buffet-packages menu section. Use catering-breakfast.jpg as the image. Link to /catering/quote."
+  },
+  {
+    "id": "graduation-party-catering-chicopee",
+    "title": "Catering a Graduation Party in Chicopee",
+    "angle": "occasion-guide",
+    "status": "proposed",
+    "notes": "Graduation season angle from the audit. Use catering-menu-1.jpg or catering-menu-2.jpg. Link to /catering/quote."
+  },
+  {
+    "id": "corporate-breakfast-springfield",
+    "title": "Corporate Breakfast Catering in Springfield: What Offices Actually Order",
+    "angle": "occasion-guide",
+    "status": "proposed",
+    "notes": "Targets the catering chicopee ma / Springfield adjacency (organic #5-7 as of 08-29). Use catering-breakfast.jpg."
+  },
+  {
+    "id": "brunch-mimosas-chicopee",
+    "title": "Brunch and Mimosas in Chicopee, MA",
+    "angle": "dish-story",
+    "status": "generated",
+    "notes": "Highest-confidence topic: mimosas near me already converts at position 5.7 (08-29 audit). Ground in the beverages menu section. Use breakfast-menu.jpg."
+  },
+  {
+    "id": "big-e-breakfast-2026",
+    "title": "Where to Eat Breakfast Before The Big E",
+    "angle": "seasonal",
+    "status": "proposed",
+    "notes": "The Big E runs Sept 18 to Oct 4 in West Springfield, about 15 minutes from Chicopee. Time-sensitive, generate and publish before Sept 18, 2026."
+  },
+  {
+    "id": "homemade-hash-story",
+    "title": "The Story Behind Our Homemade Hash",
+    "angle": "dish-story",
+    "status": "proposed",
+    "notes": "Real menu item is Homemade Hash (small) / Homemade Hash (large), egg-specialties section, not a generic corned beef hash reference. Use breakfast-menu.jpg."
+  },
+  {
+    "id": "eggs-benedict-story",
+    "title": "Why Our Eggs Benedict Won Best Breakfast",
+    "angle": "dish-story",
+    "status": "proposed",
+    "notes": "Real menu item Eggs Benedict (benedicts section). FAQ already credits the hollandaise and the MassLive Best Breakfast award; do not invent additional awards or reviews."
+  },
+  {
+    "id": "monthly-specials-recap",
+    "title": "This Month on the Specials Board",
+    "angle": "specials-recap",
+    "status": "proposed",
+    "notes": "Compiled from Tier A's archive (src/data/specials.json history[], see /specials). Hold until the specials archive (PR #6) has at least 3-4 real archived weeks; do not generate this one first."
+  }
+]
