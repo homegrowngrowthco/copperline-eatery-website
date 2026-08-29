@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const outDir = mkdtempSync(join(tmpdir(), 'fn-check-'));
-const fns = ['inbound-email', 'submit-specials', 'submission-created'];
+const fns = ['inbound-email', 'submit-specials', 'submission-created', 'specials-board'];
 
 for (const fn of fns) {
   await build({
@@ -29,8 +29,9 @@ const checks = [];
 for (const fn of fns) {
   const mod = await import(pathToFileURL(join(outDir, `${fn}.mjs`)).href);
   if (typeof mod.default !== 'function') throw new Error(`${fn}: no default handler export`);
+  if (fn === 'specials-board') continue; // GET is its supported method; checked separately below.
   const resGet = await mod.default(new Request('http://localhost/x', { method: 'GET' }), { ip: '127.0.0.1' });
-  checks.push([`${fn} GET`, resGet.status, fn === 'inbound-email' ? 405 : 405]);
+  checks.push([`${fn} GET`, resGet.status, 405]);
 }
 
 // submission-created: non-quote forms are ignored; a quote submission with no
@@ -114,6 +115,14 @@ const resPost = await inbound.default(
   {},
 );
 checks.push(['inbound-email POST unauthed', resPost.status, 401]);
+
+// specials-board: GET is the supported method (not POST), and an empty key
+// must 404 WITHOUT ever calling Blobs, keeping this check side-effect-free.
+const board = await import(pathToFileURL(join(outDir, 'specials-board.mjs')).href);
+const resBoardPost = await board.default(new Request('http://localhost/specials-board/test.jpg', { method: 'POST' }), {});
+checks.push(['specials-board POST', resBoardPost.status, 405]);
+const resBoardEmptyKey = await board.default(new Request('http://localhost/specials-board/', { method: 'GET' }), {});
+checks.push(['specials-board GET empty key', resBoardEmptyKey.status, 404]);
 
 let fail = 0;
 for (const [name, got, want] of checks) {

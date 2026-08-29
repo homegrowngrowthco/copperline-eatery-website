@@ -2,19 +2,21 @@ import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
 import Anthropic from '@anthropic-ai/sdk';
 import { ServerClient } from 'postmark';
-import { Octokit } from '@octokit/rest';
 import { timingSafeEqual } from 'node:crypto';
 import {
   extractSpecialsFromImage,
-  parseExtractionResult,
+  parseCorrectionResult,
+  formatCredit,
+  storeBoardPhoto,
+  commitSpecialsToRepo,
   ALLOWED_IMAGE_TYPES,
   MAX_IMAGE_BYTES,
   PENDING_STORE,
   type Special,
+  type Credit,
 } from './lib/specials';
 
 const TEXT_MODEL = 'claude-haiku-4-5-20251001';
-const SPECIALS_DATA_PATH = 'src/data/specials.json';
 const REPLY_TO_ADDRESS = 'specials-bot@parse.copperlineeatery.com';
 const PENDING_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -53,6 +55,7 @@ interface PendingBatch {
   submittedBy?: string;     // original public submitter's address (reviewer-mode email path)
   submissionSource?: 'email' | 'web';
   confidence?: number;
+  credit?: Credit | null;
 }
 
 interface PostmarkAttachment {
@@ -337,7 +340,13 @@ async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
     console.log(
       `Auto-publishing ${result.specials.length} specials (confidence ${result.confidence}% >= ${AUTO_PUBLISH_THRESHOLD}%, aligned-DKIM verified)`,
     );
-    await commitSpecialsToRepo(result.specials);
+    // Staff auto-publish carries no shoutout credit (nobody typed a name).
+    const board = await storeBoardPhoto({
+      batchId: crypto.randomUUID(),
+      content: image.Content,
+      contentType: image.ContentType,
+    });
+    await commitSpecialsToRepo({ specials: result.specials, board, credit: null, source: 'staff' });
     await safeReply(
       inbound,
       [
@@ -373,6 +382,7 @@ async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
     submittedBy: reviewerMode ? sender : undefined,
     submissionSource: 'email',
     confidence: result.confidence,
+    credit: null,
   };
 
   await getStore(PENDING_STORE).setJSON(batchId, pending);
@@ -397,7 +407,12 @@ async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
     await sendDirectEmail({
       to: reviewerEmails.join(', '),
       subject: `Specials Submission — ${itemCount} item${itemCount === 1 ? '' : 's'} — Review Required`,
-      body: buildEmailBody(result.specials, contextLine + '\n' + `I extracted ${itemCount} special${itemCount === 1 ? '' : 's'}:` + confidenceNote + lowCountWarning),
+      body: buildEmailBody(
+        result.specials,
+        contextLine + '\n' + `I extracted ${itemCount} special${itemCount === 1 ? '' : 's'}:` + confidenceNote + lowCountWarning,
+        null,
+        inbound.FromFull?.Name,
+      ),
       messageId: `<batch-${batchId}@copperlineeatery.com>`,
       image: sourceImage,
     });
@@ -405,7 +420,7 @@ async function handleNewPhoto(inbound: PostmarkInbound, trusted: boolean) {
     // Trusted sender below threshold: send YES-gate back to them.
     await sendReply(inbound, {
       subject: replySubject(inbound.Subject),
-      body: buildConfirmationEmailBody(result.specials) + confidenceNote,
+      body: buildConfirmationEmailBody(result.specials, null) + confidenceNote,
       messageId: `<batch-${batchId}@copperlineeatery.com>`,
       image: sourceImage,
     });
@@ -442,7 +457,15 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
   console.log(`First line for intent detection: ${JSON.stringify(firstLine)}`);
 
   if (YES_PATTERN.test(firstLine)) {
-    await commitSpecialsToRepo(pending.specials);
+    const board = pending.image
+      ? await storeBoardPhoto({ batchId, content: pending.image.content, contentType: pending.image.contentType })
+      : undefined;
+    await commitSpecialsToRepo({
+      specials: pending.specials,
+      board,
+      credit: pending.credit ?? null,
+      source: pending.reviewerMode ? 'customer' : 'staff',
+    });
     await store.delete(batchId);
     const count = pending.specials.length;
     await safeReply(
@@ -458,9 +481,9 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     return;
   }
 
-  let corrected: Special[];
+  let corrected: { specials: Special[]; credit: Credit | null };
   try {
-    corrected = await applyCorrections(pending.specials, body);
+    corrected = await applyCorrections(pending.specials, pending.credit ?? null, body);
   } catch (e) {
     console.error('Corrections failed:', e);
     await safeReply(
@@ -470,7 +493,7 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     return;
   }
 
-  if (corrected.length === 0) {
+  if (corrected.specials.length === 0) {
     await safeReply(
       inbound,
       "I couldn't apply those changes — the result was empty. Reply YES to publish the current list, NO to discard, or rephrase your corrections.",
@@ -481,7 +504,7 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
   const newBatchId = crypto.randomUUID();
   const newPending: PendingBatch = {
     batchId: newBatchId,
-    specials: corrected,
+    specials: corrected.specials,
     originalSender: pending.originalSender,
     originalMessageId: pending.originalMessageId,
     createdAt: pending.createdAt,
@@ -490,39 +513,47 @@ async function handleConfirmationReply(batchId: string, inbound: PostmarkInbound
     submittedBy: pending.submittedBy,
     submissionSource: pending.submissionSource,
     confidence: pending.confidence,
+    credit: corrected.credit,
   };
   await store.setJSON(newBatchId, newPending);
   await store.delete(batchId);
 
   await sendReply(inbound, {
     subject: replySubject(inbound.Subject),
-    body: buildCorrectedEmailBody(corrected),
+    body: buildCorrectedEmailBody(corrected.specials, corrected.credit),
     messageId: `<batch-${newBatchId}@copperlineeatery.com>`,
     image: pending.image,
   });
 }
 
-async function applyCorrections(current: Special[], userReply: string): Promise<Special[]> {
+async function applyCorrections(
+  current: Special[],
+  currentCredit: Credit | null,
+  userReply: string,
+): Promise<{ specials: Special[]; credit: Credit | null }> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
 
   const prompt = [
-    'You help restaurant staff revise a list of daily specials.',
+    'You help restaurant staff revise a list of daily specials and an optional "shoutout" credit for whoever submitted the board photo.',
     '',
     'CURRENT_SPECIALS (JSON):',
     JSON.stringify({ specials: current }, null, 2),
     '',
+    'CURRENT_CREDIT (JSON; null means no shoutout is set today):',
+    JSON.stringify(currentCredit),
+    '',
     'STAFF_REPLY:',
     userReply,
     '',
-    "Apply the staff's changes to CURRENT_SPECIALS and return ONLY valid JSON in this shape (no commentary, no markdown fences):",
-    '{ "specials": [ { "name": string, "description": string | null, "price": string | null } ] }',
+    "Apply the staff's changes and return ONLY valid JSON in this shape (no commentary, no markdown fences):",
+    '{ "specials": [ { "name": string, "description": string | null, "price": string | null } ], "credit": { "name": string, "from": string | null } | null }',
     '',
     'Rules:',
-    '- Apply specific edits the staff describes (rename, re-price, remove, add, reorder).',
-    '- Preserve original order unless the staff explicitly asks to reorder.',
-    '- Preserve price format (keep or drop "$" as the staff wrote it).',
-    '- If the staff reply is unclear or contains no concrete edits, return CURRENT_SPECIALS unchanged.',
+    '- Apply specific edits the staff describes to the specials (rename, re-price, remove, add, reorder). Preserve original order unless asked to reorder. Preserve price format (keep or drop "$" as written).',
+    '- Only change "credit" if the reply clearly asks to add, change, or remove a shoutout (e.g. "credit Sarah from Chicopee", "thank John too", "remove the credit", "no credit"). If asked to remove it, return "credit": null.',
+    '- If the reply does not mention a credit/shoutout at all, OMIT the "credit" key entirely from your response so the current one is preserved untouched.',
+    '- If the staff reply is unclear or contains no concrete edits, return CURRENT_SPECIALS unchanged and omit "credit".',
   ].join('\n');
 
   const anthropic = new Anthropic({ apiKey });
@@ -534,72 +565,51 @@ async function applyCorrections(current: Special[], userReply: string): Promise<
 
   const textBlock = response.content.find((c) => c.type === 'text');
   if (!textBlock || textBlock.type !== 'text') throw new Error('Correction response had no text block');
-  return parseExtractionResult(textBlock.text).specials;
+  const result = parseCorrectionResult(textBlock.text);
+  return { specials: result.specials, credit: result.credit === undefined ? currentCredit : result.credit };
 }
 
-async function commitSpecialsToRepo(specials: Special[]) {
-  const token = process.env.GITHUB_TOKEN;
-  const repoEnv = process.env.GITHUB_REPO;
-  const branch = process.env.GITHUB_BRANCH || 'master';
-  if (!token || !repoEnv) throw new Error('GITHUB_TOKEN or GITHUB_REPO not set');
-
-  const [owner, repo] = repoEnv.split('/');
-  if (!owner || !repo) throw new Error(`GITHUB_REPO must be "owner/repo", got: ${repoEnv}`);
-
-  const octokit = new Octokit({ auth: token });
-
-  let sha: string | undefined;
-  try {
-    const { data } = await octokit.repos.getContent({ owner, repo, path: SPECIALS_DATA_PATH, ref: branch });
-    if (!Array.isArray(data) && 'sha' in data) sha = data.sha;
-  } catch (e) {
-    const status = (e as { status?: number }).status;
-    if (status !== 404) throw e;
-  }
-
-  const payload = { updatedAt: new Date().toISOString(), specials };
-  const content = Buffer.from(JSON.stringify(payload, null, 2) + '\n').toString('base64');
-
-  await octokit.repos.createOrUpdateFileContents({
-    owner,
-    repo,
-    path: SPECIALS_DATA_PATH,
-    branch,
-    sha,
-    message: `chore(specials): update daily specials (${specials.length} items)`,
-    content,
-  });
-}
-
-function buildConfirmationEmailBody(specials: Special[]): string {
+function buildConfirmationEmailBody(specials: Special[], credit: Credit | null, suggestedName?: string): string {
   return buildEmailBody(
     specials,
     `I extracted ${specials.length} special${specials.length === 1 ? '' : 's'} from your photo:`,
+    credit,
+    suggestedName,
   );
 }
 
-function buildCorrectedEmailBody(specials: Special[]): string {
+function buildCorrectedEmailBody(specials: Special[], credit: Credit | null): string {
   return buildEmailBody(
     specials,
     `Updated specials (${specials.length} item${specials.length === 1 ? '' : 's'}):`,
+    credit,
   );
 }
 
-function buildEmailBody(specials: Special[], header: string): string {
+function buildEmailBody(specials: Special[], header: string, credit: Credit | null, suggestedName?: string): string {
   const lines = specials.map((s, i) => {
     const parts = [`${i + 1}. ${s.name}`];
     if (s.price) parts.push(`   Price: ${s.price.startsWith('$') ? s.price : '$' + s.price}`);
     if (s.description) parts.push(`   ${s.description}`);
     return parts.join('\n');
   });
+  const creditLine = formatCredit(credit);
+  const suggestionNote =
+    !creditLine && suggestedName
+      ? ` (sender's name on the email: "${suggestedName}" — not applied automatically; reply e.g. "credit ${suggestedName}" to add it)`
+      : '';
   return [
     header,
     '',
     ...lines,
     '',
+    `Shoutout: ${creditLine || 'none'}${suggestionNote}`,
+    'Replying YES publishes this photo, and the shoutout above (if any), publicly on the specials page.',
+    '',
     'Reply YES to publish on the website.',
     'Reply NO to discard.',
-    "Or reply with corrections (e.g. \"Change item 2 to $14, remove item 4\") and I'll revise the list.",
+    'Reply with corrections (e.g. "Change item 2 to $14, remove item 4") and I\'ll revise the list.',
+    'Reply with a credit (e.g. "credit Sarah from Chicopee" or "no credit") to add or remove the shoutout.',
   ].join('\n');
 }
 

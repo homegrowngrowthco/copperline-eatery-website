@@ -15,7 +15,7 @@ const isActive = (href: string) => href === path || (href !== '/' && path.starts
       <ul class="nav-links">
         <li><a href="/" class:list={["nav-link", { active: isActive('/') }]}>Home</a></li>
         <li><a href="/menu" class:list={["nav-link", { active: isActive('/menu') }]}>Menu</a></li>
-        <li><a href="/menu#specials" class="nav-link">Specials</a></li>
+        <li><a href="/specials" class:list={["nav-link", { active: isActive('/specials') }]}>Specials</a></li>
         <li><a href="/catering" class:list={["nav-link", { active: isActive('/catering') }]}>Catering</a></li>
         <li><a href="/about" class:list={["nav-link", { active: isActive('/about') }]}>About</a></li>
         <li><a href="/contact" class:list={["nav-link", { active: isActive('/contact') }]}>Contact</a></li>
