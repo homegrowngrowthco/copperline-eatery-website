@@ -14,7 +14,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - GA4 analytics (Measurement ID `G-DXYNCF0G79`) + Microsoft Clarity (project `x7y38jzmw3`, heatmaps + session recordings); both deferred to browser idle for CWV
 - IndexNow auto-ping on every prod deploy
 
-## Live site / current state (2026-08-04)
+## Live site / current state (2026-08-29)
 - Production: https://copperlineeatery.com
 - GitHub: https://github.com/homegrowngrowthco/copperline-eatery-website
 - Default branch: `master`
@@ -40,9 +40,9 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - `.claude/settings.json` (committed) — shared project allowlist for safe-default commands (git, npm, gh, netlify, curl, lighthouse).
 - `.claude/settings.local.json` (gitignored) — per-machine overrides.
 - `.claude/commands/` — slash commands (`/preview`, `/build-check`, `/add-page`, `/audit-seo`, `/seo-audit`).
-- `audits/` — archived audit reports (`copperline_audit_report.md` 2026-06-22, `AUDIT-GROWTH-2026-07-03.md`, `AUDIT-SEO-2026-07-07.md`).
+- `audits/` — archived audit reports (`copperline_audit_report.md` 2026-06-22, `AUDIT-GROWTH-2026-07-03.md`, `AUDIT-SEO-2026-07-07.md`, `AUDIT-GROWTH-2026-08-29.md` = re-measure + scope for the specials-board rework and content stream, with raw `local-pack-2026-08-29-*.json` pulls for the next diff).
 - `docs/SESSION_LOG.md` — the single append-only session history (see Documentation Conventions below).
-- `scripts/` — `gsc-analytics.py`, `seo-crawl.mjs`, `lint-docs.mjs` (docs guardrail, `npm run qa:docs`), `fn-check.mjs` (Netlify-function bundle + handler smoke, `npm run qa:functions` — run after any dependency or function change), `embed-fn-assets.mjs` (regenerates `netlify/functions/lib/assets.ts` — base64 brand fonts + logo for the quote PDF; rerun after @fontsource bumps or logo changes).
+- `scripts/` — `gsc-analytics.py` (GSC 28d pull, `~/.gsc` OAuth), `local-pack-check.mjs` (DataForSEO local pack from 4 coordinates + 12 km competitor listings, ~$0.15, `node --env-file=../../growth-engine/.env scripts/local-pack-check.mjs`; a pull from the restaurant's own coordinates alone is proximity-biased), `seo-crawl.mjs`, `lint-docs.mjs` (docs guardrail, `npm run qa:docs`), `fn-check.mjs` (Netlify-function bundle + handler smoke, `npm run qa:functions` — run after any dependency or function change), `embed-fn-assets.mjs` (regenerates `netlify/functions/lib/assets.ts` — base64 brand fonts + logo for the quote PDF; rerun after @fontsource bumps or logo changes).
 - `SECURITY.md`, `LICENSE` — vulnerability reporting policy + proprietary license.
 - `STATUS.md` — short live-state snapshot (deployed URL, what is live vs in flight); NOT a history file.
 

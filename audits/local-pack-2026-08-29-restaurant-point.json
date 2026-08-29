@@ -1,0 +1,3247 @@
+{
+  "pulledAt": "2026-08-29T13:05:01.150Z",
+  "serp": {
+    "breakfast near me": {
+      "pack": [
+        {
+          "title": "Copperline Eatery",
+          "rating": 4.5,
+          "votes": 1100,
+          "domain": "copperlineeatery.com",
+          "rank": 1
+        },
+        {
+          "title": "Petros Breakfast & Lunch",
+          "rating": 4.4,
+          "votes": 919,
+          "domain": "www.facebook.com",
+          "rank": 2
+        },
+        {
+          "title": "Fluffy Flips",
+          "rating": 5,
+          "votes": 24,
+          "domain": null,
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "m.yelp.com",
+          "title": "TOP 10 BEST Breakfast Restaurants in Chicopee, MA - Updated 2026"
+        },
+        {
+          "rank": 2,
+          "domain": "www.tripadvisor.com",
+          "title": "THE 10 BEST Breakfast Restaurants in Chicopee (UPDATED 2026)"
+        },
+        {
+          "rank": 3,
+          "domain": "copperlineeatery.com",
+          "title": "The Copperline Eatery: Best Breakfast & Brunch in Chicopee, MA"
+        },
+        {
+          "rank": 4,
+          "domain": "www.facebook.com",
+          "title": "Traditional breakfast recommendations in Chicopee area?"
+        },
+        {
+          "rank": 5,
+          "domain": "www.findmeglutenfree.com",
+          "title": "Gluten-Free Breakfast Places in Chicopee, Massachusetts"
+        },
+        {
+          "rank": 6,
+          "domain": "chicopee.macaronikid.com",
+          "title": "Five Chicopee Breakfast Spots We Love"
+        },
+        {
+          "rank": 7,
+          "domain": "ctprest.com",
+          "title": "Country Trading Post Restaurant"
+        },
+        {
+          "rank": 8,
+          "domain": "www.tripadvisor.com",
+          "title": "THE BEST Brunch in Chicopee (UPDATED 2026)"
+        },
+        {
+          "rank": 9,
+          "domain": "www.facebook.com",
+          "title": "Breakfast Spots in Chicopee MA"
+        },
+        {
+          "rank": 10,
+          "domain": "m.yelp.com",
+          "title": "Best Breakfast near New York Guest in New York, NY"
+        },
+        {
+          "rank": 11,
+          "domain": "www.mcdonalds.com",
+          "title": "Fast Food in Chicopee, MA at 1460 Memorial Drive"
+        },
+        {
+          "rank": 12,
+          "domain": "joe.coffee",
+          "title": "Homestyle Cafe - Chicopee, MA | joe coffee"
+        },
+        {
+          "rank": 13,
+          "domain": "www.opentable.com",
+          "title": "44 Best Brunch Restaurants in Chicopee"
+        },
+        {
+          "rank": 14,
+          "domain": "www.panerabread.com",
+          "title": "Panera Bread at 601 Memorial Drive Chicopee, MA"
+        },
+        {
+          "rank": 15,
+          "domain": "www.facebook.com",
+          "title": "What's the best breakfast place in Holyoke Mass"
+        },
+        {
+          "rank": 16,
+          "domain": "www.facebook.com",
+          "title": "A new breakfast and lunch spot has opened in downtown Pittsfield. After ..."
+        },
+        {
+          "rank": 17,
+          "domain": "restaurants.applebees.com",
+          "title": "Applebee's Grill + Bar Restaurant in Chicopee, MA, 01020"
+        },
+        {
+          "rank": 18,
+          "domain": "www.yellowpages.com",
+          "title": "Breakfast brunch lunch restaurants in Chicopee, MA"
+        },
+        {
+          "rank": 19,
+          "domain": "m.yelp.com",
+          "title": "Homestyle Cafe - 1780 Westover Rd, Chicopee, Massachusetts"
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_ask",
+        "people_also_search",
+        "images"
+      ]
+    },
+    "breakfast chicopee ma": {
+      "pack": [
+        {
+          "title": "Copperline Eatery",
+          "rating": 4.5,
+          "votes": 1100,
+          "domain": "copperlineeatery.com",
+          "rank": 1
+        },
+        {
+          "title": "Petros Breakfast & Lunch",
+          "rating": 4.4,
+          "votes": 919,
+          "domain": "www.facebook.com",
+          "rank": 2
+        },
+        {
+          "title": "Fluffy Flips",
+          "rating": 5,
+          "votes": 24,
+          "domain": null,
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "www.tripadvisor.com",
+          "title": "THE 10 BEST Breakfast Restaurants in Chicopee (UPDATED 2026)"
+        },
+        {
+          "rank": 2,
+          "domain": "ctprest.com",
+          "title": "Country Trading Post Restaurant"
+        },
+        {
+          "rank": 3,
+          "domain": "copperlineeatery.com",
+          "title": "The Copperline Eatery: Best Breakfast & Brunch in Chicopee, MA"
+        },
+        {
+          "rank": 4,
+          "domain": "m.yelp.com",
+          "title": "TOP 10 BEST Breakfast Restaurants in Chicopee, MA - Updated 2026"
+        },
+        {
+          "rank": 5,
+          "domain": "locations.wendys.com",
+          "title": "Wendy's Breakfast Near Me at 786 Memorial Dr. in Chicopee, MA"
+        },
+        {
+          "rank": 6,
+          "domain": "chicopee.macaronikid.com",
+          "title": "Five Chicopee Breakfast Spots We Love"
+        },
+        {
+          "rank": 7,
+          "domain": "www.facebook.com",
+          "title": "Copperline Eatery & Catering | Chicopee MA"
+        },
+        {
+          "rank": 8,
+          "domain": "m.yelp.com",
+          "title": "PETROS - Updated August 2026 - 35 Photos & 66 Reviews"
+        },
+        {
+          "rank": 9,
+          "domain": "www.facebook.com",
+          "title": "Traditional breakfast recommendations in Chicopee area?"
+        },
+        {
+          "rank": 10,
+          "domain": "www.reddit.com",
+          "title": "Places to go near chicopee? : r/Springfield"
+        },
+        {
+          "rank": 11,
+          "domain": "www.grubhub.com",
+          "title": "15 Best Breakfast Delivery Restaurants in Chicopee"
+        },
+        {
+          "rank": 12,
+          "domain": "copperlineeatery.com",
+          "title": "Best Breakfast & Lunch Menu in Chicopee, MA"
+        },
+        {
+          "rank": 13,
+          "domain": "www.yellowpages.com",
+          "title": "Breakfast brunch lunch restaurants in Chicopee, MA"
+        },
+        {
+          "rank": 14,
+          "domain": "www.tripadvisor.com",
+          "title": "THE COPPERLINE EATERY, Chicopee - Photos & Restaurant ..."
+        },
+        {
+          "rank": 15,
+          "domain": "www.youtube.com",
+          "title": "What's Cooking Chicopee - Petros Breakfast & Lunch"
+        },
+        {
+          "rank": 16,
+          "domain": "locations.friendlysrestaurants.com",
+          "title": "Ice Cream and Restaurant in Chicopee, 01020"
+        },
+        {
+          "rank": 17,
+          "domain": "www.findmeglutenfree.com",
+          "title": "Gluten-Free Breakfast Places in Chicopee, Massachusetts"
+        },
+        {
+          "rank": 18,
+          "domain": "m.facebook.com",
+          "title": "Petros - Home - Chicopee, Massachusetts"
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_search",
+        "people_also_ask",
+        "images",
+        "discussions_and_forums"
+      ]
+    },
+    "brunch chicopee ma": {
+      "pack": [
+        {
+          "title": "Copperline Eatery",
+          "rating": 4.5,
+          "votes": 1100,
+          "domain": "copperlineeatery.com",
+          "rank": 1
+        },
+        {
+          "title": "The Country | Trading Post & Restaurant",
+          "rating": 4.5,
+          "votes": 396,
+          "domain": "www.ctprest.com",
+          "rank": 2
+        },
+        {
+          "title": "Lucky Strike Restaurant",
+          "rating": 4.3,
+          "votes": 1300,
+          "domain": "luckystrikerestaurant.com",
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "www.tripadvisor.com",
+          "title": "THE BEST Brunch in Chicopee (UPDATED 2026)"
+        },
+        {
+          "rank": 2,
+          "domain": "copperlineeatery.com",
+          "title": "The Copperline Eatery: Best Breakfast & Brunch in Chicopee, MA"
+        },
+        {
+          "rank": 3,
+          "domain": "m.yelp.com",
+          "title": "The Copperline Eatery - Restaurant Reviews"
+        },
+        {
+          "rank": 4,
+          "domain": "www.opentable.com",
+          "title": "45 Best Brunch Restaurants in Chicopee"
+        },
+        {
+          "rank": 5,
+          "domain": "munichhaus.com",
+          "title": "Munich Haus - Chicopee"
+        },
+        {
+          "rank": 6,
+          "domain": "www.facebook.com",
+          "title": "Copperline Eatery & Catering | Chicopee MA"
+        },
+        {
+          "rank": 7,
+          "domain": "www.delaneyhouse.com",
+          "title": "The Delaney House"
+        },
+        {
+          "rank": 8,
+          "domain": "m.yelp.com",
+          "title": "TOP 10 BEST Breakfast Restaurants in Chicopee, MA - Updated 2026"
+        },
+        {
+          "rank": 9,
+          "domain": "ctprest.com",
+          "title": "Country Trading Post Restaurant"
+        },
+        {
+          "rank": 10,
+          "domain": "petrosbreakfastlunch.netwaiter.com",
+          "title": "Petros Breakfast & Lunch - Chicopee, MA | Hours, Reviews, and Ratings ..."
+        },
+        {
+          "rank": 11,
+          "domain": "m.facebook.com",
+          "title": "Petros - Home - Chicopee, Massachusetts"
+        },
+        {
+          "rank": 12,
+          "domain": "www.therumbleseat.com",
+          "title": "Sports Bar & Grille | The Rumbleseat Bar & Grille | Chicopee"
+        },
+        {
+          "rank": 13,
+          "domain": "www.yellowpages.com",
+          "title": "Breakfast brunch lunch restaurants in Chicopee, MA"
+        },
+        {
+          "rank": 14,
+          "domain": "petrosbreakfastlunch.netwaiter.com",
+          "title": "Petros Breakfast & Lunch - Chicopee, MA | Hours, Reviews, and Ratings ..."
+        },
+        {
+          "rank": 15,
+          "domain": "restaurants.applebees.com",
+          "title": "Applebee's Grill + Bar Restaurant in Chicopee, MA, 01020"
+        },
+        {
+          "rank": 16,
+          "domain": "www.reddit.com",
+          "title": "Places to go near chicopee? : r/Springfield"
+        },
+        {
+          "rank": 17,
+          "domain": "www.ubereats.com",
+          "title": "Breakfast And Brunch Delivery in Chicopee"
+        },
+        {
+          "rank": 18,
+          "domain": "www.delaneyhouse.com",
+          "title": "Sunday Brunch"
+        },
+        {
+          "rank": 19,
+          "domain": "m.yelp.com",
+          "title": "Saturday Brunch Chicopee, MA - Last Updated August 2026"
+        },
+        {
+          "rank": 20,
+          "domain": "copperlineeatery.com",
+          "title": "Best Breakfast & Lunch Menu in Chicopee, MA"
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_search",
+        "people_also_ask"
+      ]
+    },
+    "lunch chicopee ma": {
+      "pack": [
+        {
+          "title": "Playa Bowls",
+          "rating": 4.9,
+          "votes": 579,
+          "domain": "www.playabowls.com",
+          "rank": 1
+        },
+        {
+          "title": "Copperline Eatery",
+          "rating": 4.5,
+          "votes": 1100,
+          "domain": "copperlineeatery.com",
+          "rank": 2
+        },
+        {
+          "title": "Lucky Strike Restaurant",
+          "rating": 4.3,
+          "votes": 1300,
+          "domain": "luckystrikerestaurant.com",
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "www.chicopeeps.org",
+          "title": "Food Services: Lunch Menus"
+        },
+        {
+          "rank": 2,
+          "domain": "www.tripadvisor.com",
+          "title": "THE 10 BEST Lunch Restaurants in Chicopee (UPDATED 2026)"
+        },
+        {
+          "rank": 3,
+          "domain": "www.facebook.com",
+          "title": "Chicopee FRESH (@chicopeefresh)"
+        },
+        {
+          "rank": 4,
+          "domain": "m.yelp.com",
+          "title": "TOP 10 BEST Lunch in Chicopee, MA - Updated 2026"
+        },
+        {
+          "rank": 5,
+          "domain": "restaurants.applebees.com",
+          "title": "Applebee's Lunch & Dinner Specials – Daily Food Deals in Chicopee"
+        },
+        {
+          "rank": 6,
+          "domain": "www.chicopeeps.org",
+          "title": "Food Services"
+        },
+        {
+          "rank": 7,
+          "domain": "www.grubhub.com",
+          "title": "15 Best Lunch Delivery Restaurants in Chicopee | Lunch Near Me"
+        },
+        {
+          "rank": 8,
+          "domain": "www.opentable.com",
+          "title": "103 Best Lunch Restaurants in Chicopee"
+        },
+        {
+          "rank": 9,
+          "domain": "fallspizza.com",
+          "title": "Falls Pizza Chicopee | Falls Pizza & Craft Bar, MA"
+        },
+        {
+          "rank": 10,
+          "domain": "www.frontera2go.com",
+          "title": "Frontera Grill Chicopee"
+        },
+        {
+          "rank": 11,
+          "domain": "copperlineeatery.com",
+          "title": "The Copperline Eatery: Best Breakfast & Brunch in Chicopee, MA"
+        },
+        {
+          "rank": 12,
+          "domain": "www.instagram.com",
+          "title": "Chicopee FRESH (@chicopeefresh)"
+        },
+        {
+          "rank": 13,
+          "domain": "www.ubereats.com",
+          "title": "THE 10 BEST CHICOPEE Food Delivery of 2026 | Restaurants near me"
+        },
+        {
+          "rank": 14,
+          "domain": "www.chicopeeps.org",
+          "title": "September 2026 Middle/High School Lunch Menu"
+        },
+        {
+          "rank": 15,
+          "domain": "www.99restaurants.com",
+          "title": "99 Restaurant & Bar in Chicopee, MA | Classic Pub Food"
+        },
+        {
+          "rank": 16,
+          "domain": "www.chick-fil-a.com",
+          "title": "Chicopee"
+        },
+        {
+          "rank": 17,
+          "domain": "www.westernmassnews.com",
+          "title": "Chicopee schools train cafeteria staff to prepare restaurant-style meals"
+        },
+        {
+          "rank": 18,
+          "domain": "www.beyondmenu.com",
+          "title": "Best Restaurants in Chicopee, MA | Delivery & Takeout"
+        },
+        {
+          "rank": 19,
+          "domain": "www.youtube.com",
+          "title": "What's Cooking Chicopee - Petros Breakfast & Lunch"
+        },
+        {
+          "rank": 20,
+          "domain": "www.menufy.com",
+          "title": "Lunch in CHICOPEE, MA - Delivery & Takeout - Order Online"
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_search",
+        "people_also_ask"
+      ]
+    },
+    "catering chicopee ma": {
+      "pack": [
+        {
+          "title": "Shanashil Grill",
+          "rating": 5,
+          "votes": 26,
+          "domain": null,
+          "rank": 1
+        },
+        {
+          "title": "John's BBQ & Catering",
+          "rating": 5,
+          "votes": 17,
+          "domain": null,
+          "rank": 2
+        },
+        {
+          "title": "Blue Door Gatherings",
+          "rating": 4.9,
+          "votes": 79,
+          "domain": "www.bluedoorgatherings.com",
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "www.therumbleseat.com",
+          "title": "Catering Services | The Rumbleseat Bar & Grille | Chicopee"
+        },
+        {
+          "rank": 2,
+          "domain": "m.yelp.com",
+          "title": "THE BEST 10 Caterers in CHICOPEE, MA - Updated 2026 - Hours"
+        },
+        {
+          "rank": 3,
+          "domain": "castleofknights.com",
+          "title": "Pick Up Catering - Castle of Knights | Banquet Hall and Meeting House"
+        },
+        {
+          "rank": 4,
+          "domain": "peach.catering",
+          "title": "Peach Catering: Home"
+        },
+        {
+          "rank": 5,
+          "domain": "copperlineeatery.com",
+          "title": "Catering in Chicopee, MA & Western Massachusetts"
+        },
+        {
+          "rank": 6,
+          "domain": "www.fronterafreshmex.com",
+          "title": "Event Catering – Chicopee, MA - Frontera Grill"
+        },
+        {
+          "rank": 7,
+          "domain": "www.chicopeeps.org",
+          "title": "Catering"
+        },
+        {
+          "rank": 8,
+          "domain": "www.facebook.com",
+          "title": "Peach Catering | Chicopee MA"
+        },
+        {
+          "rank": 9,
+          "domain": "www.theknot.com",
+          "title": "Catering With Prices in Chicopee, MA"
+        },
+        {
+          "rank": 10,
+          "domain": "www.ezcater.com",
+          "title": "Chicopee Breakfast Catering: Top-Rated 2026 Options Near You"
+        },
+        {
+          "rank": 11,
+          "domain": "www.fronterafreshmex.com",
+          "title": "Event Catering – Chicopee, MA - Frontera Grill"
+        },
+        {
+          "rank": 12,
+          "domain": "www.ezcater.com",
+          "title": "Chicopee Breakfast Catering: Top-Rated 2026 Options Near You"
+        },
+        {
+          "rank": 13,
+          "domain": "www.weddingwire.com",
+          "title": "ALCOA CATERING - Reviews, Photos & Deals 2026 - Chicopee, MA"
+        },
+        {
+          "rank": 14,
+          "domain": "www.thumbtack.com",
+          "title": "The 10 Best Catering Services in Chicopee, MA (with Free Estimates)"
+        },
+        {
+          "rank": 15,
+          "domain": "www.romanospizzapastas.com",
+          "title": "Catering Chicopee, MA | Perfect for Every Occasion"
+        },
+        {
+          "rank": 16,
+          "domain": "www.bernatspolishdeli.com",
+          "title": "Catering"
+        },
+        {
+          "rank": 17,
+          "domain": "www.facebook.com",
+          "title": "Peach Catering | Chicopee MA"
+        },
+        {
+          "rank": 18,
+          "domain": "www.johnsbbqcatering.com",
+          "title": "John's BBQ & Catering | BBQ Catering | Chicopee, MA, USA"
+        },
+        {
+          "rank": 19,
+          "domain": "local.yahoo.com",
+          "title": "Catering Services in Chicopee, MA"
+        },
+        {
+          "rank": 20,
+          "domain": "www.magrismarket.com",
+          "title": "Catering Menu"
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_search",
+        "people_also_ask"
+      ]
+    },
+    "breakfast catering near me": {
+      "pack": [
+        {
+          "title": "Copperline Eatery",
+          "rating": 4.5,
+          "votes": 1100,
+          "domain": "copperlineeatery.com",
+          "rank": 1
+        },
+        {
+          "title": "Petros Breakfast & Lunch",
+          "rating": 4.4,
+          "votes": 919,
+          "domain": "www.facebook.com",
+          "rank": 2
+        },
+        {
+          "title": "Fluffy Flips",
+          "rating": 5,
+          "votes": 24,
+          "domain": null,
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "restaurants.ihop.com",
+          "title": "Springfield Breakfast & Lunch Catering - Cater with IHOP (Cooley St)"
+        },
+        {
+          "rank": 2,
+          "domain": "m.yelp.com",
+          "title": "THE BEST 10 Caterers in CHICOPEE, MA - Updated 2026 - Hours"
+        },
+        {
+          "rank": 3,
+          "domain": "restaurants.applebees.com",
+          "title": "Restaurant Catering Near You in Chicopee, MA - Order Today!"
+        },
+        {
+          "rank": 4,
+          "domain": "copperlineeatery.com",
+          "title": "Catering in Chicopee, MA & Western Massachusetts"
+        },
+        {
+          "rank": 5,
+          "domain": "catering.panerabread.com",
+          "title": "Breakfast | Panera Bread Catering"
+        },
+        {
+          "rank": 6,
+          "domain": "www.chick-fil-a.com",
+          "title": "Cater Sandwiches, Breakfast, Platters & More"
+        },
+        {
+          "rank": 7,
+          "domain": "www.facebook.com",
+          "title": "Copperline Eatery & Catering | Chicopee MA"
+        },
+        {
+          "rank": 8,
+          "domain": "ebcatering.com",
+          "title": "All Catering Menu Categories - Einstein's Catering | ebcatering.com"
+        },
+        {
+          "rank": 9,
+          "domain": "www.ezcater.com",
+          "title": "Chicopee Breakfast Catering: Top-Rated 2026 Options Near You"
+        },
+        {
+          "rank": 10,
+          "domain": "www.memosrestaurantandcatering.com",
+          "title": "CATERING"
+        },
+        {
+          "rank": 11,
+          "domain": "noshspringfield.com",
+          "title": "Catering - NoshSpringfield"
+        },
+        {
+          "rank": 12,
+          "domain": "www.crackerbarrel.com",
+          "title": "Cracker Barrel Breakfast Catering Menu - Brunch Catering"
+        },
+        {
+          "rank": 13,
+          "domain": "www.therumbleseat.com",
+          "title": "Catering Services | The Rumbleseat Bar & Grille | Chicopee"
+        },
+        {
+          "rank": 14,
+          "domain": "www.partnersrestaurant.com",
+          "title": "Home - Partners Restaurant - American Restaurant in Feeding ..."
+        },
+        {
+          "rank": 15,
+          "domain": "www.cornerstonecafe.net",
+          "title": "Catering - Cornerstone Cafe - Springfield, MA"
+        },
+        {
+          "rank": 16,
+          "domain": "www.grubhub.com",
+          "title": "15 Best Breakfast Delivery Restaurants in Chicopee"
+        },
+        {
+          "rank": 17,
+          "domain": "eggharbor.cafe",
+          "title": "Breakfast & Brunch Catering"
+        },
+        {
+          "rank": 18,
+          "domain": "mangia.nyc",
+          "title": "Office & Event Catering ⭐ Corporate Lunch & Breakfast Delivery ✅ Mangia"
+        },
+        {
+          "rank": 19,
+          "domain": "www.mcalistersdeli.com",
+          "title": "Breakfast Catering Near Me"
+        },
+        {
+          "rank": 20,
+          "domain": "littlegeorgesrestaurant.com",
+          "title": "Little George's Restaurant | West Springfield"
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_ask",
+        "people_also_search"
+      ]
+    },
+    "diner near me": {
+      "pack": [
+        {
+          "title": "Route 66 Diner",
+          "rating": 4.3,
+          "votes": 603,
+          "domain": null,
+          "rank": 1
+        },
+        {
+          "title": "Fifties Diner",
+          "rating": 4.1,
+          "votes": 1200,
+          "domain": "fiftiesdiner.shop",
+          "rank": 2
+        },
+        {
+          "title": "Copperline Eatery",
+          "rating": 4.5,
+          "votes": 1100,
+          "domain": "copperlineeatery.com",
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "m.yelp.com",
+          "title": "THE BEST 10 DINERS IN CHICOPEE, MA - UPDATED AUGUST 2026"
+        },
+        {
+          "rank": 2,
+          "domain": "www.tripadvisor.com",
+          "title": "FIFTIES DINER, Chicopee - Restaurant Reviews, Photos & ..."
+        },
+        {
+          "rank": 3,
+          "domain": "www.doordash.com",
+          "title": "Order Fifties Diner - Chicopee, MA Menu Delivery [Menu & Prices]"
+        },
+        {
+          "rank": 4,
+          "domain": "m.yelp.com",
+          "title": "AL'S DINER - Updated August 2026 - 33 Photos & 62 Reviews"
+        },
+        {
+          "rank": 5,
+          "domain": "restaurants.applebees.com",
+          "title": "Applebee's Grill + Bar Restaurant in Chicopee, MA, 01020"
+        },
+        {
+          "rank": 6,
+          "domain": "www.99restaurants.com",
+          "title": "99 Restaurant & Bar in Chicopee, MA | Classic Pub Food"
+        },
+        {
+          "rank": 7,
+          "domain": "www.opentable.com",
+          "title": "The 10 Best Restaurants Near Me in Chicopee"
+        },
+        {
+          "rank": 8,
+          "domain": "www.ubereats.com",
+          "title": "THE 10 BEST CHICOPEE Food Delivery of 2026 | Restaurants near me"
+        },
+        {
+          "rank": 9,
+          "domain": "fiftiesdinerchicopee.mybistro.online",
+          "title": "Fifties Diner - 363 Burnett Rd, Chicopee - Full Menu and Reviews"
+        },
+        {
+          "rank": 10,
+          "domain": "www.youtube.com",
+          "title": "Bernie's Dining Depot - Chicopee, MA (Phantom Gourmet)"
+        },
+        {
+          "rank": 11,
+          "domain": "www.restaurant.com",
+          "title": "The Best Restaurants and Deals Near Chicopee, Massachusetts"
+        },
+        {
+          "rank": 12,
+          "domain": "www.thecman.com",
+          "title": "Tilt'N Diner | The Common Man Family in New Hampshire"
+        },
+        {
+          "rank": 13,
+          "domain": "bridgewaterdiner.com",
+          "title": "Best Diner in Bridgewater, NJ | Bridgewater Diner | Diner near me"
+        },
+        {
+          "rank": 14,
+          "domain": "www.tripadvisor.com",
+          "title": "THE 10 BEST Dinner Restaurants in Chicopee (UPDATED 2026)"
+        },
+        {
+          "rank": 15,
+          "domain": "www.westernmassnews.com",
+          "title": "Chicopee schools train cafeteria staff to prepare restaurant-style meals"
+        },
+        {
+          "rank": 16,
+          "domain": "www.knddiner.com",
+          "title": "Knight And Day Diner | 3140 Lititz Pike"
+        },
+        {
+          "rank": 17,
+          "domain": "leesportdiner.com",
+          "title": "Best Diner in Leesport, PA | Leesport Diner | Diner near me"
+        },
+        {
+          "rank": 18,
+          "domain": "locations.silverdiner.com",
+          "title": "Silver Diner Restaurant at Glen Allen (Innsbrook)"
+        },
+        {
+          "rank": 19,
+          "domain": "johnspizzeriama.com",
+          "title": "Johns Pizzeria and Restaurant Chicopee MA - Best Food In Town"
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_search",
+        "images"
+      ]
+    },
+    "breakfast holyoke ma": {
+      "pack": [
+        {
+          "title": "Rusty's Place",
+          "rating": 4.6,
+          "votes": 769,
+          "domain": "www.facebook.com",
+          "rank": 1
+        },
+        {
+          "title": "Camellia's",
+          "rating": 4.4,
+          "votes": 188,
+          "domain": "www.camelliascafe.com",
+          "rank": 2
+        },
+        {
+          "title": "Jireh Bakery",
+          "rating": 4.9,
+          "votes": 73,
+          "domain": "www.facebook.com",
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "www.exploreholyoke.com",
+          "title": "Breakfast Spots in Holyoke"
+        },
+        {
+          "rank": 2,
+          "domain": "www.tripadvisor.com",
+          "title": "THE 10 BEST Breakfast Restaurants in Holyoke (UPDATED 2026)"
+        },
+        {
+          "rank": 3,
+          "domain": "www.facebook.com",
+          "title": "Rusty's Place | Holyoke MA"
+        },
+        {
+          "rank": 4,
+          "domain": "m.yelp.com",
+          "title": "Best Breakfast near Holyoke Mall at Ingleside in Holyoke, MA"
+        },
+        {
+          "rank": 5,
+          "domain": "locations.dennys.com",
+          "title": "Denny's Breakfast | 2173 Northampton St | Order Online"
+        },
+        {
+          "rank": 6,
+          "domain": "www.whitehut.com",
+          "title": "Holyoke — White Hut"
+        },
+        {
+          "rank": 7,
+          "domain": "www.exploreholyoke.com",
+          "title": "Food and Drink / Breakfast"
+        },
+        {
+          "rank": 8,
+          "domain": "fiestacafeholyoke.com",
+          "title": "Official Site, Menu and Online Ordering • Fiesta Cafe Holyoke"
+        },
+        {
+          "rank": 9,
+          "domain": "www.facebook.com",
+          "title": "What's the best breakfast place in Holyoke Mass"
+        },
+        {
+          "rank": 10,
+          "domain": "www.reddit.com",
+          "title": "Best Breakfast in Western MA? : r/massachusetts"
+        },
+        {
+          "rank": 11,
+          "domain": "www.delaneyhouse.com",
+          "title": "The Delaney House"
+        },
+        {
+          "rank": 12,
+          "domain": "www.tiktok.com",
+          "title": "Rusty's Place Holyoke MA breakfast review — Rusty's Place menu favorites"
+        },
+        {
+          "rank": 13,
+          "domain": "www.tripadvisor.com",
+          "title": "JAY'S BED & BREAKFAST - B&B Reviews (Holyoke, MA)"
+        },
+        {
+          "rank": 14,
+          "domain": "www.stayatthed.com",
+          "title": "Dine"
+        },
+        {
+          "rank": 15,
+          "domain": "mitchellspublichouse.com",
+          "title": "Mitchell's Public House."
+        },
+        {
+          "rank": 16,
+          "domain": "www.mcdonalds.com",
+          "title": "Fast Food in Holyoke, MA at 285 Maple St"
+        },
+        {
+          "rank": 17,
+          "domain": "www.ubereats.com",
+          "title": "THE 10 BEST BREAKFAST AND BRUNCH DELIVERY in Holyoke 2026"
+        },
+        {
+          "rank": 18,
+          "domain": "www.instagram.com",
+          "title": "Camellia's Cafe Holyoke, MA Has such a wonderful spread of Puerto ..."
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_search",
+        "people_also_ask",
+        "discussions_and_forums"
+      ]
+    },
+    "breakfast springfield ma": {
+      "pack": [
+        {
+          "title": "Sunny Side Up Breakfast and Lunch",
+          "rating": 4.6,
+          "votes": 920,
+          "domain": "sunnysideuprestaurant.net",
+          "rank": 1
+        },
+        {
+          "title": "Who Cooks for You Cafe",
+          "rating": 5,
+          "votes": 49,
+          "domain": null,
+          "rank": 2
+        },
+        {
+          "title": "Russ's",
+          "rating": 4.6,
+          "votes": 391,
+          "domain": null,
+          "rank": 3
+        }
+      ],
+      "organic": [
+        {
+          "rank": 1,
+          "domain": "thefarmershouserestaurant.com",
+          "title": "Farm-to-Table Farmhouse Restaurant in Springfield MA | The Farmer's ..."
+        },
+        {
+          "rank": 2,
+          "domain": "www.tripadvisor.com",
+          "title": "THE 10 BEST Breakfast Restaurants in Springfield (UPDATED 2026)"
+        },
+        {
+          "rank": 3,
+          "domain": "www.reddit.com",
+          "title": "Breakfast spot : r/Springfield"
+        },
+        {
+          "rank": 4,
+          "domain": "restaurants.ihop.com",
+          "title": "IHOP® Breakfast in Springfield, MA on 270 Cooley St"
+        },
+        {
+          "rank": 5,
+          "domain": "www.memosrestaurantandcatering.com",
+          "title": "Memos Restaurant: HOME"
+        },
+        {
+          "rank": 6,
+          "domain": "www.facebook.com",
+          "title": "New breakfast spot in West Springfield"
+        },
+        {
+          "rank": 7,
+          "domain": "www.cornerstonecafe.net",
+          "title": "Cornerstone Cafe Springfield, MA | Gourmet Breakfast, Lunch & Catering"
+        },
+        {
+          "rank": 8,
+          "domain": "m.yelp.com",
+          "title": "TOP 10 BEST Breakfast Restaurants in Springfield, MA - Updated 2026"
+        },
+        {
+          "rank": 9,
+          "domain": "sunnysideuprestaurant.net",
+          "title": "Sunny Side Up Breakfast and Lunch"
+        },
+        {
+          "rank": 10,
+          "domain": "explorewesternmass.com",
+          "title": "Springfield MA Restaurants: Breakfast, Lunch & Dinner"
+        },
+        {
+          "rank": 11,
+          "domain": "www.facebook.com",
+          "title": "What are good local breakfast restaurants in Springfield, MA?"
+        },
+        {
+          "rank": 12,
+          "domain": "www.grubhub.com",
+          "title": "Find Springfield Breakfast restaurants near you and order online."
+        },
+        {
+          "rank": 13,
+          "domain": "littlegeorgesrestaurant.com",
+          "title": "Little George's Restaurant | West Springfield"
+        },
+        {
+          "rank": 14,
+          "domain": "eatskilletz.com",
+          "title": "Skilletz"
+        },
+        {
+          "rank": 15,
+          "domain": "stacker.com",
+          "title": "Highest-rated breakfast restaurants in the Springfield, Massachusetts area ..."
+        },
+        {
+          "rank": 16,
+          "domain": "www.youtube.com",
+          "title": "Breakfast, Lunch, and Dinner in Springfield, MA"
+        },
+        {
+          "rank": 17,
+          "domain": "m.yelp.com",
+          "title": "Felix's Breakfast and Sandwich Shop - Restaurant Reviews"
+        },
+        {
+          "rank": 18,
+          "domain": "noshspringfield.com",
+          "title": "NoshSpringfield | \"At The Table No One Grows Old\""
+        },
+        {
+          "rank": 19,
+          "domain": "local.yahoo.com",
+          "title": "Breakfast Restaurants in Springfield, MA"
+        },
+        {
+          "rank": 20,
+          "domain": "www.opentable.com",
+          "title": "Best Brunch Restaurants in Springfield, Central and Western MA"
+        }
+      ],
+      "ai_overview": false,
+      "types": [
+        "local_pack",
+        "organic",
+        "people_also_ask",
+        "people_also_search"
+      ]
+    }
+  },
+  "listings": [
+    {
+      "title": "Golden Corral Buffet & Grill",
+      "category": "Buffet restaurant",
+      "category_ids": [
+        "buffet_restaurant",
+        "american_restaurant",
+        "banquet_hall",
+        "breakfast_restaurant",
+        "family_restaurant",
+        "meal_takeaway",
+        "restaurant",
+        "steak_house"
+      ],
+      "rating": 4.1,
+      "votes": 7352,
+      "domain": "www.goldencorral.com",
+      "url": "https://www.goldencorral.com/locations/2588/golden-corral-parker-street?utm_source=google&utm_medium=local&utm_campaign=localmaps&utm_content=2588",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 1820,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJFyrkFpbC5okR9dek9DaUMR0"
+    },
+    {
+      "title": "Chick-fil-A",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "catering_service",
+        "chicken_restaurant",
+        "delivery_service",
+        "family_restaurant"
+      ],
+      "rating": 4.6,
+      "votes": 5073,
+      "domain": "www.chick-fil-a.com",
+      "url": "https://www.chick-fil-a.com/locations/ma/chicopee?utm_source=google&utm_medium=gmb",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 690,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJNZqPeK_d5okRmoO8ud3zBTg"
+    },
+    {
+      "title": "Cracker Barrel Old Country Store",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "breakfast_restaurant",
+        "diner",
+        "family_restaurant",
+        "gift_shop",
+        "lunch_restaurant",
+        "meal_takeaway",
+        "restaurant",
+        "southern_us_restaurant",
+        "traditional_us_american_restaurant"
+      ],
+      "rating": 4.3,
+      "votes": 4490,
+      "domain": "www.crackerbarrel.com",
+      "url": "https://www.crackerbarrel.com/Locations/States/ma/holyoke/294/?utm_source=google&utm_medium=maps&utm_campaign=crackerbarrelurl",
+      "city": "Holyoke",
+      "claimed": true,
+      "photos": 2323,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJ3YPgMkLe5okRsJsRNvZuMGc"
+    },
+    {
+      "title": "Puerto Rico Bakery II",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant"
+      ],
+      "rating": 4.4,
+      "votes": 3171,
+      "domain": "www.facebook.com",
+      "url": "https://www.facebook.com/pages/category/Spanish-Restaurant/Puerto-Rico-Restaurant-and-Bakery-205976286117536/",
+      "city": "Springfield",
+      "claimed": false,
+      "photos": 453,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJeZZ6VxDn5okRr5HVO0zwZmA"
+    },
+    {
+      "title": "IHOP",
+      "category": "Breakfast restaurant",
+      "category_ids": [
+        "breakfast_restaurant",
+        "american_restaurant",
+        "brunch_restaurant",
+        "diner",
+        "family_restaurant",
+        "lunch_restaurant",
+        "pancake_house",
+        "restaurant"
+      ],
+      "rating": 3.9,
+      "votes": 3073,
+      "domain": "restaurants.ihop.com",
+      "url": "https://restaurants.ihop.com/en-us/ma/west-springfield/breakfast-640-riverdale-st-2075?utm_source=google&utm_medium=organic&utm_campaign=google_my_business&utm_term=2075&utm_content=website",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 946,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJlaJrds_g5okRynEP17bu_I4"
+    },
+    {
+      "title": "Olive Garden Italian Restaurant",
+      "category": "Italian restaurant",
+      "category_ids": [
+        "italian_restaurant",
+        "catering_service",
+        "family_restaurant",
+        "gluten_free_restaurant",
+        "meal_takeaway",
+        "mediterranean_restaurant",
+        "seafood_restaurant",
+        "soup_restaurant",
+        "wine_bar"
+      ],
+      "rating": 4.2,
+      "votes": 3050,
+      "domain": "www.olivegarden.com",
+      "url": "https://www.olivegarden.com/locations/ma/west-springfield/west-springfield-ma-riverdale-shops/1804?cmpid=br:og_ag:ie_ch:loc_ca:OGGMB_sn:gmb_gt:west-springfield-ma-1804_pl:locurl_rd:1650",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 677,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJc_iOT8jg5okRLnP4O1-M4HE"
+    },
+    {
+      "title": "Cal's Wood Fired Grill and Bar",
+      "category": "Bar & grill",
+      "category_ids": [
+        "bar_and_grill",
+        "american_restaurant"
+      ],
+      "rating": 4.5,
+      "votes": 2796,
+      "domain": "www.calswoodfiredgrill.com",
+      "url": "https://www.calswoodfiredgrill.com/",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 1250,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "parking"
+      ],
+      "place_id": "ChIJve9Jnbfg5okRpeVOVPRfA_o"
+    },
+    {
+      "title": "LongHorn Steakhouse",
+      "category": "Steak house",
+      "category_ids": [
+        "steak_house",
+        "bar_and_grill",
+        "barbecue_restaurant",
+        "family_restaurant",
+        "meal_takeaway",
+        "traditional_us_american_restaurant"
+      ],
+      "rating": 4.4,
+      "votes": 2740,
+      "domain": "www.longhornsteakhouse.com",
+      "url": "https://www.longhornsteakhouse.com/locations/ma/west-springfield/west-springfield/5196?cmpid=br:lh_ag:ie_ch:loc_ca:LHGMB_sn:gmb_gt:west-springfield-ma-5196_pl:locurl_rd:1151",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 796,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJEZiwdLfg5okRkPQ4DA0rCf8"
+    },
+    {
+      "title": "Outback Steakhouse",
+      "category": "Steak house",
+      "category_ids": [
+        "steak_house",
+        "american_restaurant",
+        "australian_restaurant",
+        "bar",
+        "bar_and_grill",
+        "gluten_free_restaurant",
+        "meal_takeaway",
+        "restaurant"
+      ],
+      "rating": 4.2,
+      "votes": 2598,
+      "domain": "locations.outback.com",
+      "url": "https://locations.outback.com/massachusetts/west-springfield/1537-riverdale-street?utm_source=gmb&utm_medium=local_search&utm_campaign=website_cta&y_source=1_MTU1MDI0NzQtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 1353,
+      "price": "inexpensive",
+      "attributes": [
+        "from_the_business",
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJUZpM2qXg5okRVNL8xrc6WXk"
+    },
+    {
+      "title": "Crepes Tea House",
+      "category": "Creperie",
+      "category_ids": [
+        "creperie",
+        "breakfast_restaurant",
+        "cafe",
+        "catering_service",
+        "family_restaurant",
+        "russian_restaurant",
+        "tea_house",
+        "vegetarian_cafe_and_deli"
+      ],
+      "rating": 4.6,
+      "votes": 2390,
+      "domain": "crepesteahouse.com",
+      "url": "https://crepesteahouse.com/crepesteahouse-westspringfield?utm_source=google",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 2054,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJj97dIS3h5okRhOsrD84jl6k"
+    },
+    {
+      "title": "Applebee's Grill + Bar",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant",
+        "american_restaurant",
+        "bar_and_grill",
+        "diner",
+        "family_restaurant",
+        "hamburger_restaurant",
+        "steak_house",
+        "traditional_us_american_restaurant"
+      ],
+      "rating": 4.3,
+      "votes": 2308,
+      "domain": "restaurants.applebees.com",
+      "url": "https://restaurants.applebees.com/en-us/ma/chicopee/597-memorial-drive-81085?utm_source=google&utm_medium=organic&utm_campaign=google_my_business&utm_term=81085&utm_content=website",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 712,
+      "price": "moderate",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJsfDm467d5okRhwjbwQJ_OcM"
+    },
+    {
+      "title": "Munich Haus",
+      "category": "German restaurant",
+      "category_ids": [
+        "german_restaurant",
+        "restaurant"
+      ],
+      "rating": 4.5,
+      "votes": 2265,
+      "domain": "www.munichhaus.com",
+      "url": "http://www.munichhaus.com/",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 1414,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJe56yjvjd5okRN8DMyGctTW0"
+    },
+    {
+      "title": "Frontera Grill",
+      "category": "Mexican restaurant",
+      "category_ids": [
+        "mexican_restaurant",
+        "restaurant"
+      ],
+      "rating": 4.5,
+      "votes": 2242,
+      "domain": "frontera2go.com",
+      "url": "https://frontera2go.com/",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 935,
+      "price": "moderate",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ5YgTpWDc5okRzcgFjp3FqK8"
+    },
+    {
+      "title": "Chili's Grill & Bar",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant",
+        "american_restaurant",
+        "bar",
+        "bar_and_grill",
+        "family_restaurant",
+        "hamburger_restaurant",
+        "mexican_restaurant",
+        "tex_mex_restaurant"
+      ],
+      "rating": 3.9,
+      "votes": 2231,
+      "domain": "www.chilis.com",
+      "url": "https://www.chilis.com/locations?utm_source=google&utm_medium=local&utm_campaign=Chilis",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 2094,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJy79CM7fg5okRW3CIuGUEaSg"
+    },
+    {
+      "title": "Sonic Drive-In",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "american_restaurant",
+        "breakfast_restaurant",
+        "chicken_restaurant",
+        "delivery_service",
+        "hamburger_restaurant",
+        "hot_dog_restaurant",
+        "hot_dog_stand",
+        "ice_cream_shop",
+        "restaurant"
+      ],
+      "rating": 3.4,
+      "votes": 2218,
+      "domain": "www.sonicdrivein.com",
+      "url": "http://www.sonicdrivein.com/locations/us/ma/springfield/1057-boston-road/store-6346?utm_source=google-my-business&utm_medium=organic&utm_campaign=website-link&y_source=1_MjAyMzUzMzgxNi03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 411,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJIfdOh6XC5okRistRjNHxrKo"
+    },
+    {
+      "title": "McDonald's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "coffee_shop",
+        "hamburger_restaurant",
+        "restaurant",
+        "sandwich_shop"
+      ],
+      "rating": 3.5,
+      "votes": 2162,
+      "domain": "www.mcdonalds.com",
+      "url": "https://www.mcdonalds.com/us/en-us/location/MA/SPRINGFIELD/360-MAIN-ST/11926.html?cid=RF:YXT:GMB::Clicks",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 299,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJJ_rsI-7m5okRmEKZK3gOvzM"
+    },
+    {
+      "title": "Sumo Japanese Steakhouse MA",
+      "category": "Japanese restaurant",
+      "category_ids": [
+        "japanese_restaurant",
+        "japanese_steakhouse",
+        "restaurant"
+      ],
+      "rating": 4.5,
+      "votes": 2112,
+      "domain": "order.toasttab.com",
+      "url": "https://order.toasttab.com/online/sumo-japanese-steakhouse-holyoke",
+      "city": "Holyoke",
+      "claimed": true,
+      "photos": 942,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJvWtnez7e5okRLDbcEt3yelg"
+    },
+    {
+      "title": "Frontera Grill of Springfield",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant",
+        "mexican_restaurant"
+      ],
+      "rating": 4.5,
+      "votes": 2087,
+      "domain": "www.fronteragrillrestaurant.com",
+      "url": "http://www.fronteragrillrestaurant.com/",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 959,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ1UAK25fC5okRYRzWRxFRynk"
+    },
+    {
+      "title": "On The Border Mexican Grill & Cantina",
+      "category": "Mexican restaurant",
+      "category_ids": [
+        "mexican_restaurant",
+        "burrito_restaurant",
+        "catering_service",
+        "meal_takeaway",
+        "restaurant",
+        "taco_restaurant",
+        "tex_mex_restaurant"
+      ],
+      "rating": 4,
+      "votes": 2065,
+      "domain": null,
+      "url": null,
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 782,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJK0NqibDg5okR7CMCh7fwzB0"
+    },
+    {
+      "title": "Applebee's Grill + Bar",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant",
+        "american_restaurant",
+        "bar_and_grill",
+        "diner",
+        "family_restaurant",
+        "hamburger_restaurant",
+        "steak_house",
+        "traditional_us_american_restaurant"
+      ],
+      "rating": 4,
+      "votes": 2000,
+      "domain": "restaurants.applebees.com",
+      "url": "https://restaurants.applebees.com/en-us/ma/springfield/1349-boston-road-81087?utm_source=google&utm_medium=organic&utm_campaign=google_my_business&utm_term=81087&utm_content=website",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 737,
+      "price": "moderate",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJmUmUP73C5okRlMvPzqGI0Uo"
+    },
+    {
+      "title": "McDonald's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "coffee_shop",
+        "hamburger_restaurant",
+        "restaurant",
+        "sandwich_shop"
+      ],
+      "rating": 3.5,
+      "votes": 1993,
+      "domain": "www.mcdonalds.com",
+      "url": "https://www.mcdonalds.com/us/en-us/location/MA/SPRINGFIELD/2392-MAIN-ST/11540.html?cid=RF:YXT:GMB::Clicks",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 266,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJJ8oJhijn5okRoIJYMytV5Xg"
+    },
+    {
+      "title": "Nippon Grill & Seafood Buffet",
+      "category": "Buffet restaurant",
+      "category_ids": [
+        "buffet_restaurant",
+        "japanese_authentic_restaurant",
+        "restaurant",
+        "seafood_restaurant"
+      ],
+      "rating": 4,
+      "votes": 1967,
+      "domain": "nippon935.github.io",
+      "url": "https://nippon935.github.io/Nippon-Grill/",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 473,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJTbMZ8Mng5okR7PKps3Ioed4"
+    },
+    {
+      "title": "UNO Pizzeria & Grill",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant",
+        "american_restaurant",
+        "bar_and_grill",
+        "italian_restaurant",
+        "pizza_restaurant",
+        "pizzatakeaway"
+      ],
+      "rating": 4,
+      "votes": 1918,
+      "domain": "order.myguestaccount.com",
+      "url": "https://order.myguestaccount.com/menu/2203",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 1106,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJI58H8O7m5okRFV6YZYTirKI"
+    },
+    {
+      "title": "Student Prince Cafe and The Fort",
+      "category": "German restaurant",
+      "category_ids": [
+        "german_restaurant",
+        "american_restaurant",
+        "beer_garden",
+        "european_restaurant",
+        "seafood_restaurant"
+      ],
+      "rating": 4.6,
+      "votes": 1906,
+      "domain": "www.studentprince.com",
+      "url": "http://www.studentprince.com/",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 2065,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJJUcrUN7m5okRZC_gZEOtNhU"
+    },
+    {
+      "title": "Classic Burgers",
+      "category": "Hamburger restaurant",
+      "category_ids": [
+        "hamburger_restaurant",
+        "american_restaurant",
+        "diner",
+        "family_restaurant",
+        "fast_food_restaurant",
+        "hot_dog_restaurant",
+        "ice_cream_shop",
+        "sandwich_shop"
+      ],
+      "rating": 4.7,
+      "votes": 1887,
+      "domain": "classicburgers.net",
+      "url": "https://classicburgers.net/?utm_source=google",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 974,
+      "price": "moderate",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJcxLMIRrh5okRTp0hzlr9WOc"
+    },
+    {
+      "title": "Wendy's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "hamburger_restaurant",
+        "restaurant"
+      ],
+      "rating": 3.8,
+      "votes": 1864,
+      "domain": "locations.wendys.com",
+      "url": "https://locations.wendys.com/united-states/ma/springfield/1290-saint-james-ave?utm_source=Yext&utm_medium=Google_My_Business&utm_campaign=Local_Search",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 301,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJtYm9h33n5okR4JnDw2I8Hrs"
+    },
+    {
+      "title": "Schermerhorn's Seafood",
+      "category": "Seafood restaurant",
+      "category_ids": [
+        "seafood_restaurant",
+        "catering_service",
+        "fish_and_chips_restaurant",
+        "restaurant"
+      ],
+      "rating": 4.2,
+      "votes": 1854,
+      "domain": "www.schermerhornseafood.com",
+      "url": "http://www.schermerhornseafood.com/",
+      "city": "Holyoke",
+      "claimed": true,
+      "photos": 521,
+      "price": "moderate",
+      "attributes": [
+        "service_options",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJD6ZBUvXe5okR9b9nJXJwWGg"
+    },
+    {
+      "title": "Memo's Restaurant",
+      "category": "Brunch restaurant",
+      "category_ids": [
+        "brunch_restaurant",
+        "breakfast_restaurant",
+        "catering_service"
+      ],
+      "rating": 4.6,
+      "votes": 1801,
+      "domain": "www.memosrestaurantandcatering.com",
+      "url": "http://www.memosrestaurantandcatering.com/",
+      "city": "West Springfield",
+      "claimed": false,
+      "photos": 702,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJSUM-2zXh5okRozhbr5r80-k"
+    },
+    {
+      "title": "Five Guys",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "american_restaurant",
+        "hamburger_restaurant",
+        "hot_dog_restaurant",
+        "hot_dog_stand",
+        "restaurant"
+      ],
+      "rating": 4.3,
+      "votes": 1763,
+      "domain": "restaurants.fiveguys.com",
+      "url": "https://restaurants.fiveguys.com/1268-riverdale-street",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 343,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJV8UKfLDg5okRde1UR7CaMXc"
+    },
+    {
+      "title": "99 Restaurants",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "new_england_restaurant",
+        "pub"
+      ],
+      "rating": 4.2,
+      "votes": 1732,
+      "domain": "www.99restaurants.com",
+      "url": "https://www.99restaurants.com/locations/massachusetts/chicopee/?utm_source=google&utm_medium=organic&utm_campaign=gbp&utm_content=website_link&utm_id=99-30108",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 883,
+      "price": "moderate",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJh5-1B6_d5okRMJBu3pZTDHU"
+    },
+    {
+      "title": "Barnes & Noble",
+      "category": "Book store",
+      "category_ids": [
+        "book_store",
+        "cafe",
+        "childrens_book_store",
+        "hobby_store",
+        "toy_store"
+      ],
+      "rating": 4.6,
+      "votes": 1721,
+      "domain": "stores.barnesandnoble.com",
+      "url": "https://stores.barnesandnoble.com/store/2747",
+      "city": "Holyoke",
+      "claimed": true,
+      "photos": 558,
+      "price": "moderate",
+      "attributes": [
+        "service_options",
+        "accessibility",
+        "amenities",
+        "planning",
+        "payments",
+        "parking"
+      ],
+      "place_id": "ChIJ6RUmxEHe5okR96VIwoQe1xg"
+    },
+    {
+      "title": "Wendy's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "hamburger_restaurant",
+        "restaurant"
+      ],
+      "rating": 3.6,
+      "votes": 1714,
+      "domain": "locations.wendys.com",
+      "url": "https://locations.wendys.com/united-states/ma/chicopee/786-memorial-dr?utm_source=Yext&utm_medium=Google_My_Business&utm_campaign=Local_Search",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 392,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJt_6eGa3d5okRX2yE72BbUyQ"
+    },
+    {
+      "title": "Plan b Springfield",
+      "category": "Hamburger restaurant",
+      "category_ids": [
+        "hamburger_restaurant",
+        "american_restaurant",
+        "bar_and_grill"
+      ],
+      "rating": 4.2,
+      "votes": 1712,
+      "domain": "burgersbeerbourbon.com",
+      "url": "https://burgersbeerbourbon.com/springfield",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 708,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJFRNgbEzn5okRNafzjxAMThE"
+    },
+    {
+      "title": "McDonald's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "coffee_shop",
+        "hamburger_restaurant",
+        "restaurant",
+        "sandwich_shop"
+      ],
+      "rating": 3.4,
+      "votes": 1695,
+      "domain": "www.mcdonalds.com",
+      "url": "https://www.mcdonalds.com/us/en-us/location/MA/HOLYOKE/285-MAPLE-ST/17735.html?cid=RF:YXT:GMB::Clicks",
+      "city": "Holyoke",
+      "claimed": true,
+      "photos": 337,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJccPkQh_c5okR9GfgW7G87vQ"
+    },
+    {
+      "title": "Red Robin Gourmet Burgers and Brews",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant",
+        "american_restaurant",
+        "asador",
+        "bar",
+        "bar_and_grill",
+        "family_restaurant",
+        "hamburger_restaurant",
+        "lunch_restaurant",
+        "meal_takeaway",
+        "traditional_us_american_restaurant"
+      ],
+      "rating": 4,
+      "votes": 1661,
+      "domain": "www.redrobin.com",
+      "url": "https://www.redrobin.com/locations/ma/holyoke/holyoke-178",
+      "city": "Holyoke",
+      "claimed": true,
+      "photos": 1491,
+      "price": "moderate",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJAWCeikDe5okRRNTlxIKrJ8c"
+    },
+    {
+      "title": "Wahlburgers",
+      "category": "Hamburger restaurant",
+      "category_ids": [
+        "hamburger_restaurant",
+        "american_restaurant",
+        "bar_and_grill",
+        "barbecue_restaurant",
+        "dessert_restaurant",
+        "lunch_restaurant",
+        "restaurant",
+        "traditional_us_american_restaurant"
+      ],
+      "rating": 4.3,
+      "votes": 1628,
+      "domain": "locations.wahlburgers.com",
+      "url": "https://locations.wahlburgers.com/us/ma/springfield/56/",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 1177,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJGb12OMrn5okR_a9ZULdszOk"
+    },
+    {
+      "title": "Arby's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "american_restaurant",
+        "deli",
+        "grocery_delivery_service",
+        "meal_takeaway",
+        "sandwich_shop"
+      ],
+      "rating": 4.2,
+      "votes": 1622,
+      "domain": "www.arbys.com",
+      "url": "http://www.arbys.com/locations/us/ma/chicopee/1483-granby-rd/store-341?utm_source=google-my-business&utm_medium=organic&utm_campaign=website-link&y_source=1_MjAyMzUyNTE2NS03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 182,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJPaFHRK3d5okRB1kwlFC5jgU"
+    },
+    {
+      "title": "White Hut",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "breakfast_restaurant",
+        "fast_food_restaurant",
+        "hamburger_restaurant",
+        "restaurant"
+      ],
+      "rating": 4.4,
+      "votes": 1620,
+      "domain": "whitehut.com",
+      "url": "http://whitehut.com/",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 525,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJkQLRE8Xm5okRyKu2rRp_kts"
+    },
+    {
+      "title": "Friendly's",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "diner",
+        "family_restaurant",
+        "hamburger_restaurant",
+        "ice_cream_shop"
+      ],
+      "rating": 4.1,
+      "votes": 1565,
+      "domain": "locations.friendlysrestaurants.com",
+      "url": "https://locations.friendlysrestaurants.com/ll/US/MA/Chicopee/529-memorial-drive/",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 655,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ52LMn6_d5okRGiQjedDT2oA"
+    },
+    {
+      "title": "McDonald's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "coffee_shop",
+        "hamburger_restaurant",
+        "restaurant",
+        "sandwich_shop"
+      ],
+      "rating": 3.6,
+      "votes": 1527,
+      "domain": "www.mcdonalds.com",
+      "url": "https://www.mcdonalds.com/us/en-us/location/MA/SPRINGFIELD/660-LIBERTY-ST/26537.html?cid=RF:YXT:GMB::Clicks",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 285,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJHWn9kxPn5okRqiS19JhIO1s"
+    },
+    {
+      "title": "Friendly's",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "diner",
+        "family_restaurant",
+        "hamburger_restaurant",
+        "ice_cream_shop"
+      ],
+      "rating": 3.9,
+      "votes": 1524,
+      "domain": "locations.friendlysrestaurants.com",
+      "url": "https://locations.friendlysrestaurants.com/ll/US/MA/Springfield/1811-boston-road/",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 710,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJTa0HP43C5okRPOmeKLPDJkw"
+    },
+    {
+      "title": "Denny's",
+      "category": "Diner",
+      "category_ids": [
+        "diner",
+        "american_restaurant",
+        "breakfast_restaurant"
+      ],
+      "rating": 3.3,
+      "votes": 1517,
+      "domain": "locations.dennys.com",
+      "url": "https://locations.dennys.com/MA/SPRINGFIELD/249205?utm_source=yext&utm_medium=local-listing&utm_campaign=yext-listing&y_source=1_MjQ1NTMxOS03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 330,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ5VcA67zC5okRpQV94a4wdZc"
+    },
+    {
+      "title": "Max's Tavern",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "bar",
+        "fine_dining_restaurant",
+        "restaurant",
+        "steak_house"
+      ],
+      "rating": 4.3,
+      "votes": 1473,
+      "domain": "www.maxtavern.com",
+      "url": "http://www.maxtavern.com/",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 801,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ1yWmUu_m5okRm13jMlp-D1Y"
+    },
+    {
+      "title": "McDonald's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "coffee_shop",
+        "hamburger_restaurant",
+        "restaurant",
+        "sandwich_shop"
+      ],
+      "rating": 3.3,
+      "votes": 1467,
+      "domain": "www.mcdonalds.com",
+      "url": "https://www.mcdonalds.com/us/en-us/location/MA/WEST-SPRINGFIELD/352-RIVERDALE-RD/356.html?cid=RF:YXT:GMB::Clicks",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 255,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJb0tHKtfg5okRxV6kCdCNBkU"
+    },
+    {
+      "title": "Popeyes Louisiana Kitchen",
+      "category": "Chicken restaurant",
+      "category_ids": [
+        "chicken_restaurant",
+        "cajun_restaurant",
+        "fast_food_restaurant",
+        "restaurant",
+        "seafood_restaurant"
+      ],
+      "rating": 3.5,
+      "votes": 1459,
+      "domain": "www.popeyes.com",
+      "url": "https://www.popeyes.com/store-locator/store/restaurant_84504",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 146,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ1_EaD1Xd5okRyPsidBVGp-8"
+    },
+    {
+      "title": "Denny's Restaurant",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant",
+        "american_restaurant",
+        "breakfast_restaurant",
+        "diner"
+      ],
+      "rating": 3.8,
+      "votes": 1431,
+      "domain": "locations.dennys.com",
+      "url": "https://locations.dennys.com/MA/HOLYOKE/247614?utm_source=G&utm_medium=organic&utm_campaign=DAC",
+      "city": "Holyoke",
+      "claimed": true,
+      "photos": 1651,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ12pzYmLe5okR9ixhuqaE3LY"
+    },
+    {
+      "title": "Hooters",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "bar",
+        "chicken_wings_restaurant",
+        "restaurant",
+        "sports_bar"
+      ],
+      "rating": 4.1,
+      "votes": 1348,
+      "domain": "www.hooters.com",
+      "url": "https://www.hooters.com/Locations/StoreDetails/719/Hooters-of-West-Springfield/",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 711,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking",
+        "pets"
+      ],
+      "place_id": "ChIJD14rnLrg5okRvIS4sBL2EdI"
+    },
+    {
+      "title": "The Place 2 Be",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant"
+      ],
+      "rating": 4.1,
+      "votes": 1340,
+      "domain": "www.place2bect.com",
+      "url": "https://www.place2bect.com/",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 934,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "planning",
+        "parking"
+      ],
+      "place_id": "ChIJxxJnGETn5okR15iVd-63gb0"
+    },
+    {
+      "title": "Pintu’s Indian Palace",
+      "category": "Indian restaurant",
+      "category_ids": [
+        "indian_restaurant",
+        "restaurant"
+      ],
+      "rating": 4.3,
+      "votes": 1327,
+      "domain": "pintus.website",
+      "url": "https://pintus.website/",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 594,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJl9JkMlAZSIYR77_YhiXoTSs"
+    },
+    {
+      "title": "Popeyes Louisiana Kitchen",
+      "category": "Chicken restaurant",
+      "category_ids": [
+        "chicken_restaurant",
+        "cajun_restaurant",
+        "fast_food_restaurant",
+        "restaurant",
+        "seafood_restaurant"
+      ],
+      "rating": 3.3,
+      "votes": 1325,
+      "domain": "www.popeyes.com",
+      "url": "https://www.popeyes.com/store-locator/store/restaurant_83935",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 228,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJayrErK3d5okROt4ax2b6bbQ"
+    },
+    {
+      "title": "Wendy's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "hamburger_restaurant",
+        "restaurant"
+      ],
+      "rating": 3.6,
+      "votes": 1315,
+      "domain": "locations.wendys.com",
+      "url": "https://locations.wendys.com/united-states/ma/west-springfield/288-park-street?utm_source=Yext&utm_medium=Google_My_Business&utm_campaign=Local_Search",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 264,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJE4xXsC_h5okRJgiLqHPksBI"
+    },
+    {
+      "title": "Falls Pizza and Craft Bar",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant",
+        "bar",
+        "bar_and_grill",
+        "cocktail_bar",
+        "fine_dining_restaurant",
+        "hamburger_restaurant",
+        "meal_delivery",
+        "pizza_delivery_service"
+      ],
+      "rating": 4.4,
+      "votes": 1312,
+      "domain": "fallspizza.com",
+      "url": "https://fallspizza.com/",
+      "city": "Chicopee",
+      "claimed": true,
+      "photos": 410,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJI1RL2Zbd5okRzeyFMtLu91g"
+    },
+    {
+      "title": "McDonald's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "coffee_shop",
+        "hamburger_restaurant",
+        "restaurant",
+        "sandwich_shop"
+      ],
+      "rating": 3.4,
+      "votes": 1286,
+      "domain": "www.mcdonalds.com",
+      "url": "https://www.mcdonalds.com/us/en-us/location/MA/SPRINGFIELD/809-BOSTON-RD/592.html?cid=RF:YXT:GMB::Clicks",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 234,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ6wt-AKvC5okR9V1ujIDQWqw"
+    },
+    {
+      "title": "Lucky Strike Restaurant",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "family_restaurant",
+        "restaurant"
+      ],
+      "rating": 4.3,
+      "votes": 1282,
+      "domain": null,
+      "url": null,
+      "city": "Chicopee",
+      "claimed": false,
+      "photos": 354,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJZc14j8Xd5okRCs4pU1AyIJk"
+    },
+    {
+      "title": "Friendly's",
+      "category": "American restaurant",
+      "category_ids": [
+        "american_restaurant",
+        "diner",
+        "family_restaurant",
+        "hamburger_restaurant",
+        "ice_cream_shop"
+      ],
+      "rating": 3.7,
+      "votes": 1257,
+      "domain": "locations.friendlysrestaurants.com",
+      "url": "https://locations.friendlysrestaurants.com/ll/US/MA/West-Springfield/1094-riverdale-road/",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 365,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ6_yib7fg5okRWm-yr1MfVPk"
+    },
+    {
+      "title": "Wendy's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "hamburger_restaurant",
+        "restaurant"
+      ],
+      "rating": 3.8,
+      "votes": 1228,
+      "domain": "locations.wendys.com",
+      "url": "https://locations.wendys.com/united-states/ma/springfield/757-boston-road?utm_source=Yext&utm_medium=Google_My_Business&utm_campaign=Local_Search",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 290,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJX94NI6vC5okRnuaeuPbFq2E"
+    },
+    {
+      "title": "Ahalna foods",
+      "category": "Restaurant",
+      "category_ids": [
+        "restaurant"
+      ],
+      "rating": 4.8,
+      "votes": 1215,
+      "domain": "www.facebook.com",
+      "url": "https://www.facebook.com/ahalnafoods",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 248,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "offerings",
+        "dining_options",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJQxjyBtDm5okRY4Z7yBnIAic"
+    },
+    {
+      "title": "Wong Wok Restaurant",
+      "category": "Chinese restaurant",
+      "category_ids": [
+        "chinese_restaurant",
+        "brunch_restaurant",
+        "chinese_takeaway",
+        "delivery_chinese_restaurant",
+        "fast_food_restaurant",
+        "restaurant"
+      ],
+      "rating": 4,
+      "votes": 1201,
+      "domain": "www.wongwok.com",
+      "url": "https://www.wongwok.com/",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 297,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "planning",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJJ-bkhkbm5okRkqs-XdC6IP4"
+    },
+    {
+      "title": "McDonald's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "coffee_shop",
+        "hamburger_restaurant",
+        "restaurant",
+        "sandwich_shop"
+      ],
+      "rating": 3.4,
+      "votes": 1197,
+      "domain": "www.mcdonalds.com",
+      "url": "https://www.mcdonalds.com/us/en-us/location/MA/WEST-SPRINGFIELD/429-MEMORIAL-AVE/10335.html?cid=RF:YXT:GMB::Clicks",
+      "city": "West Springfield",
+      "claimed": true,
+      "photos": 311,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJ1-4ge8_m5okRLDdOmIWCGE4"
+    },
+    {
+      "title": "McDonald's",
+      "category": "Fast food restaurant",
+      "category_ids": [
+        "fast_food_restaurant",
+        "breakfast_restaurant",
+        "coffee_shop",
+        "hamburger_restaurant",
+        "restaurant",
+        "sandwich_shop"
+      ],
+      "rating": 3.4,
+      "votes": 1189,
+      "domain": "www.mcdonalds.com",
+      "url": "https://www.mcdonalds.com/us/en-us/location/MA/SPRINGFIELD/782-STATE-STREET/15470.html?cid=RF:YXT:GMB::Clicks",
+      "city": "Springfield",
+      "claimed": true,
+      "photos": 237,
+      "price": "inexpensive",
+      "attributes": [
+        "service_options",
+        "highlights",
+        "popular_for",
+        "accessibility",
+        "offerings",
+        "dining_options",
+        "amenities",
+        "atmosphere",
+        "crowd",
+        "payments",
+        "children",
+        "parking"
+      ],
+      "place_id": "ChIJfb3-b6jn5okR6LLfMOMMPJo"
+    }
+  ],
+  "cost": 0.06509999999999999
+}
