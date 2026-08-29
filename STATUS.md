@@ -1,10 +1,11 @@
 # Copperline Eatery — Website Status (live state)
 
 **Site:** https://copperlineeatery.com (Astro 7 + TypeScript, vanilla CSS, Netlify via GitHub Actions, default branch `master`)
-**Last updated:** 2026-08-04
+**Last updated:** 2026-08-29
 
-## What is live on prod (through Session 31: formatted catering-quote email via Postmark; Session 30 dep upgrades, audit down to 3 upstream moderates; Session 29 Astro 7 + Sunday-hours fix)
-- 36 pages: 7 core routes + 25 town catering pages (22 MA + 5 CT incl. region hub) + `/catering/quote` + catering-thanks + submit-specials.
+## What is live on prod (through Session 33: specials board photo + optional shoutout credit + new /specials page; Session 32 forms health check + http-vs-https diagnosis)
+- 37 pages: 7 core routes + 25 town catering pages (22 MA + 5 CT incl. region hub) + `/catering/quote` + catering-thanks + submit-specials + specials.
+- **`/specials` LIVE**: indexable page rendering the current board (text always; photo + "Thank you X from Y" credit once a submission has gone through the new pipeline — the board live right now predates this feature, so it's still text-only). Nav + homepage repointed from `/menu#specials`, which still renders the same component. New `specials-board` function serves the stored photo immutably-cached.
 - **`/catering/quote` interactive quote builder LIVE** (NOT yet indexed, see open questions): pick a buffet, build the menu with real choose-N limits, live priced estimate (15% service + 7% MA meals tax), Save-as-PDF. Lead arrives itemized via the `catering-quote` Netlify form. `/catering` + all 25 town pages stay price-free.
 - /catering is a full landing page (no pricing, per owner call) with the `catering-inquiry` Netlify form; email notification configured, leads arrive by email.
 - Specials pipeline live: email/web photo upload, Claude vision, YES-gated publish to /menu. Inbound webhook (`inbound-email.ts`) hardened `841cf09`: auto-publish requires aligned-DKIM auth (spoof-proof, fail-safe to the YES-gate), timing-safe Basic auth, public path throttled 20/hr.
