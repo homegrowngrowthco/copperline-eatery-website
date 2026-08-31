@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_URL } from '../../data/restaurant';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const canonical = `${SITE_URL}/blog/${post.id}`;
+const dateLabel = post.data.pubDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const imageUrl = post.data.image.startsWith('http') ? post.data.image : `${SITE_URL}${post.data.image}`;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+    { '@type': 'ListItem', position: 3, name: post.data.title, item: canonical },
+  ],
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.description,
+  image: imageUrl,
+  datePublished: post.data.pubDate.toISOString(),
+  author: { '@type': 'Organization', name: 'The Copperline Eatery' },
+};
+---
+
+<BaseLayout
+  title={`${post.data.title} | The Copperline Eatery`}
+  description={post.data.description}
+  canonical={canonical}
+  ogTitle={post.data.title}
+  ogDescription={post.data.description}
+  ogImage={imageUrl}
+  ogImageAlt={post.data.imageAlt}
+  schema={[breadcrumb, articleSchema]}
+>
+  <main>
+    <article class="blog-post">
+      <div class="container blog-post-container">
+        <p class="blog-post-date">{dateLabel}</p>
+        <h1>{post.data.title}</h1>
+        <img src={post.data.image} alt={post.data.imageAlt} class="blog-post-hero" width="900" height="600" />
+        <div class="blog-post-body">
+          <Content />
+        </div>
+        <p class="blog-post-footer">
+          <a href="/blog">&larr; Back to the blog</a> &middot; <a href="/menu">View our menu</a> &middot; <a href="/catering/quote">Get a catering quote</a>
+        </p>
+      </div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .blog-post-container {
+    max-width: 760px;
+  }
+  .blog-post-date {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+  .blog-post h1 {
+    margin-top: 0;
+  }
+  .blog-post-hero {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 16px 0 32px;
+  }
+  .blog-post-body :global(h2) {
+    margin-top: 2em;
+  }
+  .blog-post-body :global(p) {
+    line-height: 1.7;
+  }
+  .blog-post-body :global(ul),
+  .blog-post-body :global(ol) {
+    line-height: 1.7;
+    padding-left: 1.4em;
+  }
+  .blog-post-footer {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color, #e5e5e5);
+    text-align: center;
+  }
+</style>

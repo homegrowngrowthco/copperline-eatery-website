@@ -12,7 +12,9 @@
     "astro": "astro",
     "typecheck": "astro check",
     "qa:docs": "node scripts/lint-docs.mjs",
-    "qa:functions": "node scripts/fn-check.mjs"
+    "qa:functions": "node scripts/fn-check.mjs",
+    "qa:blog-gates": "node scripts/blog-gates.mjs",
+    "generate:post": "node scripts/generate-post.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0",
@@ -29,6 +31,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "gray-matter": "^4.0.3",
     "typescript": "^6.0.3"
   }
 }
