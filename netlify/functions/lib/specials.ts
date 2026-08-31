@@ -29,13 +29,23 @@ export interface BoardPhoto {
   contentType: string;
 }
 
+export interface HistoryEntry {
+  date: string; // YYYY-MM-DD
+  board?: BoardPhoto;
+  credit?: Credit | null;
+  specials: Special[];
+}
+
 export interface SpecialsFile {
   updatedAt: string;
   board?: BoardPhoto;
   credit?: Credit | null;
   source?: 'customer' | 'staff';
   specials: Special[];
+  history?: HistoryEntry[];
 }
+
+export const MAX_HISTORY = 52;
 
 export interface ExtractionResult {
   confidence: number; // 0–100
@@ -223,10 +233,21 @@ export interface PublishOptions {
   source?: 'customer' | 'staff';
 }
 
+// Turns the outgoing (about-to-be-replaced) specials.json into a history
+// entry, provided it actually had specials on it (an empty/malformed prior
+// file archives to nothing rather than polluting history with a blank week).
+function archiveEntry(previous: SpecialsFile | undefined): HistoryEntry | null {
+  if (!previous || !previous.updatedAt || !previous.specials || previous.specials.length === 0) return null;
+  const entry: HistoryEntry = { date: previous.updatedAt.slice(0, 10), specials: previous.specials };
+  if (previous.board) entry.board = previous.board;
+  if (previous.credit !== undefined) entry.credit = previous.credit;
+  return entry;
+}
+
 // Shared by both intake functions so the published JSON shape can't drift
 // between the email and web paths. New fields are all optional, so a
-// pre-existing specials.json (no board/credit/source) still parses and
-// renders exactly as before.
+// pre-existing specials.json (no board/credit/source/history) still parses
+// and renders exactly as before.
 export async function commitSpecialsToRepo(opts: PublishOptions): Promise<void> {
   const token = process.env.GITHUB_TOKEN;
   const repoEnv = process.env.GITHUB_REPO;
@@ -239,18 +260,35 @@ export async function commitSpecialsToRepo(opts: PublishOptions): Promise<void> 
   const octokit = new Octokit({ auth: token });
 
   let sha: string | undefined;
+  let previous: SpecialsFile | undefined;
   try {
     const { data } = await octokit.repos.getContent({ owner, repo, path: SPECIALS_DATA_PATH, ref: branch });
-    if (!Array.isArray(data) && 'sha' in data) sha = data.sha;
+    if (!Array.isArray(data) && 'sha' in data) {
+      sha = data.sha;
+      if ('content' in data && typeof data.content === 'string') {
+        try {
+          previous = JSON.parse(Buffer.from(data.content, 'base64').toString('utf8')) as SpecialsFile;
+        } catch {
+          previous = undefined; // unparseable prior file; publish still proceeds, just without archiving it
+        }
+      }
+    }
   } catch (e) {
     const status = (e as { status?: number }).status;
     if (status !== 404) throw e;
   }
 
+  const archived = archiveEntry(previous);
+  const priorHistory = previous?.history ?? [];
+  const history = archived
+    ? [archived, ...priorHistory.filter((h) => h.date !== archived.date)].slice(0, MAX_HISTORY)
+    : priorHistory;
+
   const payload: SpecialsFile = { updatedAt: new Date().toISOString(), specials: opts.specials };
   if (opts.board) payload.board = opts.board;
   if (opts.credit) payload.credit = opts.credit;
   if (opts.source) payload.source = opts.source;
+  if (history.length > 0) payload.history = history;
 
   const content = Buffer.from(JSON.stringify(payload, null, 2) + '\n').toString('base64');
 

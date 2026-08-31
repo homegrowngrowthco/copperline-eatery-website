@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DailySpecials from '../../components/DailySpecials.astro';
+import { SITE_URL } from '../../data/restaurant';
+import specialsData from '../../data/specials.json';
+
+interface Special {
+  name: string;
+  description: string | null;
+  price: string | null;
+}
+interface Board {
+  key: string;
+  contentType?: string;
+}
+interface Credit {
+  name: string;
+  from?: string;
+}
+interface HistoryEntry {
+  date: string;
+  board?: Board;
+  credit?: Credit | null;
+  specials: Special[];
+}
+interface SpecialsFile {
+  updatedAt?: string | null;
+  board?: Board;
+  credit?: Credit | null;
+  specials?: Special[];
+  history?: HistoryEntry[];
+}
+
+export function getStaticPaths() {
+  const data = specialsData as SpecialsFile;
+  const entries: HistoryEntry[] = [];
+
+  const currentDate = data.updatedAt ? data.updatedAt.slice(0, 10) : null;
+  if (currentDate && data.specials && data.specials.length > 0) {
+    entries.push({ date: currentDate, board: data.board, credit: data.credit, specials: data.specials });
+  }
+  for (const h of data.history ?? []) entries.push(h);
+
+  const seen = new Set<string>();
+  const deduped = entries.filter((e) => {
+    if (seen.has(e.date)) return false;
+    seen.add(e.date);
+    return true;
+  });
+
+  return deduped.map((entry) => ({ params: { date: entry.date }, props: { entry } }));
+}
+
+const { entry } = Astro.props as { entry: HistoryEntry };
+
+const formattedDate = new Date(`${entry.date}T12:00:00.000Z`).toLocaleDateString('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const title = `Specials for ${formattedDate} | The Copperline Eatery`;
+const description = `The Copperline Eatery's specials board from ${formattedDate}: breakfast and lunch specials in Chicopee, MA, straight from the board.`;
+const canonical = `${SITE_URL}/specials/${entry.date}`;
+const ogImage = entry.board ? `${SITE_URL}/specials-board/${entry.board.key}` : undefined;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}` },
+    { '@type': 'ListItem', position: 2, name: 'Specials', item: `${SITE_URL}/specials` },
+    { '@type': 'ListItem', position: 3, name: formattedDate, item: canonical },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogTitle={`Specials for ${formattedDate} - The Copperline Eatery`}
+  ogDescription={description}
+  ogImage={ogImage}
+  ogImageAlt={`The specials board at The Copperline Eatery, photographed ${formattedDate}`}
+  schema={breadcrumb}
+>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Specials for {formattedDate}</h1>
+        <p>An archived board from The Copperline Eatery in Chicopee, MA. See <a href="/specials">today's specials</a> for what is on the board now.</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container specials-page-container">
+        <DailySpecials
+          data={{
+            updatedAt: `${entry.date}T12:00:00.000Z`,
+            specials: entry.specials,
+            board: entry.board,
+            credit: entry.credit,
+          }}
+        />
+        <p class="specials-page-footer">
+          <a href="/specials">See today's specials board &rarr;</a>
+        </p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .specials-page-container {
+    max-width: 900px;
+  }
+  .specials-page-footer {
+    margin-top: 24px;
+    text-align: center;
+    color: var(--gray);
+  }
+</style>

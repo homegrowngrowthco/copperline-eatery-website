@@ -24,7 +24,12 @@ interface SpecialsFile {
   specials?: Special[];
 }
 
-const data = specialsData as SpecialsFile;
+interface Props {
+  data?: SpecialsFile;
+}
+
+const { data: dataProp } = Astro.props as Props;
+const data = dataProp ?? (specialsData as SpecialsFile);
 const specials = data.specials ?? [];
 const updatedAt = data.updatedAt ?? null;
 const hasAny = specials.length > 0;
