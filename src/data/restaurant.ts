@@ -70,6 +70,12 @@ export const AREA_SERVED = [
 export const PAYMENT_ACCEPTED = 'Cash, Credit Card, Visa, Mastercard, American Express, Discover';
 export const CURRENCIES_ACCEPTED = 'USD';
 
+// Ian, 2026-08-31: the diner holds a beer and wine license. Mimosas and other
+// drink specials show up occasionally as a special, not a standing menu item,
+// so never claim there is no liquor license or that mimosas are unavailable.
+export const ALCOHOL_NOTE =
+  'The Copperline Eatery holds a beer and wine license. Mimosas and similar drinks are offered sometimes as a special, not as a permanent menu item, so availability varies day to day.';
+
 export const AWARDS = [
   'Best Breakfast Western Massachusetts - MassLive Readers Choice',
   'Best French Toast Western Massachusetts - WWLP 22News',

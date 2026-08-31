@@ -18,12 +18,16 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
+import { BANNED_PHRASES } from './lib/content-rules.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BLOG_DIR = resolve(repoRoot, 'src/content/blog');
 const CANONICAL_PHONE_DIGITS = '4135948332';
 const CANONICAL_STREET = '409 Broadway';
 const REQUIRED_FIELDS = ['title', 'description', 'pubDate', 'image', 'imageAlt'];
+// Known-stale scanned menu photos: $1/package cheaper than the real
+// menuData.json catering prices as of 2026-08-31. Never usable until re-shot.
+const STALE_IMAGES = new Set(['/catering-menu-1.jpg', '/catering-menu-2.jpg']);
 
 function loadMenuItems() {
   const data = JSON.parse(readFileSync(resolve(repoRoot, 'src/data/menuData.json'), 'utf8'));
@@ -52,7 +56,9 @@ function checkPost(filePath, menuItems) {
   }
 
   if (typeof fm.image === 'string') {
-    if (fm.image.startsWith('/specials-board/')) {
+    if (STALE_IMAGES.has(fm.image)) {
+      errors.push(`${fileLabel}: image "${fm.image}" is a known-stale price sheet, do not use until it's re-shot`);
+    } else if (fm.image.startsWith('/specials-board/')) {
       if (!/^\/specials-board\/\d{4}-\d{2}-\d{2}-[\w-]+\.\w+$/.test(fm.image)) {
         errors.push(`${fileLabel}: image "${fm.image}" does not look like a real specials-board key`);
       }
@@ -108,6 +114,12 @@ function checkPost(filePath, menuItems) {
   for (const phrase of testimonialPhrases) {
     if (lowerBody.includes(phrase)) {
       warnings.push(`${fileLabel}: contains unsourceable testimonial-style phrasing ("${phrase}"); verify or cut`);
+    }
+  }
+
+  for (const phrase of BANNED_PHRASES) {
+    if (lowerBody.includes(phrase)) {
+      warnings.push(`${fileLabel}: contains a generated-content tell ("${phrase}"); the humanize pass should have caught this, edit it out`);
     }
   }
 
