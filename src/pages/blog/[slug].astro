@@ -82,16 +82,33 @@ const articleSchema = {
     border-radius: 8px;
     margin: 16px 0 32px;
   }
+  .blog-post-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--gray);
+  }
   .blog-post-body :global(h2) {
-    margin-top: 2em;
+    font-size: 1.4rem;
+    margin-top: 1.6em;
+    margin-bottom: 0.5em;
+    color: var(--black);
+  }
+  .blog-post-body :global(h3) {
+    font-size: 1.15rem;
+    margin-top: 1.4em;
+    margin-bottom: 0.4em;
+    color: var(--black);
   }
   .blog-post-body :global(p) {
-    line-height: 1.7;
+    margin-bottom: 1.25em;
   }
   .blog-post-body :global(ul),
   .blog-post-body :global(ol) {
-    line-height: 1.7;
+    margin-bottom: 1.25em;
     padding-left: 1.4em;
+  }
+  .blog-post-body :global(li) {
+    margin-bottom: 0.4em;
   }
   .blog-post-footer {
     margin-top: 40px;
