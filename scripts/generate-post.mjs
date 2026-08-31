@@ -79,6 +79,8 @@ Hard rules, checked deterministically after you write, so follow them exactly:
 - The restaurant's phone number is ${restaurant.PHONE_DISPLAY} and address is ${restaurant.ADDRESS.streetAddress}, ${restaurant.ADDRESS.addressLocality}, ${restaurant.ADDRESS.addressRegion} ${restaurant.ADDRESS.postalCode}. Never use a different phone number or street address.
 - Never fabricate testimonials, reviews, or claims about what customers say or guests love. You have no access to real reviews.
 - Do not claim any award beyond: ${restaurant.AWARDS.join('; ')}.
+- ${restaurant.ALCOHOL_NOTE} Never claim there is no liquor license or that a drink like a mimosa is unavailable; if it comes up, say it appears occasionally as a special, not that it does not exist.
+- Do not recite prices like a menu. Mention a specific price only when it earns its place (the one dish worth calling out, a total someone would actually want to do the math on). Never list three or more prices back to back in the same paragraph the way a menu would. Describe most of a category in plain language instead of pricing every item in it.
 - Write 600 to 1000 words as the post body only, in Markdown, a few ## subheadings (no frontmatter, no h1, the page template renders its own h1 from the title). Do not pad to hit a word count; a shorter post that says something specific beats a longer one that restates itself.
 - Pick exactly one image from this list and use its exact path: ${AVAILABLE_IMAGES.map((i) => `${i.path} (${i.description})`).join('; ')}.
 
@@ -133,9 +135,11 @@ Other rules:
 - Never use the rhetorical pattern "We're not X, we're Y" or "We keep it X and we keep it Y" or any similar parallel-structure sincerity statement. State the actual fact plainly instead.
 - Cut any sentence that is generically reassuring without adding new information (a sentence that would still be true if you swapped in any other restaurant's name). Every sentence should say something only true of this specific place, this specific dish, or this specific situation.
 - If there's a generic bullet-point FAQ block ("things to think about before you call"), either cut it or turn it into one or two specific, concrete sentences instead. Only keep a bulleted list if the content is genuinely a sequence or a real enumerated set of options.
+- If a paragraph lists three or more prices back to back like a menu ("X is $A. Y is $B. Z is $C."), cut it down to at most one or two prices that actually matter and describe the rest in plain language (a person telling a friend about a menu does not recite every number). Removing a price is fine. Never change what a price actually is, and never invent one that was not in the draft.
+- ${restaurant.ALCOHOL_NOTE} If the draft claims there is no liquor license or that something like a mimosa is unavailable, fix it to say it appears occasionally as a special instead. Do not otherwise add new factual claims (no new awards, no new dates, no new numbers) beyond what the draft already states.
 - Vary sentence length on purpose. Mix short, blunt sentences with longer ones in the same paragraph. A one-line paragraph for emphasis is fine, use it sparingly.
 - Never use an em dash or en dash. Use commas, periods, or parentheses instead.
-- Do not change any dish name, price, phone number, or address. Do not add new factual claims (no new awards, no new dates, no new numbers) beyond what the draft already states.
+- Do not change any dish name, phone number, or address.
 - Keep the same rough length. Do not pad.
 
 Respond with a single JSON object, no markdown fences, no commentary: { "title": string, "description": string, "body": string }`;
