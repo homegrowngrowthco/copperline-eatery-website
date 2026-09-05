@@ -6,6 +6,17 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 35 - 2026-09-04 - visual audit after Ian reported the site "looking funky"; blog pages brought onto the design system
+Ian: "the website is looking a little funky, formatting is off, colors look strange." No page or device named.
+**Triage first:** live `/_astro/BaseLayout.*.css` byte-identical to a local build of `master`, all assets 200, fonts self-hosted and loading, console clean. So not a deploy or cache-bust problem; anything Ian saw beyond the items below is a stale browser cache (hard refresh). Screenshotted `/`, `/menu`, `/specials`, `/catering`, `/blog`, one post, at 1366 and 390 wide, prod and local.
+**Real defects, all in source:** (1) blog post pages (`[slug].astro`, shipped Session 34) had no `.page-header` band, so the date line sat jammed under the sticky nav on the cream body; h2/h3 black and prose gray, unlike every other interior page. (2) Post image rendered at natural height; two of the three allowlisted images are tall menu scans (1051x1789), so a post opened with a full-screen wall of price lines, two screens on mobile. The `/blog` index cropped the same scan to 4:3 price rows, cards had no background (cream on cream). (3) Homepage: 50px cream stripe between the white lunch section (added 07-03) and the white FAQ section, from `.faq-section { margin-top: 50px }` (initial commit, still needed by `/contact`).
+**Shipped, PR #11 (`ee9447a`, branch `fix/blog-styling-home-stripe`, awaiting Ian's merge):** post page = standard `.page-header` (kicker linking to `/blog` + `<time>` date, h1 2.1rem) then `.content-section` with a white `.blog-post-card` (teal h2/h3, black prose, 16:9 `object-fit: cover; object-position: top` hero so a scan shows its logo header, 900x506 attrs for CLS). Index cards: white background + top-anchored crop. Stripe: `.lunch-section + .faq-section { margin-top: 0 }` (adjacency-scoped; `/contact` FAQ verified still 50px).
+**Verified:** build 41 pages clean; `astro preview` screenshots at 1366 and 390 for `/`, `/blog`, the brunch post, `/contact`. Not run: `astro check` (no TS touched), `qa:blog-gates` (no content touched).
+**Revert:** `git revert ee9447a` (single commit, CSS + one template, no data or config).
+**Gotchas:** `index.astro` and `global.css` are CRLF; multi-line perl patterns with bare `\n` silently no-op, use `\r?` or line-mode edits and check `git diff --stat` before building. Real fix for the post images is real photos (DAD item in `../TODO.md`); until then the generator only has menu scans and one stock breakfast photo to pick from.
+
+---
+
 ### Session 34 — 2026-08-31 — specials archive (Tier A) + weekly local-post engine (Tier B) shipped, then a real content-quality fix
 Ian: "work on specials archive and weekly local post engine. If there are any other website fixes you can do please execute."
 
