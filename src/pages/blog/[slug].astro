@@ -48,56 +48,97 @@ const articleSchema = {
 >
   <main>
     <article class="blog-post">
-      <div class="container blog-post-container">
-        <p class="blog-post-date">{dateLabel}</p>
-        <h1>{post.data.title}</h1>
-        <img src={post.data.image} alt={post.data.imageAlt} class="blog-post-hero" width="900" height="600" />
-        <div class="blog-post-body">
-          <Content />
+      <!-- Same dark page-header band every other interior page opens with, so the
+           post does not drop straight from the sticky nav into the cream body. -->
+      <header class="page-header">
+        <div class="container blog-post-header">
+          <p class="blog-post-date"><a href="/blog">From the Copperline Kitchen</a> &middot; <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{dateLabel}</time></p>
+          <h1>{post.data.title}</h1>
         </div>
-        <p class="blog-post-footer">
-          <a href="/blog">&larr; Back to the blog</a> &middot; <a href="/menu">View our menu</a> &middot; <a href="/catering/quote">Get a catering quote</a>
-        </p>
-      </div>
+      </header>
+
+      <section class="content-section">
+        <div class="container blog-post-container">
+          <div class="blog-post-card">
+            <!-- Landscape crop anchored to the top: the available images include tall
+                 scanned menus, and rendered at natural height they became a full-screen
+                 wall of price lines before the article started. -->
+            <img src={post.data.image} alt={post.data.imageAlt} class="blog-post-hero" width="900" height="506" />
+            <div class="blog-post-body">
+              <Content />
+            </div>
+            <p class="blog-post-footer">
+              <a href="/blog">&larr; Back to the blog</a> &middot; <a href="/menu">View our menu</a> &middot; <a href="/catering/quote">Get a catering quote</a>
+            </p>
+          </div>
+        </div>
+      </section>
     </article>
   </main>
 </BaseLayout>
 
 <style>
-  .blog-post-container {
-    max-width: 760px;
+  .blog-post-header {
+    max-width: 900px;
+  }
+  .blog-post .page-header h1 {
+    font-size: 2.1rem;
+    margin-bottom: 0;
   }
   .blog-post-date {
-    color: var(--gray);
-    font-size: 0.9rem;
-    margin-bottom: 4px;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 10px;
   }
-  .blog-post h1 {
-    margin-top: 0;
+  .blog-post-date a {
+    color: inherit;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  .blog-post-date a:hover {
+    color: var(--white);
+    border-bottom-color: var(--white);
+  }
+  .blog-post-container {
+    max-width: 800px;
+  }
+  .blog-post-card {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 32px;
   }
   .blog-post-hero {
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 8px;
-    margin: 16px 0 32px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 6px;
+    margin: 0 0 28px;
   }
   .blog-post-body {
     font-size: 1.05rem;
     line-height: 1.8;
-    color: var(--gray);
+  }
+  .blog-post-body :global(p),
+  .blog-post-body :global(li) {
+    color: var(--black);
   }
   .blog-post-body :global(h2) {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     margin-top: 1.6em;
     margin-bottom: 0.5em;
-    color: var(--black);
+    color: var(--green-dark);
   }
   .blog-post-body :global(h3) {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     margin-top: 1.4em;
     margin-bottom: 0.4em;
-    color: var(--black);
+    color: var(--green-dark);
   }
   .blog-post-body :global(p) {
     margin-bottom: 1.25em;
@@ -110,10 +151,31 @@ const articleSchema = {
   .blog-post-body :global(li) {
     margin-bottom: 0.4em;
   }
+  .blog-post-body :global(a) {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
   .blog-post-footer {
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border-color, #e5e5e5);
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e5e5;
     text-align: center;
+    font-size: 0.95rem;
+  }
+  @media (max-width: 640px) {
+    .blog-post .page-header h1 {
+      font-size: 1.5rem;
+    }
+    .blog-post-card {
+      padding: 18px;
+      border-radius: 6px;
+    }
+    .blog-post-hero {
+      margin-bottom: 20px;
+    }
+    .blog-post-body {
+      font-size: 1rem;
+    }
   }
 </style>
