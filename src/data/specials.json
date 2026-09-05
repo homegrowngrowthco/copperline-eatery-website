@@ -1,45 +1,97 @@
 {
-  "updatedAt": "2026-08-29T10:13:57.917Z",
+  "updatedAt": "2026-09-05T17:10:16.197Z",
   "specials": [
     {
-      "name": "Veggie Hash",
+      "name": "Roast Beef Hash",
       "description": "w/ 2 eggs + toast",
-      "price": null
+      "price": "$12.25"
     },
     {
-      "name": "Strawberry Stuffed French Toast",
+      "name": "Cin-A-Bun French Toast",
       "description": null,
-      "price": null
+      "price": "$10.00"
     },
     {
-      "name": "Kielbasa Eggs Benedict",
+      "name": "Crab Cake Benedict",
       "description": null,
-      "price": null
+      "price": "$15.00"
     },
     {
-      "name": "Cinnamon Streusel Pancakes",
+      "name": "Lemon Blueberry Pancakes",
       "description": null,
-      "price": null
+      "price": "$9.25"
     },
     {
-      "name": "Avocado Toast",
-      "description": "w/ 2 eggs, home fries",
-      "price": null
-    },
-    {
-      "name": "Huevos Ranchero",
+      "name": "Chicken Pesto Omelet",
       "description": null,
-      "price": null
+      "price": "$12.75"
     },
     {
-      "name": "Cheesy Grits",
+      "name": "Hash Pierogies",
+      "description": "w/ 2 eggs, toast + home fries",
+      "price": "$12.50"
+    },
+    {
+      "name": "Jalapino Home Fries",
       "description": null,
-      "price": null
+      "price": "$4.25"
     },
     {
       "name": "Fresh Fruit Cup",
       "description": null,
-      "price": null
+      "price": "$3.50"
+    }
+  ],
+  "board": {
+    "key": "2026-09-05-546c6652-09b5-44bf-b79a-e8d5361ac62b.jpg",
+    "contentType": "image/jpeg"
+  },
+  "source": "customer",
+  "history": [
+    {
+      "date": "2026-08-29",
+      "specials": [
+        {
+          "name": "Veggie Hash",
+          "description": "w/ 2 eggs + toast",
+          "price": null
+        },
+        {
+          "name": "Strawberry Stuffed French Toast",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Kielbasa Eggs Benedict",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Cinnamon Streusel Pancakes",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Avocado Toast",
+          "description": "w/ 2 eggs, home fries",
+          "price": null
+        },
+        {
+          "name": "Huevos Ranchero",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Cheesy Grits",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Fresh Fruit Cup",
+          "description": null,
+          "price": null
+        }
+      ]
     }
   ]
 }
