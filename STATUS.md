@@ -1,7 +1,7 @@
 # Copperline Eatery — Website Status (live state)
 
 **Site:** https://copperlineeatery.com (Astro 7 + TypeScript, vanilla CSS, Netlify via GitHub Actions, default branch `master`)
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-04
 
 ## What is live on prod (through Session 34: specials archive + weekly local-post engine shipped and content-quality fixed; Session 33 specials board photo + shoutout + new /specials page)
 - 41 pages: 7 core routes + 25 town catering pages (22 MA + 5 CT incl. region hub) + `/catering/quote` + catering-thanks + submit-specials + specials + `/blog` + 2 posts, plus one dated `/specials/<date>` archive page per published board.
@@ -13,6 +13,9 @@
 - Specials pipeline live: email/web photo upload, Claude vision, YES-gated publish to /menu. Inbound webhook (`inbound-email.ts`) hardened `841cf09`: auto-publish requires aligned-DKIM auth (spoof-proof, fail-safe to the YES-gate), timing-safe Basic auth, public path throttled 20/hr.
 - Quote leads arrive as a short Postmark email + attached PDF that replicates the on-site print sheet (logo, Oswald/Merriweather, red-ruled totals), From `Copperline Catering <catering@parse...>` (separate from the specials bot), Reply-To = customer, recipients in `QUOTE_NOTIFY_EMAILS`. The raw Netlify dashboard notification still fires in parallel until Ian deletes it (Forms -> catering-quote -> Notifications).
 - GA4 + Clarity live (idle-loaded); IndexNow pings on every prod deploy.
+
+## In flight
+- **PR #11** (`fix/blog-styling-home-stripe`): blog post pages restyled onto the site design system (page-header band, white card, 16:9 top-anchored hero), `/blog` card fixes, homepage cream stripe removed. Local-build verified at 1366 and 390 wide; awaiting Ian's merge (push to `master` deploys in ~1 min).
 
 ## Known open questions
 - **/catering/quote indexing: requested, pending crawl.** Was "URL unknown to Google" (URL Inspection 2026-08-04, 0 impressions, 0 real leads); Ian submitted Request Indexing 2026-08-05. Re-checked via URL Inspection API same day: still shows "URL is unknown to Google" (Google's crawl queue lags the request, typically hours-days) — re-check in a few days before treating this as unresolved. On-site SEO verified correct (sitemap + canonical + index,follow + internal links); homepage link added Session 32.
