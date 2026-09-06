@@ -1,34 +1,40 @@
 ---
-title: "Brunch and Mimosas in Chicopee, MA: A Morning Worth Lingering Over"
-description: "Looking for a brunch spot in Chicopee? The Copperline Eatery has been serving homemade breakfast since 1993, and yes, mimosas do make an appearance."
+title: "Brunch and Mimosas in Chicopee, MA"
+description: "Weekend brunch at The Copperline Eatery on Broadway in Chicopee: banana bread French toast, eggs benedict, omelets, and a mimosa when it is on the specials board."
 pubDate: 2026-08-31
 image: "/breakfast-menu.jpg"
 imageAlt: "Printed breakfast menu at The Copperline Eatery in Chicopee, MA"
-dishRefs: ["Banana Bread French Toast","Copperline Special","Santa Fé Omelet","Farmer's Omelet","Eggs Benedict","3 Pancakes or French Toast","Banana Pancakes","2 Eggs, Toast and Homefries with Bacon or Sausage"]
+dishRefs: ["Banana Bread French Toast","Eggs Benedict","Copperline Special","Santa Fé Omelet","Farmer's Omelet","Blueberry Pancakes"]
 tags: ["brunch","breakfast","chicopee","mimosas"]
 ---
-If you have been searching for a brunch spot in Chicopee, you have probably typed something like "mimosas near me" and landed on a list of chain restaurants in Springfield. The Copperline Eatery, at 409 Broadway, holds a beer and wine license, and mimosas pop up as a special from time to time. Call ahead at (413) 594-8332 to ask what is on for the day. But the drink is only part of the story. The food is the reason people have been coming back since 1993.
+We get asked about mimosas a lot, so here is the straight answer. We hold a beer and wine license, and mimosas show up on our specials board some weekends. They are a special, so they are on some days and off others. If a mimosa is the deciding factor for your morning, call us at (413) 594-8332 before you drive over and we will tell you what is on the board that day.
 
-## The Dish That Started It All
+## Weekend Hours
 
-The Copperline Eatery earned Best French Toast Western Massachusetts from WWLP 22News, and one taste of the Banana Bread French Toast explains why. It is made on housemade banana bread, which means the sweetness is baked into the bread itself rather than poured on top. At $8.25 it is one of the more distinctive plates on the menu, and it is the kind of thing that makes a slow Saturday morning feel intentional rather than accidental.
+We are at 409 Broadway in Chicopee. Saturday we open at 6 a.m. and close at 1:30 p.m. Sunday we open at 7 a.m. and close at 1 p.m. During the week we are open 6 a.m. to 2 p.m. Brunch here means whatever you want off the breakfast or lunch menu, at whatever hour you show up, as long as the kitchen is open.
 
-If French toast is not your direction, the pancake section runs from a straightforward 3 Pancakes or French Toast all the way to Banana Pancakes, Blueberry Pancakes, Chocolate Chip Pancakes, and Apple Cinnamon Pancakes. Every one of them arrives with the option to add bacon, sausage, kielbasa, or ham on the side, so you can build the plate you actually want.
+## The French Toast
 
-## Something More Substantial
+WWLP 22News put us on their list of the best French toast in Western Massachusetts. The one to order is the Banana Bread French Toast. We bake the banana bread ourselves and make the French toast from that instead of plain bread. It is $8.25.
 
-Not everyone wants something sweet first thing in the morning. The Copperline Special is the house signature: two eggs, homefries, and toast, with a choice of meat built into the plate. A full, grounding meal, the kind that carries you through a long afternoon without needing much else.
+If you want a regular stack, three pancakes or three slices of French toast come with your choice of bacon, sausage, kielbasa, or ham. The flavored pancakes come in banana, blueberry, chocolate chip, and apple cinnamon.
 
-For something with a little more personality, the specialty omelet section is where to look. The Santa Fé Omelet brings heat and southwestern flavors, while the Farmer's Omelet leans into the kind of hearty, savory combination that feels right on a cool morning. Both are built to order and priced to reflect the made-from-scratch approach without tipping into special-occasion territory. The Eggs Benedict at $11.50 is there for anyone who wants something a bit more composed.
+## Eggs Benedict and the Hollandaise
 
-## Why the Setting Matters
+MassLive readers voted us Best Breakfast in Western Massachusetts. The dish people usually mean when they bring that up is the Eggs Benedict: two poached eggs on English muffin halves with Canadian bacon and our house-made hollandaise, served with homefries. We make the hollandaise here.
 
-Brunch is as much about the pace as the food. The Copperline Eatery is family-owned, not a production line. The room is not enormous, which means the service is personal and the food is not traveling far from the kitchen to your table. That matters more than it sounds when you are dealing with homefries or eggs that need to arrive warm.
+## The Big Plate
 
-The restaurant was also recognized as Best Breakfast Western Massachusetts by MassLive Readers Choice, which reflects something real about the way the community feels about the place after more than three decades in the same spot on Broadway.
+The Copperline Special is three eggs, two pancakes, homefries, and toast. You can swap the pancakes for French toast for a little extra, and you can add bacon, sausage, kielbasa, or ham.
 
-## Planning Your Visit
+## Omelets
 
-If you want to catch a mimosa special, call ahead. A quick call to (413) 594-8332 before you head over will save you any guesswork. Breakfast and lunch are served, so the morning window is the one to plan around if brunch is what you are after. The restaurant is at 409 Broadway, Chicopee, MA 01020, easy to reach from most parts of the Pioneer Valley.
+The Santa Fé Omelet has diced chicken, onions, green peppers, mushrooms, salsa, and cheddar. The Farmer's Omelet is grilled mashed potatoes, ham, and cheese. Every omelet comes with homefries and toast, and you can build your own from mushrooms, peppers, onions, tomatoes, bacon, sausage, ham, kielbasa, and cheese.
 
-The Banana Bread French Toast, a strong cup of coffee, and a window seat. That is a Saturday morning that does not need much else to work.
+## Kids
+
+We have a children's menu for kids under 12: one egg and toast, two French toast, or two pancakes, with bacon, sausage, or ham and a milk or juice, for $7.50. High chairs and booster seats are here.
+
+## Before You Come
+
+We do not take reservations, so if you have a group, earlier is easier. If you are set on a mimosa, call first. See you on Broadway.

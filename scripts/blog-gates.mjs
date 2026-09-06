@@ -18,7 +18,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
-import { BANNED_PHRASES } from './lib/content-rules.mjs';
+import { BANNED_PHRASES, findContrastPatterns, findUnsourcedClaims, CONTRAST_PATTERN_HARD_LIMIT } from './lib/content-rules.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BLOG_DIR = resolve(repoRoot, 'src/content/blog');
@@ -121,6 +121,27 @@ function checkPost(filePath, menuItems) {
     if (lowerBody.includes(phrase)) {
       warnings.push(`${fileLabel}: contains a generated-content tell ("${phrase}"); the humanize pass should have caught this, edit it out`);
     }
+  }
+
+  // Added 2026-09-06 after Ian rejected the first three posts as AI-sounding
+  // and factually wrong. Contrast constructions ("X, not Y" / "rather than")
+  // were the dominant tell; one is tolerated, three or more is a hard fail.
+  const contrastHits = findContrastPatterns(body);
+  if (contrastHits.length >= CONTRAST_PATTERN_HARD_LIMIT) {
+    errors.push(`${fileLabel}: ${contrastHits.length} contrast constructions (limit ${CONTRAST_PATTERN_HARD_LIMIT - 1}): ${contrastHits.map((h) => JSON.stringify(h)).join(', ')}`);
+  } else if (contrastHits.length > 0) {
+    warnings.push(`${fileLabel}: contrast construction ${contrastHits.map((h) => JSON.stringify(h)).join(', ')}; fine once, cut if it reads like a pattern`);
+  }
+
+  // Claims no grounding source (menuData.json, restaurant.ts) can back.
+  // Dish history, cooking method, and crowd claims fail hard; sensory and
+  // setting words warn so a reviewer reads the sentence.
+  const unsourced = findUnsourcedClaims(body);
+  for (const w of unsourced.hard) {
+    errors.push(`${fileLabel}: "${w}" is a claim no grounding source states (dish history, cooking method, or what customers do); cut it`);
+  }
+  for (const w of unsourced.soft) {
+    warnings.push(`${fileLabel}: "${w}" describes something no grounding source states (taste, texture, the room); verify against menuData or cut`);
   }
 
   return { errors, warnings };

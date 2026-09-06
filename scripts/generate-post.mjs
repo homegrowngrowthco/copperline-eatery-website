@@ -16,7 +16,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { BANNED_PHRASES } from './lib/content-rules.mjs';
+import { BANNED_PHRASES, findContrastPatterns, findUnsourcedClaims, CONTRAST_PATTERN_HARD_LIMIT } from './lib/content-rules.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BACKLOG_PATH = resolve(repoRoot, 'content/backlog.json');
@@ -63,28 +63,61 @@ const AVAILABLE_IMAGES = [
   { path: '/catering-breakfast.jpg', description: 'catering breakfast buffet spread' },
 ];
 
+// Full item descriptions, package contents, and section notes are passed
+// through on purpose. Until 2026-09-06 this list carried names and prices
+// only, so the model had nothing to say about a dish except what it guessed,
+// and it guessed: the Copperline Special became "two eggs, homefries, toast,
+// and a choice of meat" (it is three eggs, two pancakes, homefries, toast),
+// the hash became "diced potatoes and seasoned meat" (it is corned beef hash),
+// and the lunch buffet packages became a breakfast spread of "eggs and
+// homefries". The description IS the only thing the model may say about a dish.
+const describeInclude = (inc) =>
+  typeof inc === 'string' ? inc : `${inc.label}: ${inc.items.join(', ')}`;
 const menuSummary = menuData.sections
   .map((s) => {
-    const items = s.items.map((i) => `${i.name}${i.price ? ` ($${i.price})` : ''}`).join('; ');
-    return `${s.name} (${s.service}): ${items}`;
+    const header = [`${s.name} (${s.service})`, s.note ? `note: ${s.note}` : '', s.included ? `included with every order: ${s.included.join(', ')}` : '']
+      .filter(Boolean)
+      .join('. ');
+    const items = s.items
+      .map((i) => {
+        const parts = [`- ${i.name}${i.price ? ` ($${i.price})` : ''}`];
+        if (i.description) parts.push(i.description);
+        if (Array.isArray(i.includes) && i.includes.length) parts.push(`includes ${i.includes.map(describeInclude).join('; ')}`);
+        return parts.join(': ');
+      })
+      .join('\n');
+    const extras = s.extras?.groups
+      ? `\n  ${s.extras.title} (${s.extras.note}): ${s.extras.groups.map(describeInclude).join('; ')}`
+      : '';
+    return `${header}\n${items}${extras}`;
   })
-  .join('\n');
+  .join('\n\n');
 
-const draftSystemPrompt = `You write local blog posts for The Copperline Eatery, a family-owned breakfast and lunch diner in Chicopee, MA, open since 1993.
+const draftSystemPrompt = `You write short blog posts for The Copperline Eatery, a family-owned breakfast and lunch diner in Chicopee, MA, open since 1993. You write as the family, in first person plural (we, our, us).
+
+You know exactly two things about this restaurant: the facts list and the menu below. That is all anyone has told you. Every sentence must be traceable to one of those two sources or be a plain, general statement about the reader's situation (a graduation party needs a headcount, a Sunday morning is a good time for brunch). If you find yourself writing anything else about the restaurant, delete it.
 
 Hard rules, checked deterministically after you write, so follow them exactly:
 - Never use an em dash or en dash. Use commas, periods, or parentheses instead.
 - Every dish name you cite must be copied EXACTLY (same capitalization and wording) from the menu list below. Do not invent dishes, prices, or menu sections.
+- To say what is in a dish, use the menu description of that dish and nothing else. Do not describe how anything is cooked, what it tastes like, its texture, its recipe, or where an ingredient comes from. The menu does not say those things, so you do not know them.
+- Do not describe the dining room, seating, the staff, the pace of service, how busy it gets, or who the regulars are. You have never been there.
+- Do not say how long any dish has been on the menu, or that anything is made the same way it always was. Only the restaurant's founding year (1993) is known.
 - Every price you cite must be an exact price from the menu list below, or clearly described as your own estimate or total, never presented as a literal menu price if it is not one.
 - The restaurant's phone number is ${restaurant.PHONE_DISPLAY} and address is ${restaurant.ADDRESS.streetAddress}, ${restaurant.ADDRESS.addressLocality}, ${restaurant.ADDRESS.addressRegion} ${restaurant.ADDRESS.postalCode}. Never use a different phone number or street address.
-- Never fabricate testimonials, reviews, or claims about what customers say or guests love. You have no access to real reviews.
+- Never fabricate testimonials, reviews, or claims about what customers say, order most, or love. You have no access to real reviews or sales.
 - Do not claim any award beyond: ${restaurant.AWARDS.join('; ')}.
 - ${restaurant.ALCOHOL_NOTE} Never claim there is no liquor license or that a drink like a mimosa is unavailable; if it comes up, say it appears occasionally as a special, not that it does not exist.
-- Do not recite prices like a menu. Mention a specific price only when it earns its place (the one dish worth calling out, a total someone would actually want to do the math on). Never list three or more prices back to back in the same paragraph the way a menu would. Describe most of a category in plain language instead of pricing every item in it.
-- Write 600 to 1000 words as the post body only, in Markdown, a few ## subheadings (no frontmatter, no h1, the page template renders its own h1 from the title). Do not pad to hit a word count; a shorter post that says something specific beats a longer one that restates itself.
+- The catering packages with prices are lunch and dinner buffets (ziti, meatballs, roasted chicken, and so on). Never present them as a breakfast spread. Breakfast and brunch catering exists but is quoted per event.
+- Do not recite prices like a menu. Mention a specific price only when it earns its place. Never list three or more prices back to back in the same paragraph.
+- Write 350 to 650 words as the post body only, in Markdown, with a few ## subheadings (no frontmatter, no h1). Shorter is better. Do not pad.
 - Pick exactly one image from this list and use its exact path: ${AVAILABLE_IMAGES.map((i) => `${i.path} (${i.description})`).join('; ')}.
 
-This is a first draft. Do not worry about polishing the voice, a second pass handles that. Just get the real facts (dishes, prices, structure) right.
+This is a first draft. Do not worry about polishing the voice, a second pass handles that. Just get the real facts right and leave out everything you do not know.
+
+Facts about the restaurant (the complete list):
+- Hours: ${restaurant.HOURS_DISPLAY}
+${restaurant.GROUNDING_FACTS.map((f) => `- ${f}`).join('\n')}
 
 The full current menu (grounding data, cite from this only):
 ${menuSummary}`;
@@ -127,20 +160,23 @@ async function callClaude(system, user, maxTokens) {
 console.log('Drafting...');
 const draft = await callClaude(draftSystemPrompt, draftUserPrompt, 4096);
 
-const humanizeSystemPrompt = `You are a sharp editor. You rewrite AI-drafted diner blog posts so they sound like the actual family that has run The Copperline Eatery in Chicopee, MA since 1993 wrote them: plainspoken, specific, opinionated, told like they'd tell a regular customer, not written like marketing copy.
+const humanizeSystemPrompt = `You are an editor. You rewrite AI-drafted diner blog posts so they read like the family that runs The Copperline Eatery in Chicopee, MA wrote them for their own website: plain, short, first person plural (we, our), the way you would answer a customer who asked a question at the register. Your job is to cut, not to add.
 
-DELETE these words and phrases anywhere they appear, and rewrite the sentence around their absence rather than leaving an awkward gap: ${BANNED_PHRASES.join(', ')}.
+DELETE these words and phrases anywhere they appear, and rewrite the sentence around their absence: ${BANNED_PHRASES.join(', ')}.
 
 Other rules:
-- Never use the rhetorical pattern "We're not X, we're Y" or "We keep it X and we keep it Y" or any similar parallel-structure sincerity statement. State the actual fact plainly instead.
-- Cut any sentence that is generically reassuring without adding new information (a sentence that would still be true if you swapped in any other restaurant's name). Every sentence should say something only true of this specific place, this specific dish, or this specific situation.
-- If there's a generic bullet-point FAQ block ("things to think about before you call"), either cut it or turn it into one or two specific, concrete sentences instead. Only keep a bulleted list if the content is genuinely a sequence or a real enumerated set of options.
-- If a paragraph lists three or more prices back to back like a menu ("X is $A. Y is $B. Z is $C."), cut it down to at most one or two prices that actually matter and describe the rest in plain language (a person telling a friend about a menu does not recite every number). Removing a price is fine. Never change what a price actually is, and never invent one that was not in the draft.
-- ${restaurant.ALCOHOL_NOTE} If the draft claims there is no liquor license or that something like a mimosa is unavailable, fix it to say it appears occasionally as a special instead. Do not otherwise add new factual claims (no new awards, no new dates, no new numbers) beyond what the draft already states.
-- Vary sentence length on purpose. Mix short, blunt sentences with longer ones in the same paragraph. A one-line paragraph for emphasis is fine, use it sparingly.
+- Remove every contrast construction: "X, not Y", "rather than Y", "instead of being Y", "is not about X", "that is not what we do", "not because X but because Y". A person describing their own diner states the fact. They do not keep framing it against an imagined alternative. One such construction in the whole post is the maximum.
+- Remove any sentence that describes what a dish tastes like, how it is cooked, its texture, the dining room, the seating, the staff, the pace, how busy it is, what regulars do, what most people order, or how long a dish has been served. The draft was told not to write these; if one slipped through, cut it. Do not replace it with a different invented detail.
+- Cut any sentence that is generically reassuring without adding new information (a sentence that would still be true if you swapped in any other restaurant's name).
+- Do not end the post with a one-line kicker, a scene ("a window seat and a cup of coffee"), or a tagline. End on a practical sentence: hours, a phone number, or how to order.
+- Do not open with a scene, a rhetorical question, or a description of the reader searching online. Open with the answer.
+- If there is a generic bullet-point block ("things to think about before you call"), cut it or turn it into one or two specific sentences.
+- If a paragraph lists three or more prices back to back, cut it to one or two. Removing a price is fine. Never change a price and never invent one.
+- ${restaurant.ALCOHOL_NOTE} If the draft claims there is no liquor license or that something like a mimosa is unavailable, fix it to say it appears occasionally as a special instead. Do not otherwise add any factual claim (no new awards, dates, numbers, ingredients, or descriptions) beyond what the draft already states.
+- Short sentences are fine. Do not manufacture rhythm. Do not add a one-line paragraph for emphasis.
 - Never use an em dash or en dash. Use commas, periods, or parentheses instead.
 - Do not change any dish name, phone number, or address.
-- Keep the same rough length. Do not pad.
+- The result should be the same length or shorter. Never longer.
 
 Respond with a single JSON object, no markdown fences, no commentary: { "title": string, "description": string, "body": string }`;
 
@@ -166,6 +202,22 @@ const dashFree = (s) => String(s).replace(/[–—]/g, '-');
 result.title = dashFree(result.title);
 result.description = dashFree(result.description);
 result.body = dashFree(result.body);
+
+// Same deterministic checks blog-gates.mjs runs, surfaced here so the run log
+// shows WHY a post will fail the gate instead of just that it did. The gate
+// stays the enforcement point; this is a preview of it.
+const contrastHits = findContrastPatterns(result.body);
+if (contrastHits.length) {
+  const level = contrastHits.length >= CONTRAST_PATTERN_HARD_LIMIT ? 'FAIL' : 'warn';
+  console.warn(`${level}: ${contrastHits.length} contrast construction(s) after humanize: ${contrastHits.map((h) => JSON.stringify(h)).join(', ')}`);
+}
+const unsourced = findUnsourcedClaims(result.body);
+if (unsourced.hard.length) {
+  console.warn(`FAIL: unsourced claims after humanize (dish history, cooking method, crowd claims): ${unsourced.hard.join(', ')}`);
+}
+if (unsourced.soft.length) {
+  console.warn(`warn: unsourced detail words after humanize (nothing in menuData/restaurant.ts backs these): ${unsourced.soft.join(', ')}`);
+}
 
 if (!existsSync(BLOG_DIR)) throw new Error(`${BLOG_DIR} does not exist`);
 
