@@ -90,3 +90,23 @@ export const AGGREGATE_RATING = {
   worstRating: '1',
   reviewCount: 1130,
 } as const;
+
+// Ian, 2026-09-06: grounding facts for the blog generator, all copied from
+// pages that already ship (about, faq, catering). The generator may state
+// these and the menu data, and nothing else about the restaurant. Anything
+// about cooking method, the dining room, staff, or how long a dish has been
+// served is invented unless it is written here.
+export const HOURS_DISPLAY =
+  'Monday through Friday 6 a.m. to 2 p.m., Saturday 6 a.m. to 1:30 p.m., Sunday 7 a.m. to 1 p.m.';
+
+export const GROUNDING_FACTS = [
+  'Family-owned and operated since 1993 at 409 Broadway, Chicopee.',
+  'Known for the homemade corned beef hash and the house-made hollandaise on the Eggs Benedict (about page).',
+  'MassLive readers voted the diner Best Breakfast in Western Massachusetts; WWLP 22News listed it among the best French toast in Western Massachusetts on National French Toast Day.',
+  'No reservations. High chairs and booster seats available.',
+  "Children's menu for guests under 12: one egg and toast, two French toast, or two pancakes, with bacon, sausage, or ham, plus milk or juice, $7.50.",
+  'Catering: on-site service, hot drop-off, or pick-up at the restaurant; buffet style, to-go buffet, or individual portions.',
+  'Catering lead time: one to two weeks for most events; three to four weeks for larger events and weekend dates.',
+  'Breakfast and brunch catering (eggs, bacon and sausage, home fries, French toast, pancakes) is quoted per event; the priced packages in the menu data are the lunch and dinner buffets.',
+  'Online quote builder at /catering/quote; full catering menu PDF at /catering-menu.pdf.',
+] as const;
