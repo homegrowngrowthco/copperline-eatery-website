@@ -3,7 +3,7 @@
     "id": "breakfast-catering-quantities",
     "title": "How Much Breakfast Catering to Order for 25, 50, or 100 People",
     "angle": "catering-guide",
-    "status": "proposed",
+    "status": "generated",
     "notes": "Matches GSC intent for breakfast caterers near me with prices (AUDIT-GROWTH-2026-08-29.md section 2.2). Ground per-person quantities in the catering-buffet-packages menu section. Use catering-breakfast.jpg as the image. Link to /catering/quote."
   },
   {
