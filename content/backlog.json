@@ -36,10 +36,10 @@
   },
   {
     "id": "homemade-hash-story",
-    "title": "The Story Behind Our Homemade Hash",
+    "title": "Our Homemade Corned Beef Hash",
     "angle": "dish-story",
-    "status": "proposed",
-    "notes": "Real menu item is Homemade Hash (small) / Homemade Hash (large), egg-specialties section, not a generic corned beef hash reference. Use breakfast-menu.jpg."
+    "status": "generated",
+    "notes": "Real menu items: Homemade Hash (small) / Homemade Hash (large) in breakfast-sides, Hash Breakfast in egg-specialties, Hash Omelet in specialty-omelets. It IS corned beef hash (menu descriptions say so). Hand-written 2026-09-06 after the generated draft (PR #10) invented a recipe. Use breakfast-menu.jpg."
   },
   {
     "id": "eggs-benedict-story",
