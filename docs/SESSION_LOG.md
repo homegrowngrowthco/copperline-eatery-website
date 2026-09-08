@@ -6,6 +6,13 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 37 - 2026-09-08 - PR #12 merged; worktree cleanup
+Ian reviewed the Netlify preview and merged PR #12 himself (`b9c0bf4`, squash), between sessions. Between the merge and this entry, a separate session (also logged as Claude Sonnet 5, commit `f435bc3`) reconciled STATUS.md against a fresh GSC index-status pull, no relation to the blog rework: confirmed `/catering/quote` now indexed (was flagged unindexed since 08-05) and flagged 6 URLs (the 3 blog posts, `/specials`, and two archive dates) as not-yet-indexed, expected crawl lag on content that shipped 08-29/08-31.
+**This session:** synced the OneDrive checkout to `b9c0bf4`, force-removed the merged `copperline-blog-rework` worktree and branch (OneDrive locks `.git/worktrees/*` metadata read-only; clear attributes via PowerShell before `Remove-Item`, same as the TAG cleanup pattern), updated STATUS.md's in-flight block to live and the page count to 42, closed the "review + merge PR #12" TODO line.
+**Revert:** nothing code-level to revert here; PR #12 reverts via `git revert b9c0bf4` if the rework needs to come back out.
+
+---
+
 ### Session 36 - 2026-09-06 - blog posts rewritten for voice and accuracy; generator grounded on descriptions; gates hard-fail invented claims
 Ian: "rework the blog posts for copperline - they sound way too much like AI and are making claims that are not true." Model: Fable 5.1.
 **What was actually wrong (checked every claim against `menuData.json`, `restaurant.ts`, about/faq/catering pages):** brunch post said the Copperline Special is "two eggs, homefries, toast, with a choice of meat" (it is three eggs, two pancakes, homefries, toast, meat is an add-on), gave the flavored pancakes a meat option they do not have, invented the Santa Fé "heat", the dining room, a window seat. Graduation post presented the $13.95 buffet packages as a breakfast spread of "eggs, homefries" (they are ziti, meatballs, roasted chicken; breakfast catering is quoted per event), said "each tier builds on the last" (#2 swaps items). PR #10 hash draft invented a recipe ("diced potatoes and seasoned meat, flat-top"), never said corned beef, and claimed the hash has been on the menu "since we opened in 1993". Root cause: the draft prompt fed dish NAMES and PRICES only, so the model had to guess what was in a dish. Voice tell was the contrast construction ("X, not Y" / "rather than", 4 in the brunch post) plus kicker endings.
