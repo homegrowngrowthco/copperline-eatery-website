@@ -31,7 +31,9 @@ const description = updatedLabel
   ? `The Copperline Eatery's specials board for ${updatedLabel}: today's breakfast and lunch specials in Chicopee, MA, straight from the board.`
   : "Today's breakfast and lunch specials at The Copperline Eatery in Chicopee, MA, straight from the board.";
 
-const ogImage = data.board ? `${SITE_URL}/specials-board/${data.board.key}` : undefined;
+const ogImage = data.board
+  ? `${SITE_URL}/.netlify/images?url=/specials-board/${data.board.key}&w=1200&fm=jpg&q=80`
+  : undefined;
 
 const breadcrumb = {
   '@context': 'https://schema.org',
@@ -63,7 +65,7 @@ const breadcrumb = {
 
     <section class="content-section">
       <div class="container specials-page-container">
-        <DailySpecials />
+        <DailySpecials eager headingTag="h2" />
         <p class="specials-page-footer">
           See the specials board before we do? <a href="/submit-specials">Share a photo</a> and help keep this page fresh.
         </p>
@@ -91,6 +93,9 @@ const breadcrumb = {
     margin-top: 24px;
     text-align: center;
     color: var(--gray);
+  }
+  .specials-page-footer a {
+    text-decoration: underline;
   }
   .specials-archive {
     margin-top: 48px;

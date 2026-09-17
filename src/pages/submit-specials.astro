@@ -231,6 +231,9 @@ import { SITE_URL } from '../data/restaurant';
     border-radius: 8px;
   }
   .change-photo-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     font-family: var(--font-display);
     font-size: 0.82rem;
     font-weight: 600;
@@ -249,6 +252,10 @@ import { SITE_URL } from '../data/restaurant';
   .change-photo-btn:hover {
     color: var(--red);
     border-color: var(--red);
+  }
+  .change-photo-btn:focus-visible {
+    outline: 3px solid var(--green-dark);
+    outline-offset: 3px;
   }
 
   /* Shoutout fields */

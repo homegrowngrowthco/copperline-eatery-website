@@ -63,7 +63,9 @@ const formattedDate = new Date(`${entry.date}T12:00:00.000Z`).toLocaleDateString
 const title = `Specials for ${formattedDate} | The Copperline Eatery`;
 const description = `The Copperline Eatery's specials board from ${formattedDate}: breakfast and lunch specials in Chicopee, MA, straight from the board.`;
 const canonical = `${SITE_URL}/specials/${entry.date}`;
-const ogImage = entry.board ? `${SITE_URL}/specials-board/${entry.board.key}` : undefined;
+const ogImage = entry.board
+  ? `${SITE_URL}/.netlify/images?url=/specials-board/${entry.board.key}&w=1200&fm=jpg&q=80`
+  : undefined;
 
 const breadcrumb = {
   '@context': 'https://schema.org',
@@ -103,6 +105,8 @@ const breadcrumb = {
             board: entry.board,
             credit: entry.credit,
           }}
+          eager
+          headingTag="h2"
         />
         <p class="specials-page-footer">
           <a href="/specials">See today's specials board &rarr;</a>
@@ -120,5 +124,8 @@ const breadcrumb = {
     margin-top: 24px;
     text-align: center;
     color: var(--gray);
+  }
+  .specials-page-footer a {
+    text-decoration: underline;
   }
 </style>
