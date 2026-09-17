@@ -26,9 +26,12 @@ interface SpecialsFile {
 
 interface Props {
   data?: SpecialsFile;
+  eager?: boolean;
+  headingTag?: 'h2' | 'h3';
 }
 
-const { data: dataProp } = Astro.props as Props;
+const { data: dataProp, eager = false, headingTag = 'h3' } = Astro.props as Props;
+const Heading = headingTag;
 const data = dataProp ?? (specialsData as SpecialsFile);
 const specials = data.specials ?? [];
 const updatedAt = data.updatedAt ?? null;
@@ -44,7 +47,7 @@ const updatedLabel = updatedAt
     })
   : null;
 
-const boardSrc = board ? `/specials-board/${board.key}` : null;
+const cdn = (w: number) => (board ? `/.netlify/images?url=/specials-board/${board.key}&w=${w}&fm=webp&q=75` : null);
 const boardAlt = updatedLabel
   ? `Today's specials board at The Copperline Eatery, photographed ${updatedLabel}`
   : "Today's specials board at The Copperline Eatery";
@@ -52,25 +55,33 @@ const boardAlt = updatedLabel
 const creditLine = credit?.name ? (credit.from ? `${credit.name} from ${credit.from}` : credit.name) : null;
 ---
 
-<div class="specials-content" class:list={[{ 'has-board-photo': hasAny && boardSrc }]}>
+<div class="specials-content" class:list={[{ 'has-board-photo': hasAny && board }]}>
   {hasAny ? (
     <>
-      {boardSrc && (
+      {board && (
         <div class="specials-photo-wrap">
-          <img src={boardSrc} alt={boardAlt} loading="lazy" />
+          <img
+            src={cdn(800)}
+            srcset={`${cdn(480)} 480w, ${cdn(800)} 800w, ${cdn(1200)} 1200w`}
+            sizes="(max-width: 899px) 100vw, 380px"
+            alt={boardAlt}
+            loading={eager ? 'eager' : 'lazy'}
+            fetchpriority={eager ? 'high' : undefined}
+            decoding="async"
+          />
         </div>
       )}
       <div class="specials-list">
         {specials.map((s) => (
           <div class="special-item">
-            <h4>
+            <Heading class="special-item-title">
               <span>{s.name}</span>
               {s.price && (
                 <span class="special-price">
                   {s.price.startsWith('$') ? s.price : `$${s.price}`}
                 </span>
               )}
-            </h4>
+            </Heading>
             {s.description && <p>{s.description}</p>}
           </div>
         ))}
@@ -82,9 +93,9 @@ const creditLine = credit?.name ? (credit.from ? `${credit.name} from ${credit.f
     </>
   ) : (
     <div class="no-specials">
-      <h4>No Specials Today</h4>
+      <Heading class="no-specials-title">No Specials Today</Heading>
       <p>
-        Daily specials updated each morning.<br />
+        We post the specials board here most weeks.<br />
         Call us at <a href="tel:+14135948332">(413) 594-8332</a> for today's offerings!
       </p>
     </div>

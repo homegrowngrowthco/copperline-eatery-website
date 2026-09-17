@@ -1,7 +1,7 @@
 /* Variables & Reset */
 :root {
     --red: #C1121F;
-    --red-dark: #C1121F;
+    --red-dark: #9A0E18;
     --green: #1F7A6E;
     --green-dark: #264653;
     --cream: #F4F1DE;
@@ -39,7 +39,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .social-icons a { color: var(--green-dark); display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; }
 .social-icons a:hover { color: var(--red); transform: translateY(-2px); }
 .doordash-btn { display: flex; align-items: center; gap: 6px; background: var(--red); color: var(--white); padding: 10px 20px; border-radius: 6px; font-family: var(--font-display); font-weight: 600; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
-.doordash-btn:hover { background: var(--red-dark); transform: translateY(-1px); }
+.doordash-btn:hover { background: var(--red-dark); }
 
 .mobile-menu-toggle { display: none; flex-direction: column; gap: 4px; padding: 8px; }
 .mobile-menu-toggle span { width: 24px; height: 3px; background: var(--green-dark); border-radius: 2px; transition: all 0.3s; }
@@ -62,7 +62,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .reviews-column { background: var(--white); padding: 30px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 .reviews-column h2 { font-size: 1.6rem; text-align: center; color: var(--green-dark); margin-bottom: 25px; text-transform: uppercase; }
-.reviews-carousel-home { position: relative; padding: 0 45px; }
+.reviews-carousel-home { position: relative; padding: 0 56px; }
 .reviews-wrapper { position: relative; overflow: hidden; min-height: 130px; }
 .review-slide { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; transition: opacity 0.5s; text-align: center; padding: 10px; }
 .review-slide.active { opacity: 1; position: relative; }
@@ -70,8 +70,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .review-text { font-size: 0.95rem; line-height: 1.6; color: var(--gray); margin-bottom: 10px; font-style: italic; }
 .review-author { font-size: 0.85rem; color: var(--green-dark); font-weight: 700; }
 
-.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: var(--red); color: var(--white); width: 35px; height: 35px; border-radius: 50%; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; }
-.carousel-btn:hover { background: var(--red-dark); transform: translateY(-50%) scale(1.1); }
+.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: var(--red); color: var(--white); width: 44px; height: 44px; border-radius: 50%; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; }
+.carousel-btn:hover { background: var(--red-dark); }
 .carousel-btn.prev { left: 0; }
 .carousel-btn.next { right: 0; }
 .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
@@ -79,14 +79,34 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .carousel-dot { width: 8px; height: 8px; padding: 8px; box-sizing: content-box; background-clip: content-box; border-radius: 50%; background-color: #888888; border: none; cursor: pointer; }
 .carousel-dot.active { background-color: var(--red); transform: scale(1.2); }
 
-.cta-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
-.btn { display: inline-block; padding: 14px 30px; border-radius: 6px; font-family: var(--font-display); font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; text-align: center; }
-.btn-primary { background: var(--red); color: var(--white); }
-.btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
-.btn-secondary { background: var(--white); color: var(--red); border: 2px solid var(--red); }
-.btn-secondary:hover { background: var(--red); color: var(--white); }
-.btn-accent { background: var(--green); color: var(--white); }
-.btn-accent:hover { background: var(--green-dark); }
+.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 48px; padding: 12px 24px;
+    border: 2px solid transparent; border-radius: 8px;
+    font-family: var(--font-display); font-size: 1rem; font-weight: 600; line-height: 1.2;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    text-align: center; text-decoration: none; cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: translateY(1px); filter: brightness(0.92); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
+.btn-sm { min-height: 44px; padding: 10px 18px; font-size: 0.875rem; }
+
+/* Primary: one per button group. Solid red, white text (6.2:1). */
+.btn-primary { background: var(--red); border-color: var(--red); color: var(--white); }
+.btn-primary:hover { background: var(--red-dark); border-color: var(--red-dark); color: var(--white); }
+
+/* Secondary: outlined dark green on white (9.9:1), fills on hover. */
+.btn-secondary { background: var(--white); border-color: var(--green-dark); color: var(--green-dark); }
+.btn-secondary:hover { background: var(--green-dark); color: var(--white); }
+
+/* Shared keyboard focus ring for every button-like control. */
+.btn:focus-visible, .doordash-btn:focus-visible, .carousel-btn:focus-visible,
+.menu-tab:focus-visible, .town-pill:focus-visible, .email-btn:focus-visible {
+    outline: 3px solid var(--green-dark); outline-offset: 3px;
+}
 
 /* Page Header */
 .page-header { background: var(--green-dark); color: var(--white); padding: 30px 20px; text-align: center; }
@@ -170,15 +190,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .loading { text-align: center; padding: 30px; color: var(--gray); font-style: italic; }
 
 .special-item { background: var(--white); padding: 20px; margin-bottom: 15px; border-radius: 6px; border-left: 4px solid var(--red); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-.special-item h4 { font-size: 1.3rem; color: var(--green-dark); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
+.special-item-title { font-size: 1.3rem; color: var(--green-dark); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
 .special-item p { color: var(--red); margin-bottom: 0; font-weight: 600; line-height: 1.5; }
 .special-price { font-size: 0.95rem; font-weight: 400; color: var(--green-dark); font-family: var(--font-body); }
 
 .no-specials { text-align: center; padding: 30px; }
-.no-specials h4 { color: var(--green-dark); margin-bottom: 12px; }
+.no-specials-title { color: var(--green-dark); margin-bottom: 12px; }
 
 .specials-content.has-board-photo { display: grid; grid-template-columns: minmax(260px, 380px) 1fr; gap: 24px; align-items: start; }
-.specials-photo-wrap img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: block; }
+.specials-photo-wrap img { width: 100%; height: auto; aspect-ratio: auto 3 / 4; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: block; }
 .specials-credit { margin-top: 15px; font-style: italic; color: var(--green-dark); font-weight: 600; }
 @media (max-width: 899px) {
   .specials-content.has-board-photo { grid-template-columns: 1fr; }
@@ -231,7 +251,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .contact-link:hover { color: var(--red); }
 
 .email-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     background: var(--red);
     color: var(--white) !important;
     padding: 6px 14px;
@@ -402,12 +424,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     .social-icons a[href*="instagram.com"] { display: none; }
     
     /* Very compact DoorDash button - just logo + text */
-    .header-actions .doordash-btn { 
-        padding: 4px 8px;
-        font-size: 0.65rem;
-        white-space: nowrap;
-        gap: 3px;
-    }
+    .header-actions .doordash-btn { min-height: 36px; padding: 6px 10px; font-size: 0.72rem; white-space: nowrap; gap: 4px; }
     .doordash-btn svg { width: 11px; height: 11px; }
     
     /* Navigation - drops below as overlay */
@@ -453,27 +470,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     
     .reviews-column { padding: 20px 15px; }
     .reviews-column h2 { font-size: 1.4rem; margin-bottom: 18px; }
-    .reviews-carousel-home { padding: 0 35px; }
+    .reviews-carousel-home { padding: 0 42px; }
     .reviews-wrapper { min-height: 110px; }
     .review-slide { padding: 8px 5px; }
     .stars { font-size: 1rem; margin-bottom: 10px; }
     .review-text { font-size: 0.88rem; line-height: 1.5; margin-bottom: 8px; }
     .review-author { font-size: 0.8rem; }
-    .carousel-btn { width: 30px; height: 30px; font-size: 1.4rem; }
+    .carousel-btn { width: 36px; height: 36px; font-size: 1.4rem; }
     .carousel-dots { margin-top: 12px; gap: 6px; }
     
-    .cta-buttons { flex-direction: row; gap: 8px; margin-bottom: 30px; }
-    .cta-buttons .btn {
-        flex: 1;
-        padding: 10px 8px;
-        font-size: 0.75rem;
-        min-width: 0;
-        white-space: nowrap;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    .cta-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 420px; margin: 0 auto 30px; }
+    .cta-buttons .btn-primary { grid-column: 1 / -1; }
+    .cta-buttons .btn { min-width: 0; padding: 12px 10px; font-size: 0.875rem; letter-spacing: 0.02em; white-space: normal; }
 
     /* Catering CTA buttons: allow text to wrap inside the button instead of
        overflowing. Long labels like "Download Catering Order Form" need this. */
@@ -563,9 +571,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ── FAQ Section ─────────────────────────────────────────── */
 .faq-section {
-    background: var(--white);
+    background: transparent;
     padding: 60px 0;
-    border-top: 3px solid var(--cream);
 }
 .faq-section h2 {
     font-family: var(--font-display);
@@ -581,9 +588,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     gap: 20px;
 }
 .faq-item {
-    background: var(--cream);
+    background: var(--white);
     border-left: 4px solid var(--red);
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     padding: 20px 24px;
 }
 .faq-item h3 {
@@ -726,24 +734,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .service-hours strong { color: var(--green-dark); font-weight: 700; }
 .service-hours .sep { color: rgba(38, 70, 83, 0.35); margin: 0 6px; }
-.btn-download {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--green-dark);
-    color: var(--white);
-    padding: 11px 20px;
-    border-radius: 6px;
-    font-family: var(--font-display);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.8px;
-    min-height: 44px;
-    transition: background 0.15s, transform 0.15s;
-    flex-shrink: 0;
-}
-.btn-download:hover { background: var(--red); color: var(--white); transform: translateY(-1px); }
+.hours-seg { white-space: nowrap; }
+.service-actions { display: flex; flex-wrap: wrap; gap: 12px; flex-shrink: 0; }
+/* Catering panel carries two buttons instead of one, so its intro text needs a
+   narrower cap to leave room for both to stay on the same row as the heading
+   at desktop widths (.menu-content-page tops out at 900px). */
+#catering .service-intro p { max-width: 460px; }
 
 /* Section layout: CSS columns flow content efficiently (no grid dead space) */
 .menu-sections-grid {
@@ -974,9 +970,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 @media (max-width: 640px) {
     .menu-tabs .menu-tab { padding: 12px 14px; font-size: 0.8rem; letter-spacing: 0.6px; }
-    .service-intro { flex-direction: column; align-items: stretch; }
+    .service-intro { flex-direction: column; align-items: center; text-align: center; }
     .service-intro h2 { font-size: 1.5rem; }
-    .btn-download { align-self: flex-start; }
+    .service-intro p { margin-left: auto; margin-right: auto; }
+    .service-hours { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 14px; font-size: 0.82rem !important; }
+    .service-hours .sep { display: none; }
+    .service-actions { justify-content: center; width: 100%; flex-wrap: nowrap; gap: 10px; }
+    .service-actions .btn { flex: 0 1 220px; min-width: 0; white-space: normal; }
     .menu-section { padding: 20px 20px; }
     .menu-section-title { font-size: 1rem; letter-spacing: 1px; }
     .menu-item-name { font-size: 0.95rem; }
@@ -1189,8 +1189,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .faq-a a, .faq-item p a, .town-around a { text-decoration: underline; }
 
 /* Homepage lunch section */
-.lunch-section { background: var(--white); padding: 50px 0; text-align: center; }
-/* The FAQ block keeps a 50px top margin for the contact page; on the homepage it sits directly under the white lunch section, so that margin showed as a cream stripe between two white sections. */
+.lunch-section { background: transparent; padding: 50px 0; text-align: center; border-top: 1px solid rgba(38, 70, 83, 0.12); }
+/* The FAQ block keeps a 50px top margin for the contact page; on the homepage it sits directly under the lunch section, so that margin would otherwise show as an extra gap between the two. */
 .lunch-section + .faq-section { margin-top: 0; }
 .lunch-section h2 { color: var(--green-dark); font-size: 1.8rem; margin-bottom: 16px; }
 .lunch-intro { max-width: 760px; margin: 0 auto 14px; color: var(--gray); }
@@ -1463,9 +1463,6 @@ body.quote-bar-on { padding-bottom: 72px; }
 .town-venues a { font-weight: 700; }
 .town-nearby { margin-top: 35px; }
 .town-nearby-label { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray); margin-bottom: 10px; }
-
-/* Menu page: catering quote CTA */
-.menu-quote-cta { margin: 0 0 22px; }
 
 /* Catering: menus note + how-it-works steps */
 .catering-menus-note { text-align: center; max-width: 720px; margin: 18px auto 0; color: var(--gray); }

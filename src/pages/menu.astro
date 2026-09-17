@@ -128,6 +128,7 @@ const ogDescription = 'Award-winning eggs benedict, house-made corned beef hash,
   ogImageAlt="The Copperline Eatery - Breakfast and Lunch Menu"
   twitterDescription="Award-winning eggs benedict, house-made corned beef hash, daily specials and more. Full breakfast & lunch menu at The Copperline Eatery."
   schema={[menuSchema, breakcrumb]}
+  bodyClass="menu-page"
 >
   <main>
     <section class="page-header">
@@ -152,9 +153,11 @@ const ogDescription = 'Award-winning eggs benedict, house-made corned beef hash,
               <div>
                 <h2>Breakfast</h2>
                 <p>Made from scratch every morning.</p>
-                <p class="service-hours"><strong>Mon-Fri</strong> 6am-2pm<span class="sep">&middot;</span><strong>Sat</strong> 6am-1:30pm<span class="sep">&middot;</span><strong>Sun</strong> 7am-1pm</p>
+                <p class="service-hours"><span class="hours-seg"><strong>Mon-Fri</strong> 6am-2pm</span><span class="sep">&middot;</span><span class="hours-seg"><strong>Sat</strong> 6am-1:30pm</span><span class="sep">&middot;</span><span class="hours-seg"><strong>Sun</strong> 7am-1pm</span></p>
               </div>
-              <a href="/breakfast-menu.jpg" download class="btn-download" aria-label="Download Menu (breakfast)">&#x2B07;&nbsp; Download Menu</a>
+              <div class="service-actions">
+                <a href="/breakfast-menu.jpg" download class="btn btn-secondary btn-sm" aria-label="Download Menu (breakfast)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m6 11 6 6 6-6"/><path d="M5 20h14"/></svg> Download Menu</a>
+              </div>
             </div>
             <div class="menu-sections-grid">
               {breakfastSections.map((section) => <MenuSection section={section} />)}
@@ -167,9 +170,11 @@ const ogDescription = 'Award-winning eggs benedict, house-made corned beef hash,
               <div>
                 <h2>Lunch</h2>
                 <p>Sandwiches, wraps, salads, and homemade soups served fresh daily.</p>
-                <p class="service-hours"><strong>Mon-Fri</strong> 6am-2pm<span class="sep">&middot;</span><strong>Sat</strong> 6am-1:30pm<span class="sep">&middot;</span><strong>Sun</strong> 7am-1pm</p>
+                <p class="service-hours"><span class="hours-seg"><strong>Mon-Fri</strong> 6am-2pm</span><span class="sep">&middot;</span><span class="hours-seg"><strong>Sat</strong> 6am-1:30pm</span><span class="sep">&middot;</span><span class="hours-seg"><strong>Sun</strong> 7am-1pm</span></p>
               </div>
-              <a href="/lunch-menu.jpg" download class="btn-download" aria-label="Download Menu (lunch)">&#x2B07;&nbsp; Download Menu</a>
+              <div class="service-actions">
+                <a href="/lunch-menu.jpg" download class="btn btn-secondary btn-sm" aria-label="Download Menu (lunch)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m6 11 6 6 6-6"/><path d="M5 20h14"/></svg> Download Menu</a>
+              </div>
             </div>
             <div class="menu-sections-grid">
               {lunchSections.map((section) => <MenuSection section={section} />)}
@@ -183,9 +188,11 @@ const ogDescription = 'Award-winning eggs benedict, house-made corned beef hash,
                 <h2>Catering</h2>
                 <p>Breakfast, lunch &amp; dinner catering for corporate events, weddings, parties, and special occasions across Western Massachusetts.</p>
               </div>
-              <a href="/catering-menu.pdf" download class="btn-download" aria-label="Download Menu (catering)">&#x2B07;&nbsp; Download Menu</a>
+              <div class="service-actions">
+                <a href="/catering/quote" class="btn btn-primary btn-sm">Build Your Catering Quote</a>
+                <a href="/catering-menu.pdf" download class="btn btn-secondary btn-sm" aria-label="Download Menu (catering)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m6 11 6 6 6-6"/><path d="M5 20h14"/></svg> Download Menu</a>
+              </div>
             </div>
-            <p class="menu-quote-cta"><a href="/catering/quote" class="btn btn-primary">Build Your Catering Quote</a></p>
             <div class="menu-sections-grid menu-sections-grid--catering">
               {cateringSections.map((section) => <MenuSection section={section} />)}
             </div>
@@ -197,7 +204,7 @@ const ogDescription = 'Award-winning eggs benedict, house-made corned beef hash,
             <div class="service-intro">
               <div>
                 <h2>Today's Specials</h2>
-                <p>Updated each morning. Subject to change, call us to confirm.</p>
+                <p>Straight from the board in the dining room. Updated most weeks, subject to change, call us to confirm.</p>
               </div>
             </div>
             <DailySpecials />

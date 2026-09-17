@@ -33,6 +33,7 @@ interface Props {
   noindex?: boolean;
   schema?: SchemaInput;
   hideNavCanonical?: boolean;
+  bodyClass?: string;
 }
 
 const {
@@ -49,6 +50,7 @@ const {
   noindex = false,
   schema,
   hideNavCanonical = false,
+  bodyClass,
 } = Astro.props;
 ---
 
@@ -140,7 +142,7 @@ const {
   <link rel="preload" as="font" type="font/woff2" href={oswald600} crossorigin="anonymous" />
   <link rel="preload" as="font" type="font/woff2" href={merriweather400} crossorigin="anonymous" />
 </head>
-<body>
+<body class={bodyClass}>
   <Nav />
   <slot />
   <Footer />
