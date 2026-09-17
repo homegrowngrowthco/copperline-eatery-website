@@ -69,6 +69,10 @@ const creditLine = credit?.name ? (credit.from ? `${credit.name} from ${credit.f
             fetchpriority={eager ? 'high' : undefined}
             decoding="async"
           />
+          {updatedLabel && <p class="specials-updated">Updated {updatedLabel}</p>}
+          {creditLine && (
+            <p class="specials-credit">Thank you, {creditLine}, for helping keep our specials board updated!</p>
+          )}
         </div>
       )}
       <div class="specials-list">
@@ -85,8 +89,8 @@ const creditLine = credit?.name ? (credit.from ? `${credit.name} from ${credit.f
             {s.description && <p>{s.description}</p>}
           </div>
         ))}
-        {updatedLabel && <p class="specials-updated">Updated {updatedLabel}</p>}
-        {creditLine && (
+        {!board && updatedLabel && <p class="specials-updated">Updated {updatedLabel}</p>}
+        {!board && creditLine && (
           <p class="specials-credit">Thank you, {creditLine}, for helping keep our specials board updated!</p>
         )}
       </div>

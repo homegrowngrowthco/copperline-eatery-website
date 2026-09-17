@@ -199,6 +199,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .specials-content.has-board-photo { display: grid; grid-template-columns: minmax(260px, 380px) 1fr; gap: 24px; align-items: start; }
 .specials-photo-wrap img { width: 100%; height: auto; aspect-ratio: auto 3 / 4; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: block; }
+.specials-photo-wrap .specials-updated { margin-top: 15px; color: var(--gray); font-size: 0.9rem; }
 .specials-credit { margin-top: 15px; font-style: italic; color: var(--green-dark); font-weight: 600; }
 @media (max-width: 899px) {
   .specials-content.has-board-photo { grid-template-columns: 1fr; }
