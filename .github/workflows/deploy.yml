@@ -19,6 +19,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Surfaces docs-guardrail failures (incl. an unlogged session) as a visible annotation on
+      # every run. Deliberately non-blocking: ../TODO.md is synced by an external, cross-project
+      # tool this repo doesn't control, so a bad sync there should not stop a prod deploy.
+      - name: Docs guardrail
+        run: npm run qa:docs
+        continue-on-error: true
+
       - name: Build Astro site
         run: npm run build
 

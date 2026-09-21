@@ -6,6 +6,15 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 40 - 2026-09-21 - qa:docs gets a session-log citation check; wired into CI
+Ian asked how Session 39 (the specials caption fix, `7279a99`) shipped without a log entry, and how to stop it recurring. Root cause: `npm run qa:docs` is a manual "run before committing doc changes" convention, so a code-only commit (no docs touched) never triggers it, and the script never checked that a shipped commit is actually cited anywhere.
+**Shipped:** `scripts/lint-docs.mjs` check 4: takes the latest commit outside `*.md`/`docs/`/`audits/`/`src/data/specials.json` (excludes the automated specials-publish pipeline), warns if its short SHA isn't cited in `docs/SESSION_LOG.md`, escalates to FAIL after 14 days (matches the existing CLAUDE.md-staleness grace period). `.github/workflows/deploy.yml` now runs `npm run qa:docs` on every push, `continue-on-error: true` so it can never block a deploy (`../TODO.md` is synced by an external cross-project tool this repo doesn't control). All 4 checks now also emit `::warning::`/`::error::` GitHub annotations in CI, visible on the run summary instead of buried in the log.
+**Verified:** `npm run qa:docs` locally (all 4 checks pass, `7279a99` now cited by the Session 39 backfill); `GITHUB_ACTIONS=true node scripts/lint-docs.mjs` confirms the `::warning::`/`::error::` lines emit; `node --check scripts/lint-docs.mjs`. Not run: an actual push through the GitHub Actions runner (next deploy will be the first live confirmation the annotation renders in the UI as expected).
+**Revert:** `git revert <this sha>` (script + workflow only, no app code).
+**Gotcha:** the check is deliberately non-blocking for deploys, so it is a nag, not a gate; if an unlogged commit sits past 14 days it fails the CI step (visible as a red X) but still won't stop the site from deploying.
+
+---
+
 ### Session 39 - 2026-09-17 - specials caption placement fix, direct to master (backfilled 2026-09-21, missed at session close)
 Follow-up to Session 38: on desktop, `.specials-photo-wrap` (the board-photo column) is shorter than `.specials-list` (the item column), so the "Updated [date]" line and the photo-credit line, both rendered inside `.specials-list`, floated in blank space to the right of the photo instead of reading as a caption under it.
 **Shipped, `7279a99`, direct to `master` (no PR):** both `<p>` blocks moved into `.specials-photo-wrap`, right after the `<img>`, gated on `board` being present; added `{!board && ...}` guards on the original item-list-column copies so text-only boards (no photo) still show the date/credit where they did before. New CSS rule `.specials-photo-wrap .specials-updated { margin-top: 15px; color: var(--gray); font-size: 0.9rem; }` (the credit line reuses the existing `.specials-credit` rule).
