@@ -55,6 +55,24 @@ function checkPost(filePath, menuItems) {
     errors.push(`${fileLabel}: contains an em or en dash (house rule: commas/periods/parens only)`);
   }
 
+  // Added 2026-09-24 (AUDIT-SEO-2026-09-24.md section 6, fix 3) after the
+  // generator shipped an 86-char <title> with no gate to catch it. The
+  // rendered <title> appends " | The Copperline Eatery" (24 chars) unless
+  // that would exceed 65, so the frontmatter title itself is capped here.
+  if (typeof fm.title === 'string' && fm.title.length > 65) {
+    errors.push(`${fileLabel}: title is ${fm.title.length} chars, over the 65-char limit`);
+  }
+  // Description mirrors scripts/seo-crawl.mjs's 60-170 lint, tightened to
+  // 60-160 to leave headroom before Google's own truncation point. Kept as a
+  // SOFT warning, not a hard fail: two live posts (brunch-mimosas-chicopee at
+  // 162, homemade-hash-story at 167) predate this gate and are out of scope
+  // for this PR (out-of-scope edit per the audit-fix prompt), so a hard fail
+  // here would permanently red the "no code changes" build. Revisit as a hard
+  // gate once those two are rewritten.
+  if (typeof fm.description === 'string' && (fm.description.length < 60 || fm.description.length > 160)) {
+    warnings.push(`${fileLabel}: description is ${fm.description.length} chars, outside the 60-160 range`);
+  }
+
   if (typeof fm.image === 'string') {
     if (STALE_IMAGES.has(fm.image)) {
       errors.push(`${fileLabel}: image "${fm.image}" is a known-stale price sheet, do not use until it's re-shot`);
