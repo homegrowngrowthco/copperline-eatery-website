@@ -62,6 +62,9 @@ function andJoin(items: readonly string[]): string {
   return items.slice(0, -1).join(', ') + ' and ' + items[items.length - 1];
 }
 
+// Alphabetized for display; the nearest-4 selection above stays distance-based.
+const nearbyAlpha = [...nearby].sort((a, b) => a.town.localeCompare(b.town));
+
 // Section order alternates by variant so neighboring town pages don't read
 // as the same template: 'a' leads with the venues, 'b' leads with the food.
 const sections: Array<'around' | 'food' | 'events'> =
@@ -73,18 +76,18 @@ const sections: Array<'around' | 'food' | 'events'> =
   description={description}
   canonical={pageUrl}
   ogTitle={`Catering in ${area.town}, ${area.state} | The Copperline Eatery`}
-  ogDescription={`Breakfast & lunch catering delivered to ${area.town} from Chicopee, about ${area.driveMin} minutes away. Custom menus for every event. Call (413) 594-8332.`}
+  ogDescription={`Breakfast, lunch & dinner catering delivered to ${area.town} from Chicopee, about ${area.driveMin} minutes away. Custom menus for every event. Call (413) 594-8332.`}
   ogImage={`${SITE_URL}/catering-breakfast.jpg`}
   ogImageAlt="Breakfast catering from The Copperline Eatery - eggs, bacon, and toast"
   twitterTitle={`Catering in ${area.town}, ${area.state} | The Copperline Eatery`}
-  twitterDescription={`Breakfast & lunch catering delivered to ${area.town}, ${area.state}. Custom menus for every event. Call (413) 594-8332.`}
+  twitterDescription={`Breakfast, lunch & dinner catering delivered to ${area.town}, ${area.state}. Custom menus for every event. Call (413) 594-8332.`}
   schema={[cateringSchema, breadcrumb]}
 >
   <main>
     <section class="page-header">
       <div class="container">
         <h1>Catering in {area.town}, {area.state}</h1>
-        <p>Breakfast &amp; lunch delivered from The Copperline Eatery in Chicopee</p>
+        <p>Breakfast, lunch &amp; dinner delivered from The Copperline Eatery in Chicopee, serving {area.town} and all of {area.county}</p>
       </div>
     </section>
 
@@ -164,13 +167,12 @@ const sections: Array<'around' | 'food' | 'events'> =
           </div>
 
           <div class="town-nearby">
-            <span class="town-nearby-label">Also catering nearby:</span>
-            <div class="town-pills">
-              {nearby.map((n) => (
-                <a class="town-pill" href={`/catering/${n.slug}`}>{n.town}</a>
-              ))}
-              <a class="town-pill town-pill--all" href="/catering">All service areas</a>
-            </div>
+            <p class="town-nearby-text">
+              <span class="town-nearby-label">Also catering nearby:</span>{' '}
+              {nearbyAlpha.map((n, i) => (
+                <>{''}<a href={`/catering/${n.slug}`}>{n.town}</a>{i < nearbyAlpha.length - 2 ? ', ' : i === nearbyAlpha.length - 2 ? ' and ' : ''}</>
+              ))}{'. '}<a href="/catering">See all service areas.</a>
+            </p>
           </div>
 
           <p class="town-photo-credit-bottom">Town photo: <a href={area.photo.creditUrl} target="_blank" rel="noopener">{area.photo.creditArtist}</a>, {area.photo.creditLicense}, via Wikimedia Commons.</p>
