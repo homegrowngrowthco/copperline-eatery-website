@@ -1,9 +1,10 @@
 # Copperline Eatery — Website Status (live state)
 
 **Site:** https://copperlineeatery.com (Astro 7 + TypeScript, vanilla CSS, Netlify via GitHub Actions, default branch `master`)
-**Last updated:** 2026-09-24 (full audit: [audits/AUDIT-SEO-2026-09-24.md](audits/AUDIT-SEO-2026-09-24.md); traffic flat, site green, GBP items still the lever)
+**Last updated:** 2026-09-24 (Session 42: 7 SEO-audit fixes IN FLIGHT on branch `fix/seo-audit-2026-09-24`, PR open, not merged, not pushed to master; see docs/SESSION_LOG.md)
 
 ## What is live on prod (through Session 36: blog voice + accuracy rework merged, PR #12 `b9c0bf4`; Session 35: blog pages restyled onto the design system + homepage stripe fix (PR #11, `5cb6245`); Session 34: specials archive + weekly local-post engine shipped and content-quality fixed; Session 33 specials board photo + shoutout + new /specials page)
+- **In flight, not yet merged (Session 42)**: sitemap `lastmod`, board photo width/height, homepage/catering title trims + blog-gates title gate, weekly-post cron duplicate guard, `/catering` PAA FAQ section, build-time `llms.txt`, homepage freshness strip. All 7 items from `audits/AUDIT-SEO-2026-09-24.md` section 6.
 - **Blog voice + accuracy rework LIVE (Session 36, PR #12, `b9c0bf4`)**: all three posts rewritten by hand in the family's first-person voice with every claim traced to `menuData.json`, `restaurant.ts`, or the About/FAQ/catering pages (the 08-31 versions invented dish contents, a hash recipe, and the dining room); generator now receives dish descriptions and a complete facts list; gates hard-fail contrast constructions and unsourced dish-history/cooking/crowd claims. Adds `/blog/homemade-hash-story` (supersedes PR #10, closed). Next Monday's cron draft is the first live test of the reworked prompts against the new gates.
 - 43 sitemap URLs (2026-09-24): 7 core routes + 25 town catering pages (22 MA + 5 CT incl. region hub) + `/catering/quote` + specials + `/blog` + 4 posts (PR #16 `5686e4e` added `breakfast-catering-quantities`) + 4 dated `/specials/<date>` archive pages; catering-thanks and submit-specials are noindex.
 - **Specials archive (Tier A) LIVE**: every publish archives the outgoing board into `specials.json`'s `history[]` (capped 52), giving each week a permanent `/specials/<date>` page. `/specials` links to the last 12.
