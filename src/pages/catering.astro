@@ -4,7 +4,7 @@ import CateringMenus from '../components/CateringMenus.astro';
 import { ADDRESS, AREA_SERVED, EMAIL, PHONE, PHONE_DISPLAY, SITE_URL } from '../data/restaurant';
 import { SERVICE_AREAS } from '../data/serviceAreas';
 
-const title = 'Catering in Chicopee, MA & Western Mass | The Copperline Eatery';
+const title = 'Catering in Chicopee & Western Mass | The Copperline Eatery';
 const description = 'Breakfast, lunch & dinner catering from Chicopee, MA across Western Mass and northern CT. Custom menus for corporate events, weddings & parties. (413) 594-8332.';
 
 const cateringSchema = {
@@ -25,17 +25,38 @@ const cateringSchema = {
 };
 
 // The catering FAQs, mirrored from /faq so this page carries its own FAQPage
-// rich-result eligibility for catering queries.
+// rich-result eligibility for catering queries. This array is the single
+// source for both the visible "Catering Questions" section below and the
+// JSON-LD mainEntity, so the two cannot drift apart (AUDIT-SEO-2026-09-24.md
+// section 6, fix 5: Google's FAQ guidance requires the questions in a
+// FAQPage schema to actually be visible on the page). The last four entries
+// are the People Also Ask questions the audit found on the catering SERPs
+// ("breakfast catering near me", "catering chicopee ma"), added 2026-09-24.
+interface CateringFaq {
+  question: string;
+  answer: string;
+}
+
+const cateringFaqs: CateringFaq[] = [
+  { question: 'What kind of food does The Copperline Eatery cater?', answer: 'Breakfast and brunch spreads (eggs, bacon and sausage, home fries, French toast, pancakes), lunch platters (cold cuts, sandwiches, wraps, salads), and hot dinner buffets (roasted chicken in 15+ preparations, ziti and meatballs, lasagna, roast turkey, baked scrod). Every menu is customized to your event; contact us for a quote.' },
+  { question: 'What areas does The Copperline Eatery cater?', answer: 'We cater across Western Massachusetts and northern Connecticut from our Chicopee kitchen, including Springfield, Holyoke, West Springfield, Agawam, Westfield, Ludlow, South Hadley, Longmeadow, East Longmeadow, Wilbraham, Northampton, Amherst, Enfield, Suffield, Windsor Locks, Somers, and the surrounding Hampden, Hampshire, Hartford, and Tolland County towns.' },
+  { question: 'What service options are available?', answer: 'On-site service, drop-off, or pick-up at our restaurant at 409 Broadway, Chicopee. We serve buffet style, to-go buffet style, or individual portions, and we can build a custom menu for your event.' },
+  { question: 'How far in advance should I book catering?', answer: 'For most events we recommend booking at least one to two weeks in advance. Larger events and weekend dates should be booked three to four weeks ahead when possible. Call (413) 594-8332 to check availability.' },
+  { question: 'What types of events does The Copperline Eatery cater?', answer: 'Corporate meetings and office lunches, weddings and rehearsal dinners, bridal and baby showers, graduations, birthdays, family reunions, holiday parties, church socials, school functions, banquets, fundraisers, sporting events and tailgates, memorial services, film and photo shoots, and healthcare facilities.' },
+  { question: 'How much does breakfast catering cost?', answer: 'Every menu is built for the event, so we quote per person once we know your headcount, the menu, and whether it is drop-off, pick-up, or served on site. You can build an itemized estimate in about a minute with our online quote builder at copperlineeatery.com/catering/quote, or call (413) 594-8332 and we will price it with you.' },
+  { question: 'How much food should I order for 20 people?', answer: 'Tell us the headcount and we size the order for you; that is part of every quote. For a rough idea before you call, our post on how much breakfast catering to order for 25, 50, or 100 people walks through it.' },
+  { question: 'Who does breakfast catering near Chicopee and Springfield?', answer: 'We do, from our kitchen at 409 Broadway in Chicopee. MassLive readers voted The Copperline Eatery Best Breakfast in Western Massachusetts, and we cater breakfast and brunch spreads across Hampden County, including Springfield, Holyoke, West Springfield, Agawam, and Westfield, plus northern Connecticut.' },
+  { question: 'Do you cater corporate breakfasts and office lunches?', answer: 'Yes. Corporate meetings and office lunches are among the events we cater most, with buffet, to-go buffet, or individual portions, delivered or picked up. Contact us with the date, headcount, and start time for a quote.' },
+];
+
 const cateringFaqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    { '@type': 'Question', name: 'What kind of food does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'Breakfast and brunch spreads (eggs, bacon and sausage, home fries, French toast, pancakes), lunch platters (cold cuts, sandwiches, wraps, salads), and hot dinner buffets (roasted chicken in 15+ preparations, ziti and meatballs, lasagna, roast turkey, baked scrod). Every menu is customized to your event; contact us for a quote.' } },
-    { '@type': 'Question', name: 'What areas does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'We cater across Western Massachusetts and northern Connecticut from our Chicopee kitchen, including Springfield, Holyoke, West Springfield, Agawam, Westfield, Ludlow, South Hadley, Longmeadow, East Longmeadow, Wilbraham, Northampton, Amherst, Enfield, Suffield, Windsor Locks, Somers, and the surrounding Hampden, Hampshire, Hartford, and Tolland County towns.' } },
-    { '@type': 'Question', name: 'What service options are available?', acceptedAnswer: { '@type': 'Answer', text: 'On-site service, drop-off, or pick-up at our restaurant at 409 Broadway, Chicopee. We serve buffet style, to-go buffet style, or individual portions, and we can build a custom menu for your event.' } },
-    { '@type': 'Question', name: 'How far in advance should I book catering?', acceptedAnswer: { '@type': 'Answer', text: 'For most events we recommend booking at least one to two weeks in advance. Larger events and weekend dates should be booked three to four weeks ahead when possible. Call (413) 594-8332 to check availability.' } },
-    { '@type': 'Question', name: 'What types of events does The Copperline Eatery cater?', acceptedAnswer: { '@type': 'Answer', text: 'Corporate meetings and office lunches, weddings and rehearsal dinners, bridal and baby showers, graduations, birthdays, family reunions, holiday parties, church socials, school functions, banquets, fundraisers, sporting events and tailgates, memorial services, film and photo shoots, and healthcare facilities.' } },
-  ],
+  mainEntity: cateringFaqs.map((f) => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.answer },
+  })),
 };
 
 const breadcrumb = {
@@ -175,6 +196,22 @@ const connecticut = SERVICE_AREAS.filter((a) => a.state === 'CT');
               </ul>
             </div>
           </div>
+
+          <h2 class="catering-events-title">Catering Questions</h2>
+          <section class="faq-group" id="catering-questions">
+            {cateringFaqs.map((f) => (
+              <details class="faq-q">
+                <summary>{f.question}</summary>
+                <div class="faq-a">
+                  {f.question === 'How much food should I order for 20 people?' ? (
+                    <p>Tell us the headcount and we size the order for you; that is part of every quote. For a rough idea before you call, our post on <a href="/blog/breakfast-catering-quantities">how much breakfast catering to order for 25, 50, or 100 people</a> walks through it.</p>
+                  ) : (
+                    <p>{f.answer}</p>
+                  )}
+                </div>
+              </details>
+            ))}
+          </section>
 
           <div id="catering-inquiry" class="catering-form-block">
             <h2>Or Just Send Us a Note</h2>

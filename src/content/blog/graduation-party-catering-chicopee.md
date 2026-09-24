@@ -1,6 +1,6 @@
 ---
 title: "Catering a Graduation Party in Chicopee"
-description: "What The Copperline Eatery can cater for a graduation party in Chicopee: buffet packages from $13.95 a person, breakfast and brunch spreads quoted per event, drop-off or pick-up."
+description: "What The Copperline Eatery can cater for a graduation party in Chicopee: buffet packages from $13.95 a person, breakfast and brunch spreads, drop-off or pick-up"
 pubDate: 2026-08-31
 image: "/catering-breakfast.jpg"
 imageAlt: "Catering breakfast buffet spread from The Copperline Eatery in Chicopee, MA"

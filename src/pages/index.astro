@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 import {
   ADDRESS,
   AGGREGATE_RATING,
@@ -15,8 +16,24 @@ import {
   SAME_AS,
   SITE_URL,
 } from '../data/restaurant';
+import specialsData from '../data/specials.json';
+import { cdn, boardAlt } from '../lib/specials-board';
 
-const title = 'Best Breakfast & Brunch in Chicopee, MA | The Copperline Eatery';
+// Homepage freshness strip (AUDIT-SEO-2026-09-24.md section 6, fix 7): the
+// weekly specials board and the newest blog post, both linked from the
+// homepage so returning branded visitors (68% of clicks per the audit) see
+// something new, and so /specials and /blog get a real homepage crawl path.
+const board = specialsData.board ?? null;
+const updatedLabel = specialsData.updatedAt
+  ? new Date(specialsData.updatedAt).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  : null;
+
+const posts = await getCollection('blog');
+const latestPost = posts.length
+  ? posts.reduce((newest, p) => (p.data.pubDate > newest.data.pubDate ? p : newest))
+  : null;
+
+const title = 'Breakfast & Brunch in Chicopee, MA | The Copperline Eatery';
 const description = 'Family-owned since 1993 and voted Best Breakfast in Western MA. Brunch classics like eggs benedict and corned beef hash. Walk-ins welcome 7 days a week.';
 
 const restaurantSchema = {
@@ -111,7 +128,23 @@ const websiteSchema = {
               <div class="info-icon">&#11088;</div>
               <div>
                 <h2 class="info-card-heading">Daily Specials</h2>
-                <p><a href="/specials">View today's specials</a></p>
+                {board && (
+                  <a href="/specials" class="home-specials-thumb-link">
+                    <img
+                      src={cdn(board, 480)}
+                      alt={boardAlt(updatedLabel)}
+                      loading="lazy"
+                      decoding="async"
+                      width={board.width}
+                      height={board.height}
+                      class="home-specials-thumb"
+                    />
+                  </a>
+                )}
+                <p><a href="/specials">View today's specials{updatedLabel && ` (updated ${updatedLabel})`}</a></p>
+                {latestPost && (
+                  <p class="home-blog-link">From the blog: <a href={`/blog/${latestPost.id}`}>{latestPost.data.title}</a></p>
+                )}
               </div>
             </div>
             <div class="info-card-stacked">
@@ -202,3 +235,20 @@ const websiteSchema = {
     </section>
   </main>
 </BaseLayout>
+
+<style>
+  .home-specials-thumb-link {
+    display: block;
+    margin: 8px 0;
+  }
+  .home-specials-thumb {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  .home-blog-link {
+    margin-top: 6px;
+  }
+</style>

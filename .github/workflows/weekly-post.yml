@@ -34,19 +34,59 @@ jobs:
 
       - name: Pick topic
         id: pick
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          # An explicit topic_id input bypasses the duplicate guard below on
+          # purpose: this is how Ian forces a regeneration (--force
+          # semantics), the same override generate-post.mjs's own --force
+          # flag gives for a non-"proposed" topic.
           TOPIC_ID="${{ github.event.inputs.topic_id }}"
-          if [ -z "$TOPIC_ID" ]; then
-            TOPIC_ID=$(node scripts/next-backlog-topic.mjs)
-          fi
-          if [ -z "$TOPIC_ID" ]; then
-            echo "No proposed backlog topics left in content/backlog.json. Add one and re-run."
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "Picked topic: $TOPIC_ID"
+          if [ -n "$TOPIC_ID" ]; then
+            echo "Picked topic (explicit workflow_dispatch input, guard bypassed): $TOPIC_ID"
             echo "skip=false" >> "$GITHUB_OUTPUT"
             echo "id=$TOPIC_ID" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+
+          # AUDIT-SEO-2026-09-24.md section 6, fix 4: the backlog.json status
+          # flip (proposed -> generated) lives only in the PR branch until it
+          # merges, so a plain "first proposed topic" pick generated the same
+          # topic three Mondays running (PRs #13, #14, #16) while #13/#14 sat
+          # open. Walk the proposed queue in order and skip any topic that
+          # already has an open PR, or whose post already exists on master
+          # (a merged post whose backlog flip was lost), picking the next
+          # eligible one instead of just stopping.
+          EXCLUDE=""
+          TOPIC_ID=""
+          while true; do
+            CANDIDATE=$(node scripts/next-backlog-topic.mjs --exclude="$EXCLUDE")
+            if [ -z "$CANDIDATE" ]; then
+              echo "No eligible proposed backlog topics left in content/backlog.json (all either have an open PR or a post already on master). Add one and re-run."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            if [ -f "src/content/blog/${CANDIDATE}.md" ]; then
+              echo "Skipping $CANDIDATE: src/content/blog/${CANDIDATE}.md already exists on master (a merged post whose backlog flip was lost)."
+              EXCLUDE="${EXCLUDE:+$EXCLUDE,}$CANDIDATE"
+              continue
+            fi
+
+            OPEN_PRS=$(gh pr list --state open --search "head:content/${CANDIDATE}-" --json number --jq length)
+            if [ "$OPEN_PRS" -gt 0 ]; then
+              echo "Skipping $CANDIDATE: $OPEN_PRS open PR(s) already generating it (head:content/${CANDIDATE}-*)."
+              EXCLUDE="${EXCLUDE:+$EXCLUDE,}$CANDIDATE"
+              continue
+            fi
+
+            TOPIC_ID="$CANDIDATE"
+            break
+          done
+
+          echo "Picked topic: $TOPIC_ID"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "id=$TOPIC_ID" >> "$GITHUB_OUTPUT"
 
       - name: Generate post
         if: steps.pick.outputs.skip != 'true'
