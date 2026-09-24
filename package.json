@@ -26,6 +26,7 @@
     "@octokit/rest": "^22.0.0",
     "@pdf-lib/fontkit": "^1.1.1",
     "astro": "^7.1.4",
+    "image-size": "^2.0.4",
     "pdf-lib": "^1.17.1",
     "postmark": "^5.1.0"
   },

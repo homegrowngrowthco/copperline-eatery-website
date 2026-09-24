@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { getStore } from '@netlify/blobs';
 import { Octokit } from '@octokit/rest';
+import { imageSize } from 'image-size';
 
 export const VISION_MODEL = 'claude-sonnet-4-6';
 export const PENDING_STORE = 'pending-specials';
@@ -27,6 +28,12 @@ export interface Credit {
 export interface BoardPhoto {
   key: string;
   contentType: string;
+  // Measured at publish time (storeBoardPhoto()) with image-size; absent for
+  // boards published before 2026-09-24 or when measuring failed. The Netlify
+  // Image CDN honors EXIF rotation, so these are already swapped for a
+  // rotated (orientation 5-8) photo to match what the page actually shows.
+  width?: number;
+  height?: number;
 }
 
 export interface HistoryEntry {
@@ -210,6 +217,11 @@ function boardImageExtension(contentType: string): string {
 // Stores the submitted board photo so it survives past the pending-batch TTL
 // and can be served publicly by netlify/functions/specials-board.ts. Keys are
 // dated + batch-scoped so they're unique and never need to be overwritten.
+// EXIF orientations 5-8 rotate the image 90/270 degrees; the Netlify Image
+// CDN reads and honors that tag, so the width/height we persist need to
+// match the rotated (as-displayed) image, not the raw pixel grid.
+const EXIF_ROTATED_ORIENTATIONS = new Set([5, 6, 7, 8]);
+
 export async function storeBoardPhoto(opts: {
   batchId: string;
   content: string; // base64
@@ -223,7 +235,30 @@ export async function storeBoardPhoto(opts: {
   const arrayBuffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
   const store = getStore(SPECIALS_BOARD_STORE);
   await store.set(key, arrayBuffer, { metadata: { contentType: opts.contentType } });
-  return { key, contentType: opts.contentType };
+
+  let width: number | undefined;
+  let height: number | undefined;
+  try {
+    const size = imageSize(bytes);
+    width = size.width;
+    height = size.height;
+    if (size.orientation && EXIF_ROTATED_ORIENTATIONS.has(size.orientation)) {
+      [width, height] = [height, width];
+    }
+  } catch (e) {
+    // The board still needs to publish without dimensions; the page falls
+    // back to the aspect-ratio CSS for a board with no width/height.
+    console.error('storeBoardPhoto: image-size measurement failed', e);
+    width = undefined;
+    height = undefined;
+  }
+
+  const photo: BoardPhoto = { key, contentType: opts.contentType };
+  if (width && height) {
+    photo.width = width;
+    photo.height = height;
+  }
+  return photo;
 }
 
 export interface PublishOptions {

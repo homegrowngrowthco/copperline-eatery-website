@@ -44,7 +44,9 @@
   ],
   "board": {
     "key": "2026-09-19-d1417f2b-20e9-4a02-b11f-bcb2f3d1252d.jpg",
-    "contentType": "image/jpeg"
+    "contentType": "image/jpeg",
+    "width": 3024,
+    "height": 4032
   },
   "source": "customer",
   "history": [
@@ -94,7 +96,9 @@
       ],
       "board": {
         "key": "2026-09-12-ae8603d7-657b-4345-8086-b26ae60dbe97.jpg",
-        "contentType": "image/jpeg"
+        "contentType": "image/jpeg",
+        "width": 3024,
+        "height": 4032
       },
       "credit": {
         "name": "Shawn Squier"
@@ -146,7 +150,9 @@
       ],
       "board": {
         "key": "2026-09-05-546c6652-09b5-44bf-b79a-e8d5361ac62b.jpg",
-        "contentType": "image/jpeg"
+        "contentType": "image/jpeg",
+        "width": 3072,
+        "height": 4096
       }
     },
     {
