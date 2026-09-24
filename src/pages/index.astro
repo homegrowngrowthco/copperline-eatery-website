@@ -131,7 +131,7 @@ const websiteSchema = {
                 {board && (
                   <a href="/specials" class="home-specials-thumb-link">
                     <img
-                      src={cdn(board, 480)}
+                      src={cdn(board, 240)}
                       alt={boardAlt(updatedLabel)}
                       loading="lazy"
                       decoding="async"
@@ -239,11 +239,13 @@ const websiteSchema = {
 <style>
   .home-specials-thumb-link {
     display: block;
+    width: 140px;
+    max-width: 100%;
     margin: 8px 0;
   }
   .home-specials-thumb {
     display: block;
-    max-width: 100%;
+    width: 100%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
