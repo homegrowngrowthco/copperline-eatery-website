@@ -11,6 +11,10 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
+    // Optional: set when a published post is edited after its pubDate. Read by
+    // astro.config.mjs's sitemap serialize() for lastmod and by the Article
+    // JSON-LD dateModified on the post page.
+    updatedDate: z.coerce.date().optional(),
     // Absolute site-root path to an existing public/ image, or a /specials-board/<key>
     // path for a Tier A archive photo. blog-gates.mjs verifies it actually resolves.
     image: z.string(),
