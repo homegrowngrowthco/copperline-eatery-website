@@ -1,55 +1,106 @@
 {
-  "updatedAt": "2026-09-19T11:29:19.134Z",
+  "updatedAt": "2026-09-26T11:10:35.292Z",
   "specials": [
     {
-      "name": "Sausage Apple Hash",
+      "name": "Sweet Potato Ham Hash",
       "description": "w/ 2 eggs & toast",
-      "price": "$12.50"
+      "price": null
     },
     {
-      "name": "Cannoli French Toast",
+      "name": "Peach French Toast",
       "description": null,
-      "price": "$9.00"
+      "price": null
     },
     {
-      "name": "Eggs Florentine",
+      "name": "Asparagus Beni",
       "description": null,
-      "price": "$13.00"
+      "price": null
     },
     {
-      "name": "Peach Cobbler Pancakes",
+      "name": "Heath Bar Pancakes",
       "description": null,
-      "price": "$9.25"
+      "price": null
     },
     {
-      "name": "Taco Omelet",
+      "name": "California Omelet",
       "description": null,
-      "price": "$13.50"
+      "price": null
     },
     {
-      "name": "Homemade Turkey Sausage",
-      "description": "w/ 2 eggs, toast & home fries",
-      "price": "$11.00"
-    },
-    {
-      "name": "Sweet Potato Home Fries",
+      "name": "Cheesy Gritts",
       "description": null,
-      "price": "$3.50"
+      "price": null
+    },
+    {
+      "name": "Thick Cut Bacon",
+      "description": null,
+      "price": null
     },
     {
       "name": "Fresh Fruit Cup",
       "description": null,
-      "price": "$3.50"
+      "price": null
     }
   ],
   "board": {
-    "key": "2026-09-19-d1417f2b-20e9-4a02-b11f-bcb2f3d1252d.jpg",
+    "key": "2026-09-26-3c4b11cd-6967-4357-99c2-cc5eba640625.jpg",
     "contentType": "image/jpeg",
     "width": 3024,
     "height": 4032
   },
   "source": "customer",
   "history": [
+    {
+      "date": "2026-09-19",
+      "specials": [
+        {
+          "name": "Sausage Apple Hash",
+          "description": "w/ 2 eggs & toast",
+          "price": "$12.50"
+        },
+        {
+          "name": "Cannoli French Toast",
+          "description": null,
+          "price": "$9.00"
+        },
+        {
+          "name": "Eggs Florentine",
+          "description": null,
+          "price": "$13.00"
+        },
+        {
+          "name": "Peach Cobbler Pancakes",
+          "description": null,
+          "price": "$9.25"
+        },
+        {
+          "name": "Taco Omelet",
+          "description": null,
+          "price": "$13.50"
+        },
+        {
+          "name": "Homemade Turkey Sausage",
+          "description": "w/ 2 eggs, toast & home fries",
+          "price": "$11.00"
+        },
+        {
+          "name": "Sweet Potato Home Fries",
+          "description": null,
+          "price": "$3.50"
+        },
+        {
+          "name": "Fresh Fruit Cup",
+          "description": null,
+          "price": "$3.50"
+        }
+      ],
+      "board": {
+        "key": "2026-09-19-d1417f2b-20e9-4a02-b11f-bcb2f3d1252d.jpg",
+        "contentType": "image/jpeg",
+        "width": 3024,
+        "height": 4032
+      }
+    },
     {
       "date": "2026-09-12",
       "specials": [
