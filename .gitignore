@@ -43,3 +43,6 @@ dist/
 # Never commit these — may contain credentials, PII, or test payloads
 Screenshots/
 *.eml
+
+# Agent task prompts (local working files; each says to stay untracked)
+drafts/FIX-PROMPT-*.md
