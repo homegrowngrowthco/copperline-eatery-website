@@ -12,11 +12,22 @@
 // memory feedback_deterministic_sanitizer_over_prompt).
 //
 // Usage: node scripts/generate-post.mjs --id=<backlog-id> [--force]
+//        node scripts/generate-post.mjs --dry-run   (no API call; exercises
+//        the title/description cap enforcement against fixtures and exits
+//        non-zero if any case misbehaves)
 import Anthropic from '@anthropic-ai/sdk';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { BANNED_PHRASES, findContrastPatterns, findUnsourcedClaims, CONTRAST_PATTERN_HARD_LIMIT } from './lib/content-rules.mjs';
+import {
+  BANNED_PHRASES,
+  findContrastPatterns,
+  findUnsourcedClaims,
+  CONTRAST_PATTERN_HARD_LIMIT,
+  TITLE_MAX_CHARS,
+  DESCRIPTION_MIN_CHARS,
+  DESCRIPTION_MAX_CHARS,
+} from './lib/content-rules.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BACKLOG_PATH = resolve(repoRoot, 'content/backlog.json');
@@ -29,8 +40,161 @@ const args = Object.fromEntries(
   }),
 );
 
+// Defensive dash strip even though every pass forbids them (LLMs slip).
+const dashFree = (s) => String(s).replace(/[\u2013\u2014]/g, '-');
+
+// ---------------------------------------------------------------------------
+// Metadata cap enforcement (added 2026-10-01). The 2026-09-28 cron run
+// (36469814544) drafted a 72-char title; blog-gates.mjs rejected it, which
+// is the gate doing its job, but the generator had never been told the cap
+// and had no way to recover, so the week's post was simply lost. Now the
+// cap is (1) stated in both prompts and (2) enforced here: if the title is
+// still over TITLE_MAX_CHARS after the humanize pass, ask the model ONCE
+// for a shorter one, and if that is still too long, fail loudly before any
+// file is written. Never truncate: a title cut mid-word is worse than no
+// post, and the gate would pass it.
+// ---------------------------------------------------------------------------
+function metadataProblems(title, description) {
+  const problems = [];
+  if (title.length > TITLE_MAX_CHARS) {
+    problems.push(`title is ${title.length} chars, over the ${TITLE_MAX_CHARS}-char cap`);
+  }
+  if (description.length < DESCRIPTION_MIN_CHARS || description.length > DESCRIPTION_MAX_CHARS) {
+    problems.push(
+      `description is ${description.length} chars, outside the ${DESCRIPTION_MIN_CHARS}-${DESCRIPTION_MAX_CHARS} range`,
+    );
+  }
+  return problems;
+}
+
+// `retry` is an async ({ title, description, problems }) => { title?,
+// description? } so the real run can hand in a Claude call and --dry-run can
+// hand in a stub. Returns { title, description, retried }. Throws when the
+// title is still over the cap after the single retry; a description still
+// out of range only warns, matching the gate (soft there, two legacy posts).
+async function fitMetadata({ title, description, retry, log = console }) {
+  const problems = metadataProblems(title, description);
+  if (!problems.length) return { title, description, retried: false };
+
+  log.warn(`Metadata out of range after humanize: ${problems.join('; ')}. Asking the model once for a shorter version (never truncating).`);
+  const fixed = await retry({ title, description, problems });
+  const pick = (candidate, fallback) =>
+    typeof candidate === 'string' && candidate.trim() ? dashFree(candidate.trim()) : fallback;
+  const next = {
+    title: pick(fixed?.title, title),
+    description: pick(fixed?.description, description),
+  };
+
+  const remaining = metadataProblems(next.title, next.description);
+  const titleProblem = remaining.find((p) => p.startsWith('title'));
+  if (titleProblem) {
+    throw new Error(
+      `${titleProblem} after one retry: "${next.title}". Refusing to truncate mid-word and refusing to write the post, so this fails here instead of at blog-gates. Shorten the "title" direction for this topic in content/backlog.json (it steers the drafted title) and re-run.`,
+    );
+  }
+  for (const p of remaining) {
+    log.warn(`warn: ${p} after the retry; blog-gates.mjs will soft-warn the same and a reviewer should trim it.`);
+  }
+  return { ...next, retried: true };
+}
+
+// --dry-run: exercises fitMetadata against fixtures with a stubbed retry, no
+// API key, no backlog read, no file writes. Exit 0 when every case behaves.
+async function runDryRun() {
+  // The exact title the 2026-09-28 cron run produced (72 chars).
+  const LONG_TITLE = 'Corporate Breakfast Catering in Springfield: What Offices Actually Order';
+  const SHORT_TITLE = 'Corporate Breakfast Catering in Springfield';
+  const OK_DESC = 'What offices around Springfield order from us for a morning meeting, and how to get a quote sized to your headcount.';
+  const LONG_DESC = `${OK_DESC} We deliver to Springfield, Chicopee, Holyoke, and West Springfield.`;
+  const quiet = { warn: () => {} };
+  const neverCalled = () => {
+    throw new Error('retry was called but should not have been');
+  };
+
+  // Fixture sanity so a case cannot pass for the wrong reason.
+  const pre = [
+    [LONG_TITLE.length > TITLE_MAX_CHARS, `LONG_TITLE must exceed ${TITLE_MAX_CHARS} (is ${LONG_TITLE.length})`],
+    [SHORT_TITLE.length <= TITLE_MAX_CHARS, `SHORT_TITLE must fit (is ${SHORT_TITLE.length})`],
+    [OK_DESC.length >= DESCRIPTION_MIN_CHARS && OK_DESC.length <= DESCRIPTION_MAX_CHARS, `OK_DESC must be in range (is ${OK_DESC.length})`],
+    [LONG_DESC.length > DESCRIPTION_MAX_CHARS, `LONG_DESC must exceed ${DESCRIPTION_MAX_CHARS} (is ${LONG_DESC.length})`],
+  ];
+  for (const [ok, msg] of pre) {
+    if (!ok) {
+      console.error(`FAIL: fixture: ${msg}`);
+      return 1;
+    }
+  }
+
+  const cases = [
+    {
+      name: 'in-range title and description pass through untouched, no retry',
+      input: { title: SHORT_TITLE, description: OK_DESC, retry: neverCalled },
+      expect: (r) => !r.retried && r.title === SHORT_TITLE && r.description === OK_DESC,
+    },
+    {
+      name: `${LONG_TITLE.length}-char title (the 2026-09-28 failure) is fixed by one retry, output is the retry text verbatim`,
+      input: { title: LONG_TITLE, description: OK_DESC, retry: async () => ({ title: SHORT_TITLE, description: OK_DESC }) },
+      expect: (r) => r.retried && r.title === SHORT_TITLE && !r.title.includes('...'),
+    },
+    {
+      name: 'title still over the cap after the retry fails loudly, nothing truncated',
+      input: { title: LONG_TITLE, description: OK_DESC, retry: async () => ({ title: `${LONG_TITLE} and More` }) },
+      expectThrow: /over the 65-char cap after one retry/,
+    },
+    {
+      name: 'retry returning a blank title falls back to the original and still fails loudly',
+      input: { title: LONG_TITLE, description: OK_DESC, retry: async () => ({ title: '   ' }) },
+      expectThrow: new RegExp(`${LONG_TITLE.length} chars, over the ${TITLE_MAX_CHARS}-char cap after one retry`),
+    },
+    {
+      name: 'em dash in the retry text is normalized, title length re-measured after that',
+      input: { title: LONG_TITLE, description: OK_DESC, retry: async () => ({ title: 'Corporate Breakfast Catering \u2014 Springfield' }) },
+      expect: (r) => r.retried && r.title === 'Corporate Breakfast Catering - Springfield',
+    },
+    {
+      name: 'out-of-range description alone triggers the retry and is accepted when fixed',
+      input: { title: SHORT_TITLE, description: LONG_DESC, retry: async () => ({ title: SHORT_TITLE, description: OK_DESC }) },
+      expect: (r) => r.retried && r.description === OK_DESC,
+    },
+    {
+      name: 'description still out of range after the retry only warns (soft, matches the gate)',
+      input: { title: SHORT_TITLE, description: LONG_DESC, retry: async () => ({ title: SHORT_TITLE, description: LONG_DESC }) },
+      expect: (r) => r.retried && r.title === SHORT_TITLE && r.description === LONG_DESC,
+    },
+  ];
+
+  let failures = 0;
+  for (const c of cases) {
+    try {
+      const r = await fitMetadata({ ...c.input, log: quiet });
+      if (c.expectThrow) {
+        failures++;
+        console.error(`FAIL: ${c.name}: expected a throw, got ${JSON.stringify(r)}`);
+      } else if (!c.expect(r)) {
+        failures++;
+        console.error(`FAIL: ${c.name}: unexpected result ${JSON.stringify(r)}`);
+      } else {
+        console.log(`ok: ${c.name}`);
+      }
+    } catch (err) {
+      if (c.expectThrow && c.expectThrow.test(err.message)) {
+        console.log(`ok: ${c.name}`);
+      } else {
+        failures++;
+        console.error(`FAIL: ${c.name}: ${c.expectThrow ? 'threw the wrong message' : 'threw unexpectedly'}: ${err.message}`);
+      }
+    }
+  }
+  console.log(failures ? `${failures} dry-run case(s) failed` : `All ${cases.length} dry-run cases passed (title cap ${TITLE_MAX_CHARS}, description ${DESCRIPTION_MIN_CHARS}-${DESCRIPTION_MAX_CHARS}).`);
+  return failures ? 1 : 0;
+}
+
+if (args['dry-run']) {
+  process.exit(await runDryRun());
+}
+
 if (!args.id) {
-  console.error('Usage: node scripts/generate-post.mjs --id=<backlog-id> [--force]');
+  console.error('Usage: node scripts/generate-post.mjs --id=<backlog-id> [--force]   or   --dry-run');
   process.exit(1);
 }
 
@@ -110,6 +274,8 @@ Hard rules, checked deterministically after you write, so follow them exactly:
 - ${restaurant.ALCOHOL_NOTE} Never claim there is no liquor license or that a drink like a mimosa is unavailable; if it comes up, say it appears occasionally as a special, not that it does not exist.
 - The catering packages with prices are lunch and dinner buffets (ziti, meatballs, roasted chicken, and so on). Never present them as a breakfast spread. Breakfast and brunch catering exists but is quoted per event.
 - Do not recite prices like a menu. Mention a specific price only when it earns its place. Never list three or more prices back to back in the same paragraph.
+- The title must be ${TITLE_MAX_CHARS} characters or fewer, counting spaces and punctuation. This is a hard cap enforced by a script after you write; a longer title is rejected. Drop a subtitle or a colon clause before you drop a place name.
+- The description must be ${DESCRIPTION_MIN_CHARS} to ${DESCRIPTION_MAX_CHARS} characters, one or two complete sentences.
 - Write 350 to 650 words as the post body only, in Markdown, with a few ## subheadings (no frontmatter, no h1). Shorter is better. Do not pad.
 - Pick exactly one image from this list and use its exact path: ${AVAILABLE_IMAGES.map((i) => `${i.path} (${i.description})`).join('; ')}.
 
@@ -129,8 +295,8 @@ Notes: ${topic.notes}
 
 Respond with a single JSON object, no markdown fences, no commentary, matching this shape exactly:
 {
-  "title": string,
-  "description": string (1-2 sentences, meta description length, under 160 characters),
+  "title": string (${TITLE_MAX_CHARS} characters or fewer; the title direction above is a direction, shorten it if it is longer),
+  "description": string (1-2 sentences, ${DESCRIPTION_MIN_CHARS} to ${DESCRIPTION_MAX_CHARS} characters),
   "image": string (exact path from the provided image list),
   "imageAlt": string,
   "dishRefs": string[] (exact dish names from the menu list that you cited in the body),
@@ -177,8 +343,9 @@ Other rules:
 - Never use an em dash or en dash. Use commas, periods, or parentheses instead.
 - Do not change any dish name, phone number, or address.
 - The result should be the same length or shorter. Never longer.
+- The title must be ${TITLE_MAX_CHARS} characters or fewer and the description ${DESCRIPTION_MIN_CHARS} to ${DESCRIPTION_MAX_CHARS} characters, counting spaces and punctuation. If the draft's title is longer, shorten it as part of the rewrite (drop a colon clause or subtitle first). Never make either one longer than the draft's.
 
-Respond with a single JSON object, no markdown fences, no commentary: { "title": string, "description": string, "body": string }`;
+Respond with a single JSON object, no markdown fences, no commentary: { "title": string (${TITLE_MAX_CHARS} chars max), "description": string (${DESCRIPTION_MIN_CHARS} to ${DESCRIPTION_MAX_CHARS} chars), "body": string }`;
 
 const humanizeUserPrompt = `Rewrite this draft.
 
@@ -197,11 +364,40 @@ const result = {
   body: humanized.body || draft.body,
 };
 
-// Defensive dash strip even though both passes forbid them (LLMs slip).
-const dashFree = (s) => String(s).replace(/[–—]/g, '-');
 result.title = dashFree(result.title);
 result.description = dashFree(result.description);
 result.body = dashFree(result.body);
+
+// Title cap: retry once, then fail before anything is written (see
+// fitMetadata above). Runs before the gate-preview checks below so the log
+// shows the metadata verdict first, the way the gate itself orders them.
+const metadataFixSystemPrompt = `You are an editor fixing the SEO metadata of a short blog post written by the family that runs The Copperline Eatery in Chicopee, MA. Fix only the problems listed. Keep the meaning and the first person plural voice (we, our). The result must be a complete phrase made of whole words: never a cut-off sentence, never an ellipsis. Never use an em dash or en dash. Do not change any dish name, phone number, or address. Do not add any fact that is not already in the title, description, or body you are given.
+
+Limits, counted in characters including spaces and punctuation: title ${TITLE_MAX_CHARS} or fewer; description ${DESCRIPTION_MIN_CHARS} to ${DESCRIPTION_MAX_CHARS}.
+
+Respond with a single JSON object, no markdown fences, no commentary: { "title": string, "description": string }`;
+
+let fitted;
+try {
+  fitted = await fitMetadata({
+    title: result.title,
+    description: result.description,
+    retry: ({ title, description, problems }) =>
+      callClaude(
+        metadataFixSystemPrompt,
+        `Problems to fix: ${problems.join('; ')}.\n\nTITLE: ${title}\nDESCRIPTION: ${description}\n\nPost body, for context only (do not return it):\n${result.body.slice(0, 1500)}`,
+        512,
+      ),
+  });
+} catch (err) {
+  console.error(`FAIL: ${err.message}`);
+  process.exit(1);
+}
+result.title = fitted.title;
+result.description = fitted.description;
+console.log(
+  `Metadata OK${fitted.retried ? ' after one retry' : ''}: title ${result.title.length}/${TITLE_MAX_CHARS} chars, description ${result.description.length} chars (${DESCRIPTION_MIN_CHARS}-${DESCRIPTION_MAX_CHARS}).`,
+);
 
 // Same deterministic checks blog-gates.mjs runs, surfaced here so the run log
 // shows WHY a post will fail the gate instead of just that it did. The gate

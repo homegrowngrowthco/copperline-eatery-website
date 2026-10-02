@@ -18,7 +18,15 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
-import { BANNED_PHRASES, findContrastPatterns, findUnsourcedClaims, CONTRAST_PATTERN_HARD_LIMIT } from './lib/content-rules.mjs';
+import {
+  BANNED_PHRASES,
+  findContrastPatterns,
+  findUnsourcedClaims,
+  CONTRAST_PATTERN_HARD_LIMIT,
+  TITLE_MAX_CHARS,
+  DESCRIPTION_MIN_CHARS,
+  DESCRIPTION_MAX_CHARS,
+} from './lib/content-rules.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BLOG_DIR = resolve(repoRoot, 'src/content/blog');
@@ -59,8 +67,10 @@ function checkPost(filePath, menuItems) {
   // generator shipped an 86-char <title> with no gate to catch it. The
   // rendered <title> appends " | The Copperline Eatery" (24 chars) unless
   // that would exceed 65, so the frontmatter title itself is capped here.
-  if (typeof fm.title === 'string' && fm.title.length > 65) {
-    errors.push(`${fileLabel}: title is ${fm.title.length} chars, over the 65-char limit`);
+  // The number lives in content-rules.mjs (TITLE_MAX_CHARS) since 2026-10-01
+  // so the generator's prompt and retry step use the same cap.
+  if (typeof fm.title === 'string' && fm.title.length > TITLE_MAX_CHARS) {
+    errors.push(`${fileLabel}: title is ${fm.title.length} chars, over the ${TITLE_MAX_CHARS}-char limit`);
   }
   // Description mirrors scripts/seo-crawl.mjs's 60-170 lint, tightened to
   // 60-160 to leave headroom before Google's own truncation point. Kept as a
@@ -69,8 +79,13 @@ function checkPost(filePath, menuItems) {
   // for this PR (out-of-scope edit per the audit-fix prompt), so a hard fail
   // here would permanently red the "no code changes" build. Revisit as a hard
   // gate once those two are rewritten.
-  if (typeof fm.description === 'string' && (fm.description.length < 60 || fm.description.length > 160)) {
-    warnings.push(`${fileLabel}: description is ${fm.description.length} chars, outside the 60-160 range`);
+  if (
+    typeof fm.description === 'string' &&
+    (fm.description.length < DESCRIPTION_MIN_CHARS || fm.description.length > DESCRIPTION_MAX_CHARS)
+  ) {
+    warnings.push(
+      `${fileLabel}: description is ${fm.description.length} chars, outside the ${DESCRIPTION_MIN_CHARS}-${DESCRIPTION_MAX_CHARS} range`,
+    );
   }
 
   if (typeof fm.image === 'string') {
