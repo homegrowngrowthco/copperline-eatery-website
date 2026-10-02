@@ -6,6 +6,15 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Session 45 - 2026-10-01 - weekly-post title cap enforced in the generator (PR #22, open), stale TODO closed
+Ian picked "ship the 09-24 audit's 7 fixes" from the cross-project TODO; a check against master and the live site showed all 7 already merged in Session 42 (PR #17, `2702421`, 09-24) and verified live, so the TODO line in `../TODO.md` was removed. What was actually open: the 09-28 Monday cron (run 36469814544) failed because the generator copied a 72-char backlog title direction and `blog-gates.mjs` correctly hard-failed it; no PR opened, no bad post shipped.
+**Shipped (branch `fix/generate-post-title-cap`, PR #22, `1927fb7`, NOT merged):** draft and humanize prompts now state the caps (title 65 or fewer, description 60 to 160); new `fitMetadata()` runs after the dash strip and asks the model ONCE for a shorter title, then exits 1 with a clear FAIL before any file is written or the backlog flips (never truncates); `--dry-run` runs 7 fixture cases with no API key; `TITLE_MAX_CHARS` / `DESCRIPTION_*` moved to `scripts/lib/content-rules.mjs` and imported by `blog-gates.mjs`.
+**Verified:** `--dry-run` 7/7; `node --check` x3; `qa:blog-gates` (4 posts pass, 2 legacy soft warns unchanged); `qa:functions` 11/11; `qa:docs` ok; `npm run build` 47 pages. Pick-topic replay says the next run picks `corporate-breakfast-springfield` again.
+**Next:** Ian merges #22, then either waits for Monday 2026-10-05 12:00 UTC or dispatches `weekly-post.yml` with `topic_id` blank. Optional one-liner: trim that backlog title under 65 to save the retry call.
+**Revert:** close #22 unmerged; this entry is docs-only.
+
+---
+
 ### Session 44 - 2026-09-24 - homepage reviews card stretch fix (follow-up to Session 43)
 After Session 43's thumbnail fix (PR #18, `6fe9a9c`) shipped, Ian screenshotted the live homepage: the "What Our Customers Say" card still had a large blank gap below the review carousel on desktop.
 **Root cause:** `.home-grid` had no `align-items`, defaulting to `stretch`, so the shorter reviews card was always stretched to match the taller info-cards column, regardless of the thumbnail's own size. Shrinking the thumbnail in Session 43 reduced the gap but didn't remove the underlying stretch behavior. Same pattern the codebase already avoids elsewhere (`.town-hero` uses `align-items: start`).
