@@ -37,6 +37,19 @@ export const CONTRAST_PATTERNS = [
 ];
 export const CONTRAST_PATTERN_HARD_LIMIT = 3;
 
+// Frontmatter metadata caps, shared by generate-post.mjs (prompt rule plus a
+// deterministic retry-then-fail step) and blog-gates.mjs (the backstop), so
+// the generator can never be told one number and gated on another. The
+// rendered <title> appends " | The Copperline Eatery" (24 chars) only when
+// the result stays within 65, so the frontmatter title itself is what is
+// capped. 65 is a hard gate; the 60-160 description range is a soft warning
+// in the gate (two legacy posts predate it) but the generator still retries
+// to land inside it. Added 2026-10-01 after the 2026-09-28 cron run drafted
+// a 72-char title that the gate (correctly) rejected, with no retry.
+export const TITLE_MAX_CHARS = 65;
+export const DESCRIPTION_MIN_CHARS = 60;
+export const DESCRIPTION_MAX_CHARS = 160;
+
 // Claims no grounding source can back. menuData.json carries names, prices,
 // and short ingredient descriptions only; restaurant.ts carries NAP, hours,
 // awards, the alcohol note, and GROUNDING_FACTS. Anything past that is
