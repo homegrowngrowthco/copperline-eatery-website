@@ -1,55 +1,106 @@
 {
-  "updatedAt": "2026-09-26T11:10:35.292Z",
+  "updatedAt": "2026-10-03T11:10:39.097Z",
   "specials": [
     {
-      "name": "Sweet Potato Ham Hash",
-      "description": "w/ 2 eggs & toast",
-      "price": null
+      "name": "Veggie Hash",
+      "description": "with 2 eggs and toast",
+      "price": "$11.50"
     },
     {
-      "name": "Peach French Toast",
+      "name": "Pumpkin Bread French Toast",
       "description": null,
-      "price": null
+      "price": "$9.25"
     },
     {
-      "name": "Asparagus Beni",
+      "name": "Sausage Benedict",
       "description": null,
-      "price": null
+      "price": "$13.50"
     },
     {
-      "name": "Heath Bar Pancakes",
+      "name": "Boston Cream Pancakes",
       "description": null,
-      "price": null
+      "price": "$10.00"
     },
     {
-      "name": "California Omelet",
+      "name": "Steak & Cheese Omelet",
       "description": null,
-      "price": null
+      "price": "$14.50"
     },
     {
-      "name": "Cheesy Gritts",
-      "description": null,
-      "price": null
+      "name": "Potato Pancakes",
+      "description": "with 2 eggs and toast",
+      "price": "$10.25"
     },
     {
-      "name": "Thick Cut Bacon",
+      "name": "Jalepino Home Fries",
       "description": null,
-      "price": null
+      "price": "$4.25"
     },
     {
       "name": "Fresh Fruit Cup",
       "description": null,
-      "price": null
+      "price": "$3.50"
     }
   ],
   "board": {
-    "key": "2026-09-26-3c4b11cd-6967-4357-99c2-cc5eba640625.jpg",
+    "key": "2026-10-03-79da8a55-96e4-4e95-920f-04bd0d086675.jpg",
     "contentType": "image/jpeg",
     "width": 3024,
     "height": 4032
   },
   "source": "customer",
   "history": [
+    {
+      "date": "2026-09-26",
+      "specials": [
+        {
+          "name": "Sweet Potato Ham Hash",
+          "description": "w/ 2 eggs & toast",
+          "price": null
+        },
+        {
+          "name": "Peach French Toast",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Asparagus Beni",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Heath Bar Pancakes",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "California Omelet",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Cheesy Gritts",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Thick Cut Bacon",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Fresh Fruit Cup",
+          "description": null,
+          "price": null
+        }
+      ],
+      "board": {
+        "key": "2026-09-26-3c4b11cd-6967-4357-99c2-cc5eba640625.jpg",
+        "contentType": "image/jpeg",
+        "width": 3024,
+        "height": 4032
+      }
+    },
     {
       "date": "2026-09-19",
       "specials": [
