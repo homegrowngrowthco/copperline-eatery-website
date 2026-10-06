@@ -1,5 +1,50 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "args": [
+              "C:\\Users\\Ian\\OneDrive\\Documents\\claude_projects\\.claude\\claim-op.mjs"
+            ],
+            "timeout": 15,
+            "statusMessage": "Reserving this session's op number"
+          }
+        ]
+      }
+    ],
+    "WorktreeCreate": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "args": [
+              "C:\\Users\\Ian\\OneDrive\\Documents\\claude_projects\\.claude\\worktree-create.mjs"
+            ],
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "WorktreeRemove": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "args": [
+              "C:\\Users\\Ian\\OneDrive\\Documents\\claude_projects\\.claude\\worktree-remove.mjs"
+            ],
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "allow": [
       "Bash(git status *)",
