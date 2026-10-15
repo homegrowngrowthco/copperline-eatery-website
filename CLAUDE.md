@@ -143,3 +143,7 @@ This project survived the **2026-05-04** complete machine wipe.
 | IndexNow Key (public by protocol design) | 670b4b1e5abe94d9050c77bc3a1011e2 |
 | Netlify Auth Token | GitHub secret: `NETLIFY_AUTH_TOKEN` |
 | Netlify Site ID | GitHub secret: `NETLIFY_SITE_ID` |
+
+## Decision queue (cross-project, since 2026-10-15, op #1297)
+
+Anything that needs Ian (a decision, a click, a secret) is a GitHub issue on `homegrowngrowthco/claude-projects-ops` labelled `needs-ian` plus `project:copperline`; never a "NEEDS FROM IAN" block in a prompt file, never a Slack DM, never an `@ian` TODO tag (convert any you meet into an issue and drop the tag). A new issue rings Ian once in Slack `#claude-inbox`; every session start prints the open list. A session acts only on its own project's issues plus `[ops]`; Ian may answer on GitHub (comment, issue left open), then the next session for this project does the follow-up and closes it with a `[claude op #N] done:` comment. Rules and the gh commands: workspace root `CLAUDE.md`, section "The decision queue". Cloud routines for this project, if any, report the same way.
