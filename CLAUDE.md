@@ -88,23 +88,11 @@ Push to `master` → GitHub Actions runs `npm ci && npm run build && netlify dep
 - `src/data/menuData.json` was extracted by vision from `breakfast-menu.jpg` and `lunch-menu.jpg`. See `docs/SESSION_LOG.md` (2026-04-27 Round 3) for context.
 - All other content authored directly in `.astro` files.
 
-## Open Questions / TODO
+## Deliberate non-fixes
 
-Open tasks live in [../TODO.md](../TODO.md) (single source of truth, synced to Notion): Google Business Profile setup, citation audits. Distribution/content work, not code; both are gated on Ian's dad's involvement since he owns the restaurant and holds the business-platform accounts (see memory `project_copperline_ownership.md`).
+Open tasks live in [../TODO.md](../TODO.md) (todo-sync); most are gated on Ian's dad, who owns the restaurant and holds the business-platform accounts. Closed tech debt (Astro 5 migration, Netlify config merge, CSP `frame-ancestors`, cache-bust retirement, breadcrumbs, WebP) is in [docs/SESSION_LOG.md](docs/SESSION_LOG.md). Kept as-is on purpose:
 
-Status of the "optional WebP/breadcrumb improvements" notes that used to live here (audited 2026-05-22):
-- **Breadcrumb schemas** — done. 5 of 7 pages have `BreadcrumbList` JSON-LD (`/menu`, `/about`, `/catering`, `/contact`, `/faq`). The 2 that don't (`/` and `/404`) are correct as-is: homepage is the root (no breadcrumb to show); `/404` is `noindex` and out of the sitemap.
-- **WebP migration** — effectively done. 4 of 5 `.jpg` files in `public/` are already paired with `.webp` (the 3 menu images + 2 catering images). The lone exception is `public/logo.jpg` (small header logo, already preloaded); converting it would shave a few KB at marginal benefit. Closed as "not worth the diff." If a future audit wants 100% coverage, generate `logo.webp` via `sharp` or `cwebp` and wrap the `<img>` usage in a `<picture>` element with the `.jpg` as the fallback (keep `.jpg` for `og:image` social previews — Facebook/X don't all consume `.webp`).
-
-Long-term tech debt now resolved (2026-05-16):
-
-- ✅ **Astro 5 migration** — shared BaseLayout + Nav + Footer + MenuSection components eliminate the per-page duplication. `scripts/build-menu.py` retired (menu page imports `menuData.json` directly).
-- ✅ **Netlify config consolidation** — `_headers` + `_redirects` merged into `netlify.toml`. Deploy now uses `netlify-cli@22` directly, so `netlify.toml` is respected.
-- ✅ **CSP `frame-ancestors` tightened** — was `'self'`, now `'none'` (no self-framing needed; matches X-Frame-Options DENY header).
-- ✅ **Cache-bust pipeline retired** — Astro/Vite hashes bundled CSS/JS in `/_astro/<hash>.css|.js` filenames automatically. Dropped the `sha256sum` `sed` rewrite step from the GitHub Action.
-
-Deliberately kept as-is, with rationale:
-
+- **`public/logo.jpg` has no `.webp` twin**: closed as "not worth the diff". If one is ever added, wrap it in a `<picture>` with the `.jpg` fallback and keep the `.jpg` for `og:image` (Facebook and X don't all consume `.webp`).
 - **`'unsafe-inline'` in `script-src` and `style-src`** — removing requires per-build SHA-256 hashing of all inline JSON-LD blocks + Astro's bundled module scripts, with a custom build step to inject hashes into the netlify.toml CSP header on every deploy. ~2–4 hour focused task that doesn't unblock a specific user-facing security threat (static marketing site, no user-generated content, no auth surface). Astro 5's `experimental.csp` doesn't help — SSR-only, ships CSP via meta tag not header, won't work with our `output: 'static'` setup. Revisit when there's a specific compliance/audit driver.
 - **Self-hosting Google Fonts** — Oswald + Merriweather still load from fonts.googleapis.com. CSP already permits the necessary origins. Self-hosting would save one DNS lookup but adds build complexity. Defer.
 - **Branch protection on `master`** — explicitly skipped while solo. Friction cost is real, security benefit is near-zero on a static marketing site with no secrets in the repo. Revisit if a collaborator joins.
