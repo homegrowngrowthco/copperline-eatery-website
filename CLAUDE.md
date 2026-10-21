@@ -1,5 +1,8 @@
 # Copperline Eatery — Website
 
+This file is an index: state, a pointer, no history, no counts. Detail is on demand and leaves with its task.
+Narrative goes to the session log (`docs/SESSION_LOG.md`), never here. (Tier rule from the markdown hygiene audit, op #1357, 2026-10-21.)
+
 ## Purpose
 Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chicopee, MA. Engineered for SEO/local-search performance, structured data (Restaurant + Menu schemas), and Google Business Profile signals. Live state in `STATUS.md`; full history in `docs/SESSION_LOG.md`; open tasks in `../TODO.md`.
 
