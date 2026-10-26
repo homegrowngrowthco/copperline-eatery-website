@@ -52,7 +52,7 @@
     "id": "monthly-specials-recap",
     "title": "This Month on the Specials Board",
     "angle": "specials-recap",
-    "status": "proposed",
+    "status": "generated",
     "notes": "Compiled from Tier A's archive (src/data/specials.json history[], see /specials). Hold until the specials archive (PR #6) has at least 3-4 real archived weeks; do not generate this one first."
   }
 ]
