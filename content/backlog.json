@@ -1,58 +1,52 @@
-[
-  {
-    "id": "breakfast-catering-quantities",
-    "title": "How Much Breakfast Catering to Order for 25, 50, or 100 People",
-    "angle": "catering-guide",
-    "status": "generated",
-    "notes": "Matches GSC intent for breakfast caterers near me with prices (AUDIT-GROWTH-2026-08-29.md section 2.2). Ground per-person quantities in the catering-buffet-packages menu section. Use catering-breakfast.jpg as the image. Link to /catering/quote."
-  },
-  {
-    "id": "graduation-party-catering-chicopee",
-    "title": "Catering a Graduation Party in Chicopee",
-    "angle": "occasion-guide",
-    "status": "generated",
-    "notes": "Graduation season angle from the audit. Use catering-menu-1.jpg or catering-menu-2.jpg. Link to /catering/quote."
-  },
-  {
-    "id": "corporate-breakfast-springfield",
-    "title": "Corporate Breakfast Catering in Springfield: What Offices Actually Order",
-    "angle": "occasion-guide",
-    "status": "proposed",
-    "notes": "Targets the catering chicopee ma / Springfield adjacency (organic #5-7 as of 08-29). Use catering-breakfast.jpg."
-  },
-  {
-    "id": "brunch-mimosas-chicopee",
-    "title": "Brunch and Mimosas in Chicopee, MA",
-    "angle": "dish-story",
-    "status": "generated",
-    "notes": "Highest-confidence topic: mimosas near me already converts at position 5.7 (08-29 audit). Ground in the beverages menu section. Use breakfast-menu.jpg."
-  },
-  {
-    "id": "big-e-breakfast-2026",
-    "title": "Where to Eat Breakfast Before The Big E",
-    "angle": "seasonal",
-    "status": "proposed",
-    "notes": "The Big E runs Sept 18 to Oct 4 in West Springfield, about 15 minutes from Chicopee. Time-sensitive, generate and publish before Sept 18, 2026."
-  },
-  {
-    "id": "homemade-hash-story",
-    "title": "Our Homemade Corned Beef Hash",
-    "angle": "dish-story",
-    "status": "generated",
-    "notes": "Real menu items: Homemade Hash (small) / Homemade Hash (large) in breakfast-sides, Hash Breakfast in egg-specialties, Hash Omelet in specialty-omelets. It IS corned beef hash (menu descriptions say so). Hand-written 2026-09-06 after the generated draft (PR #10) invented a recipe. Use breakfast-menu.jpg."
-  },
-  {
-    "id": "eggs-benedict-story",
-    "title": "Why Our Eggs Benedict Won Best Breakfast",
-    "angle": "dish-story",
-    "status": "proposed",
-    "notes": "Real menu item Eggs Benedict (benedicts section). FAQ already credits the hollandaise and the MassLive Best Breakfast award; do not invent additional awards or reviews."
-  },
-  {
-    "id": "monthly-specials-recap",
-    "title": "This Month on the Specials Board",
-    "angle": "specials-recap",
-    "status": "proposed",
-    "notes": "Compiled from Tier A's archive (src/data/specials.json history[], see /specials). Hold until the specials archive (PR #6) has at least 3-4 real archived weeks; do not generate this one first."
-  }
-]
+{
+  "_readme": "Topic queue for the blog engine, rewritten 2026-11-08 (op #1549) after Ian's direction in the [copperline] blog direction issue. The monthly run (scripts/plan-month.mjs) fills one weekly slot per Monday: local events first on odd weeks, customer questions first on even weeks, each falling back to the other. Events come from scripts/research-events.mjs, not from this file. Questions below are a seed list for Ian to edit: add real questions customers ask at the register or on the phone. A question is skipped once its post exists on master or has an open PR. The old queue is in _archive/2026-11-08/backlog.json.",
+  "questions": [
+    {
+      "id": "do-you-serve-breakfast-all-day",
+      "question": "Do you serve breakfast all day?",
+      "notes": "The FAQ answers this (breakfast served all day). Short post: say yes, then what that means in practice using the menu. Do not add anything the FAQ does not say."
+    },
+    {
+      "id": "gift-cards-for-the-holidays",
+      "question": "Do you sell gift cards?",
+      "notes": "The FAQ answers this (any denomination, at the register or by phone). Best slotted in late November or December. Ask Ian if there is any holiday offer before mentioning one."
+    },
+    {
+      "id": "office-breakfast-how-far-ahead",
+      "question": "How far ahead do I need to order breakfast for an office meeting?",
+      "notes": "Grounded in the catering facts (lead time, per-event quote for breakfast, pick-up or drop-off, quote builder). Do not quote breakfast prices; the priced packages are lunch and dinner buffets."
+    },
+    {
+      "id": "kids-menu",
+      "question": "What is on the kids' menu?",
+      "notes": "Grounded: children's menu for under 12, $7.50, high chairs and booster seats."
+    },
+    {
+      "id": "takeout-and-delivery",
+      "question": "Can I get takeout or delivery?",
+      "notes": "Grounded: call for takeout, DoorDash for delivery (FAQ). Anything about wait times or packaging needs Ian."
+    },
+    {
+      "id": "vegetarian-and-gluten-free",
+      "question": "What can I order if I am vegetarian or gluten-free?",
+      "notes": "Use only what the FAQ's dietary answer and the menu descriptions state. Anything about kitchen practices or cross-contact must be a Please confirm question, never a claim."
+    },
+    {
+      "id": "bringing-a-big-group",
+      "question": "Can we reserve a table for a group of ten?",
+      "notes": "Grounded: no reservations. Any advice about quieter times or seating needs Ian; ask, do not guess."
+    }
+  ],
+  "published": [
+    { "id": "brunch-mimosas-chicopee", "note": "2026-08-31, old engine" },
+    { "id": "graduation-party-catering-chicopee", "note": "2026-08-31, old engine" },
+    { "id": "homemade-hash-story", "note": "2026-09-06, hand-written" },
+    { "id": "breakfast-catering-quantities", "note": "2026-09-21, old engine" }
+  ],
+  "retired": [
+    { "id": "corporate-breakfast-springfield", "note": "draft PR #23 closed unpublished 2026-11-07 (decision I7)" },
+    { "id": "big-e-breakfast-2026", "note": "draft PR #24 closed unpublished; drafted 10-12 for a fair that ended 10-04" },
+    { "id": "eggs-benedict-story", "note": "draft PR #26 closed unpublished" },
+    { "id": "monthly-specials-recap", "note": "draft PR #27 closed unpublished; specials posts are now an optional extra (--specials-extra), never a weekly slot" }
+  ]
+}

@@ -36,6 +36,8 @@ const REQUIRED_FIELDS = ['title', 'description', 'pubDate', 'image', 'imageAlt']
 // Known-stale scanned menu photos: $1/package cheaper than the real
 // menuData.json catering prices as of 2026-08-31. Never usable until re-shot.
 const STALE_IMAGES = new Set(['/catering-menu-1.jpg', '/catering-menu-2.jpg']);
+// Posts dated on or after this get the redesign rules (op #1549).
+const REDESIGN_RULES_FROM = new Date('2026-11-09T00:00:00Z');
 
 function loadMenuItems() {
   const data = JSON.parse(readFileSync(resolve(repoRoot, 'src/data/menuData.json'), 'utf8'));
@@ -175,6 +177,25 @@ function checkPost(filePath, menuItems) {
   }
   for (const w of unsourced.soft) {
     warnings.push(`${fileLabel}: "${w}" describes something no grounding source states (taste, texture, the room); verify against menuData or cut`);
+  }
+
+  // Blog redesign rules (op #1549, Ian 2026-11-08: "don't add fluff just to
+  // check an SEO/AEO box"). Only for posts dated on or after the redesign,
+  // so the four legacy posts (which all end on an hours block) still pass.
+  const pubDate = fm.pubDate ? new Date(fm.pubDate) : null;
+  if (pubDate && pubDate >= REDESIGN_RULES_FROM) {
+    const timeMentions = body.match(/\b\d{1,2}(?::\d{2})?\s*(?:a\.m\.|p\.m\.|am\b|pm\b)/gi) ?? [];
+    if (/\bmonday\s+(?:through|to|-)\s+friday\b/i.test(body) || timeMentions.length >= 4) {
+      errors.push(`${fileLabel}: reads like an hours block (${timeMentions.length} clock times${/monday\s+(?:through|to|-)\s+friday/i.test(body) ? ', "Monday through Friday"' : ''}); mention one time inline only where the topic needs it`);
+    }
+    const streetCount = (body.match(/409 Broadway/gi) ?? []).length;
+    if (streetCount > 1) errors.push(`${fileLabel}: the street address appears ${streetCount} times (max 1)`);
+    const phoneCount = phoneMatches.filter((m) => m.replace(/\D/g, '') === CANONICAL_PHONE_DIGITS).length;
+    if (phoneCount > 1) errors.push(`${fileLabel}: the phone number appears ${phoneCount} times (max 1)`);
+    const words = body.trim().split(/\s+/).length;
+    if (words > 600) errors.push(`${fileLabel}: ${words} words, over the 600-word cap (length follows the content; cut filler)`);
+    const fillerHeadings = body.match(/^#{2,3}\s*(?:find us|visit us|before you come|our hours|hours|location)\s*$/gim) ?? [];
+    for (const h of fillerHeadings) errors.push(`${fileLabel}: filler section heading "${h.trim()}"`);
   }
 
   return { errors, warnings };

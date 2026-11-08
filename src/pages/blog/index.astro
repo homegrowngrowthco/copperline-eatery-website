@@ -2,8 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SITE_URL } from '../../data/restaurant';
 import { getCollection } from 'astro:content';
+import { isLive } from '../../lib/publish-window.mjs';
 
-const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+// Scheduled posts (future pubDate) stay hidden until their Monday; see publish-window.mjs.
+const posts = (await getCollection('blog', (p) => import.meta.env.DEV || isLive(p.data.pubDate))).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 const title = 'Blog | The Copperline Eatery';
 const description = 'Catering guides, seasonal picks, and stories from The Copperline Eatery, a family-owned breakfast and lunch spot in Chicopee, MA.';
