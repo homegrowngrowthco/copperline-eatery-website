@@ -6,6 +6,15 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Ops #1549 and #1581 - 2026-11-07 to 2026-11-10 - Astro 7 dependency patch, blog engine redesigned and live, first post scheduled
+**2026-11-07 to 11-08 (op #1549):** "Weekly Local Post" disabled (decision I7), its 4 drafts (#23 #24 #26 #27) closed unpublished; Ian set the new blog direction (claude-projects-ops issue #89). PR #28 (merge `faba800`, commit `631e346`): `npm audit fix`, astro 7.4.7, esbuild as an explicit devDependency, `npm audit` 0, build output unchanged. Engine built on `claude/blog-redesign-op1549` (`17044be`), sample post (`ee3de44`), status note (`3f51985`).
+**2026-11-10 (op #1581):** PR #29 merged (`2d609b7`): the blog engine described in CLAUDE.md (monthly drafts on the 20th, weekly Monday publish, `src/lib/publish-window.mjs` hides future posts). PR #30 merged (`7b9a8f5`, Ian's answers added in `0739ec0`): "Grinchmas Saturday" post, `pubDate` 2026-11-30, hidden until then. "Weekly Local Post" enabled; the `draft-month` dispatch (run 42914412777, success) opened December draft PRs #31 to #34, open for Ian. PR #35 merged (`14cf5e2`, commit `5baec67`): the duplicate session hooks removed from `.claude/settings.json` (global since op #1539).
+**Verify:** Deploy to Netlify green on each master merge; `/blog/grinchmas-saturday-springfield-museums-2026-12-05` returns 404 on production until 2026-11-30. `npm run qa:docs` passes after this docs update.
+**Gotcha:** the header comment in `weekly-post.yml` still says the workflow is disabled; it is enabled. Fix it with the next workflow change.
+**Revert:** `git revert -m 1 <merge>` per PR (each PR body has its own undo); `gh workflow disable "Weekly Local Post" -R homegrowngrowthco/copperline-eatery-website` stops the engine.
+
+---
+
 ### Session 45 - 2026-10-01 - weekly-post title cap enforced in the generator (PR #22, open), stale TODO closed
 Ian picked "ship the 09-24 audit's 7 fixes" from the cross-project TODO; a check against master and the live site showed all 7 already merged in Session 42 (PR #17, `2702421`, 09-24) and verified live, so the TODO line in `../TODO.md` was removed. What was actually open: the 09-28 Monday cron (run 36469814544) failed because the generator copied a 72-char backlog title direction and `blog-gates.mjs` correctly hard-failed it; no PR opened, no bad post shipped.
 **Shipped (branch `fix/generate-post-title-cap`, PR #22, `1927fb7`, NOT merged):** draft and humanize prompts now state the caps (title 65 or fewer, description 60 to 160); new `fitMetadata()` runs after the dash strip and asks the model ONCE for a shorter title, then exits 1 with a clear FAIL before any file is written or the backlog flips (never truncates); `--dry-run` runs 7 fixture cases with no API key; `TITLE_MAX_CHARS` / `DESCRIPTION_*` moved to `scripts/lib/content-rules.mjs` and imported by `blog-gates.mjs`.
