@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import matter from 'gray-matter';
+import { isLive } from './src/lib/publish-window.mjs';
 
 const SITE_URL = 'https://copperlineeatery.com';
 const specialsDataPath = fileURLToPath(new URL('./src/data/specials.json', import.meta.url));
@@ -35,7 +36,9 @@ function loadLastmods() {
       const lastmod = (updatedDate ?? pubDate)?.toISOString().slice(0, 10) ?? null;
       return { slug, lastmod, pubDate };
     })
-    .filter((p) => p.lastmod);
+    // Scheduled posts (future pubDate) are not built yet, so they must not
+    // set the /blog index lastmod to a future date either (publish-window.mjs).
+    .filter((p) => p.lastmod && isLive(p.pubDate));
 
   const postLastmod = new Map(posts.map((p) => [p.slug, p.lastmod]));
 

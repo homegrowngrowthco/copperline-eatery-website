@@ -18,6 +18,7 @@ import {
 } from '../data/restaurant';
 import specialsData from '../data/specials.json';
 import { cdn, boardAlt } from '../lib/specials-board';
+import { isLive } from '../lib/publish-window.mjs';
 
 // Homepage freshness strip (AUDIT-SEO-2026-09-24.md section 6, fix 7): the
 // weekly specials board and the newest blog post, both linked from the
@@ -28,7 +29,7 @@ const updatedLabel = specialsData.updatedAt
   ? new Date(specialsData.updatedAt).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
   : null;
 
-const posts = await getCollection('blog');
+const posts = await getCollection('blog', (p) => import.meta.env.DEV || isLive(p.data.pubDate));
 const latestPost = posts.length
   ? posts.reduce((newest, p) => (p.data.pubDate > newest.data.pubDate ? p : newest))
   : null;

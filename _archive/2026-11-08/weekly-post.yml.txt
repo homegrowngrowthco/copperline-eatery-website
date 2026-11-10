@@ -1,0 +1,141 @@
+name: Weekly Local Post
+
+# Tier B of AUDIT-GROWTH-2026-08-29.md section 2.2: one reviewed local post a
+# week, generated from content/backlog.json, gated deterministically, opened
+# as a draft PR. No auto-merge (Q4 decision) - Ian reviews the deploy preview
+# and merges by hand, same as any other content PR.
+
+on:
+  schedule:
+    # Monday ~8am US/Eastern (approximate; does not adjust for DST).
+    - cron: '0 12 * * 1'
+  workflow_dispatch:
+    inputs:
+      topic_id:
+        description: 'content/backlog.json id to generate (defaults to the first "proposed" entry)'
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  weekly-post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pick topic
+        id: pick
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # An explicit topic_id input bypasses the duplicate guard below on
+          # purpose: this is how Ian forces a regeneration (--force
+          # semantics), the same override generate-post.mjs's own --force
+          # flag gives for a non-"proposed" topic.
+          TOPIC_ID="${{ github.event.inputs.topic_id }}"
+          if [ -n "$TOPIC_ID" ]; then
+            echo "Picked topic (explicit workflow_dispatch input, guard bypassed): $TOPIC_ID"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "id=$TOPIC_ID" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # AUDIT-SEO-2026-09-24.md section 6, fix 4: the backlog.json status
+          # flip (proposed -> generated) lives only in the PR branch until it
+          # merges, so a plain "first proposed topic" pick generated the same
+          # topic three Mondays running (PRs #13, #14, #16) while #13/#14 sat
+          # open. Walk the proposed queue in order and skip any topic that
+          # already has an open PR, or whose post already exists on master
+          # (a merged post whose backlog flip was lost), picking the next
+          # eligible one instead of just stopping.
+          EXCLUDE=""
+          TOPIC_ID=""
+          while true; do
+            CANDIDATE=$(node scripts/next-backlog-topic.mjs --exclude="$EXCLUDE")
+            if [ -z "$CANDIDATE" ]; then
+              echo "No eligible proposed backlog topics left in content/backlog.json (all either have an open PR or a post already on master). Add one and re-run."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            if [ -f "src/content/blog/${CANDIDATE}.md" ]; then
+              echo "Skipping $CANDIDATE: src/content/blog/${CANDIDATE}.md already exists on master (a merged post whose backlog flip was lost)."
+              EXCLUDE="${EXCLUDE:+$EXCLUDE,}$CANDIDATE"
+              continue
+            fi
+
+            OPEN_PRS=$(gh pr list --state open --search "head:content/${CANDIDATE}-" --json number --jq length)
+            if [ "$OPEN_PRS" -gt 0 ]; then
+              echo "Skipping $CANDIDATE: $OPEN_PRS open PR(s) already generating it (head:content/${CANDIDATE}-*)."
+              EXCLUDE="${EXCLUDE:+$EXCLUDE,}$CANDIDATE"
+              continue
+            fi
+
+            TOPIC_ID="$CANDIDATE"
+            break
+          done
+
+          echo "Picked topic: $TOPIC_ID"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "id=$TOPIC_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Generate post
+        if: steps.pick.outputs.skip != 'true'
+        run: node scripts/generate-post.mjs --id=${{ steps.pick.outputs.id }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Run content gates
+        if: steps.pick.outputs.skip != 'true'
+        run: npm run qa:blog-gates
+
+      - name: Build site
+        if: steps.pick.outputs.skip != 'true'
+        run: npm run build
+
+      - name: Install Netlify CLI
+        if: steps.pick.outputs.skip != 'true'
+        run: npm install -g netlify-cli@22
+
+      - name: Deploy preview
+        if: steps.pick.outputs.skip != 'true'
+        id: preview
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          netlify deploy --dir=dist --functions=netlify/functions | tee /tmp/netlify-deploy.log
+          PREVIEW_URL=$(grep -oE "https://[a-zA-Z0-9.-]+\.netlify\.app[^ ]*" /tmp/netlify-deploy.log | tail -1)
+          echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Open PR
+        if: steps.pick.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TOPIC_ID="${{ steps.pick.outputs.id }}"
+          BRANCH="content/${TOPIC_ID}-${{ github.run_number }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add "src/content/blog/${TOPIC_ID}.md" content/backlog.json
+          git commit -m "content(blog): generate ${TOPIC_ID}"
+          git push origin "$BRANCH"
+          gh pr create --draft \
+            --title "Weekly post: ${TOPIC_ID}" \
+            --body "Generated by the weekly local-post engine (Tier B).
+
+          Topic: \`${TOPIC_ID}\` from \`content/backlog.json\`.
+          Gates: passed (\`npm run qa:blog-gates\`), build: passed.
+          Preview: ${{ steps.preview.outputs.url }}
+
+          Review the preview, edit the Markdown directly on this branch if needed, then merge by hand. This does not auto-merge."

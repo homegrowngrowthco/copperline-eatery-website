@@ -11,6 +11,7 @@ import {
   SITE_URL,
 } from '../data/restaurant';
 import specialsData from '../data/specials.json';
+import { isLive } from '../lib/publish-window.mjs';
 
 // Generated at build time (AUDIT-SEO-2026-09-24.md section 6, fix 6).
 // public/llms.txt used to be hand-maintained and went stale for two months
@@ -37,7 +38,7 @@ const awardsLine = AWARDS.map((a) => {
 }).join(', ');
 
 export const GET: APIRoute = async () => {
-  const posts = (await getCollection('blog')).sort(
+  const posts = (await getCollection('blog', (p) => isLive(p.data.pubDate))).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
   );
 

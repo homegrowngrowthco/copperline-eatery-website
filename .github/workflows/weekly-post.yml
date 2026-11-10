@@ -1,29 +1,66 @@
 name: Weekly Local Post
 
-# Tier B of AUDIT-GROWTH-2026-08-29.md section 2.2: one reviewed local post a
-# week, generated from content/backlog.json, gated deterministically, opened
-# as a draft PR. No auto-merge (Q4 decision) - Ian reviews the deploy preview
-# and merges by hand, same as any other content PR.
+# Redesigned 2026-11-08 (op #1549) after Ian's blog direction (the
+# "[copperline] blog redesign" issue in claude-projects-ops). The old
+# workflow is in _archive/2026-11-08/weekly-post.yml.txt.
+#
+# THIS WORKFLOW IS DISABLED (gh workflow disable, 2026-11-07, decision I7) and
+# stays disabled until Ian approves the sample post; a follow-up session then
+# runs: gh workflow enable "Weekly Local Post" -R homegrowngrowthco/copperline-eatery-website
+#
+# Two jobs:
+# - draft-month (the 20th): researches real events within 25 miles of 01020
+#   for next month, plans one post per Monday (local events and customer
+#   questions, scripts/plan-month.mjs), drafts each (scripts/generate-post.mjs:
+#   restaurant facts from the site's own data only, anything else becomes a
+#   "Please confirm" question), gates them, and opens one DRAFT PR per post
+#   plus one needs-ian issue per PR in claude-projects-ops, all the same day,
+#   so Ian reviews a month in one sitting. Nothing auto-merges.
+# - publish (Mondays): approved (merged) posts carry a future pubDate and are
+#   hidden until then (src/lib/publish-window.mjs). This job rebuilds and
+#   deploys master when a post became due, so one post goes live per week.
+#
+# Secrets: ANTHROPIC_API_KEY, NETLIFY_AUTH_TOKEN, NETLIFY_SITE_ID, and
+# OPS_REPO_TOKEN (a token that can open issues in
+# homegrowngrowthco/claude-projects-ops). Without OPS_REPO_TOKEN the draft job
+# fails red at its first step, before spending anything, so the health digest
+# reports it.
 
 on:
   schedule:
-    # Monday ~8am US/Eastern (approximate; does not adjust for DST).
-    - cron: '0 12 * * 1'
+    - cron: '0 13 20 * *' # 20th of each month, ~8-9am ET: draft next month
+    - cron: '0 11 * * 1' # every Monday, ~6-7am ET: publish what became due
   workflow_dispatch:
     inputs:
-      topic_id:
-        description: 'content/backlog.json id to generate (defaults to the first "proposed" entry)'
+      mode:
+        description: 'draft-month or publish'
+        type: choice
+        options: [draft-month, publish]
+        default: draft-month
+      month:
+        description: 'YYYY-MM to draft (default: next month)'
         required: false
+      specials_extra:
+        description: 'Also draft one specials-board post (an extra, never a weekly slot)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: weekly-local-post
+  cancel-in-progress: false
+
 jobs:
-  weekly-post:
-    runs-on: ubuntu-latest
+  publish:
+    if: github.event.schedule == '0 11 * * 1' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'publish')
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: master
 
       - uses: actions/setup-node@v6
         with:
@@ -32,110 +69,147 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Pick topic
-        id: pick
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          # An explicit topic_id input bypasses the duplicate guard below on
-          # purpose: this is how Ian forces a regeneration (--force
-          # semantics), the same override generate-post.mjs's own --force
-          # flag gives for a non-"proposed" topic.
-          TOPIC_ID="${{ github.event.inputs.topic_id }}"
-          if [ -n "$TOPIC_ID" ]; then
-            echo "Picked topic (explicit workflow_dispatch input, guard bypassed): $TOPIC_ID"
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-            echo "id=$TOPIC_ID" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          # AUDIT-SEO-2026-09-24.md section 6, fix 4: the backlog.json status
-          # flip (proposed -> generated) lives only in the PR branch until it
-          # merges, so a plain "first proposed topic" pick generated the same
-          # topic three Mondays running (PRs #13, #14, #16) while #13/#14 sat
-          # open. Walk the proposed queue in order and skip any topic that
-          # already has an open PR, or whose post already exists on master
-          # (a merged post whose backlog flip was lost), picking the next
-          # eligible one instead of just stopping.
-          EXCLUDE=""
-          TOPIC_ID=""
-          while true; do
-            CANDIDATE=$(node scripts/next-backlog-topic.mjs --exclude="$EXCLUDE")
-            if [ -z "$CANDIDATE" ]; then
-              echo "No eligible proposed backlog topics left in content/backlog.json (all either have an open PR or a post already on master). Add one and re-run."
-              echo "skip=true" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-
-            if [ -f "src/content/blog/${CANDIDATE}.md" ]; then
-              echo "Skipping $CANDIDATE: src/content/blog/${CANDIDATE}.md already exists on master (a merged post whose backlog flip was lost)."
-              EXCLUDE="${EXCLUDE:+$EXCLUDE,}$CANDIDATE"
-              continue
-            fi
-
-            OPEN_PRS=$(gh pr list --state open --search "head:content/${CANDIDATE}-" --json number --jq length)
-            if [ "$OPEN_PRS" -gt 0 ]; then
-              echo "Skipping $CANDIDATE: $OPEN_PRS open PR(s) already generating it (head:content/${CANDIDATE}-*)."
-              EXCLUDE="${EXCLUDE:+$EXCLUDE,}$CANDIDATE"
-              continue
-            fi
-
-            TOPIC_ID="$CANDIDATE"
-            break
-          done
-
-          echo "Picked topic: $TOPIC_ID"
-          echo "skip=false" >> "$GITHUB_OUTPUT"
-          echo "id=$TOPIC_ID" >> "$GITHUB_OUTPUT"
-
-      - name: Generate post
-        if: steps.pick.outputs.skip != 'true'
-        run: node scripts/generate-post.mjs --id=${{ steps.pick.outputs.id }}
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-
-      - name: Run content gates
-        if: steps.pick.outputs.skip != 'true'
-        run: npm run qa:blog-gates
+      - name: Find posts that became due
+        id: due
+        run: node scripts/due-posts.mjs --days=7
 
       - name: Build site
-        if: steps.pick.outputs.skip != 'true'
+        if: steps.due.outputs.due != '0' || github.event_name == 'workflow_dispatch'
         run: npm run build
 
-      - name: Install Netlify CLI
-        if: steps.pick.outputs.skip != 'true'
-        run: npm install -g netlify-cli@22
-
-      - name: Deploy preview
-        if: steps.pick.outputs.skip != 'true'
-        id: preview
+      - name: Deploy to production
+        if: steps.due.outputs.due != '0' || github.event_name == 'workflow_dispatch'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
-          netlify deploy --dir=dist --functions=netlify/functions | tee /tmp/netlify-deploy.log
-          PREVIEW_URL=$(grep -oE "https://[a-zA-Z0-9.-]+\.netlify\.app[^ ]*" /tmp/netlify-deploy.log | tail -1)
-          echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          npm install -g netlify-cli@22
+          netlify deploy --dir=dist --functions=netlify/functions --prod
 
-      - name: Open PR
-        if: steps.pick.outputs.skip != 'true'
+      - name: Ping IndexNow
+        if: steps.due.outputs.due != '0' || github.event_name == 'workflow_dispatch'
+        run: node scripts/indexnow-ping.mjs
+
+  draft-month:
+    if: github.event.schedule == '0 13 20 * *' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'draft-month')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Preflight (ops-repo token for the needs-ian issues)
+        env:
+          OPS_REPO_TOKEN: ${{ secrets.OPS_REPO_TOKEN }}
+        run: |
+          if [ -z "$OPS_REPO_TOKEN" ]; then
+            echo "::error::Secret OPS_REPO_TOKEN is not set. The draft job opens one needs-ian issue per draft in homegrowngrowthco/claude-projects-ops and cannot without it. Set it with: gh secret set OPS_REPO_TOKEN -R homegrowngrowthco/copperline-eatery-website"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pick the month
+        id: month
+        run: |
+          MONTH="${{ inputs.month }}"
+          if [ -z "$MONTH" ]; then MONTH=$(date -u -d "$(date -u +%Y-%m-01) +1 month" +%Y-%m); fi
+          echo "Drafting $MONTH"
+          echo "month=$MONTH" >> "$GITHUB_OUTPUT"
+
+      - name: Research local events
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/research-events.mjs --month=${{ steps.month.outputs.month }} --out="$RUNNER_TEMP/events.json"
+
+      - name: Plan the month
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TOPIC_ID="${{ steps.pick.outputs.id }}"
-          BRANCH="content/${TOPIC_ID}-${{ github.run_number }}"
+          # Topics that already have an open draft PR are skipped.
+          EXCLUDE=$(gh pr list --state open --json headRefName --jq '[.[].headRefName | select(startswith("content/")) | ltrimstr("content/")] | join(",")')
+          SPECIALS=""
+          if [ "${{ inputs.specials_extra }}" = "true" ]; then SPECIALS="--specials-extra"; fi
+          node scripts/plan-month.mjs --month=${{ steps.month.outputs.month }} --events="$RUNNER_TEMP/events.json" --out="$RUNNER_TEMP/plan.json" --exclude="$EXCLUDE" $SPECIALS
+
+      - name: Draft and gate each post
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # A slot that fails to draft or fails the gates is dropped (file and
+          # meta removed) and the run ends red; the other slots still get PRs.
+          FAILED=0
+          for SLOT in $(jq -r '.[] | select(.id != null) | .slot' "$RUNNER_TEMP/plan.json"); do
+            ID=$(jq -r --arg s "$SLOT" '.[] | select((.slot|tostring) == $s) | .id' "$RUNNER_TEMP/plan.json")
+            if node scripts/generate-post.mjs --plan="$RUNNER_TEMP/plan.json" --slot="$SLOT" --meta-out="$RUNNER_TEMP/meta-$SLOT.json" \
+               && node scripts/blog-gates.mjs "src/content/blog/$ID.md"; then
+              echo "Slot $SLOT ($ID) drafted and passed the gates."
+            else
+              echo "::warning::Slot $SLOT ($ID) failed to draft or failed the gates; dropped."
+              rm -f "src/content/blog/$ID.md" "$RUNNER_TEMP/meta-$SLOT.json"
+              FAILED=1
+            fi
+          done
+          echo "FAILED_SLOTS=$FAILED" >> "$GITHUB_ENV"
+          if [ -z "$(git ls-files --others --exclude-standard src/content/blog)" ]; then
+            echo "::error::No post survived drafting and the gates."; exit 1
+          fi
+
+      - name: Build a preview with this month's drafts
+        id: preview
+        env:
+          SHOW_FUTURE_POSTS: '1'
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          npm run build
+          npm install -g netlify-cli@22
+          netlify deploy --dir=dist --functions=netlify/functions --alias=blog-drafts-${{ steps.month.outputs.month }} | tee "$RUNNER_TEMP/netlify-deploy.log"
+          echo "url=$(grep -oE 'https://[a-zA-Z0-9.-]+\.netlify\.app' "$RUNNER_TEMP/netlify-deploy.log" | tail -1)" >> "$GITHUB_OUTPUT"
+
+      - name: Open one draft PR and one needs-ian issue per post
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OPS_REPO_TOKEN: ${{ secrets.OPS_REPO_TOKEN }}
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH"
-          git add "src/content/blog/${TOPIC_ID}.md" content/backlog.json
-          git commit -m "content(blog): generate ${TOPIC_ID}"
-          git push origin "$BRANCH"
-          gh pr create --draft \
-            --title "Weekly post: ${TOPIC_ID}" \
-            --body "Generated by the weekly local-post engine (Tier B).
+          for META in "$RUNNER_TEMP"/meta-*.json; do
+            [ -f "$META" ] || continue
+            ID=$(jq -r .id "$META"); DATE=$(jq -r .pubDate "$META"); TITLE=$(jq -r .title "$META")
+            BRANCH="content/$ID"
+            git checkout -q -B "$BRANCH" origin/master
+            git add "src/content/blog/$ID.md"
+            git commit -q -m "content(blog): draft $ID for $DATE"
+            git push -q origin "$BRANCH"
+            node scripts/draft-bodies.mjs --meta="$META" --kind=pr --preview="${{ steps.preview.outputs.url }}" --out="$RUNNER_TEMP/pr-$ID.md"
+            PR_URL=$(gh pr create --draft --base master --head "$BRANCH" --title "Blog draft for $DATE: $TITLE" --body-file "$RUNNER_TEMP/pr-$ID.md")
+            node scripts/draft-bodies.mjs --meta="$META" --kind=issue --pr-url="$PR_URL" --out="$RUNNER_TEMP/issue-$ID.md"
+            GH_TOKEN="$OPS_REPO_TOKEN" gh issue create -R homegrowngrowthco/claude-projects-ops \
+              -t "[copperline] blog draft for $DATE: $TITLE" -l needs-ian -l project:copperline \
+              -F "$RUNNER_TEMP/issue-$ID.md"
+            git checkout -q master
+          done
 
-          Topic: \`${TOPIC_ID}\` from \`content/backlog.json\`.
-          Gates: passed (\`npm run qa:blog-gates\`), build: passed.
-          Preview: ${{ steps.preview.outputs.url }}
+      - name: Keep the research and plan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-month-${{ steps.month.outputs.month }}
+          path: |
+            ${{ runner.temp }}/events.json
+            ${{ runner.temp }}/plan.json
+            ${{ runner.temp }}/meta-*.json
+          if-no-files-found: ignore
 
-          Review the preview, edit the Markdown directly on this branch if needed, then merge by hand. This does not auto-merge."
+      - name: Fail if any slot did not draft
+        if: env.FAILED_SLOTS == '1'
+        run: |
+          echo "::error::At least one planned post failed to draft; see the 'Draft each post' step."
+          exit 1
