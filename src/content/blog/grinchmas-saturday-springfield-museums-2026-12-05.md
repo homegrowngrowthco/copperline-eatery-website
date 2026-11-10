@@ -11,7 +11,7 @@ The Springfield Museums are holding [Grinchmas Saturday](https://springfieldmuse
 
 If you are taking the kids, breakfast with us first is an easy way to start the day. We open at 6 on Saturdays, so there is time to eat and still be at the museums when the doors open.
 
-The Kids' Breakfast is for children under 12: one egg and toast, two French toast, or two pancakes, with bacon, sausage, or ham, and a milk or juice, for $7.50. We have high chairs and booster seats. Grown-ups have the whole menu, including the Banana Bread French Toast, made from our homemade banana bread.
+We have a kids menu. The Kids' Breakfast is for children under 12: one egg and toast, two French toast, or two pancakes, with bacon, sausage, or ham, and a milk or juice, for $7.50. We have high chairs and booster seats, and crayons and coloring sheets for kids at the table. Grown-ups have the whole menu, including the Banana Bread French Toast, made from our homemade banana bread.
 
 We do not take reservations. If you are coming as a big group, eight or more, give us a call ahead and we will do our best to fit you in.
 
