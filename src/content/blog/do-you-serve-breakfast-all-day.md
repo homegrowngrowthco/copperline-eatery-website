@@ -7,7 +7,7 @@ imageAlt: "The printed breakfast menu at The Copperline Eatery"
 dishRefs: ["Eggs Benedict","Hash Breakfast","3 Pancakes or French Toast","Copperline Special","Banana Bread French Toast","Reuben"]
 tags: ["breakfast","faq","lunch"]
 ---
-Yes. Breakfast is served all day here, from the time we open until we close (2 p.m. on weekdays, 1:30 p.m. on Saturday, 1 p.m. on Sunday).
+Yes. Breakfast is served all day here, from the time we open until we close (2 p.m. on weekdays, 1:30 p.m. on Saturday, 1 p.m. on Sunday). You can order breakfast right up until we close.
 
 That means the breakfast menu is yours at any hour we're open. If you slept in, or your lunch break is the first chance you've had to sit down, you can still order Eggs Benedict, the Hash Breakfast with our homemade corned beef hash, or 3 Pancakes or French Toast. The Copperline Special (three eggs, two pancakes, homefries, and toast) is the same order at 12:30 as it is at 6:30 on a weekday morning.
 
