@@ -1,6 +1,6 @@
 ---
 title: "Yes, We Sell Gift Cards, in Any Amount"
-description: "Yes, The Copperline Eatery sells gift cards in any amount. Buy one in person at the restaurant, and use it for dine-in or takeout. They never expire."
+description: "Yes, The Copperline Eatery sells gift cards in any amount. Stop in or call ahead, pick it up in person, and use it for dine-in or takeout. No expiry."
 pubDate: 2026-12-28
 image: "/breakfast-menu.jpg"
 imageAlt: "Photo of The Copperline Eatery's printed breakfast menu"
@@ -11,7 +11,7 @@ Yes, we sell gift cards, and we can make one out for any amount you like. There'
 
 ## How to get one
 
-Gift cards are bought and picked up in person at the restaurant, at 409 Broadway in Chicopee. Stop in and ask any of us while we're open. We don't sell them online.
+Gift cards are picked up in person at the restaurant, at 409 Broadway in Chicopee. Stop in and ask any of us while we're open, or call us ahead at (413) 594-8332 and then pick the card up in person. We don't sell them online.
 
 ## How they work
 
