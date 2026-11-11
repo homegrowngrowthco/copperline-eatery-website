@@ -38,8 +38,11 @@ const awardsLine = AWARDS.map((a) => {
 }).join(', ');
 
 export const GET: APIRoute = async () => {
+  // Newest first; same-date posts by id (slug) ascending, stable between builds.
   const posts = (await getCollection('blog', (p) => isLive(p.data.pubDate))).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    (a, b) =>
+      b.data.pubDate.valueOf() - a.data.pubDate.valueOf() ||
+      (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
   );
 
   const blogLines = posts

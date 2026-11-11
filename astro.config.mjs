@@ -43,11 +43,15 @@ function loadLastmods() {
   const postLastmod = new Map(posts.map((p) => [p.slug, p.lastmod]));
 
   // /blog index: newest post's own date, not a build timestamp. Sort
-  // descending by pubDate (missing pubDate sorts last) and take the first.
+  // descending by pubDate (missing pubDate sorts last), same-date posts by
+  // slug ascending so the pick is stable between builds, and take the first.
   const postsByDate = [...posts].sort((a, b) => {
     if (!a.pubDate) return 1;
     if (!b.pubDate) return -1;
-    return b.pubDate.getTime() - a.pubDate.getTime();
+    return (
+      b.pubDate.getTime() - a.pubDate.getTime() ||
+      (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0)
+    );
   });
 
   return {

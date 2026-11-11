@@ -31,7 +31,11 @@ const updatedLabel = specialsData.updatedAt
 
 const posts = await getCollection('blog', (p) => import.meta.env.DEV || isLive(p.data.pubDate));
 const latestPost = posts.length
-  ? posts.reduce((newest, p) => (p.data.pubDate > newest.data.pubDate ? p : newest))
+  ? // Newest pubDate; on a tie the lower id (slug), matching the /blog index order.
+    posts.reduce((newest, p) => {
+      const d = p.data.pubDate.getTime() - newest.data.pubDate.getTime();
+      return d > 0 || (d === 0 && p.id < newest.id) ? p : newest;
+    })
   : null;
 
 const title = 'Breakfast & Brunch in Chicopee, MA | The Copperline Eatery';
