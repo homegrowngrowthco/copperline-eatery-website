@@ -4,9 +4,9 @@ name: Weekly Local Post
 # "[copperline] blog redesign" issue in claude-projects-ops). The old
 # workflow is in _archive/2026-11-08/weekly-post.yml.txt.
 #
-# THIS WORKFLOW IS DISABLED (gh workflow disable, 2026-11-07, decision I7) and
-# stays disabled until Ian approves the sample post; a follow-up session then
-# runs: gh workflow enable "Weekly Local Post" -R homegrowngrowthco/copperline-eatery-website
+# Enabled 2026-11-10 (op #1581) after Ian approved the sample post (PR #30);
+# it had been disabled since 2026-11-07 (decision I7). To pause it again:
+# gh workflow disable "Weekly Local Post" -R homegrowngrowthco/copperline-eatery-website
 #
 # Two jobs:
 # - draft-month (the 20th): researches real events within 25 miles of 01020

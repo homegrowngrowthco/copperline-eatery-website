@@ -105,6 +105,11 @@ export const GROUNDING_FACTS = [
   'MassLive readers voted the diner Best Breakfast in Western Massachusetts; WWLP 22News listed it among the best French toast in Western Massachusetts on National French Toast Day.',
   'No reservations. High chairs and booster seats available.',
   "Children's menu for guests under 12: one egg and toast, two French toast, or two pancakes, with bacon, sausage, or ham, plus milk or juice, $7.50.",
+  // Ian, 2026-11-10 (op #1581, PR #30): kids menu, crayons and coloring sheets.
+  'There is a kids menu, and crayons and coloring sheets for kids at the table.',
+  // Ian, 2026-11-10 (op #1584, claude-projects-ops #96 and #98).
+  'Breakfast is served all day, and it can be ordered right up until closing.',
+  'Gift cards: any amount, no minimum or maximum; they never expire; good for dine-in and takeout, not for catering and not on DoorDash orders; not sold online; cannot be reloaded; bought and picked up in person at the restaurant. There are no gift card promotions or bonus offers.',
   'Catering: on-site service, hot drop-off, or pick-up at the restaurant; buffet style, to-go buffet, or individual portions.',
   'Catering lead time: one to two weeks for most events; three to four weeks for larger events and weekend dates.',
   'Breakfast and brunch catering (eggs, bacon and sausage, home fries, French toast, pancakes) is quoted per event; the priced packages in the menu data are the lunch and dinner buffets.',

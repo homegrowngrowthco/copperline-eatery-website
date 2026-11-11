@@ -5,7 +5,13 @@ import { getCollection } from 'astro:content';
 import { isLive } from '../../lib/publish-window.mjs';
 
 // Scheduled posts (future pubDate) stay hidden until their Monday; see publish-window.mjs.
-const posts = (await getCollection('blog', (p) => import.meta.env.DEV || isLive(p.data.pubDate))).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+// Newest first. Same-date posts fall back to id (slug) ascending, so their order
+// is stable between builds instead of following the content store's load order.
+const posts = (await getCollection('blog', (p) => import.meta.env.DEV || isLive(p.data.pubDate))).sort(
+  (a, b) =>
+    b.data.pubDate.getTime() - a.data.pubDate.getTime() ||
+    (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+);
 
 const title = 'Blog | The Copperline Eatery';
 const description = 'Catering guides, seasonal picks, and stories from The Copperline Eatery, a family-owned breakfast and lunch spot in Chicopee, MA.';
