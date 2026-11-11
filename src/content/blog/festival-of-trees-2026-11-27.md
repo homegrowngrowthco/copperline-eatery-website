@@ -11,6 +11,8 @@ The [Festival of Trees](https://sbgc.org/fot/) is in its last week. This is the 
 
 ## Breakfast or lunch first
 
+Our regular hours hold all week, December 7 through 13: Monday through Friday 6 a.m. to 2 p.m., Saturday 6 a.m. to 1:30 p.m., and Sunday 7 a.m. to 1 p.m.
+
 We serve breakfast all day, and lunch whenever we're open, so you can eat with us at any hour before a trip into Springfield. A few dishes from our regular menu:
 
 - **Eggs Benedict** ($11.50), with our house-made hollandaise
@@ -19,6 +21,8 @@ We serve breakfast all day, and lunch whenever we're open, so you can eat with u
 - **Reuben** ($12.95) or **The Pilgrim** ($11.95), which is turkey with stuffing and cranberry sauce on a water roll
 
 If you're bringing children, the **Kids' Breakfast** is $7.50 for guests under 12. They can choose one egg and toast, two French toast, or two pancakes, with bacon, sausage or ham, plus milk or juice. We have high chairs and booster seats.
+
+We'll have specials that week too. Check the [specials board](/specials) that week to see what's on it.
 
 Saturday and Sunday mornings between 8 and 11 are usually our busiest. If you want a shorter wait on the weekend, come before 8 or after 11:30. Weekdays are generally quieter. We seat first-come, first-serve, but if you're bringing a group of eight or more, call us at (413) 594-8332 ahead of time and we'll do our best to have seating ready.
 
