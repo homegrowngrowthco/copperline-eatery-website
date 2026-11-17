@@ -1,0 +1,77 @@
+name: Specials Social Post
+
+# Op #1658 (2026-11-17, Ian: "Build facebook & instagram automation now for
+# specials posts"). Posts the weekly specials board to the Facebook Page and
+# its linked Instagram professional account, via scripts/social-post.mjs.
+#
+# Trigger: a specials publish is a commit to master (commitSpecialsToRepo in
+# netlify/functions/lib/specials.ts), which runs "Deploy to Netlify". When that
+# deploy succeeds the board is live, and this workflow runs. A daily run is a
+# backstop. Every run is idempotent: one post per platform per ISO week of the
+# board, recorded as a git tag social-posted/<platform>/<week>.
+#
+# DRY RUN until the repo variable SOCIAL_POST_LIVE is "true". A dry run reads
+# the live /specials page and the image, prints the caption and image URL, and
+# posts nothing. Pause: gh variable delete SOCIAL_POST_LIVE (back to dry run),
+# or gh workflow disable "Specials Social Post".
+#
+# Secrets (names only): META_PAGE_ID, META_PAGE_TOKEN (long-lived Page access
+# token), optional META_IG_USER_ID. Variables: SOCIAL_POST_LIVE,
+# SOCIAL_POST_PLATFORMS (default facebook,instagram).
+#
+# A failure is a red run with one ::error:: line (the ops health digest reports
+# red runs). This is a separate workflow, so it never blocks a site publish.
+
+on:
+  workflow_run:
+    workflows: ['Deploy to Netlify']
+    types: [completed]
+    branches: [master]
+  schedule:
+    - cron: '0 17 * * *' # daily backstop, ~12-1pm ET
+  workflow_dispatch:
+    inputs:
+      force_dry_run:
+        description: 'Dry run even if SOCIAL_POST_LIVE is true'
+        type: boolean
+        default: false
+      max_age_days:
+        description: 'Skip a board older than this many days'
+        required: false
+        default: '6'
+
+permissions:
+  contents: write # push the social-posted/* tags
+
+concurrency:
+  group: specials-social-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || 'master' }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Selftest (offline)
+        run: node scripts/social-post.selftest.mjs
+
+      - name: Post the specials board
+        env:
+          SOCIAL_POST_LIVE: ${{ (vars.SOCIAL_POST_LIVE == 'true' && inputs.force_dry_run != true) && 'true' || 'false' }}
+          SOCIAL_POST_PLATFORMS: ${{ vars.SOCIAL_POST_PLATFORMS || 'facebook,instagram' }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          node scripts/social-post.mjs --max-age-days="${{ inputs.max_age_days || '6' }}"

@@ -14,6 +14,7 @@
     "qa:docs": "node scripts/lint-docs.mjs",
     "qa:functions": "node scripts/fn-check.mjs",
     "qa:blog-gates": "node scripts/blog-gates.mjs",
+    "qa:social": "node scripts/social-post.selftest.mjs",
     "generate:post": "node scripts/generate-post.mjs"
   },
   "dependencies": {
