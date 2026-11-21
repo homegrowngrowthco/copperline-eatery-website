@@ -1,0 +1,721 @@
+{
+  "breakfast catering near me|mobile": {
+    "aio": true,
+    "aioMentionsUs": true,
+    "refs": [
+      {
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESnQEBxCJF152QrNyUDJH5oZQuPIrln1LpTMlgOwjMgMp_dT3DLBHHUidnwFlmJryoe4tVp5hiCIcCsXCk9pDjtS3Df1vgrQpT_juV736NRhysuwHGL8yffoaLB22Shl01s8yowSJR9TsQOg680BgPaccRHBOsBDwWOP61SwvZ6i2-Rm1aF7pOKLz_EGqpP420Plq9gHHwNenBBYPDps6Q",
+        "title": "Best Breakfast & Brunch Catering near Raymond, NH 03077 - Yelp"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSECoOCgwvZy8xMjYwajZfMmoYCg",
+        "title": "Copperline Eatery"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGhyODVzXxgK",
+        "title": "Sunny Side Up Breakfast and Lunch"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSECoOCgwvZy8xcTVna2R5cWsYCg",
+        "title": "Russ's"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMW45ejQzZGt6GAo",
+        "title": "Fluffy Flips"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXQ4MGs5cTEyGAo",
+        "title": "The Urban Food Brood"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGZxZ3Y0MRgK",
+        "title": "Jennifer's Kitchen"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdHpsel9iZBgK",
+        "title": "The Country | Trading Post"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXZ4NnFkMTNfGAo",
+        "title": "The Farmer's House Restaurant"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXhsX3B6MTY3GAo",
+        "title": "Roundabout Restaurant"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWdmZzA2ZGRyGAo",
+        "title": "Goodworks Coffee House"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDioMCgovbS8wNGdoMmNzGAo",
+        "title": "Route 66 Diner"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGN4dzd6dxgK",
+        "title": "Lucky Strike Restaurant"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdHBjOF9jdBgK",
+        "title": "Memo's Restaurant"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXl6dDZnMTYyGAo",
+        "title": "Taste Of Tradition"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXZkbmZuOGhwGAo",
+        "title": "Camellia's"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGY2MTlueRgK",
+        "title": "Fifties Diner"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWM0NWdiMHNiGAo",
+        "title": "Evan's Egg House"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGQ0dzkyeRgK",
+        "title": "Felix's Breakfast & Sandwich Shop"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWpycXdmOGhwGAo",
+        "title": "Skilletz"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGZidHhqbhgK",
+        "title": "Crepes Tea House"
+      }
+    ],
+    "organic": [
+      {
+        "rank": 1,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESgQEBxCJF142pJ95ErM2ErDkqdE5V2uoOiG8kfjSC9EVb5ER1dHVnq5jmX9q88ISY1x-Lo_Bi53Olvkbty0wU1M36uufvevZCyyw2WAnLjUuO-b9-JTGHwRHQLAb2GGjApmoG_WKkb4eRgkA7kY_rItb6cK2jGjA1Mij8mxvYoIPqNWA&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      },
+      {
+        "rank": 2,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESnQEBxCJF1xtTqGbVPuoNENRv1v_dTpQSYaiHsTp5AMRZUZyRAY5MftjX2krR4iIrrjGryoSA0gmQBKcZx_UBSeg_tRyvcWjvsnLqVBRT9tg9B1O3kiCdRL6rlmVQ0FXq-B6cAUn6R02yoePeYspKqT0JKbJ0gnCB10fyQl-On3qgze77eW5AupPmFN6IKUf338Ex4LLX5acp-tf8Gdpb&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      },
+      {
+        "rank": 3,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESXAHEIkXXoDFnMqUT53J7Ov2I2wMxoCGX4yvvUBnKP3P-95ScXccNHJABepQiYA0Kwer2sXR39mNbCMKLUaPECqH5gtTeStgV1W-vW39Tkdw-J7GJ_AofVLjZrnVo&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      },
+      {
+        "rank": 4,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESlwEBxCJF1zMqzr4CnUXY1ebjZ4XSPLw-kpOiaHIEz603TGio4lltGDTOPVVmM8OqK56djG8rqx_SJFQlBTmrmxRf2OlK0yeZqXVfXVCJbCk2Vl6tiFCBlHMyd_yNzX7rve73Ayo38KRQqkfkkjsG9H_SSAF0ZEUm0ROehBneeSKiKAaVLrkTWGDUACOIZb8TLbYfpC0nwB98&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      },
+      {
+        "rank": 5,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESkAEBxCJF1x4INXf2k4ghVXPGy8U_Iz0ErjobzXUlwKM4t7gumaRJCX6G5f8oSVFOtAoLp_KFL2wDhLFfIG_mmlRaHrUHS5h5iTt1b44eTi2sarZgN6Kg8KW4TjUJf7ZKfqq8UGQyehg0lMo2u5NswVYftMDIKBuKQyTGzu43ebkql6ZXtxBobnxGsAwDa-IyDjk&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      },
+      {
+        "rank": 6,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESZQHEIkXXthJiM2QPrglpqoKaHc8YAMk7L1Ov3xiQGiu9NO-JlpHyJpko_N7F7v2FGzxSBUTuQE2Dp8n5kcPhVBSfn5ChWuo811C69ZgxOzOSxR4O5g2jOLf6u95qDqlteXM8N2TK&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      },
+      {
+        "rank": 7,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESYwHEIkXXKKjTuL-df6haH3ktKJp7rxTjJC8oJAdLSCDv6nG75fj6Dk42pZY0VLytjw939yy9UFAqZ6UfIKrLaDYKrr9F55781zTN6AoHEWCRIRZqle2Opyf18aZ_S6DCvuE8IQ&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      },
+      {
+        "rank": 8,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESmQEBxCJF1-JzUtqogvQBmKH0F9vtZQ1krUYHkt_1CtA9ymdjy3ZfbjniY8e691kcVG7nN6NWNskzBtYmu30RqufCLNAhM5OF7kVxkXwiGUo4212mx0FLAQXM-NYYWkdIpsSQbiALlCxunJyHFRatE5RucDUOiHbkCNK_iJXl9MtWlrd3zVPqszsY54XJobDw7ByUAHupGTRv3hw&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      },
+      {
+        "rank": 9,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESXwHEIkXXCfGKCdNq_EyHGKGUJElnxyHVITsblExX0CmPZgDuc46YALU7qmorDh2w_m1W4j4ZbUKvUkiqDuCZMVSqLIoWYmYnwClaQ_U3IosVGqfnkbbzmFznVhGYezIb&gsessionid=bflnIDN4APxjZKlyOdqe-mCgcx7eRkUgJkixJXD-PEDYqLCmDgjZKg"
+      }
+    ],
+    "types": [
+      "local_pack",
+      "ai_overview",
+      "organic",
+      "people_also_search",
+      "people_also_ask"
+    ]
+  },
+  "breakfast catering near me|desktop": {
+    "aio": true,
+    "aioMentionsUs": true,
+    "refs": [],
+    "organic": [
+      {
+        "rank": 1,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESXAHEIkXXt0UEJwFoFUK1MOyTk6s6KnxAwtCSB0A-S800rk2CX7iI5zjBED-f6bUl6nW7MK3kaCzHIT7IQIBw5Ui7u7y0BMao-V9IB75QLDaAS2dZ4cj8K9Tm_Zfq&gsessionid=Hh_3l035M1BG69NXVy5Dno5N4V7-a56-oFbsyvTOkQo0Ji8jWLmroA"
+      },
+      {
+        "rank": 2,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESnQEBxCJF177NZRuG-BVtGF6E_eKteENXsY0ZMm5C6cjqKY0jXDY_rr8bk-hwitNASGUjQba9XVwyCN_mjChXeQ_NhlnYSePEuvbjrNn3SFgIL96hWzyheNx1UeINCSTJREZHoph_ePLtlan6EOnQzrAp9SNaX16LzQjxEHhxpkK-3gcY5tsjXR0jLpMmN6rcW1cphU3U2HJ46B1zPaWa&gsessionid=Hh_3l035M1BG69NXVy5Dno5N4V7-a56-oFbsyvTOkQo0Ji8jWLmroA"
+      },
+      {
+        "rank": 3,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESZQHEIkXX2wr-w-O0wJZAxnoaKqtks7uGgUSiVId8qDBdPShzWkuFBk5d_c6U47QvrH-2OCKi_DDZ_6CO2b5-Lm1G7qJqmZF9oc4shnTK__xh5XpN3V_ojp5tsMRRBBiRrFEOcI_5&gsessionid=Hh_3l035M1BG69NXVy5Dno5N4V7-a56-oFbsyvTOkQo0Ji8jWLmroA"
+      },
+      {
+        "rank": 4,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESgQEBxCJF1xN4RFYCKtFnaIky5HzujJDf0ZQbvPjXqlKo9-pc1HbOARogs04gHJglXJjK5sQ6IWwR-K7T8GBnGiboqM8NEXAkyjALUa-FqqHaUlD-hKjPihQY3b9sC1CCP6D66A7Kti0b0nIS7jF2HpXgGwxAfDZxIsOzB4xH6uy5yL0&gsessionid=Hh_3l035M1BG69NXVy5Dno5N4V7-a56-oFbsyvTOkQo0Ji8jWLmroA"
+      },
+      {
+        "rank": 5,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESmQEBxCJF13sERCPn_NZA3tzhooD-qlt4CiwqzowppAUpvRHXighe3whb68IuqjlPSY9dhVxAQDWKmWz-ktkDG-lGd9qzZ3xsqn8gRAkGM_8O6T-gZg2IDiJ4Aze2DyLIt3SbUGAZN1E2IrsUeCKt_woZaQ-O6EKti4ZlWWO2BhyTA9W4lpHsYngpu83mP0YzCIoS3zBWpxni_yc&gsessionid=Hh_3l035M1BG69NXVy5Dno5N4V7-a56-oFbsyvTOkQo0Ji8jWLmroA"
+      },
+      {
+        "rank": 6,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESkAEBxCJF18iNuRmuMMDINae8TW-yuUklcKTtn2B0tDXjOJmYJ02NOgqIeALC5xpVddhC8nCAr8FTkN_KEtKmkzO9KEfiyqghImqHED_jU_gXES7asGnRmwH722dYXSyCnuq4_Y38NriYcEN0dI7UEdzEG8LWwnpRe3DU2cQegHRcQhQghGUb9KmdEdh7T1bCjV0&gsessionid=Hh_3l035M1BG69NXVy5Dno5N4V7-a56-oFbsyvTOkQo0Ji8jWLmroA"
+      },
+      {
+        "rank": 7,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESYwHEIkXXH9WMENQG1Aq3jrMP4pU-oWS2_eMGxuYsaSLqTeTtE9jr0o_TkjcMoB9P4sH1uWqZtMXBhXxn-PW_OR6gocItuJaRSMrXmFlqwJgVQJGKXerEdsUJGlZ-iaULb_HuGg&gsessionid=Hh_3l035M1BG69NXVy5Dno5N4V7-a56-oFbsyvTOkQo0Ji8jWLmroA"
+      },
+      {
+        "rank": 8,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESmQEBxCJF1096IS50a0ELXhOuqUfIc_1RY_9keiH8EgKh4wgBvPyJml5ARZz7m-vT1HUHohEbuYVzjRL-mG1lXlzT3eRSuFWP_SciRcYTv0WSrOI9DmOpUG2VwvTmc4EmpWnFj0Cmoxx7Xl7t3u89tzVZTJGw1PGat9tY3zyelSxrOUo7BNhTE9Hs6T7VadgkWVde9FnhRHA9mLI&gsessionid=Hh_3l035M1BG69NXVy5Dno5N4V7-a56-oFbsyvTOkQo0Ji8jWLmroA"
+      }
+    ],
+    "types": [
+      "local_pack",
+      "ai_overview",
+      "organic",
+      "people_also_ask",
+      "related_searches"
+    ]
+  },
+  "catering chicopee ma|mobile": {
+    "aio": true,
+    "aioMentionsUs": true,
+    "refs": [
+      {
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESYwHEIkXXZ9Wr94PK7fAiHrUOz2jJiWn_dcn7tS0NdM5JWtwq-gzww4fzFrNAMDU3YvPxZk_x2PwobKu0V6GKixE7u51IU_VFKD3gElYggCplNW-UIc9OBoXtguCjbskt_OA8bw",
+        "title": "The Blue Room Cafe | Chicopee MA - Facebook"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXcxbTVyNnB5GAo",
+        "title": "Cote's Cooks"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMW0wdGQzcHc4GAo",
+        "title": "Blue Door Gatherings"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXZ4emc3Y3RqGAo",
+        "title": "3 Guys Caterers"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMW5qejQ1Z2d4GAo",
+        "title": "John's BBQ & Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXgwZnFxNmgyGAo",
+        "title": "These Hands Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGNfNTNoNhgK",
+        "title": "Hamel's Creative Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGNfeG12cxgK",
+        "title": "Frigo Foods"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSECoOCgwvZy8xMjYwajZfMmoYCg",
+        "title": "Copperline Eatery"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdHo5NnM4bRgK",
+        "title": "Houle Family Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXhzeTRwbXNrGAo",
+        "title": "Graze Craze Charcuterie Boards & Boxes"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWtrd3pqNmhuGAo",
+        "title": "Maggies catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXNycjM1bGcwGAo",
+        "title": "Jazmyn Rose Catering and Bartending"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWJ4YmIzcmhqGAo",
+        "title": "Myer's Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGduc3BmMxgK",
+        "title": "Elegant Affairs"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXYxN3pjMDdxGAo",
+        "title": "Sober Chef Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWI3eGs3ZzQ3GAo",
+        "title": "Max Catering & Events"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWdzYmZ4eTJiGAo",
+        "title": "The Farmers Table Catering and Event Services"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdnpuNmxqNhgK",
+        "title": "PEPPERMILL CATERING LLC"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMW4zbW1kcThiGAo",
+        "title": "Log Rolling Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdHcxZncxORgK",
+        "title": "Pea Soup Catering"
+      }
+    ],
+    "organic": [
+      {
+        "rank": 1,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESXgHEIkXXfxlqDZvNPK-UubyILFXTBa9_IL_Wcn2W0x3z2-62s7QCrk_3Tivl_mP8C_Sr9RLKBRH3lNcg5_zmTzGN6ea9PEA7hNElC8khZT3cdPj-OpL8vHET0Me7kjU&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      },
+      {
+        "rank": 2,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESeAHEIkXXyARHMiPFW8VufnuIwQo4abVM7AInbMQV9ZkKZO7sGwazyFbx1iMro-ah9CbbYqC9RFlnBVdGK5SsGt7z-KPKuO1p2_5W1-l-sp9Lq31lyXMj6wgrbCzB7wj6qJ4_8tKpSmv3ZKaFM4qT2kPxD0KmFVBhPA&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      },
+      {
+        "rank": 3,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEShgEBxCJF12GxZLYlIdAmPmK72lnV7Z28idqxBBWwp2vCUQdQx90cocX0B_bD9TxrXCe8iL5KhNnkrsrspN-K-SklTfiW3HFDOouA5AHTEqsOABmD0BmFYT7FqwRAvUGn5RaufoBqQFbc2akYVkPMA-xyAqZ0cHzllC5tGH7FIgWoL-Yjrjxzjg&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      },
+      {
+        "rank": 4,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEScAHEIkXXQNVRnLx48miaJ-OhWIsZ8v6Om34j8B0BzOCHLU3pWpnbTjVUct10ByQhZNsCTNfrjSnEz3oo69lxVtSSAAH72XACAlwoF2yxwTF84rlkFQED5Z8WwWKy5Sl4wt5JsftS1ltWtf73itjRY7U&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      },
+      {
+        "rank": 5,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEShQEBxCJF19Gi5oP6_H50mq6ZQJ1Tbni9yoAilqdaoTOAsMKXxa2IS071IDDD4j10Y5Wakwn0oaM_7Ha3fzapL-kOSBG1_V5x8xjjytGHxaFPwx25VXeyv8K0vDpwVpesZFe4SKO157AladQ6nu3ZnVgXG9NW02SfTJMgSUfJFcCEK3jl5s0b&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      },
+      {
+        "rank": 6,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESiAEBxCJF19gUVKKEZd_82wpMr1u2mW2URNnoKgw88zTzDSLEOrZLsD8f__Uu8XrQAcRqudyP8V0qy8nTCxASVunPBC6OkcqyNqPqS_IM4_VERBQbzPCu1waTh6fKxcDEEkykKTUvaK5AKUophMYXgxB7JuDmlEJdNhwjC7aWfoD70TMxRf2QVb_W&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      },
+      {
+        "rank": 7,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESgAEBxCJF1w9d-y4NddczT0X9v997218mDslEvOI_1eJoL2oMle5IupX0e11vH4Foe9CI7m4420CjARngb__uk9zkIxSH-L15heY4y_6JMLr3MF0cFbPObNo2x9XIl8LFe_ASY_UEWPULK9SmeZp3ZhcivR_qp9mTHh7s80EyR5A9YQ&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      },
+      {
+        "rank": 8,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESVwHEIkXXznVeHkAElMPbYlGsfNdreRSAuUfyZGaO564Nr5eKirSlvO2j0LYMm78DGyj4zNJ4-FCxTq_DR1LtFb1_ulDH2YRf07j5ZkJV2abCUPtw73FzfA&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      },
+      {
+        "rank": 9,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEStQEBxCJF1-5t1bHvfHN11ZR96V-ryt2Q5jR2IpWNESvC1fjoFr-nRDhPths3XVLxKVAzLhTVjYjQsqyISJDONQ7EfEgFRci4MFoLUV5TQbm1_VpZcozhzJRboq7CmNIc7NTutMBPf6KMQ-avQWIAgk_RIK4K3N2dRcVTbTUKrokSsKCxDwhEQkdarF0hH3gcKYa-ZOebDTHR7814jWSaSmiZpiMf6zdVktN8PTsWw5Q5VzY1Jx1c&gsessionid=T3IXBsGyU4U9MftsVko1dpxeE5lPfHaqF6wxn1sLqxnvYqk260utQg"
+      }
+    ],
+    "types": [
+      "local_pack",
+      "ai_overview",
+      "organic",
+      "people_also_search"
+    ]
+  },
+  "catering chicopee ma|desktop": {
+    "aio": false,
+    "aioMentionsUs": false,
+    "refs": [],
+    "organic": [
+      {
+        "rank": 1,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEScwHEIkXXCg1g6o2o7gKADxbQjeKuCfLaJahDISfq8wVLV2euYVUXRqz_szaHKg5r_Q9fw5K98YZUk705gl1nWJVwRSUNBH0dwJIXsAWXB5TGyeS51mQdxxvPtjvdhodQjdwJh9SAjkQhcCI7dPB20wJvpW8&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      },
+      {
+        "rank": 2,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESzQEBxCJF1-VvITyVTTSDxnDrCtaHmDl0WeiVASipYLslMw1ovTuUq44VhcFjOTVCy7_spk6WSmpopsOj1tFcGrigjTxmARPsdOrpjcAg6_7neN3usL7vcRbJX_hlZ7n-4CZa2UJVEEJW1Lw9o8vAXhC8uCfokaUKlDbw-GN-7vFIIoSycIgebYwRdvQkbHxu8YvvRVRPlfTUxUqg4ze5G9dSyseMB2RCTFTWyEy1vH5mJjyqBwZsLfiLc1TD0gZqYJ-nrtej0bPrQJYUlZPl&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      },
+      {
+        "rank": 3,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEScQHEIkXXIRJM1ZdfLZUtYe2jT8gRNPwbneGmwskZI4_EVKlhJluPc0wNM9pRDWfG4FCJkHkuJ6q8EKxZlQVCulSd4NvDx6SyJysP1OR_DPXcWTV5Tf1RT5Ye8_PAhqPXiq0NCoWxS6SUmbn8pcrDiy-J&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      },
+      {
+        "rank": 4,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESgQEBxCJF13ABpMrTg9NBZAVZktv95xxudgvTOnSTRT63EBSECYjDdQXeGR2Dk4eZ6acnMCQ9Ebc9JYXuiDXC7jC17B_Ds9fspjiLNn1GuumJem-H38ILSVbAOeGFRJ6cKV4oKHN2sUoxCgYTO3zLZmqxvshHjmrZ_PGZ-qeNz63_KLY&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      },
+      {
+        "rank": 5,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESeAHEIkXXBaPg4p8NAh19jV6de3JISNR9tqxUM2P_1Kz9BqZusUVUE3D6jvVna2mcJKpB21g8TPrX4DHkZkT3M3dfRn1VfKM_gPphYfk_crqIAKNGw6OY9vHK6tFt4vLCGQogdT1C87EKPb70i_kPEUOcpic1ZfcSxA&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      },
+      {
+        "rank": 6,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEShwEBxCJF10LPW8sn3xJyi5ms07Xhvs7W2YRmeu0qii2Wt3Lp7gCUq7n84cwO4jGQ7BRXDLB2E_JIZXU8MPqDPSyxB1XT6Zkk4JgDXZikV9ownLvth07xoRgycdcyjZe7biCPKt4uDZKoYo_oztq7NbvvnEewWtLBdwOGwPCmhJ7V_fIiO3nEeVY&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      },
+      {
+        "rank": 7,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESgwEBxCJF13YUGRnOlLdCtDUFBFiju8z0HrU7SVjNGG5M_gdAEpihsgTeOuSSAr11joR4UznH_nKC0SVAAiKugKNyBl7Lli7a-IOapDqrD94Gi2LTkDNBEDYmYaCjshlL9dte8xecZ37hDfGKSczphzjDDJSOeX3J-0fKr92vzkA5ZD84Tg&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      },
+      {
+        "rank": 8,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESaAHEIkXXLRaM73CPloSf4JXMcEZe09KvhyBBfvFxi3yHjY_3Qd70aiAQ8LtPVV6lZb5mMlTTyh6XngyTdAWj3UEjEZR2_akLsfBgQ4KbXmMk8BQNWHgA7lCPD926kPoe_PHGPz7hatUZ&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      },
+      {
+        "rank": 9,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESgQEBxCJF1wpXkKa7bDcckqze7zWrHVrUuSWF9GzfN0n7GlBWHYbsXMhTsePJ-1MTJUpsaTt8yFloDwpuxtYyf15u7QnoMbXdHZk8Xng24b2k2xmoEF_G7PxoJLCimaGyIB863JYNXrF0_FKESZughqQVxtQcnxUGrSzUaonDjR9uUSE&gsessionid=rAEOFQSJfFdDISfzRWjNCFOvaFX_VxAZ40RzDFwyMb6LE7Iz6sDueA"
+      }
+    ],
+    "types": [
+      "local_pack",
+      "organic",
+      "people_also_ask",
+      "related_searches"
+    ]
+  },
+  "best breakfast in chicopee ma|mobile": {
+    "aio": false,
+    "aioMentionsUs": false,
+    "refs": [],
+    "organic": [
+      {
+        "rank": 1,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESiwEBxCJF1-39XZ5pVKz0OhI_QKy3De7ePtcq9Vhrxbjc0twuGEAatHl9yRBP9Zh9QvgGhsNYFdolDUuRblyahTBT0HvFqIgqQfmPMR0Qspcsii1k_IcrL_rNm-W70kYggf8fZeS0PsWkn56YbuwEf706477c-Nykce23P-eCILluizn2Yh5RE0ajrgXc&gsessionid=O1-WMq-C8vUd-PbhdfeyjwtEPciKDUggM2Z03aAO5hYrzFjNZnHfhg"
+      },
+      {
+        "rank": 2,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESiwEBxCJF1yJPGG9jSZlQRWsLrwo699a4YodLIBz281JDb2IkQQ8h3-LTqS6mFH5xLDY-tbVH6di09YfRTrNStrU9skMKSH226FkCKFAZcMzj452-UGLhEMWv8LuYjA0SWa3iI3sy3MvP-A-E0f4jJjbc6LuiGK_uXllMjuFtz2QEKq5MpPndVoEVcH5-&gsessionid=O1-WMq-C8vUd-PbhdfeyjwtEPciKDUggM2Z03aAO5hYrzFjNZnHfhg"
+      },
+      {
+        "rank": 3,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESXgHEIkXX0UoIaGUR-P2Ga8UJHoDsUezJybvfPV6SsRjbQiURfp6TIsYZIuWtNI4f-gxiMNzZt4euxiAv2ROMqHXbmgDPeaQTVLRgvXas22Rg03A4n_A6QyX3Csrfhz8&gsessionid=O1-WMq-C8vUd-PbhdfeyjwtEPciKDUggM2Z03aAO5hYrzFjNZnHfhg"
+      },
+      {
+        "rank": 4,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESqgEBxCJF18UacBRu9YYojxTGQ58MVGPfSfaRwP_s41z6ZAbd0TosWZ__l6nuw6dJMEh7vul5gZLUMj1MheubG5ewyaknuDuO4Yom6LUNLsmdELh-WOPKZCT56sbVn0CHj6rVyeoPgG24SXRGexTlCwG7T4e2di26ezYNSlkrJnsXXiA97qb8CL-7PasKk0UtqXLf9UUxyZK9jVly3FmedhFLQYlgqSF_633wVA&gsessionid=O1-WMq-C8vUd-PbhdfeyjwtEPciKDUggM2Z03aAO5hYrzFjNZnHfhg"
+      },
+      {
+        "rank": 5,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEShgEBxCJF14qOppsqasIfo_GiHcUbmm3jCBTJoisrM1incEdG88zGMZMPi3XiJfux4z0Jp-LbmzNBYVZtwO0vMHZ1fQv8uoQMXxSUkPka-pkWRZt1UOLDgRq9AcBFEwI2jj7kbOLYmckU8K5BetspC1-jgMy7tpAFmevd-5_ZiJu5YEN3eOLtOw&gsessionid=O1-WMq-C8vUd-PbhdfeyjwtEPciKDUggM2Z03aAO5hYrzFjNZnHfhg"
+      },
+      {
+        "rank": 6,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESfQHEIkXXFA3IIFhKnA7WQqZsLTr6xK7l1suGVTtG4r_nlC5pB-36-GCi_NJEwvK2tQCCgv-9XR6eGwu0f0MCpzGpNB1d7cnebDye_WFWDCSuF1203VT9RDop-i1riPoFYIiB63DYLPoVEtxUB2c-FmVEZUxr_cclZiicCDMH&gsessionid=O1-WMq-C8vUd-PbhdfeyjwtEPciKDUggM2Z03aAO5hYrzFjNZnHfhg"
+      },
+      {
+        "rank": 7,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEScAHEIkXXwGXRm-hD8pkKKAZg9r9t3_kIQctOAdlI0APLnyhJRItAgWc6poXT47h1ijtireb_SYx0LzvbPIIGa2WUhJeycA2PqyVf43oQc06ZtTu00RNAPNjWIE9uwwld0fG_fmtshsUsTALoBHVpVwg&gsessionid=O1-WMq-C8vUd-PbhdfeyjwtEPciKDUggM2Z03aAO5hYrzFjNZnHfhg"
+      },
+      {
+        "rank": 8,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESfQHEIkXXAO0RDf1bhKodp3dLcyrLc2uySWQmtIvBFbg3SnBFGy96a-4NJTh4kzlpZeYVtZNUnRSdxjuzmWJYgBBiK1-BOixrC-NcU2rsV8_5xJVUFt87qtLfJqCeECbzlSNTzcbnxxo-KI_eoH24kdbRRtNulomiVNgg-w1v&gsessionid=O1-WMq-C8vUd-PbhdfeyjwtEPciKDUggM2Z03aAO5hYrzFjNZnHfhg"
+      }
+    ],
+    "types": [
+      "local_pack",
+      "organic",
+      "people_also_ask",
+      "discussions_and_forums",
+      "people_also_search",
+      "images"
+    ]
+  },
+  "best breakfast in chicopee ma|desktop": {
+    "aio": true,
+    "aioMentionsUs": true,
+    "refs": [],
+    "organic": [
+      {
+        "rank": 1,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESiwEBxCJF18sGLlOgh4nGP1hQLULRITdHWKZhwTZKtFvIHp7MrvK1m5it7kMR07_8yS0n-UUdGsTqmrO74zA7SVgxr53TgkoGDJE_dmNrSjqUfgM7pltQeBwG5cPNqnqsyKlexVJW2LuYbCLzbH4-i1ZUY8yt5r-nWV4ZQlubspx8uGomO-9wK1TTRkox&gsessionid=NSzFGkHj6aEWqSAl61roj7VNzlWB0M_nUdVzVDnZboasuLRDCXpV4w"
+      },
+      {
+        "rank": 2,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESiwEBxCJF189WO56ByaxIe-PBMZMOvxY2VAEA5YYtNI5WaSsiujUpoLlw40MVJXyrQigCylATmrjbaiI7GsDJA0KlusdVgqhTRq1cvWh8W56dCuApVh6GaK_og-tGESS7Sdcr4jgD5aoGTvx_T-g2o190IojMetpozQIedRTPNnRCE8lqc9j3JWhr_Qpy&gsessionid=NSzFGkHj6aEWqSAl61roj7VNzlWB0M_nUdVzVDnZboasuLRDCXpV4w"
+      },
+      {
+        "rank": 3,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESXgHEIkXX6NfkrngqAgDWh5on6rCF7zfCZV0QsbXLilHYs8hM92qVZD0MK5yAzdh3NqxJznPL-Lluyh4mUIAIuUG3v6mq-Rv9wQRVrlNNCOw0wO_utY61PoT1mDj4rAI&gsessionid=NSzFGkHj6aEWqSAl61roj7VNzlWB0M_nUdVzVDnZboasuLRDCXpV4w"
+      },
+      {
+        "rank": 4,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESfwHEIkXXu3aScLllF8ko0yqUfW19ruRoB4iJu6nJ0Hx2mZw5xGpesoI3aYeDQllqTph9ofLVARek89sFVUJ3zVtnr3IIdZiKCL9vj42lx79YICiojBldx9aRDPnW8L8Up2t76nZ0cy8prmh5_HW92rL8bu4P8jiWhfhdOLIVjJs&gsessionid=NSzFGkHj6aEWqSAl61roj7VNzlWB0M_nUdVzVDnZboasuLRDCXpV4w"
+      },
+      {
+        "rank": 5,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESfwHEIkXXgMra4cVMLZ2ScymOYg69j-DzlF4tRNBZs9kJGuHL8evUqEFnIevLjq5iLHVYbIbH-OQEmTKFUsv0AISW1QOSS9Ovae14Nw7s49DvHID-SzQpVACL14mZIxKVLvAFo0FGN5LJkmRqKNPiVsYzy8qtNnAu4BONYM9M_dI&gsessionid=NSzFGkHj6aEWqSAl61roj7VNzlWB0M_nUdVzVDnZboasuLRDCXpV4w"
+      },
+      {
+        "rank": 6,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESZQHEIkXXOLMFpW4MqNmRFsHkrKAbha5oidqVY0rgOK0a6Mutp9hBFLixuSslFZlk_qeCJwVs2ORPyE4OtJzLduP661AaegqqTQ8QD0MwErr-VWzKMfK1I_cbaZ2RH7bhnkxrTuHl&gsessionid=NSzFGkHj6aEWqSAl61roj7VNzlWB0M_nUdVzVDnZboasuLRDCXpV4w"
+      },
+      {
+        "rank": 7,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESrwEBxCJF14iwhYxkNnI3cWcfs-ULdrSLehaTNxHNkKtHjeUCi69clhIdPtvvZqahmcuDxnyK8fjZXHC1nqtc9bcxEHWXBGh_2qqdL3DVn3aoPI_xI9sbEhUdi90utdBrcCRqsDPaNDMCQiMeEQCO9gSi4Ej-1tSgvpeY_5tbULiA67Ib7O0bFYDwXmzRrGXgSWWgts7LVy5AWoi6xY_7hU7xysobbM4xsiGnYPbbsnng&gsessionid=NSzFGkHj6aEWqSAl61roj7VNzlWB0M_nUdVzVDnZboasuLRDCXpV4w"
+      },
+      {
+        "rank": 8,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESfwHEIkXXn9nkVG_3RM5AjyyWW8fGmYj5hZSbBoSZ-Fd7h3Pu6KvD5bRirRRuYZ3YhY5-ZqeO2KgxKmCI3gYGCWvs-Harppjws3ThzH5LB5YUF9dEBZMXMAR4nq5aX34tsCDNd9tc-eVwdOn4jPf1IGZw80yrTKBfE0wssCZAkcY&gsessionid=NSzFGkHj6aEWqSAl61roj7VNzlWB0M_nUdVzVDnZboasuLRDCXpV4w"
+      }
+    ],
+    "types": [
+      "local_pack",
+      "ai_overview",
+      "organic",
+      "people_also_ask"
+    ]
+  },
+  "breakfast catering chicopee ma|mobile": {
+    "aio": true,
+    "aioMentionsUs": true,
+    "refs": [
+      {
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEStQEBxCJF1-Hh6RgezEWpqh0nKT3ry11wxZWwTSCrrREkvCOvL4EOkMx-j-Nl2c21TggTjsCwBrp5T4KLE_r4zaF1y9yynUV1zUo5KtTv97umM6JVmP1WDJs3KXFJIg5u7S9RTI9O3Joz9KQyFAFDRl9XwembwetJQ3O7bRROdH6ewhhD4jKkihSDDuSmWhoNLF1GJN8Q9ZXQU0jktPXyq6-0v3fbfJseGYLsu1LUvPe_d2sSHl-z",
+        "title": "LUCKY STRIKE RESTAURANT, Chicopee - Tripadvisor"
+      },
+      {
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESXgHEIkXXvgvqbL9qHEwvf2NFIguQGE-x34kEhau2SqTYD3HQ0662R_YlOzCrt1oaOI74HaFycTTriBpZtii46tLelMGT80whnW5MM-iKjrWqRLYKuf9J0-lMl7TRpzI",
+        "title": "The Country Trading Post & Restaurant | US"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSECoOCgwvZy8xMjYwajZfMmoYCg",
+        "title": "Copperline Eatery"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGoycGhiMxgK",
+        "title": "Partners Restaurant & Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGN4dzd6dxgK",
+        "title": "Lucky Strike Restaurant"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWI2dHI4cXB6GAo",
+        "title": "Koffee Kup Bakery"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMW0wdGQzcHc4GAo",
+        "title": "Blue Door Gatherings"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXgwZnFxNmgyGAo",
+        "title": "These Hands Catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMW45ejQzZGt6GAo",
+        "title": "Fluffy Flips"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGZxZ3Y0MRgK",
+        "title": "Jennifer's Kitchen"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdjk0MTI5eRgK",
+        "title": "Homestyle Cafe"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdHpsel9iZBgK",
+        "title": "The Country | Trading Post"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSECoOCgwvZy8xcTVna2R5cWsYCg",
+        "title": "Russ's"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGhyODVzXxgK",
+        "title": "Sunny Side Up Breakfast and Lunch"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdHBjOF9jdBgK",
+        "title": "Memo's Restaurant"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMWtrd3pqNmhuGAo",
+        "title": "Maggies catering"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSECoOCgwvZy8xMnFnMzZyaG0YCg",
+        "title": "Magri's Market & Deli"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXd5MXR4cmZqGAo",
+        "title": "Tent for the Sun"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdnpuNmxqNhgK",
+        "title": "PEPPERMILL CATERING LLC"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSDyoNCgsvZy8xdGNfeG12cxgK",
+        "title": "Frigo Foods"
+      },
+      {
+        "domain": "www.google.com",
+        "url": "https://www.google.com/searchviewer/10?svid=CCYSESoPCg0vZy8xMXZ4NnFkMTNfGAo",
+        "title": "The Farmer's House Restaurant"
+      }
+    ],
+    "organic": [
+      {
+        "rank": 1,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESbAHEIkXXyN33TfkAXMJHI1OblQ70qLPwnTn0FTuo_pT9pV4hR0XKyWd4HxiDGqe-HTVC4Fxv8XXuHprLnYitAPql2RUuFEjnMNHRFC5t6DnBuI2GRumHRP4noVlWS2SySVrFP90HBwXSa2_vlg&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      },
+      {
+        "rank": 2,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESeAHEIkXXciI_EGp9i3KCxqtu9nTlmjsRKsUfKaPdJTn_DqYn3j46oGahTl4JPQZPyL3M0pbi6Dxa6WEEPAcAz0LuEJ5QFyCDj2cs8gEwZe2zErE9dlSsfmHHRPapStL8LOeW6BlMKQsatLwcuQcY1Wt_sjGopbzltQ&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      },
+      {
+        "rank": 3,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESXgHEIkXXCLDl9spGuaEzJdHi_QVn9dXIAn9ttHlrZlc_iqC5qxnQTvMCCGFL_5IW6cBa6YfK6y-R7AkD51WkSrkQgVZmwlzJgK7QwJV-2ARiSzSi570koQiG8iB1Dow&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      },
+      {
+        "rank": 4,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESgAEBxCJF1-6RRYvj1ihzgnyNrmJI8MDKuOu8DP5wpopZ_X_yicX3ZxZj4neZodJlmZHagYUSgNb0Irzi511XXzzYUVbgHsgVLCfJmyXg_HzEN7PMrXY0AMhh4O_FYuzCKOEzHseifnz-eItFsIz13FYVTIGwt5ERGzOGbPM0DGWs8g&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      },
+      {
+        "rank": 5,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESYwHEIkXXjDETiYV2iwsH5s3Fb62pC3FlqnuYQfDQKek_mVhPon0rStEWZ4a44Du0YjmQlx55jXw19e8sgnwFb5WLTIMQqBKY70y4XPsqfxfTMDWd50i03iahPO6_sLl0LBSOPA&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      },
+      {
+        "rank": 6,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESYQHEIkXXXlZ2gzBCOOt7xiwd2ZGB390XvXqCZhoMhQqd7nfzndzZSnvEaE_wnaK3b8kdMXj941mIGKnxggrHjPV3d9VDqozCE1kJ_h30eSOawV11ylJTb7b7sU5vqD8qlYQ&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      },
+      {
+        "rank": 7,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESbgHEIkXXiKZvcpAJVfsCLO-Y5LVawXpJ-6GuIRrA-mximaZF7OjhjFgQ3pzyn3ZlwHKzsS4cTOYqGEDpkTQEgQ-q8NackQtybDYrUslyw__LldR3pCDEf7lQBaVBg_fZJMVhdbs5yj7gCjdBDX_H&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      },
+      {
+        "rank": 8,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAESjQEBxCJF16faAF4VqR25nYwmXYmChJh4RanVr31tCcBK-vu4iz6odxUrsM5KTm7DeefS60JntmSnFdqHjRK3bNyOa_XUsjAp3_EdxBIv6iqOgp7LS7_KuHmO2dsLBUTTC-xYtgenFk1A1UV3YhxnuxkcawmarGIMz2zCXuGc62VLyZXbQkL-k-3SXX42Eug&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      },
+      {
+        "rank": 9,
+        "domain": "google.com",
+        "url": "https://google.com/goto?url=CAEStQEBxCJF1_NAy41EI8SEkVm55Ca-Hhh-Cw3jfUiGugKgqISFSOV-XKlFQWEpNCUr_h4iZrnJa6PkW_CV8PC8X5ENQheN2cTqhYsqHoat0aYZ7bOiN6NEOjPeSCB69SooHwLjcsoRqQE9UX1UyGBPwtw3FCTR5nZKqGyhawVtjQr-kevNYjq0HNeUTitYz_fwGDHAIm630Ei3IOMuv6pgna7MsW8V29L_-rbzi5o4pTs8nuW-2pkx&gsessionid=r60OppklCa2FVkxnUyi4SP7XPP0sUlBXg-8zTfdg2Mud1WzG6KgzqQ"
+      }
+    ],
+    "types": [
+      "ai_overview",
+      "organic",
+      "people_also_search"
+    ]
+  },
+  "breakfast catering chicopee ma|desktop": {
+    "aio": false,
+    "aioMentionsUs": false,
+    "refs": [],
+    "organic": [],
+    "types": []
+  }
+}
