@@ -40,6 +40,7 @@ import {
   DESCRIPTION_MAX_CHARS,
 } from './lib/content-rules.mjs';
 import { groundingText, loadSpecials, loadRestaurant } from './lib/grounding.mjs';
+import { findPhoto, downloadPhoto, creditLine } from './lib/commons-photo.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BLOG_DIR = resolve(repoRoot, 'src/content/blog');
@@ -234,7 +235,9 @@ Other rules:
 - Avoid these phrases: ${BANNED_PHRASES.join(', ')}. Avoid "X, not Y" and "rather than" constructions.
 - Length follows the content: most posts are 150 to 400 words, never over 600. Use ## subheadings only if the post is long enough to need them. Markdown body only, no frontmatter, no h1.
 - Title ${TITLE_MAX_CHARS} characters or fewer. Description ${DESCRIPTION_MIN_CHARS} to ${DESCRIPTION_MAX_CHARS} characters, one or two sentences that say what the post tells the reader.
-- Pick one image by exact path: ${AVAILABLE_IMAGES.map((i) => `${i.path} (${i.description})`).join('; ')}.
+- Pick one image by exact path: ${AVAILABLE_IMAGES.map((i) => `${i.path} (${i.description})`).join('; ')}. (A local guide post gets a photo of the event found separately; your pick is replaced.)
+- Never state holiday hours or whether the diner is open on a holiday unless the SOURCES state it for that exact date; do not ask about holiday hours either.
+- Do not ask the owner about add-ons, syrup, side swaps or other small menu modifiers.
 - ${restaurant.ALCOHOL_NOTE}
 
 SOURCES (the complete list of what is known about the restaurant):
@@ -326,13 +329,35 @@ const unsourced = findUnsourcedClaims(result.body);
 if (unsourced.hard.length) console.warn(`FAIL: unsourced claims: ${unsourced.hard.join(', ')}`);
 if (unsourced.soft.length) console.warn(`warn: unsourced detail words: ${unsourced.soft.join(', ')}`);
 
+// Ian, 2026-11-20 (claude-projects-ops #223): a local-event post shows a photo
+// of the event or its venue, never the menu. Freely licensed, from Wikimedia
+// Commons, credit under the photo. No usable photo = the slot fails (the
+// workflow drops it and the run goes red) rather than shipping a menu photo.
+let imageCredit = null;
+if (item.kind === 'local-event') {
+  const e = item.event;
+  const photo = await findPhoto([e.name, e.venue && `${e.venue} ${e.town ?? ''}`.trim(), e.town && `${e.town} Massachusetts`]);
+  if (!photo) {
+    console.error(`FAIL: no freely licensed photo of "${e.name}", its venue or its town on Wikimedia Commons; add one to public/blog/ by hand.`);
+    process.exit(1);
+  }
+  await downloadPhoto(photo, resolve(repoRoot, 'public/blog', `${item.id}.jpg`));
+  result.image = `/blog/${item.id}.jpg`;
+  result.imageAlt = `${photo.title.replace(/^File:/, '').replace(/\.\w+$/, '').replace(/[_-]+/g, ' ').trim()}`;
+  imageCredit = { text: creditLine(photo), url: photo.descriptionUrl };
+  result.pleaseConfirm.push(`Photo: is ${photo.descriptionUrl} a fair picture of ${e.name}? (found by searching Commons for "${photo.query}")`);
+  console.log(`Photo: ${photo.title} (${photo.license}, ${photo.artist})`);
+}
+
 const frontmatter = [
   '---',
   `title: ${JSON.stringify(result.title)}`,
   `description: ${JSON.stringify(result.description)}`,
   `pubDate: ${item.pubDate}`,
+  `kind: ${JSON.stringify(item.kind)}`,
   `image: ${JSON.stringify(result.image)}`,
   `imageAlt: ${JSON.stringify(result.imageAlt)}`,
+  ...(imageCredit ? [`imageCredit: ${JSON.stringify(imageCredit.text)}`, `imageCreditUrl: ${JSON.stringify(imageCredit.url)}`] : []),
   `dishRefs: ${JSON.stringify(result.dishRefs ?? [])}`,
   `tags: ${JSON.stringify(result.tags ?? [])}`,
   '---',

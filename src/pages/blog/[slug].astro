@@ -69,6 +69,11 @@ const articleSchema = {
                  scanned menus, and rendered at natural height they became a full-screen
                  wall of price lines before the article started. -->
             <img src={post.data.image} alt={post.data.imageAlt} class="blog-post-hero" width="900" height="506" />
+            {post.data.imageCredit && (
+              <p class="blog-post-credit">
+                Photo: {post.data.imageCreditUrl ? <a href={post.data.imageCreditUrl} rel="noopener">{post.data.imageCredit}</a> : post.data.imageCredit}
+              </p>
+            )}
             <div class="blog-post-body">
               <Content />
             </div>

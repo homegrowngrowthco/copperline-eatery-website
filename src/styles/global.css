@@ -1582,3 +1582,7 @@ body { max-width: 100%; }
   /* Inline, not a block: the bold lead-in runs straight into the sentence. */
   .print-note strong { color: var(--black); }
 }
+
+/* Third-party photo credit under a blog hero image (op #1715). */
+.blog-post-credit { margin: 6px 0 0; font-size: 0.72rem; color: var(--gray); }
+.blog-post-credit a { color: var(--gray); text-decoration: underline; }
