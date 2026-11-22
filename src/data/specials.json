@@ -1,55 +1,106 @@
 {
-  "updatedAt": "2026-11-14T11:13:15.654Z",
+  "updatedAt": "2026-11-21T11:23:04.997Z",
   "specials": [
     {
-      "name": "Roast Beef Hash",
-      "description": "With 2 eggs and toast",
+      "name": "Southwest Chicken Hash",
+      "description": "w/ 2 eggs & toast",
       "price": "$12.25"
     },
     {
-      "name": "Pineapple French Toast",
+      "name": "Apple Fritter French Toast",
       "description": null,
-      "price": "$9.50"
+      "price": "$10.00"
     },
     {
-      "name": "Crab Cake Beni",
+      "name": "Steak Benedict",
       "description": null,
-      "price": "$15.00"
+      "price": "$17.95"
     },
     {
-      "name": "Cinnamon Strudle Pancakes",
+      "name": "Lemon Blueberry Pancakes",
       "description": null,
-      "price": "$9.25"
+      "price": "$9.95"
     },
     {
-      "name": "Pulled Pork Omelet",
+      "name": "Chili Cheese Omelet",
       "description": null,
-      "price": null
+      "price": "$13.50"
     },
     {
-      "name": "Homemade Turkey Sausage",
-      "description": "With 2 eggs and toast",
-      "price": "$11.00"
+      "name": "Potato Pancakes",
+      "description": "w/ 2 eggs",
+      "price": "$10.25"
     },
     {
-      "name": "Sweet Potato Home Fries",
+      "name": "Cheesy Grits",
       "description": null,
-      "price": null
+      "price": "$3.50"
     },
     {
       "name": "Fresh Fruit Cup",
       "description": null,
-      "price": null
+      "price": "$3.50"
     }
   ],
   "board": {
-    "key": "2026-11-14-522feff0-3a55-4a0c-94b0-31e2f0388c7e.jpg",
+    "key": "2026-11-21-d6d07cfc-7ed2-49a1-a3e8-bd6778bface7.jpg",
     "contentType": "image/jpeg",
     "width": 3024,
     "height": 4032
   },
   "source": "customer",
   "history": [
+    {
+      "date": "2026-11-14",
+      "specials": [
+        {
+          "name": "Roast Beef Hash",
+          "description": "With 2 eggs and toast",
+          "price": "$12.25"
+        },
+        {
+          "name": "Pineapple French Toast",
+          "description": null,
+          "price": "$9.50"
+        },
+        {
+          "name": "Crab Cake Beni",
+          "description": null,
+          "price": "$15.00"
+        },
+        {
+          "name": "Cinnamon Strudle Pancakes",
+          "description": null,
+          "price": "$9.25"
+        },
+        {
+          "name": "Pulled Pork Omelet",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Homemade Turkey Sausage",
+          "description": "With 2 eggs and toast",
+          "price": "$11.00"
+        },
+        {
+          "name": "Sweet Potato Home Fries",
+          "description": null,
+          "price": null
+        },
+        {
+          "name": "Fresh Fruit Cup",
+          "description": null,
+          "price": null
+        }
+      ],
+      "board": {
+        "key": "2026-11-14-522feff0-3a55-4a0c-94b0-31e2f0388c7e.jpg",
+        "contentType": "image/jpeg",
+        "width": 3024,
+        "height": 4032
+      }
+    },
     {
       "date": "2026-11-07",
       "specials": [

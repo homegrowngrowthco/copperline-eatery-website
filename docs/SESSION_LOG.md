@@ -6,6 +6,22 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Op #1715 (continued) - 2026-11-22 - blog engine: no double-booked Mondays, real event photos, Ian's 11-20 answers as facts
+**Why:** the 11-20 draft run drafted December a second time on top of the four December posts merged on 11-10 (PRs #40 to #43 against the same four Mondays). Ian, on claude-projects-ops #223, said that every post needs a relevant photo that is not Copperline's own.
+**Shipped (engine PR):** `plan-month.mjs` marks a Monday that already has a post (on master or in an open `content/` PR, passed as `--taken`) as `taken`, and the workflow skips drafting, preview and PRs when nothing is left. `lib/commons-photo.mjs` and the generator give each event post a CC0, PD, CC BY or CC BY-SA Commons photo in `public/blog/<id>.jpg` with `imageCredit`/`imageCreditUrl`, rendered under the hero. `post-photo.mjs` is the hand tool for the same. `blog-gates.mjs` fails a local-event post that uses an own image (from 11-30) and a third-party photo with no credit. `GROUNDING_FACTS` holds Ian's 11-20 catering, Dec 31 and kids' answers, and the prompt forbids stating holiday hours or asking about small modifiers.
+**Verify:** `plan-month.mjs --self-test` passes 10 of 10; December 2026 now plans 0 slots and January skips 01-04 and 01-11. The generator `--dry-run` passes 5 of 5, `qa:blog-gates` and `qa:functions` pass, and a live Commons lookup found photos for 3 test events. The local `npm run build` is blocked by Windows Application Control on a native module under `C:\tmp`, so CI builds it instead.
+**Revert:** `git revert -m 1 <merge>`. Posts that already carry `imageCredit` still build without the feature, because Zod strips unknown keys.
+
+---
+
+### Op #1715 - 2026-11-21 - 12-week content gate re-measure (issue #230)
+**Shipped:** `audits/GATE-12WK-2026-11-21.md`, plus raw `audits/local-pack-2026-11-21.json` and `audits/aio-2026-11-21.json`. Measurement only, no code or content changed. DataForSEO spend $0.170, approved on claude-projects-ops issue #230.
+**Result:** gate not met. Non-branded clicks were 68 per 28 days against a target of 93. `/specials` now gets clicks (5). The http row is 444 because the GBP fix is still not done. CT pages are on hold because Somers got 1 click. Tier B published nothing from 09-21 to 11-30, so the next gate run is 2027-02-22 (dated-issues entry `copperline-12wk-gate-2`). Copperline is in 16 of 28 packs, up from 11. Copperline's GBP card is named in 5 of 8 AI Overviews; no site page is cited.
+**Gotchas:** (1) Google now wraps organic links in `google.com/goto?url=...`, so the organic column in `local-pack-check.mjs` reads "absent" everywhere. (2) The `business_listings/search` data is stale: Copperline's review and photo counts exactly match 09-24. Both fixes are a `../TODO.md` line. (3) The creds path is now `--env-file=C:/Users/Ian/OneDrive/Documents/claude_projects/growth-engine/.env`; the relative `../../growth-engine` path stopped working when the repo moved.
+**Revert:** `git revert` the merge; docs and data files only.
+
+---
+
 ### Ops #1549 and #1581 - 2026-11-07 to 2026-11-10 - Astro 7 dependency patch, blog engine redesigned and live, first post scheduled
 **2026-11-07 to 11-08 (op #1549):** "Weekly Local Post" disabled (decision I7), its 4 drafts (#23 #24 #26 #27) closed unpublished; Ian set the new blog direction (claude-projects-ops issue #89). PR #28 (merge `faba800`, commit `631e346`): `npm audit fix`, astro 7.4.7, esbuild as an explicit devDependency, `npm audit` 0, build output unchanged. Engine built on `claude/blog-redesign-op1549` (`17044be`), sample post (`ee3de44`), status note (`3f51985`).
 **2026-11-10 (op #1581):** PR #29 merged (`2d609b7`): the blog engine described in CLAUDE.md (monthly drafts on the 20th, weekly Monday publish, `src/lib/publish-window.mjs` hides future posts). PR #30 merged (`7b9a8f5`, Ian's answers added in `0739ec0`): "Grinchmas Saturday" post, `pubDate` 2026-11-30, hidden until then. "Weekly Local Post" enabled; the `draft-month` dispatch (run 42914412777, success) opened December draft PRs #31 to #34, open for Ian. PR #35 merged (`14cf5e2`, commit `5baec67`): the duplicate session hooks removed from `.claude/settings.json` (global since op #1539).
