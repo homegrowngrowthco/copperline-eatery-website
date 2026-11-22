@@ -129,16 +129,28 @@ jobs:
         run: node scripts/research-events.mjs --month=${{ steps.month.outputs.month }} --out="$RUNNER_TEMP/events.json"
 
       - name: Plan the month
+        id: plan
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Topics that already have an open draft PR are skipped.
-          EXCLUDE=$(gh pr list --state open --json headRefName --jq '[.[].headRefName | select(startswith("content/")) | ltrimstr("content/")] | join(",")')
+          # Topics that already have an open draft PR are skipped, and so are
+          # their Mondays (op #1715); Mondays with a post on master are read
+          # by plan-month.mjs itself.
+          BRANCHES=$(gh pr list --state open --json headRefName --jq '.[].headRefName | select(startswith("content/"))')
+          EXCLUDE=$(echo "$BRANCHES" | sed 's#^content/##' | paste -sd, -)
+          TAKEN=""
+          for B in $BRANCHES; do
+            ID="${B#content/}"
+            D=$(git show "origin/$B:src/content/blog/$ID.md" 2>/dev/null | sed -n 's/^pubDate: *\([0-9-]\{10\}\).*/\1/p' | head -1)
+            [ -n "$D" ] && TAKEN="$TAKEN${TAKEN:+,}$D"
+          done
           SPECIALS=""
           if [ "${{ inputs.specials_extra }}" = "true" ]; then SPECIALS="--specials-extra"; fi
-          node scripts/plan-month.mjs --month=${{ steps.month.outputs.month }} --events="$RUNNER_TEMP/events.json" --out="$RUNNER_TEMP/plan.json" --exclude="$EXCLUDE" $SPECIALS
+          node scripts/plan-month.mjs --month=${{ steps.month.outputs.month }} --events="$RUNNER_TEMP/events.json" --out="$RUNNER_TEMP/plan.json" --exclude="$EXCLUDE" --taken="$TAKEN" $SPECIALS
+          echo "todo=$(jq '[.[] | select(.id != null)] | length' "$RUNNER_TEMP/plan.json")" >> "$GITHUB_OUTPUT"
 
       - name: Draft and gate each post
+        if: steps.plan.outputs.todo != '0'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
@@ -152,7 +164,7 @@ jobs:
               echo "Slot $SLOT ($ID) drafted and passed the gates."
             else
               echo "::warning::Slot $SLOT ($ID) failed to draft or failed the gates; dropped."
-              rm -f "src/content/blog/$ID.md" "$RUNNER_TEMP/meta-$SLOT.json"
+              rm -f "src/content/blog/$ID.md" "public/blog/$ID.jpg" "$RUNNER_TEMP/meta-$SLOT.json"
               FAILED=1
             fi
           done
@@ -163,6 +175,7 @@ jobs:
 
       - name: Build a preview with this month's drafts
         id: preview
+        if: steps.plan.outputs.todo != '0'
         env:
           SHOW_FUTURE_POSTS: '1'
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -174,6 +187,7 @@ jobs:
           echo "url=$(grep -oE 'https://[a-zA-Z0-9.-]+\.netlify\.app' "$RUNNER_TEMP/netlify-deploy.log" | tail -1)" >> "$GITHUB_OUTPUT"
 
       - name: Open one draft PR and one needs-ian issue per post
+        if: steps.plan.outputs.todo != '0'
         env:
           GH_TOKEN: ${{ github.token }}
           OPS_REPO_TOKEN: ${{ secrets.OPS_REPO_TOKEN }}
@@ -186,6 +200,7 @@ jobs:
             BRANCH="content/$ID"
             git checkout -q -B "$BRANCH" origin/master
             git add "src/content/blog/$ID.md"
+            [ -f "public/blog/$ID.jpg" ] && git add "public/blog/$ID.jpg"
             git commit -q -m "content(blog): draft $ID for $DATE"
             git push -q origin "$BRANCH"
             node scripts/draft-bodies.mjs --meta="$META" --kind=pr --preview="${{ steps.preview.outputs.url }}" --out="$RUNNER_TEMP/pr-$ID.md"
