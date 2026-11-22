@@ -1,5 +1,42 @@
 declare function gtag(...args: unknown[]): void;
 
+// Where this visit started (op #1715): the first page of the visit and the
+// site that sent the visitor, kept for the tab's session and copied into the
+// hidden landing-page / referrer fields of the catering forms, so each quote
+// or inquiry says which page brought it in, even when GA4 is blocked. Only a
+// path, utm_* tags and a host name are kept; no other query string.
+function fillVisitSource() {
+  const KEY = 'cl-visit-source';
+  let source: { landing: string; referrer: string } | null = null;
+  try {
+    const saved = sessionStorage.getItem(KEY);
+    if (saved) source = JSON.parse(saved);
+  } catch {
+    /* storage blocked: fall back to this page */
+  }
+  if (!source) {
+    const utm = [...new URLSearchParams(location.search)].filter(([k]) => k.startsWith('utm_'));
+    let referrer = '';
+    try {
+      const host = document.referrer ? new URL(document.referrer).hostname : '';
+      referrer = host && host !== location.hostname ? host : '';
+    } catch {
+      referrer = '';
+    }
+    source = {
+      landing: location.pathname + (utm.length ? `?${new URLSearchParams(utm)}` : ''),
+      referrer: referrer || 'direct or unknown',
+    };
+    try {
+      sessionStorage.setItem(KEY, JSON.stringify(source));
+    } catch {
+      /* storage blocked */
+    }
+  }
+  document.querySelectorAll<HTMLInputElement>('input[name="landing-page"]').forEach((i) => (i.value = source!.landing));
+  document.querySelectorAll<HTMLInputElement>('input[name="referrer"]').forEach((i) => (i.value = source!.referrer));
+}
+
 function initVideoFacade() {
   const facade = document.querySelector<HTMLButtonElement>('.video-facade');
   if (!facade) return;
@@ -42,6 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initReviewsCarousel();
   initVideoFacade();
   initQuoteBuilder();
+
+  fillVisitSource();
 
   // GA4 conversion event for the catering inquiry form (fires on submit,
   // before the POST navigates to /catering-thanks).

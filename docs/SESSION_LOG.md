@@ -6,6 +6,14 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Op #1715 (continued) - 2026-11-22 - quote and inquiry forms record where the visit started; GA4 read access
+**Shipped:** hidden `landing-page` and `referrer` fields on both catering forms (`catering-quote`, `catering-inquiry`), filled by `fillVisitSource()` in `main.ts`: the first page of the tab's visit plus utm tags, and the referring host, kept in sessionStorage. The quote email gets a "Found us via:" line, and inquiry submissions carry the fields in the Netlify notification. `ga4-auth.py` (one-time read-only consent, separate token file) and `ga4-analytics.py` (key events, lead events by landing page and source).
+**Correction:** GA4 has recorded `catering_quote_submit` and `catering_inquiry_submit` since before this op; the gate report's "no GA4 access" was about read access, not tracking.
+**Verify:** `qa:functions` with a new visit-source check; `tsc` clean on the changed files; CI build.
+**Revert:** `git revert -m 1 <merge>`; delete `~/.gsc/token-ga4.json`.
+
+---
+
 ### Op #1715 (continued) - 2026-11-22 - blog engine: no double-booked Mondays, real event photos, Ian's 11-20 answers as facts
 **Why:** the 11-20 draft run drafted December a second time on top of the four December posts merged on 11-10 (PRs #40 to #43 against the same four Mondays). Ian, on claude-projects-ops #223, said that every post needs a relevant photo that is not Copperline's own.
 **Shipped (engine PR):** `plan-month.mjs` marks a Monday that already has a post (on master or in an open `content/` PR, passed as `--taken`) as `taken`, and the workflow skips drafting, preview and PRs when nothing is left. `lib/commons-photo.mjs` and the generator give each event post a CC0, PD, CC BY or CC BY-SA Commons photo in `public/blog/<id>.jpg` with `imageCredit`/`imageCreditUrl`, rendered under the hero. `post-photo.mjs` is the hand tool for the same. `blog-gates.mjs` fails a local-event post that uses an own image (from 11-30) and a third-party photo with no credit. `GROUNDING_FACTS` holds Ian's 11-20 catering, Dec 31 and kids' answers, and the prompt forbids stating holiday hours or asking about small modifiers.

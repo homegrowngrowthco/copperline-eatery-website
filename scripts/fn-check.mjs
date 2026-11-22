@@ -82,6 +82,13 @@ const emailOk =
   email.text.includes('attached as a PDF') &&
   email.attachmentName === 'catering-quote-test-person.pdf';
 checks.push(['submission-created email render', emailOk ? 'ok' : 'bad', 'ok']);
+// Visit source line (op #1715): shown when the hidden fields arrive, absent otherwise.
+const withSource = submission.renderQuoteEmail({ ...quoteData, 'landing-page': '/blog/breakfast-catering-quantities', referrer: 'www.google.com' });
+checks.push([
+  'submission-created email visit source',
+  withSource.text.includes('Found us via: /blog/breakfast-catering-quantities (from www.google.com)') && !email.text.includes('Found us via') ? 'ok' : 'bad',
+  'ok',
+]);
 
 // The parsed model feeds every line the PDF draws, so assert content there
 // (compressed PDF streams are not raw-searchable), then prove the generated

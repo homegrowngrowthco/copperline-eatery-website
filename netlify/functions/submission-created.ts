@@ -135,6 +135,9 @@ export function renderQuoteEmail(data: Record<string, string>): QuoteEmail {
   if (guests) lines.push(`Guests: ${guests}`);
   if (eventDate) lines.push(`Date: ${formatDate(eventDate)}`);
   if (total) lines.push(`Estimated total: ${total}`);
+  // Visit source from the hidden fields main.ts fills (op #1715).
+  const landing = data['landing-page']?.trim();
+  if (landing) lines.push(`Found us via: ${landing}${data['referrer']?.trim() ? ` (from ${data['referrer'].trim()})` : ''}`);
   lines.push('');
   lines.push('The full quote sheet is attached as a PDF.');
   lines.push('Reply to this email to answer the customer directly.');
