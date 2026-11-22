@@ -1,7 +1,8 @@
 ---
 title: "How Far Ahead to Order Breakfast for an Office Meeting"
 description: "Most office breakfasts need one to two weeks' notice, and large or weekend events need three to four. Here is what we need to quote yours."
-pubDate: 2026-12-14
+pubDate: 2027-01-04
+kind: "customer-question"
 image: "/catering-breakfast.jpg"
 imageAlt: "A catering breakfast buffet spread from The Copperline Eatery"
 dishRefs: []
@@ -15,9 +16,9 @@ Corporate meetings and office lunches are among the events we cater most. If you
 
 We price breakfast catering for each event. Once we know a few things, we can give you a per-person price:
 
-- **Headcount:** tell us how many people, and we size the order for you as part of the quote.
+- **Headcount:** tell us how many people, and we size the order for you as part of the quote. There is no minimum and no maximum.
 - **Menu:** our breakfast catering includes eggs, bacon and sausage, home fries, French toast and pancakes.
-- **Service:** you can pick it up at the restaurant, we can drop it off hot, or we can serve on site.
+- **Service:** you can pick it up at the restaurant, we can drop it off hot, or we can serve on site. Hot drop-off can be as early as 5 a.m., there is no delivery fee, and there is no set distance limit.
 
 When you reach out, send the date, headcount and start time.
 
