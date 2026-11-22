@@ -6,6 +6,14 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 
 ---
 
+### Op #1715 (continued) - 2026-11-22 - blog engine: no double-booked Mondays, real event photos, Ian's 11-20 answers as facts
+**Why:** the 11-20 draft run drafted December a second time on top of the four December posts merged on 11-10 (PRs #40 to #43 against the same four Mondays). Ian, on claude-projects-ops #223, said that every post needs a relevant photo that is not Copperline's own.
+**Shipped (engine PR):** `plan-month.mjs` marks a Monday that already has a post (on master or in an open `content/` PR, passed as `--taken`) as `taken`, and the workflow skips drafting, preview and PRs when nothing is left. `lib/commons-photo.mjs` and the generator give each event post a CC0, PD, CC BY or CC BY-SA Commons photo in `public/blog/<id>.jpg` with `imageCredit`/`imageCreditUrl`, rendered under the hero. `post-photo.mjs` is the hand tool for the same. `blog-gates.mjs` fails a local-event post that uses an own image (from 11-30) and a third-party photo with no credit. `GROUNDING_FACTS` holds Ian's 11-20 catering, Dec 31 and kids' answers, and the prompt forbids stating holiday hours or asking about small modifiers.
+**Verify:** `plan-month.mjs --self-test` passes 10 of 10; December 2026 now plans 0 slots and January skips 01-04 and 01-11. The generator `--dry-run` passes 5 of 5, `qa:blog-gates` and `qa:functions` pass, and a live Commons lookup found photos for 3 test events. The local `npm run build` is blocked by Windows Application Control on a native module under `C:\tmp`, so CI builds it instead.
+**Revert:** `git revert -m 1 <merge>`. Posts that already carry `imageCredit` still build without the feature, because Zod strips unknown keys.
+
+---
+
 ### Op #1715 - 2026-11-21 - 12-week content gate re-measure (issue #230)
 **Shipped:** `audits/GATE-12WK-2026-11-21.md`, plus raw `audits/local-pack-2026-11-21.json` and `audits/aio-2026-11-21.json`. Measurement only, no code or content changed. DataForSEO spend $0.170, approved on claude-projects-ops issue #230.
 **Result:** gate not met. Non-branded clicks were 68 per 28 days against a target of 93. `/specials` now gets clicks (5). The http row is 444 because the GBP fix is still not done. CT pages are on hold because Somers got 1 click. Tier B published nothing from 09-21 to 11-30, so the next gate run is 2027-02-22 (dated-issues entry `copperline-12wk-gate-2`). Copperline is in 16 of 28 packs, up from 11. Copperline's GBP card is named in 5 of 8 AI Overviews; no site page is cited.

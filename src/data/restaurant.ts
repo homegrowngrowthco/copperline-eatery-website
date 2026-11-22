@@ -114,4 +114,12 @@ export const GROUNDING_FACTS = [
   'Catering lead time: one to two weeks for most events; three to four weeks for larger events and weekend dates.',
   'Breakfast and brunch catering (eggs, bacon and sausage, home fries, French toast, pancakes) is quoted per event; the priced packages in the menu data are the lunch and dinner buffets.',
   'Online quote builder at /catering/quote; full catering menu PDF at /catering-menu.pdf.',
+  // Ian, 2026-11-20 (op #1715, claude-projects-ops #224 to #226).
+  'Catering has no minimum and no maximum headcount; for a very small or very large event, submit a quote or call to discuss.',
+  'Catering with less than one week of notice is sometimes possible; call the restaurant to ask.',
+  'Hot drop-off for catering can be as early as 5 a.m.',
+  'There is no catering delivery fee and no set distance limit; submit a quote or call to discuss the location.',
+  'Catering availability on a given date (including around the holidays): submit a quote or call to check.',
+  "Holiday hours are not known in advance and are never stated, with one exception: on Thursday, December 31, 2026 the diner is open its regular hours, takeout included.",
+  "The Kids' Breakfast can be ordered at any hour the diner is open, and for takeout and on DoorDash.",
 ] as const;
