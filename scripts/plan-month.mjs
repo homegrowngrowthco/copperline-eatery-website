@@ -11,9 +11,14 @@
 // extra item on the Thursday after the first Monday.
 //
 // Usage: node scripts/plan-month.mjs --month=2026-12 --events=<events.json>
-//          --out=<plan.json> [--exclude=id1,id2] [--specials-extra]
+//          --out=<plan.json> [--exclude=id1,id2] [--taken=YYYY-MM-DD,...] [--specials-extra]
+//
+// A Monday that already has a post (any file in src/content/blog/ with that
+// pubDate, or a date passed in --taken for open draft PRs) is skipped as
+// kind 'taken' (op #1715: the 11-20 run drafted December a second time on
+// top of four merged December posts).
 //        node scripts/plan-month.mjs --self-test   (fixtures only)
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -39,7 +44,7 @@ export function mondaysOf(month) {
 
 const DAYTIME = new Set(['morning', 'daytime', 'all-day', 'multi-day']);
 
-export function plan({ month, events, questions, exclude = new Set(), postExists = () => false, specialsExtra = false }) {
+export function plan({ month, events, questions, exclude = new Set(), postExists = () => false, taken = new Set(), specialsExtra = false }) {
   const usedEvents = new Set();
   const usedQuestions = new Set();
   const items = [];
@@ -75,6 +80,10 @@ export function plan({ month, events, questions, exclude = new Set(), postExists
   };
 
   mondaysOf(month).forEach((monday, i) => {
+    if (taken.has(iso(monday))) {
+      items.push({ slot: i + 1, pubDate: iso(monday), kind: 'taken', id: null });
+      return;
+    }
     const eventFirst = i % 2 === 0;
     const item = eventFirst ? pickEvent(monday) ?? pickQuestion() : pickQuestion() ?? pickEvent(monday);
     if (item) items.push({ slot: i + 1, pubDate: iso(monday), ...item });
@@ -105,6 +114,11 @@ function selfTest() {
     [p[1].kind === 'customer-question' && p[1].id === 'q1', 'week 2 is a question'],
     [new Set(p.map((x) => x.id)).size === p.length, 'no topic used twice'],
     [plan({ month: '2026-12', events, questions, exclude: new Set(['q1']) })[1].id === 'q2', 'excluded ids are skipped'],
+    [(() => {
+      const t = plan({ month: '2026-12', events, questions, taken: new Set(['2026-12-07', '2026-12-21']) });
+      return t[0].kind === 'taken' && t[0].id === null && t[2].kind === 'taken' && Boolean(t[1].id) && Boolean(t[3].id);
+    })(), 'Mondays that already have a post are skipped'],
+    [plan({ month: '2026-12', events, questions, taken: new Set(mondaysOf('2026-12').map(iso)) }).every((x) => x.id === null), 'a fully taken month plans nothing'],
   ];
   let bad = 0;
   for (const [ok, name] of checks) {
@@ -124,7 +138,14 @@ const events = JSON.parse(readFileSync(args.events, 'utf8')).events ?? [];
 const backlog = JSON.parse(readFileSync(resolve(repoRoot, 'content/backlog.json'), 'utf8'));
 const exclude = new Set(String(args.exclude ?? '').split(',').map((s) => s.trim()).filter(Boolean));
 const postExists = (id) => existsSync(resolve(repoRoot, 'src/content/blog', `${id}.md`));
-const items = plan({ month: args.month, events, questions: backlog.questions ?? [], exclude, postExists, specialsExtra: Boolean(args['specials-extra']) });
+const blogDir = resolve(repoRoot, 'src/content/blog');
+const taken = new Set(String(args.taken ?? '').split(',').map((s) => s.trim()).filter(Boolean));
+for (const f of readdirSync(blogDir).filter((n) => n.endsWith('.md'))) {
+  const m = readFileSync(resolve(blogDir, f), 'utf8').match(/^pubDate:\s*(\d{4}-\d{2}-\d{2})/m);
+  if (m) taken.add(m[1]);
+}
+const items = plan({ month: args.month, events, questions: backlog.questions ?? [], exclude, postExists, taken, specialsExtra: Boolean(args['specials-extra']) });
 writeFileSync(args.out, JSON.stringify(items, null, 2) + '\n');
-for (const it of items) console.log(`${it.pubDate} slot ${it.slot}: ${it.kind} ${it.id ?? '(nothing left to plan)'}`);
+for (const it of items) console.log(`${it.pubDate} slot ${it.slot}: ${it.kind} ${it.id ?? (it.kind === 'taken' ? '(already has a post)' : '(nothing left to plan)')}`);
+if (items.every((it) => it.id === null)) console.log('Every Monday of this month already has a post; nothing to draft.');
 if (items.some((it) => it.kind === 'empty')) console.warn('warn: some weeks have no topic; add questions to content/backlog.json');

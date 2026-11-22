@@ -38,6 +38,9 @@ const REQUIRED_FIELDS = ['title', 'description', 'pubDate', 'image', 'imageAlt']
 const STALE_IMAGES = new Set(['/catering-menu-1.jpg', '/catering-menu-2.jpg']);
 // Posts dated on or after this get the redesign rules (op #1549).
 const REDESIGN_RULES_FROM = new Date('2026-11-09T00:00:00Z');
+// Ian, 2026-11-20 (claude-projects-ops #223): event posts show the event.
+const EVENT_PHOTO_RULE_FROM = new Date('2026-11-30T00:00:00Z');
+const OWN_IMAGES = /^\/(breakfast-menu|lunch-menu|catering-breakfast|catering-menu|logo|about-video-poster)[\w.-]*$|^\/specials-board\//;
 
 function loadMenuItems() {
   const data = JSON.parse(readFileSync(resolve(repoRoot, 'src/data/menuData.json'), 'utf8'));
@@ -103,6 +106,15 @@ function checkPost(filePath, menuItems) {
       }
     } else {
       errors.push(`${fileLabel}: image "${fm.image}" must be a site-root absolute path (starts with "/")`);
+    }
+    // Ian, 2026-11-20 (op #1715): a photo that is not Copperline's own carries
+    // its license credit, and a local-event post shows the event, not the menu.
+    if (/^\/(blog|towns)\//.test(fm.image) && !(fm.imageCredit && fm.imageCreditUrl)) {
+      errors.push(`${fileLabel}: image "${fm.image}" is a third-party photo and needs imageCredit and imageCreditUrl`);
+    }
+    const postDate = fm.pubDate ? new Date(fm.pubDate) : null;
+    if (fm.kind === 'local-event' && postDate && postDate >= EVENT_PHOTO_RULE_FROM && OWN_IMAGES.test(fm.image)) {
+      errors.push(`${fileLabel}: local-event post uses Copperline's own image "${fm.image}"; use a photo of the event or venue (public/blog/, with a credit)`);
     }
   }
 
