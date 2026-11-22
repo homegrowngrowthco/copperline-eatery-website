@@ -19,6 +19,14 @@ const blog = defineCollection({
     // path for a Tier A archive photo. blog-gates.mjs verifies it actually resolves.
     image: z.string(),
     imageAlt: z.string(),
+    // Required (by blog-gates.mjs) for any photo that is not Copperline's own
+    // (public/blog/, public/towns/): the attribution the license asks for,
+    // rendered under the photo, and the Commons file page it links to.
+    imageCredit: z.string().optional(),
+    imageCreditUrl: z.string().url().optional(),
+    // Plan item kind written by generate-post.mjs ('local-event',
+    // 'customer-question', 'specials-extra'); blog-gates.mjs uses it.
+    kind: z.string().optional(),
     // Dish names this post cites; blog-gates.mjs checks each exists in menuData.json.
     dishRefs: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),

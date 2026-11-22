@@ -69,6 +69,11 @@ const articleSchema = {
                  scanned menus, and rendered at natural height they became a full-screen
                  wall of price lines before the article started. -->
             <img src={post.data.image} alt={post.data.imageAlt} class="blog-post-hero" width="900" height="506" />
+            {post.data.imageCredit && (
+              <p class="blog-post-credit">
+                Photo: {post.data.imageCreditUrl ? <a href={post.data.imageCreditUrl} rel="noopener">{post.data.imageCredit}</a> : post.data.imageCredit}
+              </p>
+            )}
             <div class="blog-post-body">
               <Content />
             </div>
@@ -124,6 +129,17 @@ const articleSchema = {
     object-position: top;
     border-radius: 6px;
     margin: 0 0 28px;
+  }
+  /* Third-party photo credit, tucked under the hero (op #1715). */
+  .blog-post-credit {
+    margin: -18px 0 24px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--gray);
+  }
+  .blog-post-credit a {
+    color: inherit;
+    text-decoration: underline;
   }
   .blog-post-body {
     font-size: 1.05rem;

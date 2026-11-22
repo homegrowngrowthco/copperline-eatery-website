@@ -2,8 +2,11 @@
 title: "Grinchmas Saturday at the Springfield Museums, December 5"
 description: "The Springfield Museums hold Grinchmas Saturday on December 5. Here is how a family breakfast with us fits in before the doors open at 10."
 pubDate: 2026-11-30
-image: "/breakfast-menu.jpg"
-imageAlt: "Printed breakfast menu at The Copperline Eatery in Chicopee, MA"
+image: "/blog/grinchmas-saturday-springfield-museums-2026-12-05.jpg"
+imageAlt: "The Springfield Science Museum on the Quadrangle at the Springfield Museums"
+kind: "local-event"
+imageCreditUrl: "https://commons.wikimedia.org/wiki/File:Springfield_Science_Museum_-_DSC03500.JPG"
+imageCredit: "Daderot, CC0"
 dishRefs: ["Kids' Breakfast","Banana Bread French Toast"]
 tags: ["local events","springfield","families","holidays"]
 ---
