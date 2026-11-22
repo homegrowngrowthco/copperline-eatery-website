@@ -6,7 +6,7 @@ image: "/blog/springfield-thunderbirds-vs-providence-bruins-2026-12-27.jpg"
 imageAlt: "The MassMutual Center in downtown Springfield, where the Thunderbirds play"
 kind: "local-event"
 imageCreditUrl: "https://commons.wikimedia.org/wiki/File:Mass_Mutual_Center,_Springfield_MA.jpg"
-imageCredit: "John Phelan, CC BY-SA 3.0, via Wikimedia Commons"
+imageCredit: "John Phelan, CC BY-SA 3.0"
 dishRefs: ["Hash Breakfast","Copperline Special","Reuben","Kids' Breakfast"]
 tags: ["local events","hockey","sunday","springfield"]
 ---

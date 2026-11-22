@@ -6,7 +6,7 @@ image: "/blog/grinchmas-saturday-springfield-museums-2026-12-05.jpg"
 imageAlt: "The Springfield Science Museum on the Quadrangle at the Springfield Museums"
 kind: "local-event"
 imageCreditUrl: "https://commons.wikimedia.org/wiki/File:Springfield_Science_Museum_-_DSC03500.JPG"
-imageCredit: "Daderot, CC0, via Wikimedia Commons"
+imageCredit: "Daderot, CC0"
 dishRefs: ["Kids' Breakfast","Banana Bread French Toast"]
 tags: ["local events","springfield","families","holidays"]
 ---

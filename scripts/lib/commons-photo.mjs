@@ -90,4 +90,6 @@ export async function downloadPhoto(candidate, outPath) {
   writeFileSync(outPath, Buffer.from(await r.arrayBuffer()));
 }
 
-export const creditLine = (c) => `${c.artist}, ${c.license}, via Wikimedia Commons`;
+// Short enough for one line under the photo on a phone; the link (imageCreditUrl)
+// goes to the Commons file page, which carries the full license.
+export const creditLine = (c) => `${c.artist}, ${c.license}`;

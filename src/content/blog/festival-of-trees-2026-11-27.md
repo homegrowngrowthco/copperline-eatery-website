@@ -6,7 +6,7 @@ image: "/blog/festival-of-trees-2026-11-27.jpg"
 imageAlt: "The MassMutual Center in downtown Springfield, home of the Festival of Trees"
 kind: "local-event"
 imageCreditUrl: "https://commons.wikimedia.org/wiki/File:Mass_Mutual_Center,_Springfield_MA.jpg"
-imageCredit: "John Phelan, CC BY-SA 3.0, via Wikimedia Commons"
+imageCredit: "John Phelan, CC BY-SA 3.0"
 dishRefs: ["Eggs Benedict","Hash Breakfast","Copperline Special","Reuben","The Pilgrim","Kids' Breakfast"]
 tags: ["local guide","springfield","holidays","family"]
 ---
