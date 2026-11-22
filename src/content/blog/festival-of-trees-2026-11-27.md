@@ -2,8 +2,11 @@
 title: "Festival of Trees Final Week, With Breakfast or Lunch First"
 description: "The Festival of Trees at the MassMutual Center runs through December 13. Here is how breakfast or lunch at our Chicopee diner fits around a visit."
 pubDate: 2026-12-07
-image: "/breakfast-menu.jpg"
-imageAlt: "Printed breakfast menu at The Copperline Eatery"
+image: "/blog/festival-of-trees-2026-11-27.jpg"
+imageAlt: "The MassMutual Center in downtown Springfield, home of the Festival of Trees"
+kind: "local-event"
+imageCreditUrl: "https://commons.wikimedia.org/wiki/File:Mass_Mutual_Center,_Springfield_MA.jpg"
+imageCredit: "John Phelan, CC BY-SA 3.0, via Wikimedia Commons"
 dishRefs: ["Eggs Benedict","Hash Breakfast","Copperline Special","Reuben","The Pilgrim","Kids' Breakfast"]
 tags: ["local guide","springfield","holidays","family"]
 ---
@@ -11,7 +14,7 @@ The [Festival of Trees](https://sbgc.org/fot/) is in its last week. This is the 
 
 ## Breakfast or lunch first
 
-Our regular hours hold all week, December 7 through 13: Monday through Friday 6 a.m. to 2 p.m., Saturday 6 a.m. to 1:30 p.m., and Sunday 7 a.m. to 1 p.m.
+We keep our regular hours all week, December 7 through 13.
 
 We serve breakfast all day, and lunch whenever we're open, so you can eat with us at any hour before a trip into Springfield. A few dishes from our regular menu:
 
