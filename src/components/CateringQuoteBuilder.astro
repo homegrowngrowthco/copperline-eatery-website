@@ -68,6 +68,9 @@ function chooseHint(group: ChoiceGroup): string {
 >
   <input type="hidden" name="form-name" value="catering-quote" />
   <input type="hidden" name="source" value="quote-builder" />
+  <!-- Where the visit started; filled by main.ts (op #1715). -->
+  <input type="hidden" name="landing-page" />
+  <input type="hidden" name="referrer" />
   <p class="hidden-field" aria-hidden="true">
     <label>Don't fill this out if you're human: <input name="bot-field" /></label>
   </p>
