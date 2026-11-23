@@ -10,7 +10,7 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 **Shipped:** hidden `landing-page` and `referrer` fields on both catering forms (`catering-quote`, `catering-inquiry`), filled by `fillVisitSource()` in `main.ts`: the first page of the tab's visit plus utm tags, and the referring host, kept in sessionStorage. The quote email gets a "Found us via:" line, and inquiry submissions carry the fields in the Netlify notification. `ga4-auth.py` (one-time read-only consent, separate token file) and `ga4-analytics.py` (key events, lead events by landing page and source).
 **Correction:** GA4 has recorded `catering_quote_submit` and `catering_inquiry_submit` since before this op; the gate report's "no GA4 access" was about read access, not tracking.
 **Verify:** `qa:functions` with a new visit-source check; `tsc` clean on the changed files; CI build.
-**Revert:** `git revert -m 1 <merge>`; delete `~/.gsc/token-ga4.json`.
+**Revert:** PR #46 merged `2691c84` (head `fe14779`): `git revert -m 1 2691c84`; delete `~/.gsc/token-ga4.json`.
 **GA4 setup (2026-11-22/23):** Ian enabled the Analytics Admin and Data APIs in GCP project 463470497737 and starred `catering_quote_submit` as a key event (Admin > Data display > Events > Recent events tab; confirmed via the API). `catering_inquiry_submit` last fired 2026-10-08, outside the 28-day list, so it gets starred when it next fires; `ga4-analytics.py` flags it until then. First 90-day read: 7 quote + 3 inquiry events, all landing on `/` or `/catering`, none on a post; sources direct 5, google organic 4, bing 1. Landing sessions: /specials 109, breakfast-catering-quantities 33, brunch-mimosas 14.
 
 ---
