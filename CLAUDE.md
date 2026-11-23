@@ -30,7 +30,7 @@ Static marketing site for Copperline Eatery, a breakfast/lunch restaurant in Chi
 - `src/data/restaurant.ts` — NAP, hours, phone, email, geo, sameAs, aggregateRating, awards, area served, `ALCOHOL_NOTE` (beer/wine license, mimosas run as an occasional special, not a standing menu item; added 2026-08-31 after a generated blog post wrongly claimed no liquor license). Single source of truth for the Restaurant schema fields and blog-generator grounding facts reused across pages. `HOURS_DISPLAY` + `GROUNDING_FACTS` (added 2026-09-06) are the COMPLETE list of non-menu facts the generator may state; anything about cooking, the room, staff, or dish history is invented unless it is written there.
 - `src/data/menuData.json` — 22 sections, 153 menu items + dietary flags + signature markers. Imported by `src/pages/menu.astro` at build time; the page renders both the visible HTML and full JSON-LD Menu schema from this file.
 - `src/styles/global.css` — single shared stylesheet (was `site/styles.css` pre-migration). Imported once in `BaseLayout.astro`; Vite bundles, hashes, and emits to `/_astro/*.css`.
-- `src/scripts/main.ts` — mobile menu, reviews carousel, menu tabs, GA4 click event tracking (`click_phone`, `click_email`, `click_doordash`, `click_directions`, `download_pdf`). TypeScript strict.
+- `src/scripts/main.ts` — mobile menu, reviews carousel, menu tabs, GA4 click event tracking (`click_phone`, `click_email`, `click_doordash`, `click_directions`, `download_pdf`) plus `catering_quote_submit` (a GA4 key event since 2026-11-23) and `catering_inquiry_submit` (not starred yet: absent from GA4's 28-day list, star it when it next fires), and `fillVisitSource()` (hidden landing-page/referrer fields on both catering forms). TypeScript strict.
 - `src/components/DailySpecials.astro` — renders the current specials at build time from `src/data/specials.json`: text list always; a `board` photo (left, via `/specials-board/<key>`) and a `credit` "Thank you X from Y" line render only when those optional fields are present. Empty state inline. Used on `/specials` and `/menu#specials`.
 - `src/pages/specials.astro` — indexable specials page (own title, board photo as `og:image` when present) plus a "Past Specials Boards" list linking the last 12 archived dates; nav + homepage link here, `/menu#specials` still renders the same component.
 - `src/pages/specials/[date].astro` — one page per archived board (Tier A, shipped 2026-08-31): reuses `DailySpecials.astro` via its optional `data` prop so the archive markup never drifts from the live page.
@@ -115,8 +115,6 @@ This project survived the **2026-05-04** complete machine wipe.
 - If you intend to deploy from this machine, verify `git push` works to the remote.
 - Re-auth `netlify` CLI if you want local Netlify CLI access (deploys go via GH Actions, so not strictly needed).
 - Rotate `NETLIFY_AUTH_TOKEN` in GitHub Actions secrets as part of post-malware rotation (see `claude_projects/ROTATION-LIST.md`).
-- Verify GA4 firing on the live site.
-
 ## Documentation & Logging Conventions
 - **`docs/SESSION_LOG.md` is the ONLY session history.** At session close, write ONE entry there (20 lines or fewer: what shipped, commit SHAs, how verified, revert path, gotchas), newest first. Never duplicate the entry into this file or STATUS.md.
 - **STATUS.md is a live-state snapshot only** (25 lines or fewer): deployed URL, what is live vs in flight, pointers. Update it in place; move nothing into it.
