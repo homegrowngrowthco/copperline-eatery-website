@@ -11,6 +11,7 @@ Merged from CLAUDE.md `## Session Log` + STATUS.md `### Session N` entries on 20
 **Correction:** GA4 has recorded `catering_quote_submit` and `catering_inquiry_submit` since before this op; the gate report's "no GA4 access" was about read access, not tracking.
 **Verify:** `qa:functions` with a new visit-source check; `tsc` clean on the changed files; CI build.
 **Revert:** `git revert -m 1 <merge>`; delete `~/.gsc/token-ga4.json`.
+**GA4 setup (2026-11-22/23):** Ian enabled the Analytics Admin and Data APIs in GCP project 463470497737 and starred `catering_quote_submit` as a key event (Admin > Data display > Events > Recent events tab; confirmed via the API). `catering_inquiry_submit` last fired 2026-10-08, outside the 28-day list, so it gets starred when it next fires; `ga4-analytics.py` flags it until then. First 90-day read: 7 quote + 3 inquiry events, all landing on `/` or `/catering`, none on a post; sources direct 5, google organic 4, bing 1. Landing sessions: /specials 109, breakfast-catering-quantities 33, brunch-mimosas 14.
 
 ---
 
